@@ -103,6 +103,24 @@ Voici comment faire une liste
 -   NetCDF
 -   HDF5
 
+#### Formats de type RVB {#sec-01121}
+
+Les premiers formats pour de l'imagerie à une bande (monochrome) et à trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des sciences de l'ordinateur. On trouvera, entre autres, les formats pbm, png et jpeg. Ces formats supportent peu de métadonnées dans un entête (header) très limités. Ces formats restent très populaires dans le domaine de la vision par ordinateur.
+
+#### Le format GeoTiff {#sec-01122}
+
+Le format GeoTIFF est une extension du format TIFF (Tagged Image File Format) qui permet d'incorporer des métadonnées géospatiales directement dans un fichier image. Développé initialement par Dr. Niles Ritter au Jet Propulsion Laboratory de la NASA dans les années 1990, GeoTIFF est devenu un standard de facto pour le stockage et l'échange d'images géoréférencées dans les domaines de la télédétection et des systèmes d'information géographique (SIG). Ce format supporte plus que trois bandes aussi longtemps que ces bandes sont de même dimension.
+
+Le format GeoTIFF est très utilisé et est largement supporté par les bibliothèques et logiciels géospatiaux, notamment GDAL (Geospatial Data Abstraction Library), qui offre des capacités de lecture et d'écriture pour ce format. Cette compatibilité étendue a contribué à son adoption généralisée dans la communauté géospatiale.
+
+##### Standardisation par l'OGC {#sec-011221}
+
+Le standard GeoTIFF proposé par l'Open Geospatial Consortium (OGC) en 2019 formalise et étend les spécifications originales du format GeoTIFF, offrant une norme robuste pour l'échange d'images géoréférencées. Cette standardisation, connue sous le nom d'OGC GeoTIFF 1.1, apporte plusieurs améliorations et clarifications importantes.
+
+#### Le format COG
+
+Une innovation récente dans l'écosystème GeoTIFF est le format "Cloud Optimized GeoTIFF" (COG), conçu pour faciliter l'utilisation de fichiers GeoTIFF hébergés sur des serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels d'accéder à des parties spécifiques du fichier sans avoir à le télécharger entièrement, ce qui est particulièrement utile pour les applications basées sur le cloud.
+
 ### Métadonnées des images {#sec-0113}
 
 ### Données en géoscience {#sec-0114}

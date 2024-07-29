@@ -17,7 +17,7 @@ crossref:
   tbl-title: Tableau
   eq-title: Équation
 book:
-  title: "Traitement d'images satellites : un grand bol d’R"
+  title: "Traitement d'images satellites avec Python"
   subtitle: "Première édition"
   search: true
   author: 
@@ -42,7 +42,7 @@ book:
   reader-mode: false
   page-footer:
     left: |
-      Traitement d'images satellites : un grand bol d’R.
+      Traitement d'images satellites avec Python.
     right: |
       Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.
   cover-image: images/introduction/Couverture_16_01-01.png
