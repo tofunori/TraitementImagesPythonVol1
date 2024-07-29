@@ -1,3 +1,6 @@
+---
+jupyter: python3
+---
 ```{=tex}
 \renewcommand{\partname}{} % Réinitialiser partie
 ```
