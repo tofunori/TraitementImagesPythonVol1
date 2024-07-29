@@ -58,7 +58,7 @@ Apparicio Philippe, Yacine Bouroubi, Samuel Foucher et Mickaël Foucher (2024). 
 :::
 
 ::: bloc_astuce-body
-Pour chaque méthode d'analyse spatiale abordée dans le livre, une description détaillée et une mise en œuvre dans R sont disponibles. Par conséquent, plusieurs adaptations du manuel sont possibles :
+Pour chaque méthode d'analyse spatiale abordée dans le livre, une description détaillée et une mise en œuvre dans Python sont disponibles. Par conséquent, plusieurs adaptations du manuel sont possibles :
 
 -   Conserver uniquement les chapitres sur les méthodes ciblées dans votre cours.
 
@@ -66,7 +66,7 @@ Pour chaque méthode d'analyse spatiale abordée dans le livre, une description 
 
 -   Modifier la description d'une ou de plusieurs méthodes en effectuant les mises à jour directement dans les chapitres.
 
--   Insérer ses propres jeux de données dans les sections intitulées *Mise en œuvre dans R*.
+-   Insérer ses propres jeux de données dans les sections intitulées *Mise en œuvre dans Python*.
 
 -   Modifier les tableaux et figures.
 
@@ -76,7 +76,7 @@ Pour chaque méthode d'analyse spatiale abordée dans le livre, une description 
 
 -   Rédiger un nouveau chapitre.
 
--   Modifier des syntaxes R. Plusieurs *packages* R peuvent être utilisés pour mettre en œuvre telle ou telle méthode. Ces derniers évoluent aussi très vite et de nouveaux *packages* sont proposés fréquemment! Par conséquent, il peut être judicieux de modifier une syntaxe R du livre en fonction de ses habitudes de programmation dans R (utilisation d'autres *packages* que ceux utilisés dans le manuel par exemple) ou de bien mettre à jour une syntaxe à la suite de la parution d'un nouveau *package* plus performant ou intéressant.
+-   Modifier des syntaxes en Python. Plusieurs *librairies* Python peuvent être utilisées pour mettre en œuvre telle ou telle méthode. Ces derniers évoluent aussi très vite et de nouvelles *librairies* sont proposées fréquemment! Par conséquent, il peut être judicieux de modifier une syntaxe Python du livre en fonction de ses habitudes de programmation en Python (utilisation d'autres *librairies* que ceux utilisés dans le manuel par exemple) ou de bien mettre à jour une syntaxe à la suite de la parution d'une nouvelle *librairie* plus performante ou intéressante.
 
 -   Toute autre adaptation qui permet de répondre au mieux à un besoin pédagogique.
 :::
