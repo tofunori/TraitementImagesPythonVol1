@@ -1,3 +1,6 @@
+---
+jupyter: python3
+---
 # Importation et manipulation de données spatiales {#sec-chap01}
 
 Dans le chapitre, nous abordons...
@@ -7,16 +10,16 @@ Dans le chapitre, nous abordons...
 ::: bloc_package-icon
 :::
 
-**Liste des *packages* utilisés dans ce chapitre**
+**Liste des *librairies* utilisées dans ce chapitre**
 :::
 
 ::: bloc_package-body
 -   Pour importer et manipuler des fichiers géographiques :
     -   `sf` pour importer et manipuler des données vectorielles.
-    -   `terra` pour importer et manipuler des données matricielles.
+    -   `Rasterio` pour importer et manipuler des données matricielles.
 -   Pour construire des cartes et des graphiques :
     -   `tmap` est certainement le meilleur *package* pour la cartographie.
-    -   `ggplot2` pour construire des graphiques.
+    -   `Matplotlib` pour construire des graphiques.
 :::
 :::
 
@@ -84,10 +87,12 @@ knitr::kable(df1,
 
 ## Importation d'images {#sec-011}
 
-### Manipulation d'une matrice {#sec-0111}
-
 ### Formats de données {#sec-0112}
 
+* Format de type vision par ordinateur (RGB):
+  * jpeg, png
+* Format avec compression ou sans compression
+  
 Voici comment faire une liste
 
 -   Format RVB
@@ -118,15 +123,20 @@ Données météos, exemple avec SWOT.
 
 ### Importation d'un fichier *shapefile* {#sec-0124}
 
+
 ## Manipulation d'images {#sec-013}
 
-### Mosaïquage, masquage et découpage {#sec-0131}
+### Manipulation d'une matrice {#sec-0131}
 
-### Changement de projection cartographique {#sec-0132}
+- Numpy
 
-### Recalage d'images et co-registration {#sec-0133}
+### Mosaïquage, masquage et découpage {#sec-0132}
 
-### Requêtes attributaires {#sec-0134}
+### Changement de projection cartographique {#sec-0133}
+
+### Recalage d'images et co-registration {#sec-0134}
+
+### Requêtes attributaires {#sec-0135}
 
 ## Manipulation de données vectorielles {#sec-014}
 
