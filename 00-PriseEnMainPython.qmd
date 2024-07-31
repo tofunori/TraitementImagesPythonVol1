@@ -1,6 +1,18 @@
 # Introduction au langage Python {#sec-chap00}
 
-Dans ce chapitre, nous abordons...
+Dans ce chapitre, nous allons présenter quelques éléments essentiels du langage Python qui nous seront utiles dans ce manuel. Python est un langage très riche et peut aboutir à des projets logiciels très sophistiqués. Il est important de comprendre que la programmation Python n'est pas une fin en soit. Python est pour nous principalement un outil de 'scriptage' et de manipulation de la donnée. 
+
+## Installation
+
+### Bonnes pratiques
+
+## Les structures de base
+
+- liste
+- dictionnaire
+- tuple
+
+
 
 ::: bloc_package
 ::: bloc_package-header
@@ -19,3 +31,39 @@ Dans ce chapitre, nous abordons...
     -   `ggplot2` pour construire des graphiques.
 :::
 :::
+
+## Quiz de révision du chapitre
+
+```{python}
+#| label: quizChapitre02
+#| echo: false 
+#| eval: true 
+#| message: false 
+#| warning: false 
+#| results: asis
+
+#source("code_complementaire/QuizzFunctions.R")
+#Chap01Quiz <- quizz("quiz/Chap01.yml", "Chap01")
+#render_quizz(Chap01Quiz)
+```
+
+## Exercices de révision {#sec-016}
+
+::: bloc_exercice
+::: bloc_exercice-header
+::: bloc_exercice-icon
+:::
+
+**Exercice 1.** À compléter
+:::
+
+::: bloc_exercice-body
+```{python}
+#| echo: true 
+#| message: false 
+#| warning: false 
+#| eval: false
+
+# ...
+# à compléter
+```

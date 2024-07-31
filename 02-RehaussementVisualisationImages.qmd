@@ -43,7 +43,7 @@ drapper une image satellite sur un DEM
 
 ## Quiz de révision du chapitre {#sec-025}
 
-```{r}
+```{python}
 #| label: quizChapitre02
 #| echo: false 
 #| eval: true 
@@ -65,7 +65,7 @@ render_quizz(Chap02Quiz)
 **Exercice 1.** À compléter
 :::
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
@@ -86,7 +86,7 @@ Correction à la [section @sec-08021].
 **Exercice 2.** À compléter
 :::
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
@@ -108,7 +108,7 @@ Correction à la [section @sec-08022].
 **Exercice 3.** À compléter
 :::
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 

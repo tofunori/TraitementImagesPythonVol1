@@ -42,7 +42,7 @@ Filtre de Sobel, filtre Prewitt
 
 ## Quiz de révision du chapitre {#sec-046}
 
-```{r}
+```{python}
 #| label: quizChapitre06
 #| echo: false 
 #| eval: true 
@@ -64,7 +64,7 @@ render_quizz(Chap06Quiz)
 **Exercice 1.** À compléter
 :::
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
@@ -85,7 +85,7 @@ Correction à la [section @sec-08041].
 **Exercice 2.** À compléter
 :::
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
@@ -107,7 +107,7 @@ Correction à la [section @sec-08042].
 **Exercice 3.** À compléter
 :::
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
