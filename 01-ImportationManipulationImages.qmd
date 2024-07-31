@@ -57,7 +57,7 @@ $$ {#eq-DistEuc}
 
 Le code R ci-dessous permet de faire un tableau dans un chunk! Pour appeler le tableau (@tbl-TabMatricesSpatiales).
 
-```{r}
+```{python}
 #| label: tbl-TabMatricesSpatiales
 #| tbl-cap: Matrices de pondération spatiale selon la géométrie
 #| echo: false
@@ -163,7 +163,7 @@ Données météos, exemple avec SWOT.
 
 ## Quiz de révision du chapitre {#sec-015}
 
-```{r}
+```{python}
 #| label: quizChapitre02
 #| echo: false 
 #| eval: true 
@@ -187,7 +187,7 @@ render_quizz(Chap01Quiz)
 :::
 
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
@@ -211,7 +211,7 @@ Correction à la [section @sec-08011].
 :::
 
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
@@ -235,7 +235,7 @@ Correction à la [section @sec-08012].
 :::
 
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 

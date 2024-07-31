@@ -4,7 +4,7 @@
 
 ### Exercice 1 {#sec-08011}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| eval: false
@@ -14,7 +14,7 @@ library(terra)
 
 ### Exercice 2 {#sec-08012}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -24,7 +24,7 @@ library(terra)
 
 ### Exercice 3 {#sec-08013}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -40,7 +40,7 @@ library(terra)
 
 ### Exercice 2 {#sec-08022}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -50,7 +50,7 @@ library(terra)
 
 ### Exercice 3 {#sec-08023}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -64,7 +64,7 @@ Les valeurs du *I* de Moran sont les suivantes : 0,69 pour la matrice *Rook*, 0
 
 ### Exercice 1 {#sec-08031}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -74,7 +74,7 @@ library(terra)
 
 ### Exercice 2 {#sec-08032}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -84,7 +84,7 @@ library(terra)
 
 ### Exercice 3 {#sec-08033}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -96,14 +96,14 @@ library(terra)
 
 ### Exercice 1 {#sec-08041}
 
-```{r}
+```{python}
 library(sf)
 library(terra)
 ```
 
 ### Exercice 2 {#sec-08042}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -113,7 +113,7 @@ library(terra)
 
 ### Exercice 3 {#sec-08043}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -125,7 +125,7 @@ library(terra)
 
 ### Exercice 1 {#sec-08051}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -135,7 +135,7 @@ library(terra)
 
 ### Exercice 2 {#sec-08052}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -146,7 +146,7 @@ library(terra)
 
 ### Exercice 3 {#sec-08053}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -157,7 +157,7 @@ library(terra)
 ## Exercices du chapitre 6 {#sec-0806}
 
 ### Exercice 1 {#sec-08061}
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -168,7 +168,7 @@ library(terra)
 
 ### Exercice 2 {#sec-08062}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -179,7 +179,7 @@ library(terra)
 
 ### Exercice 3 {#sec-08063}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -192,7 +192,7 @@ library(terra)
 
 ### Exercice 1 {#sec-08071}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -202,7 +202,7 @@ library(terra)
 
 ### Exercice 2 {#sec-08072}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false
@@ -212,7 +212,7 @@ library(terra)
 
 ### Exercice 3 {#sec-08073}
 
-```{r}
+```{python}
 #| echo: true 
 #| message: false
 #| eval: false

@@ -37,7 +37,7 @@ Dans le chapitre, nous abordons les classifications non supervisées....
 
 ## Quiz de révision du chapitre {#sec-063}
 
-```{r}
+```{python}
 #| label: quizChapitre06
 #| echo: false 
 #| eval: true 
@@ -59,7 +59,7 @@ render_quizz(Chap06Quiz)
 **Exercice 1.** À compléter
 :::
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
@@ -80,7 +80,7 @@ Correction à la [section @sec-08051].
 **Exercice 2.** À compléter
 :::
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
@@ -102,7 +102,7 @@ Correction à la [section @sec-08052].
 **Exercice 3.** À compléter
 :::
 ::: bloc_exercice-body
-```{r}
+```{python}
 #| echo: true 
 #| message: false 
 #| warning: false 
