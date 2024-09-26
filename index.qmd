@@ -42,7 +42,7 @@ La licence de ce livre, CC BY-SA (@fig-Licence), oblige donc à :
 
 -   Attribuer la paternité de l'auteur dans vos versions dérivées, ainsi qu'une mention concernant les grandes modifications apportées, en utilisant la formulation suivante : 
 
-Apparicio Philippe, Yacine Bouroubi, Samuel Foucher et Mickaël Foucher (2024). *Traitement d’images satellites : un grand bol d’R*. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA.
+Apparicio Philippe, Yacine Bouroubi, Samuel Foucher et Mickaël Foucher (2024). *Traitement d’images satellites : *. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA.
 
 -   Utiliser la même licence ou une licence similaire à toutes versions dérivées.
 
@@ -234,7 +234,7 @@ Finalement, nous remercions Denise Latreille, réviseure linguistique et chargé
 
 ### Listes des *librairies* utilisés {#sect0071 .unnumbered}
 
-Dans ce livre, nous utilisons de nombreux *packages* R que vous pouvez installer avec le code ci-dessous.
+Dans ce livre, nous utilisons de nombreux *packages* Python que vous pouvez installer avec le code ci-dessous.
 
 ```{python}
 #| echo: true
