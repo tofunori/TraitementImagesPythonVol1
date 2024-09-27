@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>À propos des auteurs – Traitement d'images satellites avec Python</title>
+<title>1&nbsp; Introduction au langage Python – Traitement d'images satellites avec Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./00-PriseEnMainPython.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./01-ImportationManipulationImages.html" rel="next">
+<link href="./00-auteurs.html" rel="prev">
 <link href="./images/introduction/Couverture_16_01-01.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -83,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./00-auteurs.html">À propos des auteurs</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./00-PriseEnMainPython.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction au langage Python</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
@@ -119,7 +153,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00-auteurs.html" class="sidebar-item-text sidebar-link active">
+  <a href="./00-auteurs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">À propos des auteurs</span></a>
   </div>
 </li>
@@ -129,7 +163,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00-PriseEnMainPython.html" class="sidebar-item-text sidebar-link">
+  <a href="./00-PriseEnMainPython.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction au langage Python</span></span></a>
   </div>
 </li>
@@ -208,15 +242,32 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#les-distributions" id="toc-les-distributions" class="nav-link active" data-scroll-target="#les-distributions"><span class="header-section-number">1.1</span> Les distributions</a></li>
+  <li><a href="#les-styles-de-programmation-en-python" id="toc-les-styles-de-programmation-en-python" class="nav-link" data-scroll-target="#les-styles-de-programmation-en-python"><span class="header-section-number">1.2</span> Les styles de programmation en Python</a>
+  <ul class="collapse">
+  <li><a href="#les-outils-de-programmation" id="toc-les-outils-de-programmation" class="nav-link" data-scroll-target="#les-outils-de-programmation"><span class="header-section-number">1.2.1</span> Les outils de programmation</a></li>
+  </ul></li>
+  <li><a href="#bonnes-pratiques" id="toc-bonnes-pratiques" class="nav-link" data-scroll-target="#bonnes-pratiques"><span class="header-section-number">1.3</span> Bonnes pratiques</a>
+  <ul class="collapse">
+  <li><a href="#création-dun-environnement-virtuel" id="toc-création-dun-environnement-virtuel" class="nav-link" data-scroll-target="#création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</a></li>
+  </ul></li>
+  <li><a href="#les-structures-de-base" id="toc-les-structures-de-base" class="nav-link" data-scroll-target="#les-structures-de-base"><span class="header-section-number">1.4</span> Les structures de base</a></li>
+  <li><a href="#quiz-de-révision-du-chapitre" id="toc-quiz-de-révision-du-chapitre" class="nav-link" data-scroll-target="#quiz-de-révision-du-chapitre"><span class="header-section-number">1.5</span> Quiz de révision du chapitre</a></li>
+  <li><a href="#sec-016" id="toc-sec-016" class="nav-link" data-scroll-target="#sec-016"><span class="header-section-number">1.6</span> Exercices de révision</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="auteurs" class="quarto-section-identifier">À propos des auteurs</span></h1>
+<h1 class="title"><span id="sec-chap00" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction au langage Python</span></span></h1>
 </div>
 
 
@@ -233,12 +284,93 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><a href="https://www.usherbrooke.ca/recherche/fr/specialistes/details/philippe.apparicio"><strong>Philippe Apparicio</strong></a> est professeur titulaire au <a href="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/">Université de Sherbrooke</a>. Il y enseigne aux <a href="https://www.usherbrooke.ca/geomatique/etudes/programmes">programmes de 1<sup>er</sup> et 2<sup>e</sup> cycles de géomatique</a> les cours <em>Transport et mobilité durable</em>, <em>Modélisation et analyse spatiale</em> et <em>Géomatique appliquée à la gestion urbaine</em>. Durant les dernières années, il a offert plusieurs formations aux Écoles d’été du Centre interuniversitaire québécois de statistiques sociales (<a href="https://www.ciqss.org/">CIQSS</a>). Géographe de formation, ses intérêts de recherche incluent la justice et l’équité environnementale, la mobilité durable, les pollutions atmosphérique et sonore, et le vélo en ville. Il a publié une centaine d’articles scientifiques dans différents domaines des études urbaines et de la géographie mobilisant la géomatique et l’analyse spatiale.</p>
-<p><a href="https://www.usherbrooke.ca/geomatique/departement/personnel/personnel-enseignant/yacine-bouroubi"><strong>Yacine Bouroubi</strong></a> est professeur titulaire au <a href="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/">Université de Sherbrooke</a>. Il y enseigne aux <a href="https://www.usherbrooke.ca/geomatique/etudes/programmes">programmes de 1<sup>er</sup> et 2<sup>e</sup> cycles de géomatique</a> les cours <em>Transport et mobilité durable</em>, <em>Modélisation et analyse spatiale</em> et <em>Géomatique appliquée à la gestion urbaine</em>. Durant les dernières années, il a offert plusieurs formations aux Écoles d’été du Centre interuniversitaire québécois de statistiques sociales (<a href="https://www.ciqss.org/">CIQSS</a>). Géographe de formation, ses intérêts de recherche incluent la justice et l’équité environnementale, la mobilité durable, les pollutions atmosphérique et sonore, et le vélo en ville. Il a publié une centaine d’articles scientifiques dans différents domaines des études urbaines et de la géographie mobilisant la géomatique et l’analyse spatiale.</p>
-<p><a href="https://www.usherbrooke.ca/recherche/fr/specialistes/details/samuel.foucher"><strong>Samuel Foucher</strong></a> est professeur titulaire au <a href="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/">Université de Sherbrooke</a>. Il y enseigne aux <a href="https://www.usherbrooke.ca/geomatique/etudes/programmes">programmes de 1<sup>er</sup> et 2<sup>e</sup> cycles de géomatique</a> les cours <em>Transport et mobilité durable</em>, <em>Modélisation et analyse spatiale</em> et <em>Géomatique appliquée à la gestion urbaine</em>. Durant les dernières années, il a offert plusieurs formations aux Écoles d’été du Centre interuniversitaire québécois de statistiques sociales (<a href="https://www.ciqss.org/">CIQSS</a>). Géographe de formation, ses intérêts de recherche incluent la justice et l’équité environnementale, la mobilité durable, les pollutions atmosphérique et sonore, et le vélo en ville. Il a publié une centaine d’articles scientifiques dans différents domaines des études urbaines et de la géographie mobilisant la géomatique et l’analyse spatiale.</p>
-<p><a href="https://www.usherbrooke.ca/geomatique/departement/personnel/personnel-enseignant/mickael-germain"><strong>Mickaël Germain</strong></a> est professeur titulaire au <a href="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/">Université de Sherbrooke</a>. Il y enseigne aux <a href="https://www.usherbrooke.ca/geomatique/etudes/programmes">programmes de 1<sup>er</sup> et 2<sup>e</sup> cycles de géomatique</a> les cours <em>Transport et mobilité durable</em>, <em>Modélisation et analyse spatiale</em> et <em>Géomatique appliquée à la gestion urbaine</em>. Durant les dernières années, il a offert plusieurs formations aux Écoles d’été du Centre interuniversitaire québécois de statistiques sociales (<a href="https://www.ciqss.org/">CIQSS</a>). Géographe de formation, ses intérêts de recherche incluent la justice et l’équité environnementale, la mobilité durable, les pollutions atmosphérique et sonore, et le vélo en ville. Il a publié une centaine d’articles scientifiques dans différents domaines des études urbaines et de la géographie mobilisant la géomatique et l’analyse spatiale.</p>
+<p>Dans ce chapitre, nous allons présenter quelques éléments essentiels du langage Python qui nous seront utiles dans ce manuel. Python est un langage très riche et peut aboutir à des projets logiciels très sophistiqués. Il est important de comprendre que la programmation Python n’est pas une fin en soit. Python est pour nous principalement un outil de ‘scriptage’ et de manipulation de la donnée.</p>
+<p>Python, créé par <a href="https://en.wikipedia.org/wiki/Guido_van_Rossum">Guido van Rossum</a> en 1991, est un langage de programmation polyvalent et facile à apprendre, souvent comparé à un couteau suisse numérique pour sa simplicité et sa polyvalence. Comme un outil multifonction, Python peut être utilisé pour une variété de tâches, du développement web à l’analyse de données, en passant par l’intelligence artificielle.</p>
+<section id="les-distributions" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="les-distributions"><span class="header-section-number">1.1</span> Les distributions</h2>
+<p>Il existe plusieurs <a href="https://wiki.python.org/moin/PythonDistributions">distributions</a> du langage Python, ces distributions sont comme différentes saveurs de votre glace préférée - chacune a ses propres caractéristiques uniques, mais elles sont toutes fondamentalement Python. Voici un aperçu des principales distributions : * <a href="https://www.python.org/downloads/">CPython</a> : C’est la distribution “vanille” officielle, comme la recette originale de Python. C’est le choix idéal pour la compatibilité et la conformité aux standards. * Anaconda : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l’analyse de données et le machine learning. * Miniconda : est une distribution légère de Python qui vous permet d’ajouter les librairies au besoin. * PyPy : C’est comme une version turbo de Python, optimisée pour la vitesse. Jython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de “parler” Java (Jython) ou .NET (IronPython). Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.</p>
+</section>
+<section id="les-styles-de-programmation-en-python" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="les-styles-de-programmation-en-python"><span class="header-section-number">1.2</span> Les styles de programmation en Python</h2>
+<p>Il existe plusieurs approches pour programmer en Python. La plus directe est en version interactive en tapant <code>python</code> et de rentrer des commandes ligne par ligne.</p>
+<section id="les-outils-de-programmation" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="les-outils-de-programmation"><span class="header-section-number">1.2.1</span> Les outils de programmation</h3>
+<p>Un code python prend la forme d’un simple fichier texte avec l’extension <code>.py</code> et peut être modifié avec un simple éditeur de texte. Cependnant, il n’y aura pas de rétroactions immédiates de l’interpréteur Python ce qui rend la correction d’erreurs (débogage) beaucoup plus laborieux.</p>
+<p>Un IDE (<em>Integrated Developement Environnement</em>) est comme une boîte à outils complète pour les programmeurs, vous trouverez : * Un éditeur de texte amélioré pour écrire votre code, avec des fonctionnalités comme la coloration syntaxique qui rend le code plus lisible. * Un compilateur qui transforme votre code en instructions que l’ordinateur peut comprendre. * Un débogueur pour trouver et corriger les erreurs, tel un détective numérique. * Des outils d’automatisation qui effectuent des tâches répétitives, comme un assistant virtuel pour le codage. * L’accès à la documentation des différentes librairies</p>
+<p>Ces outils intégrés permettent aux développeurs de travailler plus efficacement, en passant moins de temps à jongler entre différentes applications et plus de temps à produire du code.</p>
+<p>Voici quelques options populaires : * <a href="https://www.jetbrains.com/pycharm/">PyCharm</a> : C’est un des outils les plus utilisés dans l’industrie. Il offre une multitude de fonctionnalités comme l’autocomplétion intelligente et le débogage intégré, idéal pour les grands projets. Cepednant, cet outil peut être assez gourmand en mémoire et en CPU. * <a href="https://code.visualstudio.com/">Visual Studio Code</a> : Gratuit, léger mais puissant, il est personnalisable avec des extensions pour Python. * <a href="https://www.spyder-ide.org/">Spyder</a> : Logiciel libre et gratuit, orienté vers les applications scientifiques. * <a href="https://jupyter.org/">Jupyter Notebooks</a> : Imaginez un cahier interactif pour le code. Idéal pour l’analyse de données et l’apprentissage, il permet de mélanger code, texte et visualisations. Des services gratuits dans le <strong>cloud</strong> sont disponibles comme Google Colab et Kaggle. Ces environnements sont néanmoins moins appropriées pour des grands projets et le débogage. * Sublime Text : C’est comme un stylo élégant et rapide. Léger et rapide, il est apprécié pour sa simplicité et sa vitesse. Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevronné. L’important est de trouver l’éditeur qui vous convient le mieux pour coder confortablemen</p>
+</section>
+</section>
+<section id="bonnes-pratiques" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="bonnes-pratiques"><span class="header-section-number">1.3</span> Bonnes pratiques</h2>
+<p>Python est un langage très dynamique, qui évolue constamment. Il est fortement conseillé d’utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre : 1. <strong>N’installez par la dernière version de Python</strong> : installez toujours une version ou deux qui précède la dernière version. Les versions trop récentes peuvent être instables. 2. Utilisez des environnements virtuels : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre. 3. Vérifiez l’installation : Après l’installation, ouvrez un terminal et tapez <code>python --version</code> pour vous assurer que tout fonctionne correctement.</p>
+<section id="création-dun-environnement-virtuel" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</h3>
+<p>Il y a deux façons d’installer environnement virtuel selon votre distribution de Python: 1. Option 1 : vous utilisez Anaconda ou Miniconda, dans ce cas</p>
+<pre class="{shell}"><code>#| echo: true 
+#| eval: false 
+#| message: false 
+#| warning: false 
+conda env -n test python =3.10
+conda activate test</code></pre>
+<ol start="2" type="1">
+<li>Option 2 : vous utilisez CPython Note: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter</li>
+</ol>
+</section>
+</section>
+<section id="les-structures-de-base" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="les-structures-de-base"><span class="header-section-number">1.4</span> Les structures de base</h2>
+<p>La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe “Voiture” pourrait avoir des attributs comme “couleur” et “vitesse”, et des méthodes comme “démarrer” et “accélérer”. Python rend la POO accessible avec des fonctionnalités conviviales : 1. <strong>Encapsulation</strong> : Comme emballer un cadeau, elle cache les détails internes d’un objet. 2. <strong>Héritage</strong> : Permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents. 3. <strong>Polymorphisme</strong> : Permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à “fais du bruit”. Ces caractéristiques font de Python un excellent choix pour apprendre et appliquer les concepts de la POO, rendant le code plus organisé et réutilisable</p>
+<ul>
+<li>liste</li>
+<li>dictionnaire</li>
+<li>tuple</li>
+</ul>
+<div class="bloc_package">
+<div class="bloc_package-header">
+<div class="bloc_package-icon">
+
+</div>
+<p><strong>Liste des <em>packages</em> utilisés dans ce chapitre</strong></p>
+</div>
+<div class="bloc_package-body">
+<ul>
+<li>Pour importer et manipuler des fichiers géographiques&nbsp;:
+<ul>
+<li><code>sf</code> pour importer et manipuler des données vectorielles.</li>
+<li><code>terra</code> pour importer et manipuler des données matricielles.</li>
+</ul></li>
+<li>Pour construire des cartes et des graphiques&nbsp;:
+<ul>
+<li><code>tmap</code> est certainement le meilleur <em>package</em> pour la cartographie.</li>
+<li><code>ggplot2</code> pour construire des graphiques.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="quiz-de-révision-du-chapitre" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="quiz-de-révision-du-chapitre"><span class="header-section-number">1.5</span> Quiz de révision du chapitre</h2>
+</section>
+<section id="sec-016" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.6</span> Exercices de révision</h2>
+<div class="bloc_exercice">
+<div class="bloc_exercice-header">
+<div class="bloc_exercice-icon">
+
+</div>
+<p><strong>Exercice 1.</strong> À compléter</p>
+</div>
+<div class="bloc_exercice-body">
+<div id="8f03c6fc" class="cell" data-message="false" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
+</div>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -663,13 +795,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Préface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Préface</span>
+      <a href="./00-auteurs.html" class="pagination-link" aria-label="À propos des auteurs">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">À propos des auteurs</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./00-PriseEnMainPython.html" class="pagination-link" aria-label="Introduction au langage Python">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction au langage Python</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./01-ImportationManipulationImages.html" class="pagination-link" aria-label="Importation et manipulation de données spatiales">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importation et manipulation de données spatiales</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -681,7 +813,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

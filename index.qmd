@@ -16,7 +16,7 @@ jupyter: python3
 
 © Philippe Apparicio, Yacine Bouroubi, Samuel Foucher et Mickël Foucher.
 
-**Pour citer cet ouvrage :** Apparicio P., Bouroubi, Y., Foucher, S. et M. Germain (2024). *Traitement d’images satellites : un grand bol d’R*. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA. <br /> <br />
+**Pour citer cet ouvrage :** Apparicio P., Bouroubi, Y., Foucher, S. et M. Germain (2024). *Traitement d’images satellites avec Python*. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA. <br /> <br />
 
 ![](images/introduction/CouvertureP2.png){width="80%" fig-align="left"}
 
@@ -26,7 +26,7 @@ jupyter: python3
 
 **Pourquoi un manuel sous licence libre?**
 
-Les logiciels libres sont aujourd'hui très répandus. Comparativement aux logiciels propriétaires, l'accès au code source permet à quiconque de l'utiliser, de le modifier, de le dupliquer et de le partager. Le logiciel R, dans lequel sont mises en œuvre les méthodes de traitement d'images satellites décrites dans ce livre, est d'ailleurs à la fois un langage de programmation et un logiciel libre (sous la licence publique générale [GNU GPL2](https://fr.wikipedia.org/wiki/Licence_publique_g%C3%A9n%C3%A9rale_GNU)). Par analogie aux logiciels libres, il existe aussi des **ressources éducatives libres (REL)** « dont la licence accorde les permissions désignées par les 5R (**Retenir --- Réutiliser --- Réviser --- Remixer --- Redistribuer**) et donc permet nécessairement la modification » ([***fabriqueREL***](https://fabriquerel.org/rel/)). La licence de ce livre, CC BY-SA (@fig-Licence), permet donc de :
+Les logiciels libres sont aujourd'hui très répandus. Comparativement aux logiciels propriétaires, l'accès au code source permet à quiconque de l'utiliser, de le modifier, de le dupliquer et de le partager. Le logiciel Python, dans lequel sont mises en œuvre les méthodes de traitement d'images satellites décrites dans ce livre, est d'ailleurs à la fois un langage de programmation et un logiciel libre (sous la licence publique générale [GNU GPL2](https://fr.wikipedia.org/wiki/Licence_publique_g%C3%A9n%C3%A9rale_GNU)). Par analogie aux logiciels libres, il existe aussi des **ressources éducatives libres (REL)** « dont la licence accorde les permissions désignées par les 5R (**Retenir --- Réutiliser --- Réviser --- Remixer --- Redistribuer**) et donc permet nécessairement la modification » ([***fabriqueREL***](https://fabriquerel.org/rel/)). La licence de ce livre, CC BY-SA (@fig-Licence), permet donc de :
 
 -   **Retenir**, c'est-à-dire télécharger et imprimer gratuitement le livre. Notez qu'il aurait été plutôt surprenant d'écrire un livre payant sur un logiciel libre et donc gratuit. Aussi, nous aurions été très embarrassés que des personnes étudiantes avec des ressources financières limitées doivent payer pour avoir accès au livre, sans pour autant savoir préalablement si le contenu est réellement adapté à leurs besoins.
 
@@ -95,7 +95,7 @@ Le livre comprend plusieurs types de blocs de texte qui en facilitent la lecture
 :::
 
 ::: bloc_package-body
-Habituellement localisé au début d'un chapitre, il comprend la liste des *packages* R utilisés pour un chapitre.
+Habituellement localisé au début d'un chapitre, il comprend la liste des *packages* Python utilisés pour un chapitre.
 :::
 :::
 
@@ -147,7 +147,7 @@ Il comprend des références ou des extensions d'une méthode abordée dans une 
 :::
 
 ::: bloc_astuce-body
-Il décrit un élément qui vous facilitera la vie : une propriété statistique, un *package*, une fonction, une syntaxe R.
+Il décrit un élément qui vous facilitera la vie : une propriété statistique, un *package*, une fonction, une syntaxe Python.
 :::
 :::
 
@@ -230,7 +230,7 @@ Finalement, nous remercions Denise Latreille, réviseure linguistique et chargé
 
 -  Ressources en ligne
 
-## *Librairies* utilisés pour traiter des images {#sect007 .unnumbered}
+
 
 ### Listes des *librairies* utilisés {#sect0071 .unnumbered}
 
@@ -264,10 +264,28 @@ else:
     print("All required packages are already installed.")
 ```
 
-### Philosophie et librairies Python pour l’analyse d’images {#sect0072 .unnumbered}
 
 ### Python 101 {#sect0073 .unnumbered}
 
+
+
+```{python}
+#| label: fig-polar
+#| fig-cap: "A line plot on a polar axis"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(
+  subplot_kw = {'projection': 'polar'} 
+)
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
 
 ```{python}
 #| echo: false

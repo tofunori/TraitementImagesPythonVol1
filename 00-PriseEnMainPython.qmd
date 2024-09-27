@@ -1,3 +1,7 @@
+---
+jupyter: python3
+---
+
 # Introduction au langage Python {#sec-chap00}
 
 Dans ce chapitre, nous allons présenter quelques éléments essentiels du langage Python qui nous seront utiles dans ce manuel. Python est un langage très riche et peut aboutir à des projets logiciels très sophistiqués. Il est important de comprendre que la programmation Python n'est pas une fin en soit. Python est pour nous principalement un outil de 'scriptage' et de manipulation de la donnée. 
@@ -42,11 +46,26 @@ Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevro
 ## Bonnes pratiques
 
 Python est un langage très dynamique, qui évolue constamment. Il est fortement conseillé d'utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre :
-1. N'installez par la dernière version de Python : installez toujours une version ou deux avant la dernière version. Les versions trop récentes peuvent être instables.
-2. Utilisez des environnements virtuels : Pensez-y comme à des "pièces" séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre.
-3. Vérifiez l'installation : Après l'installation, c'est comme tester les fondations. Ouvrez un terminal et tapez `python --version` pour vous assurer que tout fonctionne correctement.
+1. **N'installez par la dernière version de Python** : installez toujours une version ou deux qui précède la dernière version. Les versions trop récentes peuvent être instables. La version de python peut être spécifiée au moment de la création d'un environnement virtual (voir plus bas)
+2. Utilisez des environnements virtuels : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre.
+3. Vérifiez l'installation : Après l'installation, ouvrez un terminal et tapez `python --version` pour vous assurer que tout fonctionne correctement.
+
+### Création d'un environnement virtuel
+
+Il y a deux façons d'installer environnement virtuel selon votre distribution de Python:
+1. Option 1 : vous utilisez Anaconda ou Miniconda, dans ce cas la commande `conda` est utilisée pour créer un environnement test avec Python 3.9:
+```
+conda env -n test python=3.10
+conda activate test
+```
+2. Option 2 : vous utilisez CPython
+
+
+Note: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter
 
 ## Les structures de base
+
+
 
 La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe "Voiture" pourrait avoir des attributs comme "couleur" et "vitesse", et des méthodes comme "démarrer" et "accélérer".
 Python rend la POO accessible avec des fonctionnalités conviviales :
@@ -54,11 +73,6 @@ Python rend la POO accessible avec des fonctionnalités conviviales :
 2. **Héritage** : Permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents.
 3. **Polymorphisme** : Permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à "fais du bruit".
 Ces caractéristiques font de Python un excellent choix pour apprendre et appliquer les concepts de la POO, rendant le code plus organisé et réutilisable
-
-- liste
-- dictionnaire
-- tuple
-
 
 
 ::: bloc_package
