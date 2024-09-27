@@ -224,12 +224,16 @@ Finalement, nous remercions Denise Latreille, réviseure linguistique et chargé
 
 ## Introduction aux images de télédétection {#sect006 .unnumbered}
 
--  Rappel sur les fondements
+L'imagerie numérique a pris une place importante dans notre vie de tous les jours depuis une quinzaine d'année. Ces images sont prises généralement au niveau du sol (imagerie proximale) avec seulement trois couleurs dans le domaine de la vision humaine (rouge, vert et bleu). Dans la suite du manuel, on parlera d'images du domaine de la vision par ordinateur ou images en vision pour faire plus court. 
 
--  Particularités des images en télédétection
+Les images de télédétection ont des particularités et des propriétés qui les différencient des images de tous les jours. On peut souligner au moins cinq caractéristiques principales:
+1. Les images sont géoréférencées : Cela veut dire que pour chaque pixel nous pouvons y associer une position géographique ou cartographique.
+2. Le point de vue est très différent : Ces images sont prises avec une vue d'en haut (Nadir) ou oblique avec une distance qui peut être très grande (On parle d'images distales).
+3. Elles possèdent plus que 3 bandes : Contrairement aux images en vision, les images de télédétection possèdent bien souvent plus que 3 bandes. Il n'est pas rare de trouver 4 bandes (Pléiade), 13 bandes (Sentinel-2, Landsat) et même 200 bandes pour des capteurs hyperspectraux.
+4. Elles peuvent être calibrées : Les valeurs numérique de l'image peuvent être converties en quantités physiques (luminance, réflectance, section efficiace, etc.) via une fonction de calibration.
+5. Elles sont de grande taille : Il n'est pas rare de manipuler des images qui font plusieurs dizaines de milliers de pixels en dimension.
 
--  Ressources en ligne
-
+### Ressources en ligne
 
 
 ### Listes des *librairies* utilisés {#sect0071 .unnumbered}

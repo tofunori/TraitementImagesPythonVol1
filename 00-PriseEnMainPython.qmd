@@ -12,8 +12,8 @@ Python, créé par [Guido van Rossum](https://en.wikipedia.org/wiki/Guido_van_Ro
 
 Il existe plusieurs [distributions](https://wiki.python.org/moin/PythonDistributions) du langage Python, ces distributions sont comme différentes saveurs de votre glace préférée - chacune a ses propres caractéristiques uniques, mais elles sont toutes fondamentalement Python. Voici un aperçu des principales distributions :
 * [CPython](https://www.python.org/downloads/) : C'est la distribution "vanille" officielle, comme la recette originale de Python. C'est le choix idéal pour la compatibilité et la conformité aux standards.
-* Anaconda : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l'analyse de données et le machine learning.
-* Miniconda : est une distribution légère de Python qui vous permet d'ajouter les librairies au besoin.
+* [Anaconda](https://www.anaconda.com/download) : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l'analyse de données et le machine learning.
+* [Miniconda](https://docs.anaconda.com/miniconda/miniconda-install/) : est une distribution légère de Python qui vous permet d'ajouter les librairies au besoin.
 * PyPy : C'est comme une version turbo de Python, optimisée pour la vitesse.
 Jython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de "parler" Java (Jython) ou .NET (IronPython).
 Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.
@@ -46,26 +46,65 @@ Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevro
 ## Bonnes pratiques
 
 Python est un langage très dynamique, qui évolue constamment. Il est fortement conseillé d'utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre :
-1. **N'installez par la dernière version de Python** : installez toujours une version ou deux qui précède la dernière version. Les versions trop récentes peuvent être instables. La version de python peut être spécifiée au moment de la création d'un environnement virtual (voir plus bas)
-2. Utilisez des environnements virtuels : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre.
-3. Vérifiez l'installation : Après l'installation, ouvrez un terminal et tapez `python --version` pour vous assurer que tout fonctionne correctement.
+1. **N'installez par la dernière version de Python** : installez toujours une version ou deux qui précède [la dernière version](https://www.python.org/downloads/). Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d'un environnement virtuel (voir plus bas)
+2. **Utilisez des environnements virtuels** : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre.
+3. **Vérifiez l'installation** : Après l'installation, ouvrez un terminal et tapez `python --version` pour vous assurer que tout fonctionne correctement.
 
 ### Création d'un environnement virtuel
 
 Il y a deux façons d'installer environnement virtuel selon votre distribution de Python:
-1. Option 1 : vous utilisez Anaconda ou Miniconda, dans ce cas la commande `conda` est utilisée pour créer un environnement test avec Python 3.9:
-```
+1. **Option 1** : vous utilisez [Anaconda](https://www.anaconda.com/download) ou [Miniconda](https://docs.anaconda.com/miniconda/miniconda-install/), dans ce cas la commande `conda` est utilisée pour créer un environnement test avec Python 3.10:
+```bash
 conda env -n test python=3.10
 conda activate test
 ```
-2. Option 2 : vous utilisez CPython
+2. **Option 2** : vous utilisez [CPython](https://www.python.org/downloads/)
+```bash
+conda env -n test python=3.10
+conda activate test
+```
 
-
-Note: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter
+Note: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter.
 
 ## Les structures de base
 
+Il y a essentiellement deux structures de données que Python manipule : les listes et les dictionnaires.
+ 
+## Les listes
 
+Les listes sont comme des boites extensibles où vous pouvez ranger différents types d'objets :
+* Représentées par des crochets : `[1, 2, 3, "python"]`
+* Ordonnées et modifiables (mutables), vous pouvez récupérer une valeur par sa position avec `[]`
+* Permettent les doublons (deux fois la même valeur)
+* Idéales pour stocker des collections d'éléments que vous voulez modifier
+
+### Les tuples
+
+Les tuples sont similaires aux listes, mais les boîtes sont scellées :
+* Représentés par des parenthèses : `(1, 2, 3, "python")`
+* Ordonnés mais non modifiables (immutables)
+* Permettent les doublons
+* Souvent utilisé pour stocker des données qui ne doivent pas changer (comme des paramètres)
+
+### Les ensembles (Sets)
+
+Les ensembles sont comme des boites magiques qui ne gardent qu'un exemplaire de chaque objet :
+* Représentés par des accolades : `{1, 2, 3}`
+* Non ordonnés et modifiables
+* N'autorisent pas les doublons
+* Utiles pour éliminer les doublons et effectuer des opérations mathématiques sur des ensembles
+
+## Dictionnaires
+
+Les dictionnaires sont comme des boites avec des étiquettes sur chcune d'elle :
+
+* Représentés par des accolades avec des paires clé-valeur : `{"nom": "Python", "année": 1991}`
+* Non ordonnés et modifiables
+* Les clés doivent être uniques, mais les valeurs peuvent être dupliquées
+* Utiles pour stocker des données associatives ou pour créer des tables de recherche rapide
+
+
+## Progrmmation objet
 
 La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe "Voiture" pourrait avoir des attributs comme "couleur" et "vitesse", et des méthodes comme "démarrer" et "accélérer".
 Python rend la POO accessible avec des fonctionnalités conviviales :

@@ -257,8 +257,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#création-dun-environnement-virtuel" id="toc-création-dun-environnement-virtuel" class="nav-link" data-scroll-target="#création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</a></li>
   </ul></li>
   <li><a href="#les-structures-de-base" id="toc-les-structures-de-base" class="nav-link" data-scroll-target="#les-structures-de-base"><span class="header-section-number">1.4</span> Les structures de base</a></li>
-  <li><a href="#quiz-de-révision-du-chapitre" id="toc-quiz-de-révision-du-chapitre" class="nav-link" data-scroll-target="#quiz-de-révision-du-chapitre"><span class="header-section-number">1.5</span> Quiz de révision du chapitre</a></li>
-  <li><a href="#sec-016" id="toc-sec-016" class="nav-link" data-scroll-target="#sec-016"><span class="header-section-number">1.6</span> Exercices de révision</a></li>
+  <li><a href="#les-listes" id="toc-les-listes" class="nav-link" data-scroll-target="#les-listes"><span class="header-section-number">1.5</span> Les listes</a>
+  <ul class="collapse">
+  <li><a href="#les-tuples" id="toc-les-tuples" class="nav-link" data-scroll-target="#les-tuples"><span class="header-section-number">1.5.1</span> Les tuples</a></li>
+  <li><a href="#les-ensembles-sets" id="toc-les-ensembles-sets" class="nav-link" data-scroll-target="#les-ensembles-sets"><span class="header-section-number">1.5.2</span> Les ensembles (Sets)</a></li>
+  </ul></li>
+  <li><a href="#dictionnaires" id="toc-dictionnaires" class="nav-link" data-scroll-target="#dictionnaires"><span class="header-section-number">1.6</span> Dictionnaires</a></li>
+  <li><a href="#progrmmation-objet" id="toc-progrmmation-objet" class="nav-link" data-scroll-target="#progrmmation-objet"><span class="header-section-number">1.7</span> Progrmmation objet</a></li>
+  <li><a href="#quiz-de-révision-du-chapitre" id="toc-quiz-de-révision-du-chapitre" class="nav-link" data-scroll-target="#quiz-de-révision-du-chapitre"><span class="header-section-number">1.8</span> Quiz de révision du chapitre</a></li>
+  <li><a href="#sec-016" id="toc-sec-016" class="nav-link" data-scroll-target="#sec-016"><span class="header-section-number">1.9</span> Exercices de révision</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
@@ -288,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Python, créé par <a href="https://en.wikipedia.org/wiki/Guido_van_Rossum">Guido van Rossum</a> en 1991, est un langage de programmation polyvalent et facile à apprendre, souvent comparé à un couteau suisse numérique pour sa simplicité et sa polyvalence. Comme un outil multifonction, Python peut être utilisé pour une variété de tâches, du développement web à l’analyse de données, en passant par l’intelligence artificielle.</p>
 <section id="les-distributions" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="les-distributions"><span class="header-section-number">1.1</span> Les distributions</h2>
-<p>Il existe plusieurs <a href="https://wiki.python.org/moin/PythonDistributions">distributions</a> du langage Python, ces distributions sont comme différentes saveurs de votre glace préférée - chacune a ses propres caractéristiques uniques, mais elles sont toutes fondamentalement Python. Voici un aperçu des principales distributions : * <a href="https://www.python.org/downloads/">CPython</a> : C’est la distribution “vanille” officielle, comme la recette originale de Python. C’est le choix idéal pour la compatibilité et la conformité aux standards. * Anaconda : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l’analyse de données et le machine learning. * Miniconda : est une distribution légère de Python qui vous permet d’ajouter les librairies au besoin. * PyPy : C’est comme une version turbo de Python, optimisée pour la vitesse. Jython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de “parler” Java (Jython) ou .NET (IronPython). Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.</p>
+<p>Il existe plusieurs <a href="https://wiki.python.org/moin/PythonDistributions">distributions</a> du langage Python, ces distributions sont comme différentes saveurs de votre glace préférée - chacune a ses propres caractéristiques uniques, mais elles sont toutes fondamentalement Python. Voici un aperçu des principales distributions : * <a href="https://www.python.org/downloads/">CPython</a> : C’est la distribution “vanille” officielle, comme la recette originale de Python. C’est le choix idéal pour la compatibilité et la conformité aux standards. * <a href="https://www.anaconda.com/download">Anaconda</a> : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l’analyse de données et le machine learning. * <a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a> : est une distribution légère de Python qui vous permet d’ajouter les librairies au besoin. * PyPy : C’est comme une version turbo de Python, optimisée pour la vitesse. Jython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de “parler” Java (Jython) ou .NET (IronPython). Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.</p>
 </section>
 <section id="les-styles-de-programmation-en-python" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="les-styles-de-programmation-en-python"><span class="header-section-number">1.2</span> Les styles de programmation en Python</h2>
@@ -303,29 +310,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="bonnes-pratiques" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="bonnes-pratiques"><span class="header-section-number">1.3</span> Bonnes pratiques</h2>
-<p>Python est un langage très dynamique, qui évolue constamment. Il est fortement conseillé d’utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre : 1. <strong>N’installez par la dernière version de Python</strong> : installez toujours une version ou deux qui précède la dernière version. Les versions trop récentes peuvent être instables. 2. Utilisez des environnements virtuels : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre. 3. Vérifiez l’installation : Après l’installation, ouvrez un terminal et tapez <code>python --version</code> pour vous assurer que tout fonctionne correctement.</p>
+<p>Python est un langage très dynamique, qui évolue constamment. Il est fortement conseillé d’utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre : 1. <strong>N’installez par la dernière version de Python</strong> : installez toujours une version ou deux qui précède <a href="https://www.python.org/downloads/">la dernière version</a>. Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d’un environnement virtuel (voir plus bas) 2. <strong>Utilisez des environnements virtuels</strong> : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre. 3. <strong>Vérifiez l’installation</strong> : Après l’installation, ouvrez un terminal et tapez <code>python --version</code> pour vous assurer que tout fonctionne correctement.</p>
 <section id="création-dun-environnement-virtuel" class="level3" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</h3>
-<p>Il y a deux façons d’installer environnement virtuel selon votre distribution de Python: 1. Option 1 : vous utilisez Anaconda ou Miniconda, dans ce cas</p>
-<pre class="{shell}"><code>#| echo: true 
-#| eval: false 
-#| message: false 
-#| warning: false 
-conda env -n test python =3.10
-conda activate test</code></pre>
+<p>Il y a deux façons d’installer environnement virtuel selon votre distribution de Python: 1. <strong>Option 1</strong> : vous utilisez <a href="https://www.anaconda.com/download">Anaconda</a> ou <a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a>, dans ce cas la commande <code>conda</code> est utilisée pour créer un environnement test avec Python 3.10:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env <span class="at">-n</span> test python=3.10</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate test</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
-<li>Option 2 : vous utilisez CPython Note: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter</li>
+<li><strong>Option 2</strong> : vous utilisez <a href="https://www.python.org/downloads/">CPython</a></li>
 </ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env <span class="at">-n</span> test python=3.10</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate test</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter.</p>
 </section>
 </section>
 <section id="les-structures-de-base" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="les-structures-de-base"><span class="header-section-number">1.4</span> Les structures de base</h2>
-<p>La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe “Voiture” pourrait avoir des attributs comme “couleur” et “vitesse”, et des méthodes comme “démarrer” et “accélérer”. Python rend la POO accessible avec des fonctionnalités conviviales : 1. <strong>Encapsulation</strong> : Comme emballer un cadeau, elle cache les détails internes d’un objet. 2. <strong>Héritage</strong> : Permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents. 3. <strong>Polymorphisme</strong> : Permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à “fais du bruit”. Ces caractéristiques font de Python un excellent choix pour apprendre et appliquer les concepts de la POO, rendant le code plus organisé et réutilisable</p>
+<p>Il y a essentiellement deux structures de données que Python manipule : les listes et les dictionnaires.</p>
+</section>
+<section id="les-listes" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="les-listes"><span class="header-section-number">1.5</span> Les listes</h2>
+<p>Les listes sont comme des boites extensibles où vous pouvez ranger différents types d’objets : * Représentées par des crochets : <code>[1, 2, 3, "python"]</code> * Ordonnées et modifiables (mutables), vous pouvez récupérer une valeur par sa position avec <code>[]</code> * Permettent les doublons (deux fois la même valeur) * Idéales pour stocker des collections d’éléments que vous voulez modifier</p>
+<section id="les-tuples" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="les-tuples"><span class="header-section-number">1.5.1</span> Les tuples</h3>
+<p>Les tuples sont similaires aux listes, mais les boîtes sont scellées : * Représentés par des parenthèses : <code>(1, 2, 3, "python")</code> * Ordonnés mais non modifiables (immutables) * Permettent les doublons * Souvent utilisé pour stocker des données qui ne doivent pas changer (comme des paramètres)</p>
+</section>
+<section id="les-ensembles-sets" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="les-ensembles-sets"><span class="header-section-number">1.5.2</span> Les ensembles (Sets)</h3>
+<p>Les ensembles sont comme des boites magiques qui ne gardent qu’un exemplaire de chaque objet : * Représentés par des accolades : <code>{1, 2, 3}</code> * Non ordonnés et modifiables * N’autorisent pas les doublons * Utiles pour éliminer les doublons et effectuer des opérations mathématiques sur des ensembles</p>
+</section>
+</section>
+<section id="dictionnaires" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="dictionnaires"><span class="header-section-number">1.6</span> Dictionnaires</h2>
+<p>Les dictionnaires sont comme des boites avec des étiquettes sur chcune d’elle :</p>
 <ul>
-<li>liste</li>
-<li>dictionnaire</li>
-<li>tuple</li>
+<li>Représentés par des accolades avec des paires clé-valeur : <code>{"nom": "Python", "année": 1991}</code></li>
+<li>Non ordonnés et modifiables</li>
+<li>Les clés doivent être uniques, mais les valeurs peuvent être dupliquées</li>
+<li>Utiles pour stocker des données associatives ou pour créer des tables de recherche rapide</li>
 </ul>
+</section>
+<section id="progrmmation-objet" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="progrmmation-objet"><span class="header-section-number">1.7</span> Progrmmation objet</h2>
+<p>La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe “Voiture” pourrait avoir des attributs comme “couleur” et “vitesse”, et des méthodes comme “démarrer” et “accélérer”. Python rend la POO accessible avec des fonctionnalités conviviales : 1. <strong>Encapsulation</strong> : Comme emballer un cadeau, elle cache les détails internes d’un objet. 2. <strong>Héritage</strong> : Permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents. 3. <strong>Polymorphisme</strong> : Permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à “fais du bruit”. Ces caractéristiques font de Python un excellent choix pour apprendre et appliquer les concepts de la POO, rendant le code plus organisé et réutilisable</p>
 <div class="bloc_package">
 <div class="bloc_package-header">
 <div class="bloc_package-icon">
@@ -349,11 +376,11 @@ conda activate test</code></pre>
 </div>
 </div>
 </section>
-<section id="quiz-de-révision-du-chapitre" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="quiz-de-révision-du-chapitre"><span class="header-section-number">1.5</span> Quiz de révision du chapitre</h2>
+<section id="quiz-de-révision-du-chapitre" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="quiz-de-révision-du-chapitre"><span class="header-section-number">1.8</span> Quiz de révision du chapitre</h2>
 </section>
-<section id="sec-016" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.6</span> Exercices de révision</h2>
+<section id="sec-016" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.9</span> Exercices de révision</h2>
 <div class="bloc_exercice">
 <div class="bloc_exercice-header">
 <div class="bloc_exercice-icon">
@@ -362,9 +389,9 @@ conda activate test</code></pre>
 <p><strong>Exercice 1.</strong> À compléter</p>
 </div>
 <div class="bloc_exercice-body">
-<div id="8f03c6fc" class="cell" data-message="false" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="262032a3" class="cell" data-message="false" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
