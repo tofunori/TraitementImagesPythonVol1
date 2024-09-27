@@ -11,10 +11,15 @@ Python, créé par [Guido van Rossum](https://en.wikipedia.org/wiki/Guido_van_Ro
 ## Les distributions
 
 Il existe plusieurs [distributions](https://wiki.python.org/moin/PythonDistributions) du langage Python, ces distributions sont comme différentes saveurs de votre glace préférée - chacune a ses propres caractéristiques uniques, mais elles sont toutes fondamentalement Python. Voici un aperçu des principales distributions :
+
 * [CPython](https://www.python.org/downloads/) : C'est la distribution "vanille" officielle, comme la recette originale de Python. C'est le choix idéal pour la compatibilité et la conformité aux standards.
+
 * [Anaconda](https://www.anaconda.com/download) : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l'analyse de données et le machine learning.
+
 * [Miniconda](https://docs.anaconda.com/miniconda/miniconda-install/) : est une distribution légère de Python qui vous permet d'ajouter les librairies au besoin.
+
 * PyPy : C'est comme une version turbo de Python, optimisée pour la vitesse.
+
 Jython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de "parler" Java (Jython) ou .NET (IronPython).
 Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.
 
@@ -27,32 +32,46 @@ Il existe plusieurs approches pour programmer en Python. La plus directe est en 
 Un code python prend la forme d'un simple fichier texte avec l'extension `.py` et peut être modifié avec un simple éditeur de texte. Cependnant, il n'y aura pas de rétroactions immédiates de l'interpréteur Python ce qui rend la correction d'erreurs (débogage) beaucoup plus laborieux. 
 
 Un IDE (*Integrated Developement Environnement*) est comme une boîte à outils complète pour les programmeurs, vous trouverez :
+
 * Un éditeur de texte amélioré pour écrire votre code, avec des fonctionnalités comme la coloration syntaxique qui rend le code plus lisible.
+
 * Un compilateur qui transforme votre code en instructions que l'ordinateur peut comprendre.
+
 * Un débogueur pour trouver et corriger les erreurs, tel un détective numérique.
+
 * Des outils d'automatisation qui effectuent des tâches répétitives, comme un assistant virtuel pour le codage.
-* L'accès à la documentation des différentes librairies
+
+* L'accès à la documentation des différentes librairies.
 
 Ces outils intégrés permettent aux développeurs de travailler plus efficacement, en passant moins de temps à jongler entre différentes applications et plus de temps à produire du code.
 
 Voici quelques options populaires :
+
 * [PyCharm](https://www.jetbrains.com/pycharm/) : C'est un des outils les plus utilisés dans l'industrie. Il offre une multitude de fonctionnalités comme l'autocomplétion intelligente et le débogage intégré, idéal pour les grands projets. Cepednant, cet outil peut être assez gourmand en mémoire et en CPU.
+
 * [Visual Studio Code](https://code.visualstudio.com/) : Gratuit, léger mais puissant, il est personnalisable avec des extensions pour Python.
+
 * [Spyder](https://www.spyder-ide.org/) : Logiciel libre et gratuit, orienté vers les applications scientifiques. 
+
 * [Jupyter Notebooks](https://jupyter.org/) : Imaginez un cahier interactif pour le code. Idéal pour l'analyse de données et l'apprentissage, il permet de mélanger code, texte et visualisations. Des services gratuits dans le **cloud** sont disponibles comme Google Colab et Kaggle. Ces environnements sont néanmoins moins appropriées pour des grands projets et le débogage.
+
 * Sublime Text : C'est comme un stylo élégant et rapide. Léger et rapide, il est apprécié pour sa simplicité et sa vitesse.
 Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevronné. L'important est de trouver l'éditeur qui vous convient le mieux pour coder confortablemen
 
 ## Bonnes pratiques
 
 Python est un langage très dynamique, qui évolue constamment. Il est fortement conseillé d'utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre :
-1. **N'installez par la dernière version de Python** : installez toujours une version ou deux qui précède [la dernière version](https://www.python.org/downloads/). Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d'un environnement virtuel (voir plus bas)
+
+1. **N'installez par la dernière version de Python** : installez toujours une version ou deux qui précède [la dernière version](https://www.python.org/downloads/). Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d'un environnement virtuel (voir plus bas).
+
 2. **Utilisez des environnements virtuels** : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre.
+
 3. **Vérifiez l'installation** : Après l'installation, ouvrez un terminal et tapez `python --version` pour vous assurer que tout fonctionne correctement.
 
 ### Création d'un environnement virtuel
 
 Il y a deux façons d'installer environnement virtuel selon votre distribution de Python:
+
 1. **Option 1** : vous utilisez [Anaconda](https://www.anaconda.com/download) ou [Miniconda](https://docs.anaconda.com/miniconda/miniconda-install/), dans ce cas la commande `conda` est utilisée pour créer un environnement test avec Python 3.10:
 ```bash
 conda env -n test python=3.10
@@ -73,33 +92,47 @@ Il y a essentiellement deux structures de données que Python manipule : les lis
 ## Les listes
 
 Les listes sont comme des boites extensibles où vous pouvez ranger différents types d'objets :
-* Représentées par des crochets : `[1, 2, 3, "python"]`
-* Ordonnées et modifiables (mutables), vous pouvez récupérer une valeur par sa position avec `[]`
-* Permettent les doublons (deux fois la même valeur)
+
+* Représentées par des crochets : `[1, 2, 3, "python"]`.
+
+* Ordonnées et modifiables (mutables), vous pouvez récupérer une valeur par sa position avec `[]`.
+
+* Permettent les doublons (deux fois la même valeur).
+
 * Idéales pour stocker des collections d'éléments que vous voulez modifier
 
 ### Les tuples
 
 Les tuples sont similaires aux listes, mais les boîtes sont scellées :
-* Représentés par des parenthèses : `(1, 2, 3, "python")`
-* Ordonnés mais non modifiables (immutables)
-* Permettent les doublons
-* Souvent utilisé pour stocker des données qui ne doivent pas changer (comme des paramètres)
+
+* Représentés par des parenthèses : `(1, 2, 3, "python")`.
+
+* Ordonnés mais non modifiables (immutables).
+
+* Permettent les doublons.
+
+* Souvent utilisé pour stocker des données qui ne doivent pas changer (comme des paramètres).
 
 ### Les ensembles (Sets)
 
 Les ensembles sont comme des boites magiques qui ne gardent qu'un exemplaire de chaque objet :
-* Représentés par des accolades : `{1, 2, 3}`
-* Non ordonnés et modifiables
-* N'autorisent pas les doublons
-* Utiles pour éliminer les doublons et effectuer des opérations mathématiques sur des ensembles
+
+* Représentés par des accolades : `{1, 2, 3}`.
+
+* Non ordonnés et modifiables.
+
+* N'autorisent pas les doublons.
+
+* Utiles pour éliminer les doublons et effectuer des opérations mathématiques sur des ensembles.
 
 ## Dictionnaires
 
 Les dictionnaires sont comme des boites avec des étiquettes sur chcune d'elle :
 
-* Représentés par des accolades avec des paires clé-valeur : `{"nom": "Python", "année": 1991}`
-* Non ordonnés et modifiables
+* Représentés par des accolades avec des paires clé-valeur : `{"nom": "Python", "année": 1991}`.
+
+* Non ordonnés et modifiables.
+
 * Les clés doivent être uniques, mais les valeurs peuvent être dupliquées
 * Utiles pour stocker des données associatives ou pour créer des tables de recherche rapide
 
@@ -107,10 +140,15 @@ Les dictionnaires sont comme des boites avec des étiquettes sur chcune d'elle :
 ## Progrmmation objet
 
 La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe "Voiture" pourrait avoir des attributs comme "couleur" et "vitesse", et des méthodes comme "démarrer" et "accélérer".
+
 Python rend la POO accessible avec des fonctionnalités conviviales :
+
 1. **Encapsulation** : Comme emballer un cadeau, elle cache les détails internes d'un objet.
+
 2. **Héritage** : Permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents.
+
 3. **Polymorphisme** : Permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à "fais du bruit".
+
 Ces caractéristiques font de Python un excellent choix pour apprendre et appliquer les concepts de la POO, rendant le code plus organisé et réutilisable
 
 
