@@ -1,7 +1,6 @@
 ---
 jupyter: python3
-editor:
-    render-on-save: true
+eval: false
 ---
 # Importation et manipulation de données spatiales {#sec-chap01}
 
@@ -18,7 +17,8 @@ Dans le chapitre, nous abordons quelques formats d'images ainsi que leur lecture
 ::: bloc_package-body
 -   Pour importer et manipuler des fichiers géographiques :
     -   `sf` pour importer et manipuler des données vectorielles.
-    -   `Rasterio` pour importer et manipuler des données matricielles.
+    -   `Rasterio` pour importer des images.
+    -   `NumPy` pour manipuler des données matricielles.
 -   Pour construire des cartes et des graphiques :
     -   `tmap` est certainement le meilleur *package* pour la cartographie.
     -   `Matplotlib` pour construire des graphiques.
@@ -57,76 +57,114 @@ $$ {#eq-DistEuc}
 
 Le code R ci-dessous permet de faire un tableau dans un chunk! Pour appeler le tableau (@tbl-TabMatricesSpatiales).
 
-```{python}
-#| label: tbl-TabMatricesSpatiales
-#| tbl-cap: Matrices de pondération spatiale selon la géométrie
-#| echo: false
-#| message: false
-#| warning: false
-
-df1 <- data.frame(
-  Matrice = c("Partage d'un nœud (*Queen*)", 
-              "Partage d'un segment (*Rook*)",
-              "Partage d'un nœud et ordre d'adjacence (*Queen*)", 
-               "Partage d'un segment et ordre d'adjacence (*Rook*)",
-              
-               "Connectivité selon la distance",
-               "Inverse de la distance",
-               "Inverse de la distance au carré",
-               "Nombre de plus proches voisins"),
-  Points  = c(" ", " ", " ", "", "X", "X", "X", "X"),
-  Lignes = c("X", "X", "X", "X", "X", "X", "X", "X"),
-  Polyg = c("X", "X",  "X", "X", "X", "X", "X", "X"),
-  Raster = c("X", "X", "X", "X", "X", "X", "X", "X")
-)
-
-knitr::kable(df1,
-       format.args = list(decimal.mark = ',', big.mark = " "),
-		   col.names = c("Matrice", "Points", "Lignes", "Polyg.", "*Raster*"),
-       align=c("l", "c", "c", "c", "c"))
-```
-
 
 ## Importation d'images {#sec-011}
 
-### Formats de données {#sec-0112}
+La première étape avant tout traitement est d'accéder à la donnée image pour qu'elle soit manipulée par le programme Python. L'imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines librairies, comme 🔖[Xarray](https://docs.xarray.dev/en/stable/), qui on cherchées à optimiser la lecture et l'écriture de grandes images. Il est donc conseiller de toujours garder un oeil sur l'espace mémoire occupé par les variables Python reliées aux images. La librairie principale en géomatique qui va nous permettre d'importer (et d'exporter) de l'imagerie est la librairie [GDAL](https://gdal.org) qui rassemble la plupart des formats sous forme de *driver*. 
 
-* Format de type vision par ordinateur (RGB):
-  * jpeg, png
-* Format avec compression ou sans compression
-  
-Voici comment faire une liste
+Dans le domaine de la géomatique, il faut prêter attention à trois caractéristiques principales des images:
+1. **La matrice des données** elle-même qui contient les valeurs brutes des pixels. Cette matrice sera souvent un cube à trois dimensions. En Python, ce cube sera le plus souvent un objet de la librairie [NumPy](https://numpy.org/) (voir section).
+2. **La dynamique des images** c.à.d le format de stockage des valeurs individuelles (octet, entier, double, etc.). Ce format décide principalement de la résolution radiométrique et des valeurs minimales et maximales supportées. 
+3. **La métadonnée** qui va transporter sur l'information auxiliaire de l'image comme les dimensions et la position de l'image, la date, etc. Cette donnée auxiliaire prendra souvent la forme d'un dictionnaire Python. 
 
--   Format RVB
-    -   jpeg
-    -   png
--   GeoTiff
--   COG
--   NetCDF
--   HDF5
+Les différents formats se distinguent principalement sur comment ces trois caractéristiques sont gérées.
 
-#### Formats de type RVB {#sec-01121}
+### Formats de données {#sec-0111}
 
-Les premiers formats pour de l'imagerie à une bande (monochrome) et à trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des sciences de l'ordinateur. On trouvera, entre autres, les formats pbm, png et jpeg. Ces formats supportent peu de métadonnées dans un entête (header) très limités. Ces formats restent très populaires dans le domaine de la vision par ordinateur.
+Il existe de nombreux formats pour la donnée de type image parfois appelé donnée matricielle ou donnée *raster*. La librairie GDAL rassemble la plupart des formats matriciels rencontrés en géomatique (voir 🔖[Raster drivers — GDAL documentation](https://gdal.org/en/latest/drivers/raster/index.html) pour une liste complète).
 
-#### Le format GeoTiff {#sec-01122}
+On peut distinguer deux grandes familles de format:
+1. Les formats de type **RVB** issus de l'imagerie numérique grand publique comme 🔖[JPEG](https://gdal.org/en/latest/drivers/raster/jpeg.html#raster-jpeg), [png](https://gdal.org/en/latest/drivers/raster/png.html#raster-png), etc. Ces formats ne supportent généralement que trois bandes au maximum (rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255 (format dit 8 bit).
+2. **Les géo-formats** issus des domaines scientifiques ou techniques comme GeoTIFF, HDF5, etc.
+
+Les formats RVB restent très utilisés en Python notamment dans les librairies dites de vision par ordinateur (*Computer Vision*) comme opencv et sickit-image ainsi que les grandes librairies en apprentissage profond (PyTorch, Tensorflow).  
+
+
+#### Formats de type RVB {#sec-01111}
+
+Les premiers formats pour de l'imagerie à une bande (monochrome) et à trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des sciences de l'ordinateur. On trouvera, entre autres, les formats pbm, png et jpeg. Ces formats supportent peu de métadonnées dans un entête (*header*) très limité. Ces formats restent très populaires dans le domaine de la vision par ordinateur et sont très utilisés en apprentissage profond particulier. Pour la lecture des images RVB, on peut utiliser Rasterio, [PIL](https://he-arc.github.io/livre-python/pillow/index.html) ou [OpenCV](https://docs.opencv.org/4.10.0/index.html).
+
+##### Lecture avec la librairie OpenCV
+La librairie PIL retourne un objet de type `PngImageFile`, l'affichage de l'image se fait directement dans la cellule de sortie.
+
+```{python}
+#| label: tbl-lecture-PIL-PNG
+#| tbl-cap: Lecture d'une image en format PNG avec PIL
+#| echo: false
+#| eval: false
+#| message: false
+#| warning: false
+!wget https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/modis-aqua.PNG
+from PIL import Image
+img = Image.open('/content/modis-aqua.PNG')
+img
+```
+
+##### Lecture avec la librairie OpenCV
+La librairie [OpenCV](https://docs.opencv.org/4.10.0/index.html) est aussi très populaire en vision par ordinateur. La fonction `imread` donne directement un objet de type NumPy en sortie.
+
+```{python}
+#| label: tbl-lecture-opencv-PNG
+#| tbl-cap: Lecture d'une image en format PNG avec OpenCV
+#| echo: false
+#| eval: false
+#| message: false
+#| warning: false
+!wget https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/modis-aqua.PNG
+import cv2
+img = cv2.imread('/content/modis-aqua.PNG')
+img
+```
+##### Lecture avec la librairie RasterIO
+
+Rien ne nous empêche de lire une image de format RVB avec [RasterIO](https://rasterio.readthedocs.io/en/stable/) comme décrit dans (@tbl-lecture-rasterio-PNG). Vous noterez cependant les avertissements concernant l'absence de géoréférence pour ce type d'image.
+
+```{python}
+#| label: tbl-lecture-rasterio-PNG
+#| tbl-cap: Lecture d'une image en format PNG avec OpenCV
+#| echo: false
+#| eval: false
+#| message: false
+#| warning: false
+!wget https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/modis-aqua.PNG
+import rasterio
+img= rasterio.open('/content/modis-aqua.PNG')
+img
+```
+
+#### Le format GeoTiff {#sec-01112}
 
 Le format GeoTIFF est une extension du format TIFF (Tagged Image File Format) qui permet d'incorporer des métadonnées géospatiales directement dans un fichier image. Développé initialement par Dr. Niles Ritter au Jet Propulsion Laboratory de la [NASA](https://www.earthdata.nasa.gov/esdis/esco/standards-and-practices/geotiff){target="_blank"} dans les années 1990, GeoTIFF est devenu un standard de facto pour le stockage et l'échange d'images géoréférencées dans les domaines de la télédétection et des systèmes d'information géographique (SIG). Ce format supporte plus que trois bandes aussi longtemps que ces bandes sont de même dimension.
 
 Le format GeoTIFF est très utilisé et est largement supporté par les bibliothèques et logiciels géospatiaux, notamment GDAL (Geospatial Data Abstraction Library), qui offre des capacités de lecture et d'écriture pour ce format. Cette compatibilité étendue a contribué à son adoption généralisée dans la communauté géospatiale.
 
-##### Standardisation par l'OGC {#sec-011221}
+##### Standardisation par l'OGC {#sec-011121}
 
 Le standard GeoTIFF proposé par l'Open Geospatial Consortium (OGC) en 2019 formalise et étend les spécifications originales du format GeoTIFF, offrant une norme robuste pour l'échange d'images géoréférencées. Cette standardisation, connue sous le nom d'OGC GeoTIFF 1.1 [-@OGCGeoTIFF], apporte plusieurs améliorations et clarifications importantes.
 
 
 #### Le format COG
 
-Une innovation récente dans l'écosystème GeoTIFF est le format "Cloud Optimized GeoTIFF" (COG), conçu pour faciliter l'utilisation de fichiers GeoTIFF hébergés sur des serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels d'accéder à des parties spécifiques du fichier sans avoir à le télécharger entièrement, ce qui est particulièrement utile pour les applications basées sur le cloud.
+Une innovation récente dans l'écosystème GeoTIFF est le format *Cloud Optimized GeoTIFF* ([COG](http://cogeo.org/)), conçu pour faciliter l'utilisation de fichiers GeoTIFF hébergés sur des serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels d'accéder à des parties spécifiques du fichier sans avoir à le télécharger entièrement, ce qui est particulièrement utile pour les applications basées sur le cloud.
 
-### Métadonnées des images {#sec-0113}
+### Métadonnées des images {#sec-0112}
 
-### Données en géoscience {#sec-0114}
+## Manipulation d'images {#sec-013}
+
+### Manipulation de la matrice de pixels {#sec-0131}
+
+La donnée brute de l'image est généralement contenue dans un cube matricielle à trois dimensions (deux dimensions spatiales et une dimension spectrale). Comme exposé précédemment, la librairie dite *"fondationnelle"* pour la manipulation de matrices en Python est [NumPy](https://numpy.org/). Cette librairie contient un nombre très important de fonctionnalités couvrant l'algèbre linéaires, les statistiques.
+
+
+### Mosaïquage, masquage et découpage {#sec-0132}
+
+### Changement de projection cartographique {#sec-0133}
+
+### Recalage d'images et co-registration {#sec-0134}
+
+### Requêtes attributaires {#sec-0135}
+
+### Données en géoscience {#sec-0113}
 
 Calibration, unités, données manquantes, données éparses.
 
@@ -144,37 +182,9 @@ Données météos, exemple avec SWOT.
 
 ### Importation d'un fichier *shapefile* {#sec-0124}
 
-
-## Manipulation d'images {#sec-013}
-
-### Manipulation d'une matrice {#sec-0131}
-
-- Numpy
-
-### Mosaïquage, masquage et découpage {#sec-0132}
-
-### Changement de projection cartographique {#sec-0133}
-
-### Recalage d'images et co-registration {#sec-0134}
-
-### Requêtes attributaires {#sec-0135}
-
 ## Manipulation de données vectorielles {#sec-014}
 
 ## Quiz de révision du chapitre {#sec-015}
-
-```{python}
-#| label: quizChapitre02
-#| echo: false 
-#| eval: true 
-#| message: false 
-#| warning: false 
-#| results: asis
-
-source("code_complementaire/QuizzFunctions.R")
-Chap01Quiz <- quizz("quiz/Chap01.yml", "Chap01")
-render_quizz(Chap01Quiz)
-```
 
 ## Exercices de révision {#sec-016}
 
@@ -192,8 +202,7 @@ render_quizz(Chap01Quiz)
 #| message: false 
 #| warning: false 
 #| eval: false
-library(sf)
-library(terra)
+
 # ...
 # à compléter
 ```
@@ -216,8 +225,7 @@ Correction à la [section @sec-08011].
 #| message: false 
 #| warning: false 
 #| eval: false
-library(sf)
-library(terra)
+
 # ...
 # à compléter
 ```
@@ -240,8 +248,7 @@ Correction à la [section @sec-08012].
 #| message: false 
 #| warning: false 
 #| eval: false
-library(sf)
-library(terra)
+
 # ...
 # à compléter
 ```
