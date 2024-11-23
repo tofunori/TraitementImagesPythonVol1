@@ -2,50 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/index.html</loc>
-    <lastmod>2024-09-27T13:36:21.085Z</lastmod>
+    <lastmod>2024-09-27T14:11:38.274Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/00-auteurs.html</loc>
     <lastmod>2024-08-08T19:07:25.936Z</lastmod>
   </url>
   <url>
+    <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/00-PriseEnMainPython.html</loc>
+    <lastmod>2024-11-08T20:32:27.557Z</lastmod>
+  </url>
+  <url>
     <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/01-ImportationManipulationImages.html</loc>
-    <lastmod>2024-07-29T16:49:04.362Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/02-RehaussementVisualisationImages.html</loc>
-    <lastmod>2024-07-09T00:44:52.024Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/03-TransformationSpectrales.html</loc>
-    <lastmod>2024-07-09T00:44:52.042Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/04-TransformationSpatiales.html</loc>
-    <lastmod>2024-07-09T00:44:52.057Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/05-ClassificationsSupervisees.html</loc>
-    <lastmod>2024-07-09T00:44:52.083Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/06-ClassificationsNonSupervisees.html</loc>
-    <lastmod>2024-07-09T00:44:52.103Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/07-PlateformesMegadonnees.html</loc>
-    <lastmod>2024-07-09T00:44:52.117Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/08-Exercices.html</loc>
-    <lastmod>2024-07-09T00:44:52.150Z</lastmod>
+    <lastmod>2024-11-23T20:29:27.741Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/references.html</loc>
     <lastmod>2024-08-08T19:07:25.966Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html/00-PriseEnMainPython.html</loc>
-    <lastmod>2024-09-27T12:47:17.282Z</lastmod>
   </url>
 </urlset>

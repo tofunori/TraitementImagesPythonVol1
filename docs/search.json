@@ -34,7 +34,7 @@
     "href": "index.html#sect003",
     "title": "Traitement d’images satellites avec Python",
     "section": "Comment utiliser les données du livre pour reproduire les exemples?",
-    "text": "Comment utiliser les données du livre pour reproduire les exemples?\nCe livre comprend des exemples détaillés et appliqués dans R pour chacune des méthodes abordées. Ces exemples se basent sur des jeux de données structurés et mis à disposition avec le livre. Ils sont disponibles sur le repo github dans le sous-dossier data, à l’adresse https://github.com/SerieBoldR/TraitementImagesVol1/tree/main/data.\nUne autre option est de télécharger le repo complet du livre directement sur github (https://github.com/SerieBoldR/TraitementImagesVol1) en cliquant sur le bouton Code, puis le bouton Download ZIP (figure 2). Les données se trouvent alors dans le sous-dossier nommé data.\n\n\n\n\n\n\nFigure 2: Téléchargement de l’intégralité du livre",
+    "text": "Comment utiliser les données du livre pour reproduire les exemples?\nCe livre comprend des exemples détaillés et appliqués dans R pour chacune des méthodes abordées. Ces exemples se basent sur des jeux de données structurés et mis à disposition avec le livre. Ils sont disponibles sur le repo github dans le sous-dossier data, à l’adresse https://github.com/SerieBoldR/TraitementImagesVol1/tree/main/data.\nUne autre option est de télécharger le repo complet du livre directement sur github (https://github.com/SerieBoldR/TraitementImagesVol1) en cliquant sur le bouton Code, puis le bouton Download ZIP (figure 2.1). Les données se trouvent alors dans le sous-dossier nommé data.\n\n\n\n\n\n\nFigure 2: Téléchargement de l’intégralité du livre",
     "crumbs": [
       "Préface"
     ]
@@ -44,7 +44,7 @@
     "href": "index.html#sect004",
     "title": "Traitement d’images satellites avec Python",
     "section": "Structure du livre",
-    "text": "Structure du livre\nLe livre est organisé autour de quatre grandes parties.\nPartie 1. Importation et manipulation de données spatiales. Dans cette première partie, nous voyons comment importer, manipuler, cartographier et exporter des données spatiales dans R, principalement avec les packages sf pour les données vectorielles, terra pour les données matricielles (images) et tmap pour la cartographie (?sec-chap01). Maîtriser les notions abordées dans ce chapitre constitue une étape préalable et indispensable à tout projet d’analyse spatiale. D’une part, avant d’analyser des données spatiales, il convient de les structurer (importation et manipulation) et de les explorer (cartographie). D’autre part, une fois la ou les méthodes d’analyse spatiale mises en œuvre, il convient de cartographier les résultats finaux et de les exporter au besoin dans un format de données géographiques (shapefile (shp), GeoPackage (GPKG), GeoJSON (geojson), sqlite (sqlite), GeoTiff, etc.).\nPartie 2. Transformations des données spatiales. Cette troisième partie comprend deux chapitres : les transformations spectrales (?sec-chap03) et les transformations spatiales (?sec-chap04).\nPartie 3. Classifications d’images. Cette troisième partie comprend deux chapitres : les classifications supervisées (?sec-chap05) et non supervisées (?sec-chap06).\nPartie 4. Données massives. Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes ?sec-chap07, notammment Google Earth Engine.",
+    "text": "Structure du livre\nLe livre est organisé autour de quatre grandes parties.\nPartie 1. Importation et manipulation de données spatiales. Dans cette première partie, nous voyons comment importer, manipuler, cartographier et exporter des données spatiales dans R, principalement avec les packages sf pour les données vectorielles, terra pour les données matricielles (images) et tmap pour la cartographie (chapitre 2  Importation et manipulation de données spatiales). Maîtriser les notions abordées dans ce chapitre constitue une étape préalable et indispensable à tout projet d’analyse spatiale. D’une part, avant d’analyser des données spatiales, il convient de les structurer (importation et manipulation) et de les explorer (cartographie). D’autre part, une fois la ou les méthodes d’analyse spatiale mises en œuvre, il convient de cartographier les résultats finaux et de les exporter au besoin dans un format de données géographiques (shapefile (shp), GeoPackage (GPKG), GeoJSON (geojson), sqlite (sqlite), GeoTiff, etc.).\nPartie 2. Transformations des données spatiales. Cette troisième partie comprend deux chapitres : les transformations spectrales (?sec-chap03) et les transformations spatiales (?sec-chap04).\nPartie 3. Classifications d’images. Cette troisième partie comprend deux chapitres : les classifications supervisées (?sec-chap05) et non supervisées (?sec-chap06).\nPartie 4. Données massives. Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes ?sec-chap07, notammment Google Earth Engine.",
     "crumbs": [
       "Préface"
     ]
@@ -70,16 +70,6 @@
     ]
   },
   {
-    "objectID": "index.html#sect007",
-    "href": "index.html#sect007",
-    "title": "Traitement d’images satellites avec Python",
-    "section": "Librairies utilisés pour traiter des images",
-    "text": "Librairies utilisés pour traiter des images\n\nListes des librairies utilisés\nDans ce livre, nous utilisons de nombreux packages Python que vous pouvez installer avec le code ci-dessous.\n\nimport sys\nimport subprocess\nimport pkg_resources\n\n# Liste des packages\nlist_packages = [\"pandas\", \"scikit-image\", \"matplotlib\", \n                 \"geopandas\", \"rasterio\", \"folium\"]\n\n# Packages non installés dans la liste\ninstalled_packages = {pkg.key for pkg in pkg_resources.working_set}\npackages_not_installed = [pkg for pkg in list_packages if pkg.lower() not in installed_packages]\n\n# Installation des packages manquants\nif packages_not_installed:\n    print(\"Installing missing packages...\")\n    for package in packages_not_installed:\n        subprocess.check_call([sys.executable, \"-m\", \"pip\", \"install\", package])\n    print(\"All packages installed successfully.\")\nelse:\n    print(\"All required packages are already installed.\")\n\n\n\nPhilosophie et librairies Python pour l’analyse d’images\n\n\nPython 101\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\nFigure 3: A line plot on a polar axis",
-    "crumbs": [
-      "Préface"
-    ]
-  },
-  {
     "objectID": "00-auteurs.html",
     "href": "00-auteurs.html",
     "title": "À propos des auteurs",
@@ -90,332 +80,41 @@
     ]
   },
   {
-    "objectID": "01-ImportationManipulationImages.html#sec-010",
-    "href": "01-ImportationManipulationImages.html#sec-010",
-    "title": "1  Importation et manipulation de données spatiales",
-    "section": "\n1.1 Bases de Quarto…",
-    "text": "1.1 Bases de Quarto…\nVoici comment faire une liste :\n\ntexte en gras\n\ntexte en italique\n\nGras et italique\n\n\nR2 et NO2\n\nPetites majuscules\nPour un lien Web, Département de géomatique appliquée.\n\nVoici comment intégrer des équations LaTeX. La formule de la distance euclidienne (équation 1.2). Pour écrire directement une équation dans le texte, il suffit de \\(E = mc^2\\).\n\\[\nd_{ij} = 2R \\cdot \\text{ arcsin} \\left( \\sqrt{\\text{sin}^2 \\left( \\frac{\\delta _i - \\delta _j}{2} \\right) + \\text{cos }\\delta _i \\cdot \\text{cos }\\delta _j \\cdot \\text{sin}^2 \\left( \\frac{\\phi _i - \\phi _j}{2} \\right)} \\right)\n\\tag{1.1}\\]\n\\[\nd_{ij} = \\sqrt{(x_i-x_j)^2+(y_i-y_j)^2}\n\\tag{1.2}\\]\n\nIntégrer une figure (image) et l’appeler dans le texte (figure 1.1). À la figure 1.1, … Notez que la numérotation des figures, des tableaux, des équations est automatique.\n\n\n\nFigure 1.1: Téléchargement de l’intégralité du livre\n\n\nLes références sont au format BibTeX. Par exemple, vous pouvez les télécharger de Google Scholar et les intégrer à la fin du fichier references.bib. Voici comment intégrer des références (Mather et Koch 2022; Richards, Richards et al. 2022). Selon Ferdinand Boon et Guy Rochon (1992).\n\nLe code R ci-dessous permet de faire un tableau dans un chunk! Pour appeler le tableau (tableau 1.1).\n\n\n\n\nTableau 1.1: Matrices de pondération spatiale selon la géométrie\n\n\n\n\n\n\n\n\nMatrice\nPoints\nLignes\nPolyg.\nRaster\n\n\n\nPartage d’un nœud (Queen)\n\nX\nX\nX\n\n\nPartage d’un segment (Rook)\n\nX\nX\nX\n\n\nPartage d’un nœud et ordre d’adjacence (Queen)\n\nX\nX\nX\n\n\nPartage d’un segment et ordre d’adjacence (Rook)\n\nX\nX\nX\n\n\nConnectivité selon la distance\nX\nX\nX\nX\n\n\nInverse de la distance\nX\nX\nX\nX\n\n\nInverse de la distance au carré\nX\nX\nX\nX\n\n\nNombre de plus proches voisins\nX\nX\nX\nX"
-  },
-  {
-    "objectID": "01-ImportationManipulationImages.html#sec-011",
-    "href": "01-ImportationManipulationImages.html#sec-011",
-    "title": "1  Importation et manipulation de données spatiales",
-    "section": "\n1.2 Importation d’images",
-    "text": "1.2 Importation d’images\n\n1.2.1 Manipulation d’une matrice\n\n1.2.2 Formats de données\nVoici comment faire une liste\n\nFormat RVB\n\njpeg\npng\n\n\nGeoTiff\nCOG\nNetCDF\nHDF5\n\n1.2.3 Métadonnées des images\n\n1.2.4 Données en géoscience\nCalibration, unités, données manquantes, données éparses.\nnetcdf, xarray, GRIB.\nDonnées météos, exemple avec SWOT."
-  },
-  {
-    "objectID": "01-ImportationManipulationImages.html#sec-012",
-    "href": "01-ImportationManipulationImages.html#sec-012",
-    "title": "1  Importation et manipulation de données spatiales",
-    "section": "\n1.3 Importation de données vectorielles",
-    "text": "1.3 Importation de données vectorielles\n\n1.3.1 Importation d’un fichier shapefile\n\n\n1.3.2 Importation d’une couche dans un GeoPackage\n\n\n1.3.3 Importation d’une couche dans une geodatabase d’ESRI\n\n1.3.4 Importation d’un fichier shapefile"
-  },
-  {
-    "objectID": "01-ImportationManipulationImages.html#sec-013",
-    "href": "01-ImportationManipulationImages.html#sec-013",
-    "title": "1  Importation et manipulation de données spatiales",
-    "section": "\n1.4 Manipulation d’images",
-    "text": "1.4 Manipulation d’images\n\n1.4.1 Mosaïquage, masquage et découpage\n\n1.4.2 Changement de projection cartographique\n\n1.4.3 Recalage d’images et co-registration\n\n1.4.4 Requêtes attributaires"
-  },
-  {
-    "objectID": "01-ImportationManipulationImages.html#sec-014",
-    "href": "01-ImportationManipulationImages.html#sec-014",
-    "title": "1  Importation et manipulation de données spatiales",
-    "section": "\n1.5 Manipulation de données vectorielles",
-    "text": "1.5 Manipulation de données vectorielles"
-  },
-  {
-    "objectID": "01-ImportationManipulationImages.html#sec-015",
-    "href": "01-ImportationManipulationImages.html#sec-015",
-    "title": "1  Importation et manipulation de données spatiales",
-    "section": "\n1.6 Quiz de révision du chapitre",
-    "text": "1.6 Quiz de révision du chapitre\n\n\n\n\n\nLa classe sf est composée de trois éléments :\n\n\nRelisez au besoin la section 1.2.\n\n\n\n\n\n\nsimple feature geometry (sfg) : géométrie d’une observation\n\n\n\n\n\n\n\nsimple feature column (sfc) : liste toutes les géométries d’une couche\n\n\n\n\n\n\n\ndata.fame : données attributaires\n\n\n\n\n\n\n\nraster : données images\n\n\n\n\n\n\n\n\n\n\nLaquelle de ces fonctions permet de changer la projection cartographique d’une couche géographique?\n\n\nRelisez au besoin le début de la section 1.3.\n\n\n\n\n\n\nst_crs(x)\n\n\n\n\n\n\n\nst_transform(x, crs)\n\n\n\n\n\n\n\nst_is_longlat(x)\n\n\n\n\n\n\n\n\n\n\nLaquelle de ces fonctions n’est pas une fonction géométrique sur une couche?\n\n\nRelisez au besoin la section 1.3.\n\n\n\n\n\n\nst_bbox(x)\n\n\n\n\n\n\n\nst_union(x)\n\n\n\n\n\n\n\nst_point_on_surface(x)\n\n\n\n\n\n\n\nst_crop(x, y, xmin, ymin, xmax, ymax)\n\n\n\n\n\n\n\nst_centroid(x)\n\n\n\n\n\n\n\n\n\n\nComparativement à l’algorithme de Douglas et Peucker, que permet l’algorithme de Visvalingam lors de la simplification des contours?\n\n\nRelisez au besoin la section 1.3.2.\n\n\n\n\n\n\nIl est plus rapide.\n\n\n\n\n\n\n\nIl permet de conserver les frontières.\n\n\n\n\n\n\n\n\n\n\nTous les points sont compris dans leur enveloppe convexe.\n\n\nRelisez au besoin la section 1.3.2.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nQuelles sont les quatre fonctions de mesures géométriques et de récupération des coordonnées géographiques?\n\n\nRelisez au besoin la section 1.3.\n\n\n\n\n\n\nst_area(x)\n\n\n\n\n\n\n\nst_length(x)\n\n\n\n\n\n\n\nst_distance(x,y)\n\n\n\n\n\n\n\nst_coordinates(x)\n\n\n\n\n\n\n\nst_union(x)\n\n\n\n\n\n\n\n\n\n\nQuelle est la différence entre les fonctions st_intersects(x, y) et st_intersection(x, y)?\n\n\nRelisez le deuxième encadré à la ?sec-0126.\n\n\n\n\n\n\nElles génèrent le même résultat.\n\n\n\n\n\n\n\nLa première est une requête spatiale, la seconde renvoie l’intersection entre deux couches.\n\n\n\n\n\n\n\nLa première renvoie l’intersection entre deux couches, la seconde est une requête spatiale.\n\n\n\n\n\n\n\n\n\n\nLaquelle des fonctions sf permet d’exporter des données vectorielles?\n\n\nRelisez au besoin la section 1.5.\n\n\n\n\n\n\nst_read()\n\n\n\n\n\n\n\nst_write()\n\n\n\n\n\n\n\nwriteRaster()\n\n\n\n\n\n\n\n\n\nVérifier votre résultat"
-  },
-  {
-    "objectID": "01-ImportationManipulationImages.html#sec-016",
-    "href": "01-ImportationManipulationImages.html#sec-016",
-    "title": "1  Importation et manipulation de données spatiales",
-    "section": "\n1.7 Exercices de révision",
-    "text": "1.7 Exercices de révision\n\n\n\n\n\nExercice 1. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.1.1.\n\n\n\n\n\n\n\nExercice 2. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.1.2.\n\n\n\n\n\n\n\nExercice 3. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.1.3.\n\n\n\n\n\n\nBonn, Ferdinand et Guy Rochon. 1992. Précis de télédétection. Volume 1 : principes et méthodes. Presses de l’université du Québec; Agence universitaire de la Francophonie.\n\n\nMather, Paul M et Magaly Koch. 2022. Computer processing of remotely-sensed images. John Wiley & Sons.\n\n\nRichards, John A, John A Richards et al. 2022. Remote sensing digital image analysis. Vol. 5. Springer."
-  },
-  {
-    "objectID": "02-RehaussementVisualisationImages.html#sec-021",
-    "href": "02-RehaussementVisualisationImages.html#sec-021",
-    "title": "2  Réhaussement et visualisation d’images",
-    "section": "\n2.1 Visualisation sur le Web",
-    "text": "2.1 Visualisation sur le Web\nWMS"
-  },
-  {
-    "objectID": "02-RehaussementVisualisationImages.html#sec-022",
-    "href": "02-RehaussementVisualisationImages.html#sec-022",
-    "title": "2  Réhaussement et visualisation d’images",
-    "section": "\n2.2 Réhaussement visuel",
-    "text": "2.2 Réhaussement visuel\nCalcul d’histogrammes, étirement, égalisation, styling"
-  },
-  {
-    "objectID": "02-RehaussementVisualisationImages.html#sec-023",
-    "href": "02-RehaussementVisualisationImages.html#sec-023",
-    "title": "2  Réhaussement et visualisation d’images",
-    "section": "\n2.3 Composés couleurs",
-    "text": "2.3 Composés couleurs\n\nVraies couleurs\nFausses couleurs"
-  },
-  {
-    "objectID": "02-RehaussementVisualisationImages.html#sec-024",
-    "href": "02-RehaussementVisualisationImages.html#sec-024",
-    "title": "2  Réhaussement et visualisation d’images",
-    "section": "\n2.4 Visualisation 3D",
-    "text": "2.4 Visualisation 3D\ndrapper une image satellite sur un DEM"
-  },
-  {
-    "objectID": "02-RehaussementVisualisationImages.html#sec-025",
-    "href": "02-RehaussementVisualisationImages.html#sec-025",
-    "title": "2  Réhaussement et visualisation d’images",
-    "section": "\n2.5 Quiz de révision du chapitre",
-    "text": "2.5 Quiz de révision du chapitre\n\n\n\n\n\nParmi les matrices de pondération spatiale ci-dessous, lesquelles sont des matrices de contiguïté?\n\n\nRelisez au besoin la section 2.2.\n\n\n\n\n\n\nPartage d’un nœud\n\n\n\n\n\n\n\nPartage d’un segment\n\n\n\n\n\n\n\nPartage d’un nœud et ordre d’adjacence\n\n\n\n\n\n\n\nPartage d’un segment et ordre d’adjacence\n\n\n\n\n\n\n\nConnectivité selon la distance\n\n\n\n\n\n\n\n\n\n\nEn anglais, comment est appelée une matrice selon le partage d’un nœud?\n\n\nRelisez au besoin le début de la section 2.2.\n\n\n\n\n\n\nRook\n\n\n\n\n\n\n\nQueen\n\n\n\n\n\n\n\n\n\n\nComparativement à une matrice de l’inverse de la distance, une matrice de l’inverse de la distance au carré accorde un poids plus important aux entités proches.\n\n\nRelisez au besoin la section 2.1.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nQuels sont les avantages de la standardisation en ligne des matrices de pondération spatiale?\n\n\nRelisez au besoin la section 2.2.\n\n\n\n\n\n\nLa somme de chaque ligne est égale à 1.\n\n\n\n\n\n\n\nLa somme de l’ensemble de la matrice est égale au nombre d’entités spatiales.\n\n\n\n\n\n\n\nLa standardisation permet de comparer la dépendance spatiale selon différentes matrices.\n\n\n\n\n\n\n\nLa standardisation augmente la vitesse des calculs.\n\n\n\n\n\n\n\n\n\n\nQuelle est la différence entre les deux mesures locales de Getis et Ord?\n\n\nRelisez au besoin la section 2.2.\n\n\n\n\n\n\nGi* tient compte à la fois des valeurs des entités voisines ou proches, mais aussi de celle de i.\n\n\n\n\n\n\n\nContrairement à Gi, Gi* a un z-score.\n\n\n\n\n\n\n\n\n\n\nParmi les quatre catégories de la typologie basée sur le nuage de points du I de Moran, lesquelles renvoient à de l’autocorrélation spatiale locale positive?\n\n\nRelisez au besoin la section 2.2.\n\n\n\n\n\n\nHH\n\n\n\n\n\n\n\nLL\n\n\n\n\n\n\n\nHL\n\n\n\n\n\n\n\nLH\n\n\n\n\n\n\n\n\n\n\nLe village gaulois correspond à quelle catégorie?\n\n\nRelisez au besoin la section 2.1.\n\n\n\n\n\n\nHH\n\n\n\n\n\n\n\nLL\n\n\n\n\n\n\n\nHL\n\n\n\n\n\n\n\nLH\n\n\n\n\n\n\n\n\n\n\nQuelles sont les trois manières de tester la significativité des mesures d’autocorrélation globales?\n\n\nRelisez au besoin la section 2.1.\n\n\n\n\n\n\nAvec l’hypothèse de la normalité\n\n\n\n\n\n\n\nEn relançant plusieurs fois les calculs\n\n\n\n\n\n\n\nAvec l’hypothèse de la randomisation\n\n\n\n\n\n\n\nAvec la méthode Monte-Carlo (habituellement avec 999 échantillons)\n\n\n\n\n\n\n\n\n\nVérifier votre résultat"
-  },
-  {
-    "objectID": "02-RehaussementVisualisationImages.html#sec-027",
-    "href": "02-RehaussementVisualisationImages.html#sec-027",
-    "title": "2  Réhaussement et visualisation d’images",
-    "section": "\n2.6 Exercices de révision",
-    "text": "2.6 Exercices de révision\n\n\n\n\n\nExercice 1. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.2.1.\n\n\n\n\n\n\n\nExercice 2. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.2.2.\n\n\n\n\n\n\n\nExercice 3. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.2.3."
-  },
-  {
-    "objectID": "03-TransformationSpectrales.html#sec-031",
-    "href": "03-TransformationSpectrales.html#sec-031",
-    "title": "3  Transformations spectrales",
-    "section": "\n3.1 Indices spectraux",
-    "text": "3.1 Indices spectraux"
-  },
-  {
-    "objectID": "03-TransformationSpectrales.html#sec-032",
-    "href": "03-TransformationSpectrales.html#sec-032",
-    "title": "3  Transformations spectrales",
-    "section": "\n3.2 Réduction de dimension",
-    "text": "3.2 Réduction de dimension\n\n3.2.1 Analyses en composantes principales\n\n\n\n\n\nQuels problèmes posent l’utilisation des méthodes classiques d’analyse spatiale pour des données se produisant sur un réseau?\n\n\nRelisez au besoin la section 6.1.\n\n\n\n\n\n\nLa distance euclidienne tend à sous-estimer les distances réelles.\n\n\n\n\n\n\n\nLa distance euclidienne tend à surestimer les distances réelles.\n\n\n\n\n\n\n\nLe réseau est un espace comportant davantage de dimensions qu’un espace planaire.\n\n\n\n\n\n\n\nLe réseau est un espace ne respectant pas les hypothèses d’homogénéité et d’isotropie de l’espace planaire.\n\n\n\n\n\n\n\nLes méthodes classiques analysent des portions de l’espace en dehors du réseau.\n\n\n\n\n\n\n\n\n\n\nPour adapter la méthode classique du Kernel Density Estimate, il est nécessaire de :\n\n\nRelisez au besoin le début de la section 6.2.\n\n\n\n\n\n\nUtiliser une distance réseau plutôt qu’euclidienne.\n\n\n\n\n\n\n\nN’estimer les densités que le long des lixels représentant des fragments réguliers du réseau.\n\n\n\n\n\n\n\nAdapter la fonction de Kernel pour tenir compte de la division de la masse aux intersections.\n\n\n\n\n\n\n\nAppliquer une pénalité aux portions du réseau avec peu d’évènements.\n\n\n\n\n\n\n\n\n\n\nPour une NKDE, il est uniquement possible de calculer des densités selon une bandwidth fixe.\n\n\nRelisez au besoin la section 6.2.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nContrairement à la KDE classique, la NKDE est moins sensible au choix de la bandwidth.\n\n\nRelisez au besoin la section 6.3.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nL’extension spatio-temporelle du NKDE (TNKDE) consiste à :\n\n\nRelisez au besoin la section 6.3.\n\n\n\n\n\n\nCalculer une somme des densités spatiales et temporelles des évènements le long du réseau.\n\n\n\n\n\n\n\nCalculer le produit des densités spatiales et temporelles des évènements le long du réseau.\n\n\n\n\n\n\n\nCalculer l’intégrale des densités spatiales et temporelles des évènements le long du réseau.\n\n\n\n\n\n\n\n\n\n\nPour une TNKDE, il est uniquement possible de calculer des densités selon une bandwidth fixe.\n\n\nRelisez au besoin la section 6.3.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nLes méthodes KDE, NKDE, et TNKDE peuvent être vues comme :\n\n\nRelisez au besoin la section 6.2.\n\n\n\n\n\n\nDes méthodes descriptives visant à résumer un grand ensemble d’évènements en une carte de chaleur plus facilement interprétable.\n\n\n\n\n\n\n\nDes méthodes inférentielles permettant de déterminer statistiquement la présence de points chauds ou de points froids.\n\n\n\n\n\n\n\nDes algorithmes de type boite noire réduisant la dimensionnalité des données.\n\n\n\n\n\n\n\n\n\n\nL’utilisation d’une distance réseau plutôt qu’euclidienne pour un algorithme DBSCAN risque de :\n\n\nRelisez au besoin la section 6.5.\n\n\n\n\n\n\nAugmenter la taille des groupes détectés par l’algorithme, car la recherche de voisin sera plus facile sur le réseau\n\n\n\n\n\n\n\nRéduire la taille des groupes formés par l’algorithme, car la distance euclidienne tend à sous-estimer les distances réelles sur le réseau\n\n\n\n\n\n\n\n\n\nVérifier votre résultat"
-  },
-  {
-    "objectID": "03-TransformationSpectrales.html#sec-037",
-    "href": "03-TransformationSpectrales.html#sec-037",
-    "title": "3  Transformations spectrales",
-    "section": "\n3.3 Exercices de révision",
-    "text": "3.3 Exercices de révision\n\n\n\n\n\nExercice 1. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.3.1.\n\n\n\n\n\n\n\nExercice 2. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.3.2.\n\n\n\n\n\n\n\nExercice 3. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.3.3."
-  },
-  {
-    "objectID": "04-TransformationSpatiales.html#sec-041",
-    "href": "04-TransformationSpatiales.html#sec-041",
-    "title": "4  Transformations spatiales",
-    "section": "\n4.1 Analyse fréquentielle",
-    "text": "4.1 Analyse fréquentielle"
-  },
-  {
-    "objectID": "04-TransformationSpatiales.html#sec-042",
-    "href": "04-TransformationSpatiales.html#sec-042",
-    "title": "4  Transformations spatiales",
-    "section": "\n4.2 Filtrage d’image",
-    "text": "4.2 Filtrage d’image"
-  },
-  {
-    "objectID": "04-TransformationSpatiales.html#sec-043",
-    "href": "04-TransformationSpatiales.html#sec-043",
-    "title": "4  Transformations spatiales",
-    "section": "\n4.3 Segmentation",
-    "text": "4.3 Segmentation"
-  },
-  {
-    "objectID": "04-TransformationSpatiales.html#sec-044",
-    "href": "04-TransformationSpatiales.html#sec-044",
-    "title": "4  Transformations spatiales",
-    "section": "\n4.4 Vectorisation et rasterisation",
-    "text": "4.4 Vectorisation et rasterisation"
-  },
-  {
-    "objectID": "04-TransformationSpatiales.html#sec-045",
-    "href": "04-TransformationSpatiales.html#sec-045",
-    "title": "4  Transformations spatiales",
-    "section": "\n4.5 Analyse de terrain",
-    "text": "4.5 Analyse de terrain\n\n4.5.1 Élévation\n\n4.5.2 Pente\n\n4.5.3 Ombrage\n\n4.5.4 Visibilité"
-  },
-  {
-    "objectID": "04-TransformationSpatiales.html#sec-046",
-    "href": "04-TransformationSpatiales.html#sec-046",
-    "title": "4  Transformations spatiales",
-    "section": "\n4.6 Quiz de révision du chapitre",
-    "text": "4.6 Quiz de révision du chapitre\n\n\n\n\n\nQuels problèmes posent l’utilisation des méthodes classiques d’analyse spatiale pour des données se produisant sur un réseau?\n\n\nRelisez au besoin la section 6.1.\n\n\n\n\n\n\nLa distance euclidienne tend à sous-estimer les distances réelles.\n\n\n\n\n\n\n\nLa distance euclidienne tend à surestimer les distances réelles.\n\n\n\n\n\n\n\nLe réseau est un espace comportant davantage de dimensions qu’un espace planaire.\n\n\n\n\n\n\n\nLe réseau est un espace ne respectant pas les hypothèses d’homogénéité et d’isotropie de l’espace planaire.\n\n\n\n\n\n\n\nLes méthodes classiques analysent des portions de l’espace en dehors du réseau.\n\n\n\n\n\n\n\n\n\n\nPour adapter la méthode classique du Kernel Density Estimate, il est nécessaire de :\n\n\nRelisez au besoin le début de la section 6.2.\n\n\n\n\n\n\nUtiliser une distance réseau plutôt qu’euclidienne.\n\n\n\n\n\n\n\nN’estimer les densités que le long des lixels représentant des fragments réguliers du réseau.\n\n\n\n\n\n\n\nAdapter la fonction de Kernel pour tenir compte de la division de la masse aux intersections.\n\n\n\n\n\n\n\nAppliquer une pénalité aux portions du réseau avec peu d’évènements.\n\n\n\n\n\n\n\n\n\n\nPour une NKDE, il est uniquement possible de calculer des densités selon une bandwidth fixe.\n\n\nRelisez au besoin la section 6.2.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nContrairement à la KDE classique, la NKDE est moins sensible au choix de la bandwidth.\n\n\nRelisez au besoin la section 6.3.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nL’extension spatio-temporelle du NKDE (TNKDE) consiste à :\n\n\nRelisez au besoin la section 6.3.\n\n\n\n\n\n\nCalculer une somme des densités spatiales et temporelles des évènements le long du réseau.\n\n\n\n\n\n\n\nCalculer le produit des densités spatiales et temporelles des évènements le long du réseau.\n\n\n\n\n\n\n\nCalculer l’intégrale des densités spatiales et temporelles des évènements le long du réseau.\n\n\n\n\n\n\n\n\n\n\nPour une TNKDE, il est uniquement possible de calculer des densités selon une bandwidth fixe.\n\n\nRelisez au besoin la section 6.3.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nLes méthodes KDE, NKDE, et TNKDE peuvent être vues comme :\n\n\nRelisez au besoin la section 6.2.\n\n\n\n\n\n\nDes méthodes descriptives visant à résumer un grand ensemble d’évènements en une carte de chaleur plus facilement interprétable.\n\n\n\n\n\n\n\nDes méthodes inférentielles permettant de déterminer statistiquement la présence de points chauds ou de points froids.\n\n\n\n\n\n\n\nDes algorithmes de type boite noire réduisant la dimensionnalité des données.\n\n\n\n\n\n\n\n\n\n\nL’utilisation d’une distance réseau plutôt qu’euclidienne pour un algorithme DBSCAN risque de :\n\n\nRelisez au besoin la section 6.5.\n\n\n\n\n\n\nAugmenter la taille des groupes détectés par l’algorithme, car la recherche de voisin sera plus facile sur le réseau\n\n\n\n\n\n\n\nRéduire la taille des groupes formés par l’algorithme, car la distance euclidienne tend à sous-estimer les distances réelles sur le réseau\n\n\n\n\n\n\n\n\n\nVérifier votre résultat"
-  },
-  {
-    "objectID": "04-TransformationSpatiales.html#sec-047",
-    "href": "04-TransformationSpatiales.html#sec-047",
-    "title": "4  Transformations spatiales",
-    "section": "\n4.7 Exercices de révision",
-    "text": "4.7 Exercices de révision\n\n\n\n\n\nExercice 1. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.4.1.\n\n\n\n\n\n\n\nExercice 2. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.4.2.\n\n\n\n\n\n\n\nExercice 3. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.4.3."
-  },
-  {
-    "objectID": "05-ClassificationsSupervisees.html#sec-051",
-    "href": "05-ClassificationsSupervisees.html#sec-051",
-    "title": "5  Classifications d’images supervisées",
-    "section": "\n5.1 Classification d’images pixel par pixel",
-    "text": "5.1 Classification d’images pixel par pixel\n\n5.1.1 Parallélépipède\n\n5.1.2 Méthodes paramétriques\n\n5.1.3 Méthodes non paramétriques\n\n5.1.4 SVEM, réseaux de neurones, forêts aléatoires"
-  },
-  {
-    "objectID": "05-ClassificationsSupervisees.html#sec-052",
-    "href": "05-ClassificationsSupervisees.html#sec-052",
-    "title": "5  Classifications d’images supervisées",
-    "section": "\n5.2 Segmentation d’images",
-    "text": "5.2 Segmentation d’images\n\n5.2.1 Classification objet\n\n5.2.2 Approches par arbre (BPT, etc.)"
-  },
-  {
-    "objectID": "05-ClassificationsSupervisees.html#sec-053",
-    "href": "05-ClassificationsSupervisees.html#sec-053",
-    "title": "5  Classifications d’images supervisées",
-    "section": "\n5.3 Quiz de révision du chapitre",
-    "text": "5.3 Quiz de révision du chapitre\n\n\n\n\n\nQuels sont les trois principaux problèmes résolus en analyse de réseau?\n\n\nRelisez au besoin la section 5.1.2.\n\n\n\n\n\n\nTrouver le trajet le plus court ou le plus rapide entre deux points (algorithme de Dijkstra)\n\n\n\n\n\n\n\nTrouver la route optimale comprenant plusieurs arrêts (problème du voyageur de commerce)\n\n\n\n\n\n\n\nDéfinir des zones de desserte autour d’une origine (algorithme de Dijkstra)\n\n\n\n\n\n\n\nMesurer la dépendance spatiale\n\n\n\n\n\n\n\n\n\n\nQuels sont les quatre autres problèmes résolus en analyse de réseau?\n\n\nRelisez au besoin la section 5.1.2.\n\n\n\n\n\n\nTrouver les k services les plus proches à partir d’une origine\n\n\n\n\n\n\n\nConstruire une matrice de distance origines-destinations\n\n\n\n\n\n\n\nRépartir aléatoirement des points dans un territoire donné\n\n\n\n\n\n\n\nRésoudre le problème de tournées de véhicules\n\n\n\n\n\n\n\nRéaliser un modèle localisation-affectation\n\n\n\n\n\n\n\n\n\n\nQuels sont les trois fichiers nécessaires pour construire un réseau multimode avec R5R?\n\n\nRelisez au besoin le début de la section 5.1.2.\n\n\n\n\n\n\nUn fichier pbf pour les données d’OpenStreetMap\n\n\n\n\n\n\n\nUn ou plusieurs fichiers GTFS\n\n\n\n\n\n\n\nUn fichier pour les bâtiments\n\n\n\n\n\n\n\nUn fichier GeoTIFF d’élévation\n\n\n\n\n\n\n\n\n\n\nQuelle fonction de R5R permet de construire un réseau multimode?\n\n\nRelisez au besoin la section 5.2.\n\n\n\n\n\n\ndetailed_itineraries()\n\n\n\n\n\n\n\nsetup_r5()\n\n\n\n\n\n\n\ntravel_time_matrix()\n\n\n\n\n\n\n\n\n\n\nQuelle fonction de R5R permet de construire un itinéraire?\n\n\nRelisez au besoin la section 5.2.\n\n\n\n\n\n\ndetailed_itineraries()\n\n\n\n\n\n\n\nsetup_r5()\n\n\n\n\n\n\n\ntravel_time_matrix()\n\n\n\n\n\n\n\n\n\n\nQuelle fonction de R5R permet de construire une matrice origine-destination?\n\n\nRelisez au besoin la section 5.2.\n\n\n\n\n\n\ndetailed_itineraries()\n\n\n\n\n\n\n\nsetup_r5()\n\n\n\n\n\n\n\ntravel_time_matrix()\n\n\n\n\n\n\n\n\n\n\nPour évaluer l’accessibilité selon la conceptualisation de la proximité immédiate, quelle mesure d’accessibilité utilisez-vous?\n\n\nRelisez au besoin la section 5.2.\n\n\n\n\n\n\nDistance entre l’origine et le service le plus proche\n\n\n\n\n\n\n\nNombre de services présents à moins de n mètres ou minutes\n\n\n\n\n\n\n\nDistance moyenne entre une origine et n services\n\n\n\n\n\n\n\nModèles gravitaires et méthodes two-step floating catchment area (2SFCA)\n\n\n\n\n\n\n\n\n\n\nPour évaluer l’accessibilité selon la conceptualisation de l’offre et la demande, quelle mesure d’accessibilité utilisez-vous?\n\n\nRelisez au besoin la section 5.2.\n\n\n\n\n\n\nDistance entre l’origine et le service le plus proche\n\n\n\n\n\n\n\nNombre de services présents à moins de n mètres ou minutes\n\n\n\n\n\n\n\nDistance moyenne entre une origine et n services\n\n\n\n\n\n\n\nModèles gravitaires et méthodes two-step floating catchment area (2SFCA)\n\n\n\n\n\n\n\n\n\n\nPour évaluer l’accessibilité selon l’offre de services dans l’environnement immédiat, quelle mesure d’accessibilité utilisez-vous?\n\n\nRelisez au besoin la section 5.2.\n\n\n\n\n\n\nDistance entre l’origine et le service le plus proche\n\n\n\n\n\n\n\nNombre de services présents à moins de n mètres ou minutes\n\n\n\n\n\n\n\nDistance moyenne entre une origine et n services\n\n\n\n\n\n\n\nModèles gravitaires et méthodes two-step floating catchment area (2SFCA)\n\n\n\n\n\n\n\n\n\nVérifier votre résultat"
-  },
-  {
-    "objectID": "05-ClassificationsSupervisees.html#sec-054",
-    "href": "05-ClassificationsSupervisees.html#sec-054",
-    "title": "5  Classifications d’images supervisées",
-    "section": "\n5.4 Exercices de révision",
-    "text": "5.4 Exercices de révision\n\n\n\n\n\nExercice 1. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.6.1.\n\n\n\n\n\n\n\nExercice 2. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.6.2.\n\n\n\n\n\n\n\nExercice 3. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.6.3."
-  },
-  {
-    "objectID": "06-ClassificationsNonSupervisees.html#sec-061",
-    "href": "06-ClassificationsNonSupervisees.html#sec-061",
-    "title": "6  Classifications d’images non supervisées",
-    "section": "\n6.1 Classifications strictes",
-    "text": "6.1 Classifications strictes\n\n6.1.1 K-means\n\n6.1.2 K-mediodes\n\n6.1.3 Isodata"
-  },
-  {
-    "objectID": "06-ClassificationsNonSupervisees.html#sec-062",
-    "href": "06-ClassificationsNonSupervisees.html#sec-062",
-    "title": "6  Classifications d’images non supervisées",
-    "section": "\n6.2 Classifications floues",
-    "text": "6.2 Classifications floues"
-  },
-  {
-    "objectID": "06-ClassificationsNonSupervisees.html#sec-0621",
-    "href": "06-ClassificationsNonSupervisees.html#sec-0621",
-    "title": "6  Classifications d’images non supervisées",
-    "section": "\n6.3 C-Means",
-    "text": "6.3 C-Means\n\n6.3.1 C-Means intégrant une dimension spatiale"
-  },
-  {
-    "objectID": "06-ClassificationsNonSupervisees.html#sec-063",
-    "href": "06-ClassificationsNonSupervisees.html#sec-063",
-    "title": "6  Classifications d’images non supervisées",
-    "section": "\n6.4 Quiz de révision du chapitre",
-    "text": "6.4 Quiz de révision du chapitre\n\n\n\n\n\nQuels problèmes posent l’utilisation des méthodes classiques d’analyse spatiale pour des données se produisant sur un réseau?\n\n\nRelisez au besoin la section 6.1.\n\n\n\n\n\n\nLa distance euclidienne tend à sous-estimer les distances réelles.\n\n\n\n\n\n\n\nLa distance euclidienne tend à surestimer les distances réelles.\n\n\n\n\n\n\n\nLe réseau est un espace comportant davantage de dimensions qu’un espace planaire.\n\n\n\n\n\n\n\nLe réseau est un espace ne respectant pas les hypothèses d’homogénéité et d’isotropie de l’espace planaire.\n\n\n\n\n\n\n\nLes méthodes classiques analysent des portions de l’espace en dehors du réseau.\n\n\n\n\n\n\n\n\n\n\nPour adapter la méthode classique du Kernel Density Estimate, il est nécessaire de :\n\n\nRelisez au besoin le début de la section 6.2.\n\n\n\n\n\n\nUtiliser une distance réseau plutôt qu’euclidienne.\n\n\n\n\n\n\n\nN’estimer les densités que le long des lixels représentant des fragments réguliers du réseau.\n\n\n\n\n\n\n\nAdapter la fonction de Kernel pour tenir compte de la division de la masse aux intersections.\n\n\n\n\n\n\n\nAppliquer une pénalité aux portions du réseau avec peu d’évènements.\n\n\n\n\n\n\n\n\n\n\nPour une NKDE, il est uniquement possible de calculer des densités selon une bandwidth fixe.\n\n\nRelisez au besoin la section 6.2.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nContrairement à la KDE classique, la NKDE est moins sensible au choix de la bandwidth.\n\n\nRelisez au besoin la section 6.3.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nL’extension spatio-temporelle du NKDE (TNKDE) consiste à :\n\n\nRelisez au besoin la section 6.3.\n\n\n\n\n\n\nCalculer une somme des densités spatiales et temporelles des évènements le long du réseau.\n\n\n\n\n\n\n\nCalculer le produit des densités spatiales et temporelles des évènements le long du réseau.\n\n\n\n\n\n\n\nCalculer l’intégrale des densités spatiales et temporelles des évènements le long du réseau.\n\n\n\n\n\n\n\n\n\n\nPour une TNKDE, il est uniquement possible de calculer des densités selon une bandwidth fixe.\n\n\nRelisez au besoin la section 6.3.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\n\nLes méthodes KDE, NKDE, et TNKDE peuvent être vues comme :\n\n\nRelisez au besoin la section 6.2.\n\n\n\n\n\n\nDes méthodes descriptives visant à résumer un grand ensemble d’évènements en une carte de chaleur plus facilement interprétable.\n\n\n\n\n\n\n\nDes méthodes inférentielles permettant de déterminer statistiquement la présence de points chauds ou de points froids.\n\n\n\n\n\n\n\nDes algorithmes de type boite noire réduisant la dimensionnalité des données.\n\n\n\n\n\n\n\n\n\n\nL’utilisation d’une distance réseau plutôt qu’euclidienne pour un algorithme DBSCAN risque de :\n\n\nRelisez au besoin la section 6.5.\n\n\n\n\n\n\nAugmenter la taille des groupes détectés par l’algorithme, car la recherche de voisin sera plus facile sur le réseau\n\n\n\n\n\n\n\nRéduire la taille des groupes formés par l’algorithme, car la distance euclidienne tend à sous-estimer les distances réelles sur le réseau\n\n\n\n\n\n\n\n\n\nVérifier votre résultat"
-  },
-  {
-    "objectID": "06-ClassificationsNonSupervisees.html#sec-064",
-    "href": "06-ClassificationsNonSupervisees.html#sec-064",
-    "title": "6  Classifications d’images non supervisées",
-    "section": "\n6.5 Exercices de révision",
-    "text": "6.5 Exercices de révision\n\n\n\n\n\nExercice 1. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.5.1.\n\n\n\n\n\n\n\nExercice 2. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.5.2.\n\n\n\n\n\n\n\nExercice 3. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.5.3."
-  },
-  {
-    "objectID": "07-PlateformesMegadonnees.html#sec-071",
-    "href": "07-PlateformesMegadonnees.html#sec-071",
-    "title": "7  Introduction aux plateformes de mégadonnées",
-    "section": "\n7.1 Données massives",
-    "text": "7.1 Données massives"
-  },
-  {
-    "objectID": "07-PlateformesMegadonnees.html#sec-072",
-    "href": "07-PlateformesMegadonnees.html#sec-072",
-    "title": "7  Introduction aux plateformes de mégadonnées",
-    "section": "\n7.2 Manipulation de données satellitaires avec Google Earth Engine\n",
-    "text": "7.2 Manipulation de données satellitaires avec Google Earth Engine"
-  },
-  {
-    "objectID": "07-PlateformesMegadonnees.html#sec-073",
-    "href": "07-PlateformesMegadonnees.html#sec-073",
-    "title": "7  Introduction aux plateformes de mégadonnées",
-    "section": "\n7.3 Quiz de révision du chapitre",
-    "text": "7.3 Quiz de révision du chapitre\n\n\n\n\n\nQu’est-ce que la dépendance spatiale d’un modèle de régression?\n\n\nRelisez au besoin la section 7.1.\n\n\n\n\n\n\nLorsque les variables indépendantes sont fortement corrélées entre elles.\n\n\n\n\n\n\n\nLorsque les résidus du modèle sont fortement autocorrélés spatialement.\n\n\n\n\n\n\n\n\n\n\nDans un modèle SLX, l’autocorrélation est introduite au niveau de :\n\n\nRelisez au besoin la section 7.1.\n\n\n\n\n\n\nVariable dépendante\n\n\n\n\n\n\n\nVariables indépendantes\n\n\n\n\n\n\n\nTerme d’erreur\n\n\n\n\n\n\n\nVariable dépendante et variables indépendantes\n\n\n\n\n\n\n\nVariable dépendante et terme d’erreur\n\n\n\n\n\n\n\n\n\n\nDans un modèle SAR, l’autocorrélation est introduite au niveau de :\n\n\nRelisez au besoin la section 7.1.\n\n\n\n\n\n\nVariable dépendante\n\n\n\n\n\n\n\nVariables indépendantes\n\n\n\n\n\n\n\nTerme d’erreur\n\n\n\n\n\n\n\n\n\n\nDans un modèle SEM, l’autocorrélation est introduite au niveau de :\n\n\nRelisez au besoin la section 7.1.\n\n\n\n\n\n\nVariable dépendante\n\n\n\n\n\n\n\nVariables indépendantes\n\n\n\n\n\n\n\nTerme d’erreur\n\n\n\n\n\n\n\n\n\n\nDans un modèle mixte SDM, l’autocorrélation est introduite au niveau de :\n\n\nRelisez au besoin la section 7.2.\n\n\n\n\n\n\nVariable dépendante\n\n\n\n\n\n\n\nVariables indépendantes\n\n\n\n\n\n\n\nTerme d’erreur\n\n\n\n\n\n\n\n\n\n\nDans un modèle SDEM, l’autocorrélation est introduite au niveau de :\n\n\nRelisez au besoin la section 7.2.\n\n\n\n\n\n\nVariable dépendante\n\n\n\n\n\n\n\nVariables indépendantes\n\n\n\n\n\n\n\nTerme d’erreur\n\n\n\n\n\n\n\n\n\n\nComment est intégré l’espace dans un modèle généralisé additif?\n\n\nRelisez au besoin la section 7.2.\n\n\n\n\n\n\nAvec une variable spatialement décalée\n\n\n\n\n\n\n\nAvec une spline bivariée sur les coordonnées x et y\n\n\n\n\n\n\n\n\n\n\nUn modèle de régression géographiquement pondérée permet d’explorer\n\n\nRelisez le deuxième encadré à la section 7.1.\n\n\n\n\n\n\nL’instabilité spatiale du modèle\n\n\n\n\n\n\n\nLa dépendance du modèle\n\n\n\n\n\n\n\n\n\n\nUn modèle de régression géographiquement pondérée produit autant de régressions que d’entités spatiales dans le jeu de données à l’étude.\n\n\nRelisez le deuxième encadré à la section 7.1.\n\n\n\n\n\n\nVrai\n\n\n\n\n\n\n\nFaux\n\n\n\n\n\n\n\n\n\nVérifier votre résultat"
-  },
-  {
-    "objectID": "07-PlateformesMegadonnees.html#sec-074",
-    "href": "07-PlateformesMegadonnees.html#sec-074",
-    "title": "7  Introduction aux plateformes de mégadonnées",
-    "section": "\n7.4 Exercices de révision",
-    "text": "7.4 Exercices de révision\n\n\n\n\n\nExercice 1. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.7.1.\n\n\n\n\n\n\n\nExercice 2. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.7.2.\n\n\n\n\n\n\n\nExercice 3. À compléter\n\n\n\nlibrary(sf)\nlibrary(terra)\n# ...\n# à compléter\n\nCorrection à la section 8.7.3."
-  },
-  {
-    "objectID": "08-Exercices.html#sec-0801",
-    "href": "08-Exercices.html#sec-0801",
-    "title": "8  Correction des exercices",
-    "section": "\n8.1 Exercices du chapitre 1",
-    "text": "8.1 Exercices du chapitre 1\n\n8.1.1 Exercice 1\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.1.2 Exercice 2\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.1.3 Exercice 3\n\nlibrary(sf)\nlibrary(terra)"
-  },
-  {
-    "objectID": "08-Exercices.html#sec-0802",
-    "href": "08-Exercices.html#sec-0802",
-    "title": "8  Correction des exercices",
-    "section": "\n8.2 Exercices du chapitre 2",
-    "text": "8.2 Exercices du chapitre 2\n\n8.2.1 Exercice 1\n\n\nFigure 8.1: Exercice sur la contiguïté et les ordres d’adjacence\n\n\n8.2.2 Exercice 2\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.2.3 Exercice 3\n\nlibrary(sf)\nlibrary(terra)\n\nLes valeurs du I de Moran sont les suivantes : 0,69 pour la matrice Rook, 0,52 pour la matrice inverse de la distance au carré réduite et 0,75 pour la matrice selon le critère des deux plus proches voisins."
-  },
-  {
-    "objectID": "08-Exercices.html#sec-0803",
-    "href": "08-Exercices.html#sec-0803",
-    "title": "8  Correction des exercices",
-    "section": "\n8.3 Exercices du chapitre 3",
-    "text": "8.3 Exercices du chapitre 3\n\n8.3.1 Exercice 1\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.3.2 Exercice 2\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.3.3 Exercice 3\n\nlibrary(sf)\nlibrary(terra)"
-  },
-  {
-    "objectID": "08-Exercices.html#sec-0804",
-    "href": "08-Exercices.html#sec-0804",
-    "title": "8  Correction des exercices",
-    "section": "\n8.4 Exercices du chapitre 4",
-    "text": "8.4 Exercices du chapitre 4\n\n8.4.1 Exercice 1\n\nlibrary(sf)\n\nLinking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.3.1; sf_use_s2() is TRUE\n\nlibrary(terra)\n\nterra 1.7.71\n\n\n\n8.4.2 Exercice 2\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.4.3 Exercice 3\n\nlibrary(sf)\nlibrary(terra)"
-  },
-  {
-    "objectID": "08-Exercices.html#sec-0805",
-    "href": "08-Exercices.html#sec-0805",
-    "title": "8  Correction des exercices",
-    "section": "\n8.5 Exercices du chapitre 5",
-    "text": "8.5 Exercices du chapitre 5\n\n8.5.1 Exercice 1\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.5.2 Exercice 2\n\n## Construction du réseau\nlibrary(sf)\nlibrary(terra)\n\n\n8.5.3 Exercice 3\n\nlibrary(sf)\nlibrary(terra)"
-  },
-  {
-    "objectID": "08-Exercices.html#sec-0806",
-    "href": "08-Exercices.html#sec-0806",
-    "title": "8  Correction des exercices",
-    "section": "\n8.6 Exercices du chapitre 6",
-    "text": "8.6 Exercices du chapitre 6\n\n8.6.1 Exercice 1\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.6.2 Exercice 2\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.6.3 Exercice 3\n\nlibrary(sf)\nlibrary(terra)"
-  },
-  {
-    "objectID": "08-Exercices.html#sec-0807",
-    "href": "08-Exercices.html#sec-0807",
-    "title": "8  Correction des exercices",
-    "section": "\n8.7 Exercices du chapitre 7",
-    "text": "8.7 Exercices du chapitre 7\n\n8.7.1 Exercice 1\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.7.2 Exercice 2\n\nlibrary(sf)\nlibrary(terra)\n\n\n8.7.3 Exercice 3\n\nlibrary(sf)\nlibrary(terra)"
-  },
-  {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "Bibliographie",
-    "section": "",
-    "text": "Bonn, Ferdinand et Guy Rochon. 1992. Précis de télédétection. Volume\n1 : principes et méthodes. Presses de l’université du Québec;\nAgence universitaire de la Francophonie.\n\n\nMather, Paul M et Magaly Koch. 2022. Computer processing of\nremotely-sensed images. John Wiley & Sons.\n\n\nRichards, John A, John A Richards et al. 2022. Remote sensing\ndigital image analysis. Vol. 5. Springer.",
-    "crumbs": [
-      "Bibliographie"
-    ]
-  },
-  {
     "objectID": "00-PriseEnMainPython.html",
     "href": "00-PriseEnMainPython.html",
     "title": "1  Introduction au langage Python",
     "section": "",
-    "text": "1.1 Les distributions\nIl existe plusieurs distributions du langage Python, ces distributions sont comme différentes saveurs de votre glace préférée - chacune a ses propres caractéristiques uniques, mais elles sont toutes fondamentalement Python. Voici un aperçu des principales distributions : * CPython : C’est la distribution “vanille” officielle, comme la recette originale de Python. C’est le choix idéal pour la compatibilité et la conformité aux standards. * Anaconda : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l’analyse de données et le machine learning. * Miniconda : est une distribution légère de Python qui vous permet d’ajouter les librairies au besoin. * PyPy : C’est comme une version turbo de Python, optimisée pour la vitesse. Jython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de “parler” Java (Jython) ou .NET (IronPython). Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.",
+    "text": "1.1 Les distributions\nIl existe plusieurs distributions du langage Python, ces distributions sont comme différentes saveurs de votre glace préférée - chacune a ses propres caractéristiques uniques, mais elles sont toutes fondamentalement Python. Voici un aperçu des principales distributions :\nJython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de “parler” Java (Jython) ou .NET (IronPython). Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
     ]
   },
   {
-    "objectID": "00-PriseEnMainPython.html#installation",
-    "href": "00-PriseEnMainPython.html#installation",
+    "objectID": "00-PriseEnMainPython.html#les-distributions",
+    "href": "00-PriseEnMainPython.html#les-distributions",
     "title": "1  Introduction au langage Python",
     "section": "",
-    "text": "1.1.1 Bonnes pratiques",
+    "text": "CPython : C’est la distribution “vanille” officielle, comme la recette originale de Python. C’est le choix idéal pour la compatibilité et la conformité aux standards.\nAnaconda : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l’analyse de données et le machine learning.\nMiniconda : est une distribution légère de Python qui vous permet d’ajouter les librairies au besoin.\nPyPy : C’est comme une version turbo de Python, optimisée pour la vitesse.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+    ]
+  },
+  {
+    "objectID": "00-PriseEnMainPython.html#les-styles-de-programmation-en-python",
+    "href": "00-PriseEnMainPython.html#les-styles-de-programmation-en-python",
+    "title": "1  Introduction au langage Python",
+    "section": "1.2 Les styles de programmation en Python",
+    "text": "1.2 Les styles de programmation en Python\nIl existe plusieurs approches pour programmer en Python. La plus directe est en version interactive en tapant python et de rentrer des commandes ligne par ligne.\n\n1.2.1 Les outils de programmation\nUn code python prend la forme d’un simple fichier texte avec l’extension .py et peut être modifié avec un simple éditeur de texte. Cependnant, il n’y aura pas de rétroactions immédiates de l’interpréteur Python ce qui rend la correction d’erreurs (débogage) beaucoup plus laborieux.\nUn IDE (Integrated Developement Environnement) est comme une boîte à outils complète pour les programmeurs, vous trouverez :\n\nUn éditeur de texte amélioré pour écrire votre code, avec des fonctionnalités comme la coloration syntaxique qui rend le code plus lisible.\nUn compilateur qui transforme votre code en instructions que l’ordinateur peut comprendre.\nUn débogueur pour trouver et corriger les erreurs, tel un détective numérique.\nDes outils d’automatisation qui effectuent des tâches répétitives, comme un assistant virtuel pour le codage.\nL’accès à la documentation des différentes librairies.\n\nCes outils intégrés permettent aux développeurs de travailler plus efficacement, en passant moins de temps à jongler entre différentes applications et plus de temps à produire du code.\nVoici quelques options populaires :\n\nPyCharm : C’est un des outils les plus utilisés dans l’industrie. Il offre une multitude de fonctionnalités comme l’autocomplétion intelligente et le débogage intégré, idéal pour les grands projets. Cepednant, cet outil peut être assez gourmand en mémoire et en CPU.\nVisual Studio Code : Gratuit, léger mais puissant, il est personnalisable avec des extensions pour Python.\nSpyder : Logiciel libre et gratuit, orienté vers les applications scientifiques.\nJupyter Notebooks : Imaginez un cahier interactif pour le code. Idéal pour l’analyse de données et l’apprentissage, il permet de mélanger code, texte et visualisations. Des services gratuits dans le cloud sont disponibles comme Google Colab et Kaggle. Ces environnements sont néanmoins moins appropriées pour des grands projets et le débogage.\nSublime Text : C’est comme un stylo élégant et rapide. Léger et rapide, il est apprécié pour sa simplicité et sa vitesse. Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevronné. L’important est de trouver l’éditeur qui vous convient le mieux pour coder confortablement.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+    ]
+  },
+  {
+    "objectID": "00-PriseEnMainPython.html#bonnes-pratiques",
+    "href": "00-PriseEnMainPython.html#bonnes-pratiques",
+    "title": "1  Introduction au langage Python",
+    "section": "1.3 Bonnes pratiques",
+    "text": "1.3 Bonnes pratiques\nPython est un langage très dynamique, qui évolue constamment. Il est fortement conseillé d’utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre :\n\nN’installez par la dernière version de Python : installez toujours une version ou deux qui précède la dernière version. Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d’un environnement virtuel (voir plus bas).\nUtilisez des environnements virtuels : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre.\nVérifiez l’installation : Après l’installation, ouvrez un terminal et tapez python --version pour vous assurer que tout fonctionne correctement.\n\n\n1.3.1 Création d’un environnement virtuel\nIl y a deux façons d’installer environnement virtuel selon votre distribution de Python:\n\nOption 1 : vous utilisez Anaconda ou Miniconda, dans ce cas la commande conda est utilisée pour créer un environnement test avec Python 3.10:\n\nconda env -n test python=3.10\nconda activate test\n\nOption 2 : vous utilisez CPython\n\nconda env -n test python=3.10\nconda activate test\nNote: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
     ]
@@ -426,6 +125,36 @@
     "title": "1  Introduction au langage Python",
     "section": "1.4 Les structures de base",
     "text": "1.4 Les structures de base\nIl y a essentiellement deux structures de données que Python manipule : les listes et les dictionnaires.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+    ]
+  },
+  {
+    "objectID": "00-PriseEnMainPython.html#les-listes",
+    "href": "00-PriseEnMainPython.html#les-listes",
+    "title": "1  Introduction au langage Python",
+    "section": "1.5 Les listes",
+    "text": "1.5 Les listes\nLes listes sont comme des boites extensibles où vous pouvez ranger différents types d’objets :\n\nReprésentées par des crochets : [1, 2, 3, \"python\"].\nOrdonnées et modifiables (mutables), vous pouvez récupérer une valeur par sa position avec [].\nPermettent les doublons (deux fois la même valeur).\nIdéales pour stocker des collections d’éléments que vous voulez modifier\n\n\n1.5.1 Les tuples\nLes tuples sont similaires aux listes, mais les boîtes sont scellées :\n\nReprésentés par des parenthèses : (1, 2, 3, \"python\").\nOrdonnés mais non modifiables (immutables).\nPermettent les doublons.\nSouvent utilisé pour stocker des données qui ne doivent pas changer (comme des paramètres).\n\n\n\n1.5.2 Les ensembles (Sets)\nLes ensembles sont comme des boites magiques qui ne gardent qu’un exemplaire de chaque objet :\n\nReprésentés par des accolades : {1, 2, 3}.\nNon ordonnés et modifiables.\nN’autorisent pas les doublons.\nUtiles pour éliminer les doublons et effectuer des opérations mathématiques sur des ensembles.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+    ]
+  },
+  {
+    "objectID": "00-PriseEnMainPython.html#dictionnaires",
+    "href": "00-PriseEnMainPython.html#dictionnaires",
+    "title": "1  Introduction au langage Python",
+    "section": "1.6 Dictionnaires",
+    "text": "1.6 Dictionnaires\nLes dictionnaires sont comme des boites avec des étiquettes sur chcune d’elle :\n\nReprésentés par des accolades avec des paires clé-valeur : {\"nom\": \"Python\", \"année\": 1991}.\nNon ordonnés et modifiables.\nLes clés doivent être uniques, mais les valeurs peuvent être dupliquées\nUtiles pour stocker des données associatives ou pour créer des tables de recherche rapide",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+    ]
+  },
+  {
+    "objectID": "00-PriseEnMainPython.html#programmation-objet",
+    "href": "00-PriseEnMainPython.html#programmation-objet",
+    "title": "1  Introduction au langage Python",
+    "section": "1.7 Programmation objet",
+    "text": "1.7 Programmation objet\nLa programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe “Voiture” pourrait avoir des attributs comme “couleur” et “vitesse”, et des méthodes comme “démarrer” et “accélérer”.\nPython rend la POO accessible avec des fonctionnalités conviviales :\n\nEncapsulation : Comme emballer un cadeau, elle cache les détails internes d’un objet.\nHéritage : Permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents.\nPolymorphisme : Permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à “fais du bruit”.\n\nCes caractéristiques font de Python un excellent choix pour apprendre et appliquer les concepts de la POO, rendant le code plus organisé et réutilisable\n\n\n\n\n\nListe des packages utilisés dans ce chapitre\n\n\n\nPour importer et manipuler des fichiers géographiques :\n\nsf pour importer et manipuler des données vectorielles.\nterra pour importer et manipuler des données matricielles.\n\nPour construire des cartes et des graphiques :\n\ntmap est certainement le meilleur package pour la cartographie.\nggplot2 pour construire des graphiques.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
     ]
@@ -444,60 +173,100 @@
     "objectID": "00-PriseEnMainPython.html#sec-016",
     "href": "00-PriseEnMainPython.html#sec-016",
     "title": "1  Introduction au langage Python",
-    "section": "1.9 Exercices de révision",
-    "text": "1.9 Exercices de révision\n\n\n\n\n\nExercice 1. À compléter\n\n\n\n# ...\n# à compléter",
+    "section": "1.9 Cahier de révision (notebook)",
+    "text": "1.9 Cahier de révision (notebook)\n\n\n\n\n\nNotebook 1. À compléter \n\n\n\n# ...\n# à compléter",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
     ]
   },
   {
-    "objectID": "00-PriseEnMainPython.html#les-styles-de-programmation-en-python",
-    "href": "00-PriseEnMainPython.html#les-styles-de-programmation-en-python",
-    "title": "1  Introduction au langage Python",
-    "section": "1.2 Les styles de programmation en Python",
-    "text": "1.2 Les styles de programmation en Python\nIl existe plusieurs approches pour programmer en Python. La plus directe est en version interactive en tapant python et de rentrer des commandes ligne par ligne.\n\n1.2.1 Les outils de programmation\nUn code python prend la forme d’un simple fichier texte avec l’extension .py et peut être modifié avec un simple éditeur de texte. Cependnant, il n’y aura pas de rétroactions immédiates de l’interpréteur Python ce qui rend la correction d’erreurs (débogage) beaucoup plus laborieux.\nUn IDE (Integrated Developement Environnement) est comme une boîte à outils complète pour les programmeurs, vous trouverez : * Un éditeur de texte amélioré pour écrire votre code, avec des fonctionnalités comme la coloration syntaxique qui rend le code plus lisible. * Un compilateur qui transforme votre code en instructions que l’ordinateur peut comprendre. * Un débogueur pour trouver et corriger les erreurs, tel un détective numérique. * Des outils d’automatisation qui effectuent des tâches répétitives, comme un assistant virtuel pour le codage. * L’accès à la documentation des différentes librairies\nCes outils intégrés permettent aux développeurs de travailler plus efficacement, en passant moins de temps à jongler entre différentes applications et plus de temps à produire du code.\nVoici quelques options populaires : * PyCharm : C’est un des outils les plus utilisés dans l’industrie. Il offre une multitude de fonctionnalités comme l’autocomplétion intelligente et le débogage intégré, idéal pour les grands projets. Cepednant, cet outil peut être assez gourmand en mémoire et en CPU. * Visual Studio Code : Gratuit, léger mais puissant, il est personnalisable avec des extensions pour Python. * Spyder : Logiciel libre et gratuit, orienté vers les applications scientifiques. * Jupyter Notebooks : Imaginez un cahier interactif pour le code. Idéal pour l’analyse de données et l’apprentissage, il permet de mélanger code, texte et visualisations. Des services gratuits dans le cloud sont disponibles comme Google Colab et Kaggle. Ces environnements sont néanmoins moins appropriées pour des grands projets et le débogage. * Sublime Text : C’est comme un stylo élégant et rapide. Léger et rapide, il est apprécié pour sa simplicité et sa vitesse. Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevronné. L’important est de trouver l’éditeur qui vous convient le mieux pour coder confortablemen",
+    "objectID": "01-ImportationManipulationImages.html",
+    "href": "01-ImportationManipulationImages.html",
+    "title": "2  Importation et manipulation de données spatiales",
+    "section": "",
+    "text": "2.1 Bases de Quarto…\nVoici comment faire une liste :\nVoici comment intégrer des équations LaTeX. La formule de la distance euclidienne (équation 2.2). Pour écrire directement une équation dans le texte, il suffit de \\(E = mc^2\\).\n\\[\nd_{ij} = 2R \\cdot \\text{ arcsin} \\left( \\sqrt{\\text{sin}^2 \\left( \\frac{\\delta _i - \\delta _j}{2} \\right) + \\text{cos }\\delta _i \\cdot \\text{cos }\\delta _j \\cdot \\text{sin}^2 \\left( \\frac{\\phi _i - \\phi _j}{2} \\right)} \\right)\n\\tag{2.1}\\]\n\\[\nd_{ij} = \\sqrt{(x_i-x_j)^2+(y_i-y_j)^2}\n\\tag{2.2}\\]",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Importation et manipulation de données spatiales</span>"
     ]
   },
   {
-    "objectID": "00-PriseEnMainPython.html#bonnes-pratiques",
-    "href": "00-PriseEnMainPython.html#bonnes-pratiques",
-    "title": "1  Introduction au langage Python",
-    "section": "1.3 Bonnes pratiques",
-    "text": "1.3 Bonnes pratiques\nPython est un langage très dynamique, qui évolue constamment. Il est fortement conseillé d’utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre : 1. N’installez par la dernière version de Python : installez toujours une version ou deux qui précède la dernière version. Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d’un environnement virtuel (voir plus bas) 2. Utilisez des environnements virtuels : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre. 3. Vérifiez l’installation : Après l’installation, ouvrez un terminal et tapez python --version pour vous assurer que tout fonctionne correctement.\n\n1.3.1 Création d’un environnement virtuel\nIl y a deux façons d’installer environnement virtuel selon votre distribution de Python: 1. Option 1 : vous utilisez Anaconda ou Miniconda, dans ce cas la commande conda est utilisée pour créer un environnement test avec Python 3.10:\nconda env -n test python=3.10\nconda activate test\n\nOption 2 : vous utilisez CPython\n\nconda env -n test python=3.10\nconda activate test\nNote: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter.",
+    "objectID": "01-ImportationManipulationImages.html#sec-010",
+    "href": "01-ImportationManipulationImages.html#sec-010",
+    "title": "2  Importation et manipulation de données spatiales",
+    "section": "",
+    "text": "texte en gras\ntexte en italique\n\nGras et italique\n\nR2 et NO2\nPetites majuscules\nPour un lien Web, Département de géomatique appliquée.\n\n\n\n\n\nIntégrer une figure (image) et l’appeler dans le texte (figure 2.1). À la figure 2.1, … Notez que la numérotation des figures, des tableaux, des équations est automatique.\n\n\n\n\n\n\n\nFigure 2.1: Téléchargement de l’intégralité du livre\n\n\n\n\nLes références sont au format BibTeX. Par exemple, vous pouvez les télécharger de Google Scholar et les intégrer à la fin du fichier references.bib. Voici comment intégrer des références (Mather et Koch 2022; Richards, Richards et al. 2022). Selon Ferdinand Boon et Guy Rochon (1992).",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Importation et manipulation de données spatiales</span>"
     ]
   },
   {
-    "objectID": "00-PriseEnMainPython.html#les-listes",
-    "href": "00-PriseEnMainPython.html#les-listes",
-    "title": "1  Introduction au langage Python",
-    "section": "1.5 Les listes",
-    "text": "1.5 Les listes\nLes listes sont comme des boites extensibles où vous pouvez ranger différents types d’objets : * Représentées par des crochets : [1, 2, 3, \"python\"] * Ordonnées et modifiables (mutables), vous pouvez récupérer une valeur par sa position avec [] * Permettent les doublons (deux fois la même valeur) * Idéales pour stocker des collections d’éléments que vous voulez modifier\n\n1.5.1 Les tuples\nLes tuples sont similaires aux listes, mais les boîtes sont scellées : * Représentés par des parenthèses : (1, 2, 3, \"python\") * Ordonnés mais non modifiables (immutables) * Permettent les doublons * Souvent utilisé pour stocker des données qui ne doivent pas changer (comme des paramètres)\n\n\n1.5.2 Les ensembles (Sets)\nLes ensembles sont comme des boites magiques qui ne gardent qu’un exemplaire de chaque objet : * Représentés par des accolades : {1, 2, 3} * Non ordonnés et modifiables * N’autorisent pas les doublons * Utiles pour éliminer les doublons et effectuer des opérations mathématiques sur des ensembles",
+    "objectID": "01-ImportationManipulationImages.html#sec-011",
+    "href": "01-ImportationManipulationImages.html#sec-011",
+    "title": "2  Importation et manipulation de données spatiales",
+    "section": "2.2 Importation d’images",
+    "text": "2.2 Importation d’images\nLa première étape avant tout traitement est d’accéder à la donnée image pour qu’elle soit manipulée par le programme Python. L’imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines librairies, comme 🔖Xarray, qui on cherchées à optimiser la lecture et l’écriture de grandes images. Il est donc conseiller de toujours garder un oeil sur l’espace mémoire occupé par les variables Python reliées aux images. La librairie principale en géomatique qui va nous permettre d’importer (et d’exporter) de l’imagerie est la librairie GDAL qui rassemble la plupart des formats sous forme de driver (ou pilote en français).\nDans le domaine de la géomatique, il faut prêter attention à trois caractéristiques principales des images: 1. La matrice des données elle-même qui contient les valeurs brutes des pixels. Cette matrice sera souvent un cube à trois dimensions. En Python, ce cube sera le plus souvent un objet de la librairie 🔖NumPy (voir section). 2. La dynamique des images c.à.d le format de stockage des valeurs individuelles (octet, entier, double, etc.). Ce format décide principalement de la résolution radiométrique et des valeurs minimales et maximales supportées. 3. La métadonnée qui va transporter l’information auxiliaire de l’image comme les dimensions et la position de l’image, la date, etc. Cette donnée auxiliaire prendra souvent la forme d’un dictionnaire Python.\nLes différents formats se distinguent principalement sur la manière dont ces trois caractéristiques sont gérées.\n\n2.2.1 Formats des images\nIl existe maintenant de nombreux formats numériques pour la donnée de type image parfois appelé donnée matricielle ou donnée raster. La librairie GDAL rassemble la plupart des formats matriciels rencontrés en géomatique (voir 🔖Raster drivers — GDAL documentation pour une liste complète).\nOn peut distinguer deux grandes familles de format: 1. Les formats de type RVB issus de l’imagerie numérique grand publique comme 🔖JPEG, png, etc. Ces formats ne supportent généralement que trois bandes au maximum (rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255 (format dit 8 bit). 2. Les géo-formats issus des domaines scientifiques ou techniques comme GeoTIFF, HDF5, etc. qui peuvent inclure plus que trois bandes et des dynamiques plus élevées (16 bit ou même float).\nLes formats RVB restent très utilisés en Python notamment par les librairies dites de vision par ordinateur (Computer Vision) comme OpenCV et sickit-image ainsi que les grandes librairies en apprentissage profond (PyTorch, Tensorflow).\n\n\n\n\n\nInstallation de gdal dans un système Linux \n\n\n\nPour installer GDAL :\n\n!apt-get update\n!apt-get install gdal-bin libgdal-dev\n\n\n\n2.2.1.1 Formats de type RVB\nLes premiers formats pour de l’imagerie à une bande (monochrome) et à trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des sciences de l’ordinateur. On trouvera, entre autres, les formats pbm, png et jpeg. Ces formats supportent peu de métadonnées et sont placées dans un entête (header) très limité. Cependant, ces formats restent très populaires dans le domaine de la vision par ordinateur et sont très utilisés en apprentissage profond en particulier. Pour la lecture des images RVB, on peut utiliser les librairies Rasterio, PIL ou OpenCV.\n\n2.2.1.1.1 Lecture avec la librairie PIL\nLa librairie PIL retourne un objet de type PngImageFile, l’affichage de l’image se fait directement dans la cellule de sortie.\n\n\n\n\nBloc de code 2.1: Lecture d’une image en format PNG avec PIL\n\n\n!wget https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/modis-aqua.PNG -O modis-aqua.PNG\nfrom PIL import Image\nimg = Image.open('modis-aqua.PNG')\nimg\n\n\n\n\n--2024-11-23 15:31:33--  https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/modis-aqua.PNG\nResolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.108.133, 185.199.109.133, ...\nConnecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 481097 (470K) [image/png]\nSaving to: ‘modis-aqua.PNG’\n\nmodis-aqua.PNG        0%[                    ]       0  --.-KB/s               modis-aqua.PNG       90%[=================&gt;  ] 423.11K  2.00MB/s               modis-aqua.PNG      100%[===================&gt;] 469.82K  2.09MB/s    in 0.2s    \n\n2024-11-23 15:31:34 (2.09 MB/s) - ‘modis-aqua.PNG’ saved [481097/481097]\n\n\n\n\n\n\n\n\n\n\n\n\n2.2.1.1.2 Lecture avec la librairie OpenCV\nLa librairie OpenCV est aussi très populaire en vision par ordinateur. La fonction imread donne directement un objet de type NumPy en sortie.\n\n\n\n\nBloc de code 2.2: Lecture d’une image en format PNG avec OpenCV\n\n\n!wget https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/modis-aqua.PNG -O modis-aqua.PNG\nimport cv2\nimg = cv2.imread('modis-aqua.PNG')\nimg\n\n\n\n\n\n\n2.2.1.1.3 Lecture avec la librairie RasterIO\nRien ne nous empêche de lire une image de format RVB avec RasterIO comme décrit dans (bloc 2.5). Vous noterez cependant les avertissements concernant l’absence de géoréférence pour ce type d’image.\n\n\n\n\nBloc de code 2.3: Lecture d’une image en format PNG avec OpenCV\n\n\n!wget https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/modis-aqua.PNG -O modis-aqua.PNG\nimport rasterio\nimg= rasterio.open('modis-aqua.PNG')\nimg\n\n\n\n\n\n\n\n2.2.1.2 Le format GeoTiff\nLe format GeoTIFF est une extension du format TIFF (Tagged Image File Format) qui permet d’incorporer des métadonnées géospatiales directement dans un fichier image. Développé initialement par Dr. Niles Ritter au Jet Propulsion Laboratory de la NASA dans les années 1990, GeoTIFF est devenu un standard de facto pour le stockage et l’échange d’images géoréférencées dans les domaines de la télédétection et des systèmes d’information géographique (SIG). Ce format supporte plus que trois bandes aussi longtemps que ces bandes sont de même dimension.\nLe format GeoTIFF est très utilisé et est largement supporté par les bibliothèques et logiciels géospatiaux, notamment GDAL (Geospatial Data Abstraction Library), qui offre des capacités de lecture et d’écriture pour ce format. Cette compatibilité étendue a contribué à son adoption généralisée dans la communauté géospatiale.\n\n2.2.1.2.1 Standardisation par l’OGC\nLe standard GeoTIFF proposé par l’Open Geospatial Consortium (OGC) en 2019 formalise et étend les spécifications originales du format GeoTIFF, offrant une norme robuste pour l’échange d’images géoréférencées. Cette standardisation, connue sous le nom d’OGC GeoTIFF 1.1 (2019), apporte plusieurs améliorations et clarifications importantes.\n\n\n\n2.2.1.3 Le format COG\nUne innovation récente dans l’écosystème GeoTIFF est le format Cloud Optimized GeoTIFF (COG), conçu pour faciliter l’utilisation de fichiers GeoTIFF hébergés sur des serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels d’accéder à des parties spécifiques du fichier sans avoir à le télécharger entièrement, ce qui est particulièrement utile pour les applications basées sur le cloud.\n\n\n\n2.2.2 Métadonnées des images\nLa manière la plus directe d’accéder à la métadonnée d’une image est d’utiliser les commandes 🔖rio info de la librairie Rasterio ou gdalinfo de la librairie gdal. Le résultat est imprimé dans la sortie standard ou sous forme d’un dictionnaire Python.\n\n\n\n\nBloc de code 2.4: Lecture d’une image en format PNG avec OpenCV\n\n\n!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif\n\n!gdalinfo RGBNIR_of_S2A.tif\n\n\n\n\n\n\n\n\nBloc de code 2.5: Lecture d’une image en format PNG avec OpenCV\n\n\n!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif\n\n!rio info RGBNIR_of_S2A.tif --indent 2 --verbose\n\n\n\n\n--2024-11-23 15:31:34--  https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif\nResolving github.com (github.com)... 140.82.114.4\nConnecting to github.com (github.com)|140.82.114.4|:443... connected.\nHTTP request sent, awaiting response... 302 Found\nLocation: https://media.githubusercontent.com/media/sfoucher/TraitementImagesPythonVol1/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif [following]\n--2024-11-23 15:31:34--  https://media.githubusercontent.com/media/sfoucher/TraitementImagesPythonVol1/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif\nResolving media.githubusercontent.com (media.githubusercontent.com)... 185.199.108.133, 185.199.110.133, 185.199.109.133, ...\nConnecting to media.githubusercontent.com (media.githubusercontent.com)|185.199.108.133|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 52585418 (50M) [image/tiff]\nSaving to: ‘RGBNIR_of_S2A.tif’\n\nRGBNIR_of_S2A.tif     0%[                    ]       0  --.-KB/s               RGBNIR_of_S2A.tif     0%[                    ] 488.00K  2.38MB/s               RGBNIR_of_S2A.tif     1%[                    ] 922.81K  2.23MB/s               RGBNIR_of_S2A.tif     2%[                    ]   1.49M  2.45MB/s               RGBNIR_of_S2A.tif     4%[                    ]   2.03M  2.49MB/s               RGBNIR_of_S2A.tif     5%[&gt;                   ]   2.73M  2.68MB/s               RGBNIR_of_S2A.tif     6%[&gt;                   ]   3.46M  2.68MB/s               RGBNIR_of_S2A.tif     8%[&gt;                   ]   4.20M  2.81MB/s               RGBNIR_of_S2A.tif     9%[&gt;                   ]   5.01M  2.96MB/s               RGBNIR_of_S2A.tif    11%[=&gt;                  ]   5.88M  3.10MB/s               RGBNIR_of_S2A.tif    13%[=&gt;                  ]   6.90M  3.29MB/s               RGBNIR_of_S2A.tif    15%[==&gt;                 ]   7.95M  3.46MB/s               RGBNIR_of_S2A.tif    17%[==&gt;                 ]   8.95M  3.58MB/s               RGBNIR_of_S2A.tif    19%[==&gt;                 ]   9.84M  3.64MB/s               RGBNIR_of_S2A.tif    21%[===&gt;                ]  10.93M  3.76MB/s               RGBNIR_of_S2A.tif    23%[===&gt;                ]  11.93M  3.84MB/s    eta 10s    RGBNIR_of_S2A.tif    26%[====&gt;               ]  13.12M  4.05MB/s    eta 10s    RGBNIR_of_S2A.tif    28%[====&gt;               ]  14.25M  4.25MB/s    eta 10s    RGBNIR_of_S2A.tif    30%[=====&gt;              ]  15.32M  4.40MB/s    eta 10s    RGBNIR_of_S2A.tif    32%[=====&gt;              ]  16.54M  4.67MB/s    eta 10s    RGBNIR_of_S2A.tif    35%[======&gt;             ]  17.78M  4.82MB/s    eta 7s     RGBNIR_of_S2A.tif    37%[======&gt;             ]  19.03M  4.97MB/s    eta 7s     RGBNIR_of_S2A.tif    40%[=======&gt;            ]  20.10M  5.16MB/s    eta 7s     RGBNIR_of_S2A.tif    42%[=======&gt;            ]  21.46M  5.36MB/s    eta 7s     RGBNIR_of_S2A.tif    45%[========&gt;           ]  22.59M  5.44MB/s    eta 7s     RGBNIR_of_S2A.tif    47%[========&gt;           ]  24.03M  5.64MB/s    eta 6s     RGBNIR_of_S2A.tif    50%[=========&gt;          ]  25.43M  5.73MB/s    eta 6s     RGBNIR_of_S2A.tif    53%[=========&gt;          ]  26.81M  5.81MB/s    eta 6s     RGBNIR_of_S2A.tif    56%[==========&gt;         ]  28.46M  6.10MB/s    eta 6s     RGBNIR_of_S2A.tif    59%[==========&gt;         ]  29.93M  6.20MB/s    eta 6s     RGBNIR_of_S2A.tif    62%[===========&gt;        ]  31.40M  6.32MB/s    eta 4s     RGBNIR_of_S2A.tif    65%[============&gt;       ]  32.78M  6.43MB/s    eta 4s     RGBNIR_of_S2A.tif    68%[============&gt;       ]  34.26M  6.53MB/s    eta 4s     RGBNIR_of_S2A.tif    71%[=============&gt;      ]  35.70M  6.60MB/s    eta 4s     RGBNIR_of_S2A.tif    74%[=============&gt;      ]  37.13M  6.70MB/s    eta 4s     RGBNIR_of_S2A.tif    77%[==============&gt;     ]  38.62M  6.80MB/s    eta 2s     RGBNIR_of_S2A.tif    80%[===============&gt;    ]  40.17M  6.88MB/s    eta 2s     RGBNIR_of_S2A.tif    83%[===============&gt;    ]  41.73M  6.97MB/s    eta 2s     RGBNIR_of_S2A.tif    86%[================&gt;   ]  43.37M  7.17MB/s    eta 2s     RGBNIR_of_S2A.tif    89%[================&gt;   ]  45.09M  7.30MB/s    eta 2s     RGBNIR_of_S2A.tif    92%[=================&gt;  ]  46.60M  7.35MB/s    eta 1s     RGBNIR_of_S2A.tif    96%[==================&gt; ]  48.21M  7.43MB/s    eta 1s     RGBNIR_of_S2A.tif    99%[==================&gt; ]  49.84M  7.50MB/s    eta 1s     RGBNIR_of_S2A.tif   100%[===================&gt;]  50.15M  7.49MB/s    in 8.6s    \n\n2024-11-23 15:31:44 (5.80 MB/s) - ‘RGBNIR_of_S2A.tif’ saved [52585418/52585418]\n\nWARNING:rasterio._env:CPLE_AppDefined in RGBNIR_of_S2A.tif: TIFFReadDirectory:Sum of Photometric type-related color channels and ExtraSamples doesn't match SamplesPerPixel. Defining non-color channels as ExtraSamples.\nWARNING:rasterio._env:CPLE_AppDefined in /home/sfoucher/DEV/TraitementImagesPythonVol1/RGBNIR_of_S2A.tif: TIFFReadDirectory:Sum of Photometric type-related color channels and ExtraSamples doesn't match SamplesPerPixel. Defining non-color channels as ExtraSamples.\nWARNING:rasterio._env:CPLE_AppDefined in TIFFReadDirectory:Sum of Photometric type-related color channels and ExtraSamples doesn't match SamplesPerPixel. Defining non-color channels as ExtraSamples.\n{\n  \"blockysize\": 1926,\n  \"bounds\": [\n    731780.0,\n    5021540.0,\n    752520.0,\n    5040800.0\n  ],\n  \"checksum\": [\n    18623,\n    42114,\n    31774,\n    54171\n  ],\n  \"colorinterp\": [\n    \"gray\",\n    \"undefined\",\n    \"undefined\",\n    \"undefined\"\n  ],\n  \"count\": 4,\n  \"crs\": \"EPSG:32618\",\n  \"descriptions\": [\n    null,\n    null,\n    null,\n    null\n  ],\n  \"driver\": \"GTiff\",\n  \"dtype\": \"uint16\",\n  \"height\": 1926,\n  \"indexes\": [\n    1,\n    2,\n    3,\n    4\n  ],\n  \"interleave\": \"band\",\n  \"lnglat\": [\n    -71.90643373271799,\n    45.39214029576973\n  ],\n  \"mask_flags\": [\n    [\n      \"all_valid\"\n    ],\n    [\n      \"all_valid\"\n    ],\n    [\n      \"all_valid\"\n    ],\n    [\n      \"all_valid\"\n    ]\n  ],\n  \"nodata\": null,\n  \"res\": [\n    10.0,\n    10.0\n  ],\n  \"shape\": [\n    1926,\n    2074\n  ],\n  \"stats\": [\n    {\n      \"max\": 15104.0,\n      \"mean\": 1426.6252674911955,\n      \"min\": 86.0,\n      \"std\": 306.56427126941827\n    },\n    {\n      \"max\": 14352.0,\n      \"mean\": 1669.6050060032185,\n      \"min\": 1139.0,\n      \"std\": 310.9193578763909\n    },\n    {\n      \"max\": 15280.0,\n      \"mean\": 1471.3923473735545,\n      \"min\": 706.0,\n      \"std\": 385.4465459301353\n    },\n    {\n      \"max\": 15642.0,\n      \"mean\": 4393.944850249993,\n      \"min\": 1067.0,\n      \"std\": 1037.9339397279546\n    }\n  ],\n  \"tiled\": false,\n  \"transform\": [\n    10.0,\n    0.0,\n    731780.0,\n    0.0,\n    -10.0,\n    5040800.0,\n    0.0,\n    0.0,\n    1.0\n  ],\n  \"units\": [\n    null,\n    null,\n    null,\n    null\n  ],\n  \"width\": 2074\n}",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Importation et manipulation de données spatiales</span>"
     ]
   },
   {
-    "objectID": "00-PriseEnMainPython.html#dictionnaires",
-    "href": "00-PriseEnMainPython.html#dictionnaires",
-    "title": "1  Introduction au langage Python",
-    "section": "1.6 Dictionnaires",
-    "text": "1.6 Dictionnaires\nLes dictionnaires sont comme des boites avec des étiquettes sur chcune d’elle :\n\nReprésentés par des accolades avec des paires clé-valeur : {\"nom\": \"Python\", \"année\": 1991}\nNon ordonnés et modifiables\nLes clés doivent être uniques, mais les valeurs peuvent être dupliquées\nUtiles pour stocker des données associatives ou pour créer des tables de recherche rapide",
+    "objectID": "01-ImportationManipulationImages.html#sec-012",
+    "href": "01-ImportationManipulationImages.html#sec-012",
+    "title": "2  Importation et manipulation de données spatiales",
+    "section": "2.5 Importation de données vectorielles",
+    "text": "2.5 Importation de données vectorielles\n\n2.5.1 Importation d’un fichier shapefile\n\n\n2.5.2 Importation d’une couche dans un GeoPackage\n\n\n2.5.3 Importation d’une couche dans une geodatabase d’ESRI\n\n\n2.5.4 Importation d’un fichier shapefile",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Importation et manipulation de données spatiales</span>"
     ]
   },
   {
-    "objectID": "00-PriseEnMainPython.html#progrmmation-objet",
-    "href": "00-PriseEnMainPython.html#progrmmation-objet",
-    "title": "1  Introduction au langage Python",
-    "section": "1.7 Progrmmation objet",
-    "text": "1.7 Progrmmation objet\nLa programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe “Voiture” pourrait avoir des attributs comme “couleur” et “vitesse”, et des méthodes comme “démarrer” et “accélérer”. Python rend la POO accessible avec des fonctionnalités conviviales : 1. Encapsulation : Comme emballer un cadeau, elle cache les détails internes d’un objet. 2. Héritage : Permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents. 3. Polymorphisme : Permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à “fais du bruit”. Ces caractéristiques font de Python un excellent choix pour apprendre et appliquer les concepts de la POO, rendant le code plus organisé et réutilisable\n\n\n\n\n\nListe des packages utilisés dans ce chapitre\n\n\n\nPour importer et manipuler des fichiers géographiques :\n\nsf pour importer et manipuler des données vectorielles.\nterra pour importer et manipuler des données matricielles.\n\nPour construire des cartes et des graphiques :\n\ntmap est certainement le meilleur package pour la cartographie.\nggplot2 pour construire des graphiques.",
+    "objectID": "01-ImportationManipulationImages.html#sec-013",
+    "href": "01-ImportationManipulationImages.html#sec-013",
+    "title": "2  Importation et manipulation de données spatiales",
+    "section": "2.4 Données en géoscience",
+    "text": "2.4 Données en géoscience\nCalibration, unités, données manquantes, données éparses.\nnetcdf, xarray, GRIB.\nDonnées météos, exemple avec SWOT.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction au langage Python</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Importation et manipulation de données spatiales</span>"
+    ]
+  },
+  {
+    "objectID": "01-ImportationManipulationImages.html#sec-014",
+    "href": "01-ImportationManipulationImages.html#sec-014",
+    "title": "2  Importation et manipulation de données spatiales",
+    "section": "2.6 Manipulation de données vectorielles",
+    "text": "2.6 Manipulation de données vectorielles\n\n2.6.1 Requêtes attributaires",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Importation et manipulation de données spatiales</span>"
+    ]
+  },
+  {
+    "objectID": "01-ImportationManipulationImages.html#sec-015",
+    "href": "01-ImportationManipulationImages.html#sec-015",
+    "title": "2  Importation et manipulation de données spatiales",
+    "section": "2.7 Quiz de révision du chapitre",
+    "text": "2.7 Quiz de révision du chapitre",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Importation et manipulation de données spatiales</span>"
+    ]
+  },
+  {
+    "objectID": "01-ImportationManipulationImages.html#sec-016",
+    "href": "01-ImportationManipulationImages.html#sec-016",
+    "title": "2  Importation et manipulation de données spatiales",
+    "section": "2.8 Exercices de révision",
+    "text": "2.8 Exercices de révision\n\n\n\n\n\nExercice 1. À compléter\n\n\n\n# ...\n# à compléter\n\nCorrection à la ?sec-08011.\n\n\n\n\n\n\n\nExercice 2. À compléter\n\n\n\n# ...\n# à compléter\n\nCorrection à la ?sec-08012.\n\n\n\n\n\n\n\nExercice 3. À compléter\n\n\n\n# ...\n# à compléter\n\nCorrection à la ?sec-08013.\n\n\n\n\n\n\nBonn, Ferdinand et Guy Rochon. 1992. Précis de télédétection. Volume 1 : principes et méthodes. Presses de l’université du Québec; Agence universitaire de la Francophonie.\n\n\nHarris, Millman, C. R. 2020. « Array programming with NumPy. » Nature: 357‑362. https://doi.org/10.1038/s41586-020-2649-2.\n\n\nMather, Paul M et Magaly Koch. 2022. Computer processing of remotely-sensed images. John Wiley & Sons.\n\n\nOGC. 2019. « OGC GeoTIFF Standard. » https://docs.ogc.org/is/19-008r4/19-008r4.html/.\n\n\nRichards, John A, John A Richards et al. 2022. Remote sensing digital image analysis. Vol. 5. Springer.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Importation et manipulation de données spatiales</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "Bibliographie",
+    "section": "",
+    "text": "Bonn, Ferdinand et Guy Rochon. 1992. Précis de télédétection. Volume\n1 : principes et méthodes. Presses de l’université du Québec;\nAgence universitaire de la Francophonie.\n\n\nHarris, Millman, C. R. 2020. « Array programming with\nNumPy. » Nature: 357‑362. https://doi.org/10.1038/s41586-020-2649-2.\n\n\nMather, Paul M et Magaly Koch. 2022. Computer processing of\nremotely-sensed images. John Wiley & Sons.\n\n\nOGC. 2019. « OGC GeoTIFF Standard. » https://docs.ogc.org/is/19-008r4/19-008r4.html/.\n\n\nRichards, John A, John A Richards et al. 2022. Remote sensing\ndigital image analysis. Vol. 5. Springer.",
+    "crumbs": [
+      "Bibliographie"
     ]
   }
 ]

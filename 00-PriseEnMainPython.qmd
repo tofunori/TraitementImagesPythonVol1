@@ -1,5 +1,6 @@
 ---
 jupyter: python3
+eval: false
 ---
 
 # Introduction au langage Python {#sec-chap00}
@@ -56,7 +57,7 @@ Voici quelques options populaires :
 * [Jupyter Notebooks](https://jupyter.org/) : Imaginez un cahier interactif pour le code. Idéal pour l'analyse de données et l'apprentissage, il permet de mélanger code, texte et visualisations. Des services gratuits dans le **cloud** sont disponibles comme Google Colab et Kaggle. Ces environnements sont néanmoins moins appropriées pour des grands projets et le débogage.
 
 * Sublime Text : C'est comme un stylo élégant et rapide. Léger et rapide, il est apprécié pour sa simplicité et sa vitesse.
-Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevronné. L'important est de trouver l'éditeur qui vous convient le mieux pour coder confortablemen
+Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevronné. L'important est de trouver l'éditeur qui vous convient le mieux pour coder confortablement.
 
 ## Bonnes pratiques
 
@@ -137,7 +138,7 @@ Les dictionnaires sont comme des boites avec des étiquettes sur chcune d'elle :
 * Utiles pour stocker des données associatives ou pour créer des tables de recherche rapide
 
 
-## Progrmmation objet
+## Programmation objet
 
 La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe "Voiture" pourrait avoir des attributs comme "couleur" et "vitesse", et des méthodes comme "démarrer" et "accélérer".
 
@@ -175,7 +176,7 @@ Ces caractéristiques font de Python un excellent choix pour apprendre et appliq
 ```{python}
 #| label: quizChapitre02
 #| echo: false 
-#| eval: true 
+#| eval: false 
 #| message: false 
 #| warning: false 
 #| results: asis
@@ -185,7 +186,7 @@ Ces caractéristiques font de Python un excellent choix pour apprendre et appliq
 #render_quizz(Chap01Quiz)
 ```
 
-## Exercices de révision {#sec-016}
+## Cahier de révision (notebook) {#sec-016}
 
 ::: bloc_exercice
 ::: bloc_exercice-header
@@ -193,7 +194,7 @@ Ces caractéristiques font de Python un excellent choix pour apprendre et appliq
 :::
 
 **Notebook 1.** À compléter
-<a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/tree/main/A24_TEL726_introduction_aux_librairies_python.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/></a>
+<a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/A24_TEL726_introduction_aux_librairies_python.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"/></a>
 
 :::
 

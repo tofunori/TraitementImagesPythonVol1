@@ -13,9 +13,11 @@ crossref:
   tbl-prefix: tableau
   sec-prefix: section
   eq-prefix: équation
+  lst-prefix: bloc
   fig-title: Figure
   tbl-title: Tableau
   eq-title: Équation
+  lst-title: Bloc de code
 book:
   title: "Traitement d'images satellites avec Python"
   subtitle: "Première édition"
@@ -59,17 +61,17 @@ book:
   - part: Partie 1. Importation, manipulation et visualisation de données spatiales
   - 00-PriseEnMainPython.qmd
   - 01-ImportationManipulationImages.qmd
-  - 02-RehaussementVisualisationImages.qmd
-  - part: Partie 2. Transformations des données satellitaires
-  - 03-TransformationSpectrales.qmd
-  - 04-TransformationSpatiales.qmd
-  - part: Partie 3. Classifications d'images
-  - 05-ClassificationsSupervisees.qmd
-  - 06-ClassificationsNonSupervisees.qmd
-  - part: Partie 4. Données massives
-  - 07-PlateformesMegadonnees.qmd
-  - part: Partie 5. Exercices et bibliographie
-  - 08-Exercices.qmd
+#  - 02-RehaussementVisualisationImages.qmd
+#  - part: Partie 2. Transformations des données satellitaires
+#  - 03-TransformationSpectrales.qmd
+#  - 04-TransformationSpatiales.qmd
+#  - part: Partie 3. Classifications d'images
+#  - 05-ClassificationsSupervisees.qmd
+#  - 06-ClassificationsNonSupervisees.qmd
+#  - part: Partie 4. Données massives
+#  - 07-PlateformesMegadonnees.qmd
+#  - part: Partie 5. Exercices et bibliographie
+#  - 08-Exercices.qmd
   - references.qmd
       
 bibliography: references.bib
