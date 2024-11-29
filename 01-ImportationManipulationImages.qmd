@@ -8,35 +8,20 @@ execute:
 ---
 # Importation et manipulation de données spatiales {#sec-chap01}
 
-Dans le chapitre, nous abordons quelques formats d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
+Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb) 
 
-::: bloc_package
-::: bloc_package-header
-::: bloc_package-icon
-:::
-
-**Liste des *librairies* utilisées dans ce chapitre**
-:::
-
-::: bloc_package-body
--   Pour importer et manipuler des fichiers géographiques :
-    -   `sf` pour importer et manipuler des données vectorielles.
-    -   `Rasterio` pour importer des images.
-    -   `NumPy` pour manipuler des données matricielles.
--   Pour construire des cartes et des graphiques :
-    -   `tmap` est certainement le meilleur *package* pour la cartographie.
-    -   `Matplotlib` pour construire des graphiques.
-:::
-:::
+* SciPy ![](https://docs.scipy.org/doc/scipy/_static/logo.svg){width="20pt" fig-align="center"}
+* NumPy ![](https://numpy.org/images/logo.svg){width="20pt" fig-align="center"}
+* OpenCV
+* RasterIO 
+* [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
+* xarray ![](https://docs.xarray.dev/en/stable/_static/Xarray_Logo_RGB_Final.svg){height="30pt" fig-align="center"}
 
 
+Dans l'environnement Google Colab, seul `rioxarray` doit être isntallé:
 ```{python}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-!pip install -q rasterio
+!pip install -q rioxarray
 ```
 
 ## Importation d'images {#sec-011}
@@ -198,7 +183,7 @@ table = [["uint8", "char", 8, 0, 255],
         ["int8", "signed char", 8, -127, +128],
         ["uint16", "unsigned short", 16, 0, -32768, +32767],
         ["int16", "short", 16, 0, 655355]]
-Markdown(tabulate(table, headers=["dtype", "Nom", "Taille", "Min", "Max"], tablefmt="pipe"))
+Markdown(tabulate(table, headers=["dtype", "Nom", "Taille (bits)", "Min", "Max"], tablefmt="pipe"))
 ```
 
 ::: bloc_aller_loin
@@ -260,9 +245,22 @@ On peut vérifier si l'espace mémoire est partagé avec `np.shares_memory(arr, 
 On peut toujours forcer une copie avec la méthode `copy()`
 :::
 :::
+#### Exemple 1: calcul d'un rapport de bande
 
+#### Exemple 2: application d'un filtrage spatial
 
 ### Mosaïquage, masquage et découpage 
+
+#### Masquage
+
+L'utilisation d'un masque est un outil important en traitement d'image car la plupart des images de télédétection contiennent des pixels non valides qu'il faut exclure des traitements (ce que l'on appelle le *no data* en Anglais). Il y a plusieurs raison possibles pour la présence de pixels non valides:
+1. L'image est projetée dans une grille cartographique et certaines zones, généralement situées en dehors de l'empreinte au sol du capteur, sont à exclure.
+2. La présence de nuages que l'on veut exclure.
+3. La présence de pixels erronés dûs à des problèmes de capteurs.
+4. La présence de valeurs non numériques (*not a number* ou `nan`)
+ 
+
+La librairie NumPy fournit des mécanismes pour exclure automatiquement certaines valeurs.
 
 ### Changement de projection cartographique 
 
