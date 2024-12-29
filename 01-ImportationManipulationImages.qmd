@@ -11,6 +11,7 @@ execute:
 Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb) 
 
+Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 * SciPy ![](https://docs.scipy.org/doc/scipy/_static/logo.svg){width="20pt" fig-align="center"}
 * NumPy ![](https://numpy.org/images/logo.svg){width="20pt" fig-align="center"}
 * OpenCV
@@ -19,8 +20,10 @@ Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture
 * xarray ![](https://docs.xarray.dev/en/stable/_static/Xarray_Logo_RGB_Final.svg){height="30pt" fig-align="center"}
 
 
-Dans l'environnement Google Colab, seul `rioxarray` doit être isntallé:
+Dans l'environnement Google Colab, seul `rioxarray` et gdal doit être installé:
 ```{python}
+!apt-get update
+!apt-get install gdal-bin libgdal-dev
 !pip install -q rioxarray
 ```
 
@@ -127,8 +130,8 @@ Une innovation récente dans l'écosystème GeoTIFF est le format *Cloud Optimiz
 La manière la plus directe d'accéder à la métadonnée d'une image est d'utiliser les commandes 🔖[`rio info`](https://rasterio.readthedocs.io/en/stable/cli.html#info) de la librairie Rasterio ou `gdalinfo` de la librairie `gdal`. Le résultat est imprimé dans la sortie standard ou sous forme d'un dictionnaire Python.
 
 ```{python}
-#| lst-label: lst-lecturerasterioPNG
-#| lst-cap: Lecture d'une image en format PNG avec OpenCV
+#| lst-label: lst-gdalinfo
+#| lst-cap: Collecte d'information sur une image avec gdal
 
 !wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
 
@@ -137,8 +140,8 @@ La manière la plus directe d'accéder à la métadonnée d'une image est d'util
 
 Le plus simple est d'utiliser la fonction `rio info`:
 ```{python}
-#| lst-label: lst-lecturerasterioPNG
-#| lst-cap: Lecture d'une image en format PNG avec OpenCV
+#| lst-label: lst-rioinfo
+#| lst-cap: Collecte d'information sur une image avec rasterio
 #| eval: true
 
 !wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -q -O RGBNIR_of_S2A.tif

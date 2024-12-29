@@ -1,124 +1,88 @@
+---
+jupyter: python3
+execute:
+  echo: true
+  eval: false
+  message: false
+  warning: false
+---
+
 # Réhaussement et visualisation d'images {#sec-chap02}
 
-Dans le chapitre, nous abordons...
+Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d'images. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb) 
 
-::: bloc_package
-::: bloc_package-header
-::: bloc_package-icon
-:::
-
-**Liste des *packages* utilisés dans ce chapitre**
-:::
-
-::: bloc_package-body
--   Pour importer et manipuler des fichiers géographiques :
-    -   `sf` pour importer et manipuler des données vectorielles.
-    -   `terra` pour importer et manipuler des données matricielles.
--   Pour construire des cartes et des graphiques :
-    -   `tmap` est certainement le meilleur *package* pour la cartographie.
-    -   `ggplot2` pour construire des graphiques.
-:::
-:::
+Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
+* SciPy ![](https://docs.scipy.org/doc/scipy/_static/logo.svg){width="20pt" fig-align="center"}
+* NumPy ![](https://numpy.org/images/logo.svg){width="20pt" fig-align="center"}
+* OpenCV
+* RasterIO 
+* [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
+* xarray ![](https://docs.xarray.dev/en/stable/_static/Xarray_Logo_RGB_Final.svg){height="30pt" fig-align="center"}
 
 
-## Visualisation sur le Web {#sec-021}
+Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être installé:
+```{python}
+!apt-get update
+!apt-get install gdal-bin libgdal-dev
+!pip install -q rioxarray
+```
 
-WMS
 
-## Réhaussement visuel {#sec-022}
+## Réhaussements visuels
+
+Le but du réhaussement visuel d'une image vise principalement à améliorer la qualité visuelle d'une image en améliorant le contraste, la dynamique ou la texture d'une image. Ce réhaussement ne modifie pas la donnée d'origine mais est plutôt appliquée dynamiquement à l'affichage pour des fins d'inspection visuelle.
+
+### Statistiques d'une image
+
+On peut considérer un ensemble de statistique globales pour chacune des bandes d'une image:
+- valeurs minimales et maximales
+- valeurs moyennes, médianes
+- écart-types, skewness et kurtosis 
+Ces statistiques doivent être calculées pour chaque bande d'une image multispectrale.
+
+
+```{python}
+#| lst-label: lst-lecturerasterioPNG
+#| lst-cap: Lecture d'une image en format PNG avec OpenCV
+
+!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
+
+!gdalinfo RGBNIR_of_S2A.tif
+```
+
+#### Histogramme
+
+### Réhaussements linéaires
+
+Le réhaussement linéaire d'une image est la forme la plus simple de réhaussement, elle consiste 1) à optimiser les valeurs des pixels d'une image afin de maximiser la dynamique disponibles à l'affichage, ou 2) changer le format de stockage des valeurs (e.g. de 8 bit à 16 bit):
+
+$$ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1$$
+Par cette opération, on passe de la dynamique de départ ($max_0 - min_0$) vers la dynamique cible ($max_1 - min_1$). Bien que cette opération semble triviale, il est important d'être conscient des trois contraintes suivantes:
+1. **Faire attention à la dynamique cible**, ainsi, pour sauvegarder une image en format 8 bit, on utilisera alors $max_1=255$ et $min_1=0$.
+2. **Préservation de la valeur de no data** : il faut faire attention à la valeur $min_1$ dans le cas d'une valeur présente pour *no_data*. Par exemple, si *no_data=0* alors il faut s'assurer que $min_1>0$.
+3. **Précision du calcul** : si possible réaliser la division ci-dessus en format *float*
+
+### Réhaussements non linéaires
+
 
 Calcul d'histogrammes, étirement, égalisation, styling
 
+### Composés couleurs
 
-## Composés couleurs {#sec-023}
+Le système visuel humain est sensible seulement à la partie visible du spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du bleu au rouge. L'ensemble des couleurs du spectre visible peut être obtenu à partir du mélange de trois couleurs primaires (rouge, vert et bleu). Ce système de décomposition à trois couleurs est à la base de la plupart des systèmes de visualisation ou de représentation de l'information de couleur. On peut trouver des variantes comme le système HSV (*Hue-Satuation-Value*) utilisé en encodage de données vidéos.
 
-- Vraies couleurs
+## Visualisation sur le Web
 
-- Fausses couleurs
+La meilleure pratique pour visualiser une image de grande taille est d'utiliser un service de type Web Mapping Service (WMS). Ce type de service nécessite une architecture client-serveur qui est plus complexe à mettre en place.
 
-## Visualisation 3D {#sec-024}
+## Visualisation 3D
 
 drapper une image satellite sur un DEM
 
 
-## Quiz de révision du chapitre {#sec-025}
-
-```{python}
-#| label: quizChapitre02
-#| echo: false 
-#| eval: true 
-#| message: false 
-#| warning: false 
-#| results: asis
-
-source("code_complementaire/QuizzFunctions.R")
-Chap02Quiz <- quizz("quiz/Chap02.yml", "Chap02")
-render_quizz(Chap02Quiz)
-```
+## Quiz de révision du chapitre
 
 ## Exercices de révision {#sec-027}
 
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-**Exercice 1.** À compléter
-:::
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-library(sf)
-library(terra)
-# ...
-# à compléter
-```
-Correction à la [section @sec-08021].
-:::
-:::
 
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-**Exercice 2.** À compléter
-:::
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-library(sf)
-library(terra)
-# ...
-# à compléter
-```
-
-Correction à la [section @sec-08022].
-:::
-:::
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-**Exercice 3.** À compléter
-:::
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-library(sf)
-library(terra)
-# ...
-# à compléter
-```
-
-Correction à la [section @sec-08023].
-:::
-:::

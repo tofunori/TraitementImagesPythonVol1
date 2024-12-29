@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bibliographie – Traitement d’images satellites avec Python</title>
+<title>3&nbsp; Réhaussement et visualisation d’images – Traitement d'images satellites avec Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,7 +64,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02-RehaussementVisualisationImages.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./01-ImportationManipulationImages.html" rel="prev">
 <link href="./images/introduction/Couverture_16_01-01.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -88,6 +104,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="css/quizlib.min.css">
 </head>
@@ -101,7 +146,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">Bibliographie</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-RehaussementVisualisationImages.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Réhaussement et visualisation d’images</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
@@ -159,13 +204,13 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-RehaussementVisualisationImages.html" class="sidebar-item-text sidebar-link">
+  <a href="./02-RehaussementVisualisationImages.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Réhaussement et visualisation d’images</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bibliographie</span></a>
   </div>
 </li>
@@ -174,15 +219,31 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#réhaussements-visuels" id="toc-réhaussements-visuels" class="nav-link active" data-scroll-target="#réhaussements-visuels"><span class="header-section-number">3.1</span> Réhaussements visuels</a>
+  <ul class="collapse">
+  <li><a href="#statistiques-dune-image" id="toc-statistiques-dune-image" class="nav-link" data-scroll-target="#statistiques-dune-image"><span class="header-section-number">3.1.1</span> Statistiques d’une image</a></li>
+  <li><a href="#réhaussements-linéaires" id="toc-réhaussements-linéaires" class="nav-link" data-scroll-target="#réhaussements-linéaires"><span class="header-section-number">3.1.2</span> Réhaussements linéaires</a></li>
+  <li><a href="#réhaussements-non-linéaires" id="toc-réhaussements-non-linéaires" class="nav-link" data-scroll-target="#réhaussements-non-linéaires"><span class="header-section-number">3.1.3</span> Réhaussements non linéaires</a></li>
+  <li><a href="#composés-couleurs" id="toc-composés-couleurs" class="nav-link" data-scroll-target="#composés-couleurs"><span class="header-section-number">3.1.4</span> Composés couleurs</a></li>
+  </ul></li>
+  <li><a href="#visualisation-sur-le-web" id="toc-visualisation-sur-le-web" class="nav-link" data-scroll-target="#visualisation-sur-le-web"><span class="header-section-number">3.2</span> Visualisation sur le Web</a></li>
+  <li><a href="#visualisation-3d" id="toc-visualisation-3d" class="nav-link" data-scroll-target="#visualisation-3d"><span class="header-section-number">3.3</span> Visualisation 3D</a></li>
+  <li><a href="#quiz-de-révision-du-chapitre" id="toc-quiz-de-révision-du-chapitre" class="nav-link" data-scroll-target="#quiz-de-révision-du-chapitre"><span class="header-section-number">3.4</span> Quiz de révision du chapitre</a></li>
+  <li><a href="#sec-027" id="toc-sec-027" class="nav-link" data-scroll-target="#sec-027"><span class="header-section-number">3.5</span> Exercices de révision</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Bibliographie</h1>
+<h1 class="title"><span id="sec-chap02" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Réhaussement et visualisation d’images</span></span></h1>
 </div>
 
 
@@ -199,17 +260,68 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-NumpyNature" class="csl-entry" role="listitem">
-Harris, Millman, C. R. 2020. <span>«&nbsp;Array programming with
-NumPy.&nbsp;»</span> <em><span>Nature</span></em>: 357‑362. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>.
+<p>Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d’images. Ce chapitre est aussi disponible sous la forme d’un notebook Python: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
+<p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes: * SciPy <img src="https://docs.scipy.org/doc/scipy/_static/logo.svg" class="img-fluid quarto-figure quarto-figure-center" style="width:0.27778in"> * NumPy <img src="https://numpy.org/images/logo.svg" class="img-fluid quarto-figure quarto-figure-center" style="width:0.27778in"> * OpenCV * RasterIO * <a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a> * xarray <img src="https://docs.xarray.dev/en/stable/_static/Xarray_Logo_RGB_Final.svg" class="quarto-figure quarto-figure-center" style="height:0.41667in"></p>
+<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et GDAL doivent être installé:</p>
+<div id="ce06645e" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get update</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get install gdal<span class="op">-</span><span class="bu">bin</span> libgdal<span class="op">-</span>dev</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>q rioxarray</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ref-OGCGeoTIFF" class="csl-entry" role="listitem">
-OGC. 2019. <span>«&nbsp;<span>OGC GeoTIFF Standard</span>.&nbsp;»</span> <a href="https://docs.ogc.org/is/19-008r4/19-008r4.html/" class="uri">https://docs.ogc.org/is/19-008r4/19-008r4.html/</a>.
+<section id="réhaussements-visuels" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="réhaussements-visuels"><span class="header-section-number">3.1</span> Réhaussements visuels</h2>
+<p>Le but du réhaussement visuel d’une image vise principalement à améliorer la qualité visuelle d’une image en améliorant le contraste, la dynamique ou la texture d’une image. Ce réhaussement ne modifie pas la donnée d’origine mais est plutôt appliquée dynamiquement à l’affichage pour des fins d’inspection visuelle.</p>
+<section id="statistiques-dune-image" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="statistiques-dune-image"><span class="header-section-number">3.1.1</span> Statistiques d’une image</h3>
+<p>On peut considérer un ensemble de statistique globales pour chacune des bandes d’une image: - valeurs minimales et maximales - valeurs moyennes, médianes - écart-types, skewness et kurtosis Ces statistiques doivent être calculées pour chaque bande d’une image multispectrale.</p>
+<div id="b9d2c166" class="cell" data-execution_count="2">
+<div id="lst-lecturerasterioPNG" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-lecturerasterioPNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Bloc de code&nbsp;3.1: Lecture d’une image en format PNG avec OpenCV
+</figcaption>
+<div aria-describedby="lst-lecturerasterioPNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="lst-lecturerasterioPNG"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="lst-lecturerasterioPNG-1"><a href="#lst-lecturerasterioPNG-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif <span class="op">-</span>O RGBNIR_of_S2A.tif</span>
+<span id="lst-lecturerasterioPNG-2"><a href="#lst-lecturerasterioPNG-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-lecturerasterioPNG-3"><a href="#lst-lecturerasterioPNG-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>gdalinfo RGBNIR_of_S2A.tif</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</figure>
 </div>
 </div>
+<section id="histogramme" class="level4" data-number="3.1.1.1">
+<h4 data-number="3.1.1.1" class="anchored" data-anchor-id="histogramme"><span class="header-section-number">3.1.1.1</span> Histogramme</h4>
+</section>
+</section>
+<section id="réhaussements-linéaires" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="réhaussements-linéaires"><span class="header-section-number">3.1.2</span> Réhaussements linéaires</h3>
+<p>Le réhaussement linéaire d’une image est la forme la plus simple de réhaussement, elle consiste 1) à optimiser les valeurs des pixels d’une image afin de maximiser la dynamique disponibles à l’affichage, ou 2) changer le format de stockage des valeurs (e.g.&nbsp;de 8 bit à 16 bit):</p>
+<p><span class="math display">\[ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1\]</span> Par cette opération, on passe de la dynamique de départ (<span class="math inline">\(max_0 - min_0\)</span>) vers la dynamique cible (<span class="math inline">\(max_1 - min_1\)</span>). Bien que cette opération semble triviale, il est important d’être conscient des trois contraintes suivantes: 1. <strong>Faire attention à la dynamique cible</strong>, ainsi, pour sauvegarder une image en format 8 bit, on utilisera alors <span class="math inline">\(max_1=255\)</span> et <span class="math inline">\(min_1=0\)</span>. 2. <strong>Préservation de la valeur de no data</strong> : il faut faire attention à la valeur <span class="math inline">\(min_1\)</span> dans le cas d’une valeur présente pour <em>no_data</em>. Par exemple, si <em>no_data=0</em> alors il faut s’assurer que <span class="math inline">\(min_1&gt;0\)</span>. 3. <strong>Précision du calcul</strong> : si possible réaliser la division ci-dessus en format <em>float</em></p>
+</section>
+<section id="réhaussements-non-linéaires" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="réhaussements-non-linéaires"><span class="header-section-number">3.1.3</span> Réhaussements non linéaires</h3>
+<p>Calcul d’histogrammes, étirement, égalisation, styling</p>
+</section>
+<section id="composés-couleurs" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="composés-couleurs"><span class="header-section-number">3.1.4</span> Composés couleurs</h3>
+<p>Le système visuel humain est sensible seulement à la partie visible du spectre électromagnétique qui compose les couleurs de l’arc-en-ciel du bleu au rouge. L’ensemble des couleurs du spectre visible peut être obtenu à partir du mélange de trois couleurs primaires (rouge, vert et bleu). Ce système de décomposition à trois couleurs est à la base de la plupart des systèmes de visualisation ou de représentation de l’information de couleur. On peut trouver des variantes comme le système HSV (<em>Hue-Satuation-Value</em>) utilisé en encodage de données vidéos.</p>
+</section>
+</section>
+<section id="visualisation-sur-le-web" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="visualisation-sur-le-web"><span class="header-section-number">3.2</span> Visualisation sur le Web</h2>
+<p>La meilleure pratique pour visualiser une image de grande taille est d’utiliser un service de type Web Mapping Service (WMS). Ce type de service nécessite une architecture client-serveur qui est plus complexe à mettre en place.</p>
+</section>
+<section id="visualisation-3d" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="visualisation-3d"><span class="header-section-number">3.3</span> Visualisation 3D</h2>
+<p>drapper une image satellite sur un DEM</p>
+</section>
+<section id="quiz-de-révision-du-chapitre" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="quiz-de-révision-du-chapitre"><span class="header-section-number">3.4</span> Quiz de révision du chapitre</h2>
+</section>
+<section id="sec-027" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-027"><span class="header-section-number">3.5</span> Exercices de révision</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -634,11 +746,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./02-RehaussementVisualisationImages.html" class="pagination-link" aria-label="Réhaussement et visualisation d'images">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Réhaussement et visualisation d’images</span></span>
+      <a href="./01-ImportationManipulationImages.html" class="pagination-link" aria-label="Importation et manipulation de données spatiales">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importation et manipulation de données spatiales</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Bibliographie">
+        <span class="nav-page-text">Bibliographie</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -649,7 +764,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
