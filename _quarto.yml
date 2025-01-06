@@ -62,8 +62,8 @@ book:
   - 00-PriseEnMainPython.qmd
   - 01-ImportationManipulationImages.qmd
   - 02-RehaussementVisualisationImages.qmd
-#  - part: Partie 2. Transformations des données satellitaires
-#  - 03-TransformationSpectrales.qmd
+  - part: Partie 2. Transformations des données satellitaires
+  - 03-TransformationSpectrales.qmd
 #  - 04-TransformationSpatiales.qmd
 #  - part: Partie 3. Classifications d'images
 #  - 05-ClassificationsSupervisees.qmd

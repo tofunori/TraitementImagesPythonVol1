@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Introduction au langage Python – Traitement d'images satellites avec Python</title>
+<title>4&nbsp; Transformations spectrales – Traitement d'images satellites avec Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -54,27 +54,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -84,8 +64,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-ImportationManipulationImages.html" rel="next">
-<link href="./00-auteurs.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./02-RehaussementVisualisationImages.html" rel="prev">
 <link href="./images/introduction/Couverture_16_01-01.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -137,7 +117,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./00-PriseEnMainPython.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction au langage Python</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-TransformationSpectrales.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transformations spectrales</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
@@ -183,7 +163,7 @@ div.csl-indent {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00-PriseEnMainPython.html" class="sidebar-item-text sidebar-link active">
+  <a href="./00-PriseEnMainPython.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction au langage Python</span></span></a>
   </div>
 </li>
@@ -205,7 +185,7 @@ div.csl-indent {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-TransformationSpectrales.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-TransformationSpectrales.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transformations spectrales</span></span></a>
   </div>
 </li>
@@ -225,26 +205,13 @@ div.csl-indent {
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#les-distributions" id="toc-les-distributions" class="nav-link active" data-scroll-target="#les-distributions"><span class="header-section-number">1.1</span> Les distributions</a></li>
-  <li><a href="#les-styles-de-programmation-en-python" id="toc-les-styles-de-programmation-en-python" class="nav-link" data-scroll-target="#les-styles-de-programmation-en-python"><span class="header-section-number">1.2</span> Les styles de programmation en Python</a>
+  <li><a href="#quest-ce-que-linformation-spectrale" id="toc-quest-ce-que-linformation-spectrale" class="nav-link active" data-scroll-target="#quest-ce-que-linformation-spectrale"><span class="header-section-number">4.1</span> Qu’est ce que l’information spectrale?</a></li>
+  <li><a href="#sec-031" id="toc-sec-031" class="nav-link" data-scroll-target="#sec-031"><span class="header-section-number">4.2</span> Indices spectraux</a></li>
+  <li><a href="#sec-032" id="toc-sec-032" class="nav-link" data-scroll-target="#sec-032"><span class="header-section-number">4.3</span> Réduction de dimension</a>
   <ul class="collapse">
-  <li><a href="#les-outils-de-programmation" id="toc-les-outils-de-programmation" class="nav-link" data-scroll-target="#les-outils-de-programmation"><span class="header-section-number">1.2.1</span> Les outils de programmation</a></li>
+  <li><a href="#sec-0311" id="toc-sec-0311" class="nav-link" data-scroll-target="#sec-0311"><span class="header-section-number">4.3.1</span> Analyses en composantes principales</a></li>
   </ul></li>
-  <li><a href="#bonnes-pratiques" id="toc-bonnes-pratiques" class="nav-link" data-scroll-target="#bonnes-pratiques"><span class="header-section-number">1.3</span> Bonnes pratiques</a>
-  <ul class="collapse">
-  <li><a href="#création-dun-environnement-virtuel" id="toc-création-dun-environnement-virtuel" class="nav-link" data-scroll-target="#création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</a></li>
-  <li><a href="#création-dun-environnement-de-travail-local" id="toc-création-dun-environnement-de-travail-local" class="nav-link" data-scroll-target="#création-dun-environnement-de-travail-local"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local</a></li>
-  </ul></li>
-  <li><a href="#les-structures-de-base" id="toc-les-structures-de-base" class="nav-link" data-scroll-target="#les-structures-de-base"><span class="header-section-number">1.4</span> Les structures de base</a></li>
-  <li><a href="#les-listes" id="toc-les-listes" class="nav-link" data-scroll-target="#les-listes"><span class="header-section-number">1.5</span> Les listes</a>
-  <ul class="collapse">
-  <li><a href="#les-tuples" id="toc-les-tuples" class="nav-link" data-scroll-target="#les-tuples"><span class="header-section-number">1.5.1</span> Les tuples</a></li>
-  <li><a href="#les-ensembles-sets" id="toc-les-ensembles-sets" class="nav-link" data-scroll-target="#les-ensembles-sets"><span class="header-section-number">1.5.2</span> Les ensembles (Sets)</a></li>
-  </ul></li>
-  <li><a href="#dictionnaires" id="toc-dictionnaires" class="nav-link" data-scroll-target="#dictionnaires"><span class="header-section-number">1.6</span> Dictionnaires</a></li>
-  <li><a href="#programmation-objet" id="toc-programmation-objet" class="nav-link" data-scroll-target="#programmation-objet"><span class="header-section-number">1.7</span> Programmation objet</a></li>
-  <li><a href="#quiz-de-révision-du-chapitre" id="toc-quiz-de-révision-du-chapitre" class="nav-link" data-scroll-target="#quiz-de-révision-du-chapitre"><span class="header-section-number">1.8</span> Quiz de révision du chapitre</a></li>
-  <li><a href="#sec-016" id="toc-sec-016" class="nav-link" data-scroll-target="#sec-016"><span class="header-section-number">1.9</span> Cahier de révision (notebook)</a></li>
+  <li><a href="#sec-037" id="toc-sec-037" class="nav-link" data-scroll-target="#sec-037"><span class="header-section-number">4.4</span> Exercices de révision</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
@@ -253,7 +220,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-chap00" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction au langage Python</span></span></h1>
+<h1 class="title"><span id="sec-chap03" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transformations spectrales</span></span></h1>
 </div>
 
 
@@ -270,189 +237,84 @@ div.csl-indent {
 </header>
 
 
-<p>Dans ce chapitre, nous allons présenter quelques éléments essentiels du langage Python qui nous seront utiles dans ce manuel. Python est un langage très riche et peut aboutir à des projets logiciels très sophistiqués. Il est important de comprendre que la programmation Python n’est pas une fin en soit ici. Python est pour nous principalement un outil de ‘scriptage’ et de manipulation de la donnée.</p>
-<p>Python, créé par <a href="https://en.wikipedia.org/wiki/Guido_van_Rossum">Guido van Rossum</a> en 1991, est un langage de programmation polyvalent et facile à apprendre, souvent comparé à un couteau suisse numérique pour sa simplicité et sa polyvalence. Comme un outil multifonction, Python peut être utilisé pour une variété de tâches, du développement web à l’analyse de données, en passant par l’intelligence artificielle.</p>
-<section id="les-distributions" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="les-distributions"><span class="header-section-number">1.1</span> Les distributions</h2>
-<p>Il existe plusieurs <a href="https://wiki.python.org/moin/PythonDistributions">distributions</a> du langage Python, ces distributions sont comme différentes saveurs de votre glace préférée - chacune a ses propres caractéristiques uniques, mais elles sont toutes fondamentalement Python. Voici un aperçu des principales distributions :</p>
-<ul>
-<li><p><a href="https://www.python.org/downloads/">CPython</a> : C’est la distribution “vanille” officielle, comme la recette originale de Python. C’est le choix idéal pour la compatibilité et la conformité aux standards.</p></li>
-<li><p><a href="https://www.anaconda.com/download">Anaconda</a> : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l’analyse de données et le machine learning.</p></li>
-<li><p><a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a> : est une distribution légère de Python qui vous permet d’ajouter les librairies au besoin.</p></li>
-<li><p>PyPy : C’est comme une version turbo de Python, optimisée pour la vitesse.</p></li>
-</ul>
-<p>Jython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de “parler” Java (Jython) ou .NET (IronPython). Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.</p>
-</section>
-<section id="les-styles-de-programmation-en-python" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="les-styles-de-programmation-en-python"><span class="header-section-number">1.2</span> Les styles de programmation en Python</h2>
-<p>Il existe plusieurs approches pour programmer en Python. La plus directe est en version interactive en tapant <code>python</code> et de rentrer des commandes ligne par ligne.</p>
-<section id="les-outils-de-programmation" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="les-outils-de-programmation"><span class="header-section-number">1.2.1</span> Les outils de programmation</h3>
-<p>Un code python prend la forme d’un simple fichier texte avec l’extension <code>.py</code> et peut être modifié avec un simple éditeur de texte. Cependant, il n’y aura pas de rétroactions immédiates de l’interpréteur Python ce qui rend la correction d’erreurs (débogage) beaucoup plus laborieux.</p>
-<p>Un IDE (<em>Integrated Developement Environnement</em>) est comme une boîte à outils complète pour les programmeurs, vous trouverez :</p>
-<ul>
-<li><p>Un éditeur de texte amélioré pour écrire votre code, avec des fonctionnalités comme la coloration syntaxique qui rend le code plus lisible.</p></li>
-<li><p>Un compilateur qui transforme votre code en instructions que l’ordinateur peut comprendre.</p></li>
-<li><p>Un débogueur pour trouver et corriger les erreurs, tel un détective numérique.</p></li>
-<li><p>Des outils d’automatisation qui effectuent des tâches répétitives, comme un assistant virtuel pour le codage.</p></li>
-<li><p>L’accès à la documentation des différentes librairies.</p></li>
-</ul>
-<p>Ces outils intégrés permettent aux développeurs de travailler plus efficacement, en passant moins de temps à jongler entre différentes applications et plus de temps à produire du code.</p>
-<p>Voici quelques options populaires :</p>
-<ul>
-<li><p><a href="https://www.jetbrains.com/pycharm/">PyCharm</a> : C’est un des outils les plus utilisés dans l’industrie. Il offre une multitude de fonctionnalités comme l’autocomplétion intelligente et le débogage intégré, idéal pour les grands projets. Cepednant, cet outil peut être assez gourmand en mémoire et en CPU.</p></li>
-<li><p><a href="https://code.visualstudio.com/">Visual Studio Code</a> : Gratuit, léger mais puissant, il est personnalisable avec des extensions pour Python.</p></li>
-<li><p><a href="https://www.spyder-ide.org/">Spyder</a> : Logiciel libre et gratuit, orienté vers les applications scientifiques.</p></li>
-<li><p><a href="https://jupyter.org/">Jupyter Notebooks</a> : Imaginez un cahier interactif pour le code. Idéal pour l’analyse de données et l’apprentissage, il permet de mélanger code, texte et visualisations. Des services gratuits dans le <strong>cloud</strong> sont disponibles comme Google Colab et Kaggle. Ces environnements sont néanmoins moins appropriées pour des grands projets et le débogage.</p></li>
-<li><p>Sublime Text : C’est comme un stylo élégant et rapide. Léger et rapide, il est apprécié pour sa simplicité et sa vitesse. Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevronné. L’important est de trouver l’éditeur qui vous convient le mieux pour coder confortablement.</p></li>
-</ul>
-</section>
-</section>
-<section id="bonnes-pratiques" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="bonnes-pratiques"><span class="header-section-number">1.3</span> Bonnes pratiques</h2>
-<p>Python est un langage très dynamique, qui évolue constamment. Cela pose certains défis pour la gestion du code à long terme. Il est fortement conseillé d’utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre :</p>
-<ol type="1">
-<li><p><strong>N’installez par la toute dernière version de Python</strong> : installez toujours une version ou deux qui précède <a href="https://www.python.org/downloads/">la dernière version</a>. Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d’un environnement virtuel (voir plus bas). Vous pouvez afficher la liste des versions de python avec la commande <code>conda search --full-name python</code>. Il est recommandé d’installer 1 ou 2 version antérieure, par exemple si 3.13 est la version plus récente, installer plutôt la version 3.11.</p></li>
-<li><p><strong>N’utilisez pas de version obsolète de Python</strong> : cela peut sembler contradictoire avec le point 1 mais c’est l’excès inverse. Si vous utilisez une version trop ancienne alors toutes vos librairies vont cessez d’évoluer et peuvent devenir obsolète.</p></li>
-<li><p><strong>Utilisez des environnements virtuels</strong> : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre. Par exemple, si vous souhaitez vérifier une nouvelle version de Python, utilisez un environnement : <code>conda create --name test python=3.11</code></p></li>
-<li><p><strong>Vérifiez l’installation</strong> : Après l’installation, ouvrez un terminal et tapez <code>python --version</code> pour vous assurer que tout fonctionne correctement.</p></li>
-</ol>
-<section id="création-dun-environnement-virtuel" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</h3>
-<p>Il y a deux façons d’installer environnement virtuel selon votre distribution de Python:</p>
-<ol type="1">
-<li><strong>Option 1</strong> : vous utilisez <a href="https://www.anaconda.com/download">Anaconda</a> ou <a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a>, dans ce cas la commande <code>conda</code> est utilisée pour créer un environnement test avec Python 3.10:</li>
-</ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env <span class="at">-n</span> test python=3.10</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate test</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="2" type="1">
-<li><strong>Option 2</strong> : vous utilisez <a href="https://www.python.org/downloads/">CPython</a></li>
-</ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env <span class="at">-n</span> test python=3.10</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate test</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter.</p>
-</section>
-<section id="création-dun-environnement-de-travail-local" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="création-dun-environnement-de-travail-local"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local</h3>
-<p>Les notebooks Python fonctionne par défaut dans l’environnement Google Colab. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur Jupyter, créer un fichier <code>environnement.yaml</code> avec l’information suivante:</p>
-<pre class="{yaml}"><code>name: jupyter_env
-dependencies:
-  - python=3.10
-  - jupyter
-  - pip
-  - pip:
-    - -r requirements.txt</code></pre>
-<p>La commande <code>python -m pip list --format=freeze &gt; requirements.txt</code> vous permet d’extraire la liste des librairies actuelles. Vous pouvez fixer vous même ces librairies dans un fichier <code>requirements.txt</code></p>
-<pre class="{txt}"><code>geemap
-rasterio
-rioxarray</code></pre>
-<p>Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code></p>
-<p>Une fenêtre devrait alors apparaître dans votre fureteur: <img src="https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/41586_2020_2649_Fig2_HTML.png" id="fig-naturenumpy1" class="img-fluid quarto-figure quarto-figure-center anchored" style="width:100.0%" alt="La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après (Harris 2020))."></p>
-</section>
-</section>
-<section id="les-structures-de-base" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="les-structures-de-base"><span class="header-section-number">1.4</span> Les structures de base</h2>
-<p>Il y a essentiellement deux structures de données que Python manipule : les listes et les dictionnaires.</p>
-</section>
-<section id="les-listes" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="les-listes"><span class="header-section-number">1.5</span> Les listes</h2>
-<p>Les listes sont comme des boites extensibles où vous pouvez ranger différents types d’objets :</p>
-<ul>
-<li><p>Représentées par des crochets : <code>[1, 2, 3, "python"]</code>.</p></li>
-<li><p>Ordonnées et modifiables (mutables), vous pouvez récupérer une valeur par sa position avec <code>[]</code>.</p></li>
-<li><p>Permettent les doublons (deux fois la même valeur).</p></li>
-<li><p>Idéales pour stocker des collections d’éléments que vous voulez modifier</p></li>
-</ul>
-<section id="les-tuples" class="level3" data-number="1.5.1">
-<h3 data-number="1.5.1" class="anchored" data-anchor-id="les-tuples"><span class="header-section-number">1.5.1</span> Les tuples</h3>
-<p>Les tuples sont similaires aux listes, mais les boîtes sont scellées :</p>
-<ul>
-<li><p>Représentés par des parenthèses : <code>(1, 2, 3, "python")</code>.</p></li>
-<li><p>Ordonnés mais non modifiables (immutables).</p></li>
-<li><p>Permettent les doublons.</p></li>
-<li><p>Souvent utilisé pour stocker des données qui ne doivent pas changer (comme des paramètres).</p></li>
-</ul>
-</section>
-<section id="les-ensembles-sets" class="level3" data-number="1.5.2">
-<h3 data-number="1.5.2" class="anchored" data-anchor-id="les-ensembles-sets"><span class="header-section-number">1.5.2</span> Les ensembles (Sets)</h3>
-<p>Les ensembles sont comme des boites magiques qui ne gardent qu’un exemplaire de chaque objet :</p>
-<ul>
-<li><p>Représentés par des accolades : <code>{1, 2, 3}</code>.</p></li>
-<li><p>Non ordonnés et modifiables.</p></li>
-<li><p>N’autorisent pas les doublons.</p></li>
-<li><p>Utiles pour éliminer les doublons et effectuer des opérations mathématiques sur des ensembles.</p></li>
-</ul>
-</section>
-</section>
-<section id="dictionnaires" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="dictionnaires"><span class="header-section-number">1.6</span> Dictionnaires</h2>
-<p>Les dictionnaires sont comme des boites avec des étiquettes sur chcune d’elle :</p>
-<ul>
-<li><p>Représentés par des accolades avec des paires clé-valeur : <code>{"nom": "Python", "année": 1991}</code>.</p></li>
-<li><p>Non ordonnés et modifiables.</p></li>
-<li><p>Les clés doivent être uniques, mais les valeurs peuvent être dupliquées</p></li>
-<li><p>Utiles pour stocker des données associatives ou pour créer des tables de recherche rapide</p></li>
-</ul>
-</section>
-<section id="programmation-objet" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="programmation-objet"><span class="header-section-number">1.7</span> Programmation objet</h2>
-<p>La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe “Voiture” pourrait avoir des attributs comme “couleur” et “vitesse”, et des méthodes comme “démarrer” et “accélérer”.</p>
-<p>Python rend la POO accessible avec des fonctionnalités conviviales :</p>
-<ol type="1">
-<li><p><strong>Encapsulation</strong> : Comme emballer un cadeau, elle cache les détails internes d’un objet.</p></li>
-<li><p><strong>Héritage</strong> : Permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents.</p></li>
-<li><p><strong>Polymorphisme</strong> : Permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à “fais du bruit”.</p></li>
-</ol>
-<p>Ces caractéristiques font de Python un excellent choix pour apprendre et appliquer les concepts de la POO, rendant le code plus organisé et réutilisable</p>
-<div class="bloc_package">
-<div class="bloc_package-header">
-<div class="bloc_package-icon">
-
+<p>Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d’images. Ce chapitre est aussi disponible sous la forme d’un notebook Python: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
+<p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes: * SciPy * NumPy * OpenCV * RasterIO * <a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a> * xarray</p>
+<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et GDAL doivent être installés:</p>
+<div id="c6028f3b" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get update</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get install gdal<span class="op">-</span><span class="bu">bin</span> libgdal<span class="op">-</span>dev</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>q rioxarray</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU <span class="st">"geemap[workshop]"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Liste des <em>packages</em> utilisés dans ce chapitre</strong></p>
-</div>
-<div class="bloc_package-body">
-<ul>
-<li>Pour importer et manipuler des fichiers géographiques&nbsp;:
-<ul>
-<li><code>sf</code> pour importer et manipuler des données vectorielles.</li>
-<li><code>terra</code> pour importer et manipuler des données matricielles.</li>
-</ul></li>
-<li>Pour construire des cartes et des graphiques&nbsp;:
-<ul>
-<li><code>tmap</code> est certainement le meilleur <em>package</em> pour la cartographie.</li>
-<li><code>ggplot2</code> pour construire des graphiques.</li>
-</ul></li>
-</ul>
-</div>
-</div>
+<section id="quest-ce-que-linformation-spectrale" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="quest-ce-que-linformation-spectrale"><span class="header-section-number">4.1</span> Qu’est ce que l’information spectrale?</h2>
+<p>L’information spectrale touche à l’exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l’image).</p>
 </section>
-<section id="quiz-de-révision-du-chapitre" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="quiz-de-révision-du-chapitre"><span class="header-section-number">1.8</span> Quiz de révision du chapitre</h2>
+<section id="sec-031" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-031"><span class="header-section-number">4.2</span> Indices spectraux</h2>
 </section>
-<section id="sec-016" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.9</span> Cahier de révision (notebook)</h2>
+<section id="sec-032" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-032"><span class="header-section-number">4.3</span> Réduction de dimension</h2>
+<section id="sec-0311" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="sec-0311"><span class="header-section-number">4.3.1</span> Analyses en composantes principales</h3>
+</section>
+</section>
+<section id="sec-037" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-037"><span class="header-section-number">4.4</span> Exercices de révision</h2>
 <div class="bloc_exercice">
 <div class="bloc_exercice-header">
 <div class="bloc_exercice-icon">
 
 </div>
-<p><strong>Notebook 1.</strong> À compléter <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/A24_TEL726_introduction_aux_librairies_python.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a></p>
+<p><strong>Exercice 1.</strong> À compléter</p>
 </div>
 <div class="bloc_exercice-body">
-<div id="a265c06b" class="cell" data-message="false" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="84bc656f" class="cell" data-message="false" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>library(sf)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>library(terra)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Correction à la <span class="quarto-unresolved-ref">?sec-08031</span>.</p>
+</div>
+</div>
+<div class="bloc_exercice">
+<div class="bloc_exercice-header">
+<div class="bloc_exercice-icon">
+
+</div>
+<p><strong>Exercice 2.</strong> À compléter</p>
+</div>
+<div class="bloc_exercice-body">
+<div id="9c0e04cc" class="cell" data-message="false" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>library(sf)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>library(terra)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Correction à la <span class="quarto-unresolved-ref">?sec-08032</span>.</p>
+</div>
+</div>
+<div class="bloc_exercice">
+<div class="bloc_exercice-header">
+<div class="bloc_exercice-icon">
+
+</div>
+<p><strong>Exercice 3.</strong> À compléter</p>
+</div>
+<div class="bloc_exercice-body">
+<div id="b067b247" class="cell" data-message="false" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>library(sf)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>library(terra)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Correction à la <span class="quarto-unresolved-ref">?sec-08033</span>.</p>
 </div>
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-NumpyNature" class="csl-entry" role="listitem">
-Harris, Millman, C. R. 2020. <span>«&nbsp;Array programming with NumPy.&nbsp;»</span> <em><span>Nature</span></em>: 357‑362. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>.
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -878,13 +740,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./00-auteurs.html" class="pagination-link" aria-label="À propos des auteurs">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">À propos des auteurs</span>
+      <a href="./02-RehaussementVisualisationImages.html" class="pagination-link" aria-label="Réhaussement et visualisation d'images">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Réhaussement et visualisation d’images</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-ImportationManipulationImages.html" class="pagination-link" aria-label="Importation et manipulation de données spatiales">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importation et manipulation de données spatiales</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="Bibliographie">
+        <span class="nav-page-text">Bibliographie</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

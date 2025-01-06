@@ -30,7 +30,7 @@ Il existe plusieurs approches pour programmer en Python. La plus directe est en 
 
 ### Les outils de programmation
 
-Un code python prend la forme d'un simple fichier texte avec l'extension `.py` et peut être modifié avec un simple éditeur de texte. Cependnant, il n'y aura pas de rétroactions immédiates de l'interpréteur Python ce qui rend la correction d'erreurs (débogage) beaucoup plus laborieux. 
+Un code python prend la forme d'un simple fichier texte avec l'extension `.py` et peut être modifié avec un simple éditeur de texte. Cependant, il n'y aura pas de rétroactions immédiates de l'interpréteur Python ce qui rend la correction d'erreurs (débogage) beaucoup plus laborieux. 
 
 Un IDE (*Integrated Developement Environnement*) est comme une boîte à outils complète pour les programmeurs, vous trouverez :
 
@@ -61,13 +61,15 @@ Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevro
 
 ## Bonnes pratiques
 
-Python est un langage très dynamique, qui évolue constamment. Il est fortement conseillé d'utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre :
+Python est un langage très dynamique, qui évolue constamment. Cela pose certains défis pour la gestion du code à long terme. Il est fortement conseillé d'utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre :
 
-1. **N'installez par la dernière version de Python** : installez toujours une version ou deux qui précède [la dernière version](https://www.python.org/downloads/). Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d'un environnement virtuel (voir plus bas).
+1. **N'installez par la toute dernière version de Python** : installez toujours une version ou deux qui précède [la dernière version](https://www.python.org/downloads/). Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d'un environnement virtuel (voir plus bas). Vous pouvez afficher la liste des versions de python avec la commande `conda search --full-name python`. Il est recommandé d'installer 1 ou 2 version antérieure, par exemple si 3.13 est la version plus récente, installer plutôt la version 3.11.
 
-2. **Utilisez des environnements virtuels** : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre.
+2. **N'utilisez pas de version obsolète de Python** : cela peut sembler contradictoire avec le point 1 mais c'est l'excès inverse. Si vous utilisez une version trop ancienne alors toutes vos librairies vont cessez d'évoluer et peuvent devenir obsolète.
 
-3. **Vérifiez l'installation** : Après l'installation, ouvrez un terminal et tapez `python --version` pour vous assurer que tout fonctionne correctement.
+3. **Utilisez des environnements virtuels** : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre. Par exemple, si vous souhaitez vérifier une nouvelle version de Python, utilisez un environnement : `conda create --name test python=3.11`
+
+4. **Vérifiez l'installation** : Après l'installation, ouvrez un terminal et tapez `python --version` pour vous assurer que tout fonctionne correctement.
 
 ### Création d'un environnement virtuel
 
@@ -85,6 +87,33 @@ conda activate test
 ```
 
 Note: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter.
+
+### Création d'un environnement de travail local
+
+Les notebooks Python fonctionne par défaut dans l'environnement Google Colab. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur Jupyter, créer un fichier `environnement.yaml` avec l'information suivante:
+
+```{yaml}
+name: jupyter_env
+dependencies:
+  - python=3.10
+  - jupyter
+  - pip
+  - pip:
+    - -r requirements.txt
+```
+
+La commande `python -m pip list --format=freeze > requirements.txt` vous permet d'extraire la liste des librairies actuelles. Vous pouvez fixer vous même ces librairies dans un fichier `requirements.txt`
+```{txt}
+geemap
+rasterio
+rioxarray
+```
+
+Le serveur jupyter peut ensuite être lancé avec la commande suivante:
+`jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''`
+
+Une fenêtre devrait alors apparaître dans votre fureteur:
+![La librairie NumPy est le fondement de nombreuses librairies scientifiques (d'après [@NumpyNature]).](https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/41586_2020_2649_Fig2_HTML.png){#fig-naturenumpy1 width="100%" fig-align="center"}
 
 ## Les structures de base
 

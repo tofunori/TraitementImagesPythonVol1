@@ -1,24 +1,24 @@
 # Transformations spectrales {#sec-chap03}
 
-Dans le chapitre, nous abordons les méthodes...
+Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d'images. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb) 
 
-::: bloc_package
-::: bloc_package-header
-::: bloc_package-icon
-:::
+Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
+* SciPy 
+* NumPy 
+* OpenCV
+* RasterIO 
+* [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
+* xarray 
 
-**Liste des *packages* utilisés dans ce chapitre**
-:::
-
-::: bloc_package-body
--   Pour importer et manipuler des fichiers géographiques :
-    -   `sf` pour importer et manipuler des données vectorielles.
-    -   `terra` pour importer et manipuler des données matricielles.
--   Pour construire des cartes et des graphiques :
-    -   `tmap` est certainement le meilleur *package* pour la cartographie.
-    -   `ggplot2` pour construire des graphiques.
-:::
-:::
+Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être installés:
+```{python}
+%%capture
+!apt-get update
+!apt-get install gdal-bin libgdal-dev
+!pip install -q rioxarray
+!pip install -qU "geemap[workshop]"
+```
 
 
 ## Indices spectraux {#sec-031}

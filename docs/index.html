@@ -10,7 +10,7 @@
 <meta name="author" content="Yacine Bouroubi">
 <meta name="author" content="Samuel Foucher">
 <meta name="author" content="Mickaël Germain">
-<meta name="dcterms.date" content="2024-12-29">
+<meta name="dcterms.date" content="2025-01-06">
 
 <title>Traitement d’images satellites avec Python</title>
 <style>
@@ -183,6 +183,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Réhaussement et visualisation d’images</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Partie 2. Transformations des données satellitaires</span></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-TransformationSpectrales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transformations spectrales</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -278,7 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2024-12-29</p>
+      <p class="date">2025-01-06</p>
     </div>
   </div>
   
@@ -458,7 +468,7 @@ Figure&nbsp;2: Téléchargement de l’intégralité du livre
 <h2 class="unnumbered anchored" data-anchor-id="sect004">Structure du livre</h2>
 <p>Le livre est organisé autour de quatre grandes parties.</p>
 <p><strong>Partie 1. Importation et manipulation de données spatiales.</strong> Dans cette première partie, nous voyons comment importer, manipuler, cartographier et exporter des données spatiales dans R, principalement avec les <em>packages</em> <code>sf</code> pour les données vectorielles, <code>terra</code> pour les données matricielles (images) et <code>tmap</code> pour la cartographie (<a href="01-ImportationManipulationImages.html" class="quarto-xref">chapitre&nbsp;<span>2&nbsp; Importation et manipulation de données spatiales</span></a>). Maîtriser les notions abordées dans ce chapitre constitue une étape préalable et indispensable à tout projet d’analyse spatiale. D’une part, avant d’analyser des données spatiales, il convient de les structurer (importation et manipulation) et de les explorer (cartographie). D’autre part, une fois la ou les méthodes d’analyse spatiale mises en œuvre, il convient de cartographier les résultats finaux et de les exporter au besoin dans un format de données géographiques (shapefile (<code>shp</code>), GeoPackage (<code>GPKG</code>), GeoJSON (<code>geojson</code>), sqlite (<code>sqlite</code>), GeoTiff, etc.).</p>
-<p><strong>Partie 2. Transformations des données spatiales</strong>. Cette troisième partie comprend deux chapitres&nbsp;: les transformations spectrales (<span class="quarto-unresolved-ref">?sec-chap03</span>) et les transformations spatiales (<span class="quarto-unresolved-ref">?sec-chap04</span>).</p>
+<p><strong>Partie 2. Transformations des données spatiales</strong>. Cette troisième partie comprend deux chapitres&nbsp;: les transformations spectrales (<a href="03-TransformationSpectrales.html" class="quarto-xref">chapitre&nbsp;<span>4&nbsp; Transformations spectrales</span></a>) et les transformations spatiales (<span class="quarto-unresolved-ref">?sec-chap04</span>).</p>
 <p><strong>Partie 3. Classifications d’images.</strong> Cette troisième partie comprend deux chapitres&nbsp;: les classifications supervisées (<span class="quarto-unresolved-ref">?sec-chap05</span>) et non supervisées (<span class="quarto-unresolved-ref">?sec-chap06</span>).</p>
 <p><strong>Partie 4. Données massives</strong>. Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes <span class="quarto-unresolved-ref">?sec-chap07</span>, notammment Google Earth Engine.</p>
 </section>
@@ -490,7 +500,7 @@ Figure&nbsp;2: Téléchargement de l’intégralité du livre
 <section id="sect0071" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="sect0071">Listes des <em>librairies</em> utilisés</h3>
 <p>Dans ce livre, nous utilisons de nombreux <em>packages</em> Python que vous pouvez installer avec le code ci-dessous.</p>
-<div id="817bdbd8" class="cell" data-message="false" data-execution_count="1">
+<div id="b661f4c9" class="cell" data-message="false" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> subprocess</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pkg_resources</span>
