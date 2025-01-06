@@ -20,6 +20,9 @@ Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être instal
 !pip install -qU "geemap[workshop]"
 ```
 
+## Qu'est ce que l'information spectrale?
+
+L'information spectrale touche à l'exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l'image). 
 
 ## Indices spectraux {#sec-031}
 
@@ -27,18 +30,6 @@ Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être instal
 
 ### Analyses en composantes principales {#sec-0311}
 
-```{python}
-#| label: quizChapitre06
-#| echo: false 
-#| eval: true 
-#| message: false 
-#| warning: false 
-#| results: asis
-
-source("code_complementaire/QuizzFunctions.R")
-Chap06Quiz <- quizz("quiz/Chap06.yml", "Chap06")
-render_quizz(Chap06Quiz)
-```
 
 ## Exercices de révision {#sec-037}
 
