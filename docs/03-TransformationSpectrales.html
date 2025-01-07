@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./04-TransformationSpatiales.html" rel="next">
 <link href="./02-RehaussementVisualisationImages.html" rel="prev">
 <link href="./images/introduction/Couverture_16_01-01.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -191,6 +191,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./04-TransformationSpatiales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations spatiales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bibliographie</span></a>
   </div>
@@ -206,12 +212,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#quest-ce-que-linformation-spectrale" id="toc-quest-ce-que-linformation-spectrale" class="nav-link active" data-scroll-target="#quest-ce-que-linformation-spectrale"><span class="header-section-number">4.1</span> Qu’est ce que l’information spectrale?</a></li>
-  <li><a href="#sec-031" id="toc-sec-031" class="nav-link" data-scroll-target="#sec-031"><span class="header-section-number">4.2</span> Indices spectraux</a></li>
-  <li><a href="#sec-032" id="toc-sec-032" class="nav-link" data-scroll-target="#sec-032"><span class="header-section-number">4.3</span> Réduction de dimension</a>
+  <li><a href="#indices-spectraux" id="toc-indices-spectraux" class="nav-link" data-scroll-target="#indices-spectraux"><span class="header-section-number">4.2</span> Indices spectraux</a></li>
+  <li><a href="#réduction-de-dimension" id="toc-réduction-de-dimension" class="nav-link" data-scroll-target="#réduction-de-dimension"><span class="header-section-number">4.3</span> Réduction de dimension</a>
   <ul class="collapse">
-  <li><a href="#sec-0311" id="toc-sec-0311" class="nav-link" data-scroll-target="#sec-0311"><span class="header-section-number">4.3.1</span> Analyses en composantes principales</a></li>
+  <li><a href="#analyses-en-composantes-principales" id="toc-analyses-en-composantes-principales" class="nav-link" data-scroll-target="#analyses-en-composantes-principales"><span class="header-section-number">4.3.1</span> Analyses en composantes principales</a></li>
   </ul></li>
-  <li><a href="#sec-037" id="toc-sec-037" class="nav-link" data-scroll-target="#sec-037"><span class="header-section-number">4.4</span> Exercices de révision</a></li>
+  <li><a href="#exercices-de-révision" id="toc-exercices-de-révision" class="nav-link" data-scroll-target="#exercices-de-révision"><span class="header-section-number">4.4</span> Exercices de révision</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
@@ -237,10 +243,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d’images. Ce chapitre est aussi disponible sous la forme d’un notebook Python: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
+<p>Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d’images. Ce chapitre est aussi disponible sous la forme d’un notebook Python: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
 <p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes: * SciPy * NumPy * OpenCV * RasterIO * <a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a> * xarray</p>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et GDAL doivent être installés:</p>
-<div id="c6028f3b" class="cell" data-execution_count="1">
+<div id="db964941" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get update</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get install gdal<span class="op">-</span><span class="bu">bin</span> libgdal<span class="op">-</span>dev</span>
@@ -249,70 +255,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="quest-ce-que-linformation-spectrale" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="quest-ce-que-linformation-spectrale"><span class="header-section-number">4.1</span> Qu’est ce que l’information spectrale?</h2>
-<p>L’information spectrale touche à l’exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l’image).</p>
+<p>L’information spectrale touche à l’exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l’image). La taille de cette dimension spectrale dépend du type de capteurs considéré. Un capteur à très haute résolution spatiale par exemple aura très peu de bandes (4 ou 5). Un capteur multispectral pourra contenir une quinzaine de bande. À l’autre extrême, on trouvera les capteurs hyperspectraux qui peuvent contenir des centaines de bandes spectrales.</p>
 </section>
-<section id="sec-031" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="sec-031"><span class="header-section-number">4.2</span> Indices spectraux</h2>
+<section id="indices-spectraux" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="indices-spectraux"><span class="header-section-number">4.2</span> Indices spectraux</h2>
+<p>Il existe une vaste littérature sur les indices spectraux, le choix d’un indice plutôt qu’un autre dépend fortement de l’application visée, nous allons simplement couvrir les principes de base ici.</p>
+<p>Le principe d’un indice spectral consiste à mettre en valeur certaines caractéristiques du spectre comme des pentes, des gradients, etc.</p>
 </section>
-<section id="sec-032" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="sec-032"><span class="header-section-number">4.3</span> Réduction de dimension</h2>
-<section id="sec-0311" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="sec-0311"><span class="header-section-number">4.3.1</span> Analyses en composantes principales</h3>
+<section id="réduction-de-dimension" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="réduction-de-dimension"><span class="header-section-number">4.3</span> Réduction de dimension</h2>
+<section id="analyses-en-composantes-principales" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="analyses-en-composantes-principales"><span class="header-section-number">4.3.1</span> Analyses en composantes principales</h3>
 </section>
 </section>
-<section id="sec-037" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="sec-037"><span class="header-section-number">4.4</span> Exercices de révision</h2>
-<div class="bloc_exercice">
-<div class="bloc_exercice-header">
-<div class="bloc_exercice-icon">
-
-</div>
-<p><strong>Exercice 1.</strong> À compléter</p>
-</div>
-<div class="bloc_exercice-body">
-<div id="84bc656f" class="cell" data-message="false" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>library(sf)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>library(terra)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Correction à la <span class="quarto-unresolved-ref">?sec-08031</span>.</p>
-</div>
-</div>
-<div class="bloc_exercice">
-<div class="bloc_exercice-header">
-<div class="bloc_exercice-icon">
-
-</div>
-<p><strong>Exercice 2.</strong> À compléter</p>
-</div>
-<div class="bloc_exercice-body">
-<div id="9c0e04cc" class="cell" data-message="false" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>library(sf)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>library(terra)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Correction à la <span class="quarto-unresolved-ref">?sec-08032</span>.</p>
-</div>
-</div>
-<div class="bloc_exercice">
-<div class="bloc_exercice-header">
-<div class="bloc_exercice-icon">
-
-</div>
-<p><strong>Exercice 3.</strong> À compléter</p>
-</div>
-<div class="bloc_exercice-body">
-<div id="b067b247" class="cell" data-message="false" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>library(sf)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>library(terra)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Correction à la <span class="quarto-unresolved-ref">?sec-08033</span>.</p>
-</div>
-</div>
+<section id="exercices-de-révision" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="exercices-de-révision"><span class="header-section-number">4.4</span> Exercices de révision</h2>
 
 
 </section>
@@ -745,8 +702,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="Bibliographie">
-        <span class="nav-page-text">Bibliographie</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04-TransformationSpatiales.html" class="pagination-link" aria-label="Transformations spatiales">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations spatiales</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

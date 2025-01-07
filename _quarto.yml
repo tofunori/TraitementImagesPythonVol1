@@ -1,6 +1,7 @@
 project:
   type: book
   output-dir: docs
+#  execute-dir: file
 license: CC BY-SA
 latex-auto-install: true
 
@@ -64,7 +65,7 @@ book:
   - 02-RehaussementVisualisationImages.qmd
   - part: Partie 2. Transformations des données satellitaires
   - 03-TransformationSpectrales.qmd
-#  - 04-TransformationSpatiales.qmd
+  - 04-TransformationSpatiales.qmd
 #  - part: Partie 3. Classifications d'images
 #  - 05-ClassificationsSupervisees.qmd
 #  - 06-ClassificationsNonSupervisees.qmd

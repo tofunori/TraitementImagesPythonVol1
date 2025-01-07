@@ -41,7 +41,7 @@ Nous allons utilisés ces deux images dans ce chapitre:
 
 ## Réhaussements visuels
 
-Le but du réhaussement visuel d'une image vise principalement à améliorer la qualité visuelle d'une image en améliorant le contraste, la dynamique ou la texture d'une image. Ce réhaussement ne modifie pas la donnée d'origine mais est plutôt appliquée dynamiquement à l'affichage pour des fins d'inspection visuelle.
+Le but du réhaussement visuel d'une image vise principalement à améliorer la qualité visuelle d'une image en améliorant le contraste, la dynamique ou la texture d'une image. De manière générale, ce réhaussement ne modifie pas la donnée d'origine mais est plutôt appliquée dynamiquement à l'affichage pour des fins d'inspection visuelle.
 
 ### Statistiques d'une image
 

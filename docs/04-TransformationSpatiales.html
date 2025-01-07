@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>À propos des auteurs – Traitement d'images satellites avec Python</title>
+<title>5&nbsp; Transformations spatiales – Traitement d'images satellites avec Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./00-PriseEnMainPython.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./03-TransformationSpectrales.html" rel="prev">
 <link href="./images/introduction/Couverture_16_01-01.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -70,6 +104,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="css/quizlib.min.css">
 </head>
@@ -83,7 +146,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./00-auteurs.html">À propos des auteurs</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-TransformationSpatiales.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations spatiales</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
@@ -119,7 +182,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00-auteurs.html" class="sidebar-item-text sidebar-link active">
+  <a href="./00-auteurs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">À propos des auteurs</span></a>
   </div>
 </li>
@@ -157,7 +220,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-TransformationSpatiales.html" class="sidebar-item-text sidebar-link">
+  <a href="./04-TransformationSpatiales.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations spatiales</span></span></a>
   </div>
 </li>
@@ -172,15 +235,38 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#images-utilisées" id="toc-images-utilisées" class="nav-link active" data-scroll-target="#images-utilisées"><span class="header-section-number">5.0.1</span> Images utilisées</a></li>
+  <li><a href="#sec-041" id="toc-sec-041" class="nav-link" data-scroll-target="#sec-041"><span class="header-section-number">5.1</span> Analyse fréquentielle</a></li>
+  <li><a href="#sec-042" id="toc-sec-042" class="nav-link" data-scroll-target="#sec-042"><span class="header-section-number">5.2</span> Filtrage d’image</a>
+  <ul class="collapse">
+  <li><a href="#filtrage-linéaire-stationnaire" id="toc-filtrage-linéaire-stationnaire" class="nav-link" data-scroll-target="#filtrage-linéaire-stationnaire"><span class="header-section-number">5.2.1</span> Filtrage linéaire stationnaire</a></li>
+  <li><a href="#filtrage-adaptatif" id="toc-filtrage-adaptatif" class="nav-link" data-scroll-target="#filtrage-adaptatif"><span class="header-section-number">5.2.2</span> Filtrage adaptatif</a></li>
+  </ul></li>
+  <li><a href="#sec-043" id="toc-sec-043" class="nav-link" data-scroll-target="#sec-043"><span class="header-section-number">5.3</span> Segmentation</a></li>
+  <li><a href="#sec-044" id="toc-sec-044" class="nav-link" data-scroll-target="#sec-044"><span class="header-section-number">5.4</span> Vectorisation et rasterisation</a></li>
+  <li><a href="#sec-045" id="toc-sec-045" class="nav-link" data-scroll-target="#sec-045"><span class="header-section-number">5.5</span> Analyse de terrain</a>
+  <ul class="collapse">
+  <li><a href="#sec-0451" id="toc-sec-0451" class="nav-link" data-scroll-target="#sec-0451"><span class="header-section-number">5.5.1</span> Élévation</a></li>
+  <li><a href="#sec-0452" id="toc-sec-0452" class="nav-link" data-scroll-target="#sec-0452"><span class="header-section-number">5.5.2</span> Pente</a></li>
+  <li><a href="#sec-0453" id="toc-sec-0453" class="nav-link" data-scroll-target="#sec-0453"><span class="header-section-number">5.5.3</span> Ombrage</a></li>
+  <li><a href="#sec-0454" id="toc-sec-0454" class="nav-link" data-scroll-target="#sec-0454"><span class="header-section-number">5.5.4</span> Visibilité</a></li>
+  </ul></li>
+  <li><a href="#sec-046" id="toc-sec-046" class="nav-link" data-scroll-target="#sec-046"><span class="header-section-number">5.6</span> Quiz de révision du chapitre</a></li>
+  <li><a href="#sec-047" id="toc-sec-047" class="nav-link" data-scroll-target="#sec-047"><span class="header-section-number">5.7</span> Exercices de révision</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="auteurs" class="quarto-section-identifier">À propos des auteurs</span></h1>
+<h1 class="title"><span id="sec-chap04" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations spatiales</span></span></h1>
 </div>
 
 
@@ -197,12 +283,194 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><a href="https://www.usherbrooke.ca/recherche/fr/specialistes/details/philippe.apparicio"><strong>Philippe Apparicio</strong></a> est professeur titulaire au <a href="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/">Université de Sherbrooke</a>. Il y enseigne aux <a href="https://www.usherbrooke.ca/geomatique/etudes/programmes">programmes de 1<sup>er</sup> et 2<sup>e</sup> cycles de géomatique</a> les cours <em>Transport et mobilité durable</em>, <em>Modélisation et analyse spatiale</em> et <em>Géomatique appliquée à la gestion urbaine</em>. Durant les dernières années, il a offert plusieurs formations aux Écoles d’été du Centre interuniversitaire québécois de statistiques sociales (<a href="https://www.ciqss.org/">CIQSS</a>). Géographe de formation, ses intérêts de recherche incluent la justice et l’équité environnementale, la mobilité durable, les pollutions atmosphérique et sonore, et le vélo en ville. Il a publié une centaine d’articles scientifiques dans différents domaines des études urbaines et de la géographie mobilisant la géomatique et l’analyse spatiale.</p>
-<p><a href="https://www.usherbrooke.ca/geomatique/departement/personnel/personnel-enseignant/yacine-bouroubi"><strong>Yacine Bouroubi</strong></a> est professeur titulaire au <a href="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/">Université de Sherbrooke</a>. Il y enseigne aux <a href="https://www.usherbrooke.ca/geomatique/etudes/programmes">programmes de 1<sup>er</sup> et 2<sup>e</sup> cycles de géomatique</a> les cours <em>Transport et mobilité durable</em>, <em>Modélisation et analyse spatiale</em> et <em>Géomatique appliquée à la gestion urbaine</em>. Durant les dernières années, il a offert plusieurs formations aux Écoles d’été du Centre interuniversitaire québécois de statistiques sociales (<a href="https://www.ciqss.org/">CIQSS</a>). Géographe de formation, ses intérêts de recherche incluent la justice et l’équité environnementale, la mobilité durable, les pollutions atmosphérique et sonore, et le vélo en ville. Il a publié une centaine d’articles scientifiques dans différents domaines des études urbaines et de la géographie mobilisant la géomatique et l’analyse spatiale.</p>
-<p><a href="https://www.usherbrooke.ca/recherche/fr/specialistes/details/samuel.foucher"><strong>Samuel Foucher</strong></a> est professeur titulaire au <a href="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/">Université de Sherbrooke</a>. Il y enseigne aux <a href="https://www.usherbrooke.ca/geomatique/etudes/programmes">programmes de 1<sup>er</sup> et 2<sup>e</sup> cycles de géomatique</a> les cours <em>Transport et mobilité durable</em>, <em>Modélisation et analyse spatiale</em> et <em>Géomatique appliquée à la gestion urbaine</em>. Durant les dernières années, il a offert plusieurs formations aux Écoles d’été du Centre interuniversitaire québécois de statistiques sociales (<a href="https://www.ciqss.org/">CIQSS</a>). Géographe de formation, ses intérêts de recherche incluent la justice et l’équité environnementale, la mobilité durable, les pollutions atmosphérique et sonore, et le vélo en ville. Il a publié une centaine d’articles scientifiques dans différents domaines des études urbaines et de la géographie mobilisant la géomatique et l’analyse spatiale.</p>
-<p><a href="https://www.usherbrooke.ca/geomatique/departement/personnel/personnel-enseignant/mickael-germain"><strong>Mickaël Germain</strong></a> est professeur titulaire au <a href="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/">Université de Sherbrooke</a>. Il y enseigne aux <a href="https://www.usherbrooke.ca/geomatique/etudes/programmes">programmes de 1<sup>er</sup> et 2<sup>e</sup> cycles de géomatique</a> les cours <em>Transport et mobilité durable</em>, <em>Modélisation et analyse spatiale</em> et <em>Géomatique appliquée à la gestion urbaine</em>. Durant les dernières années, il a offert plusieurs formations aux Écoles d’été du Centre interuniversitaire québécois de statistiques sociales (<a href="https://www.ciqss.org/">CIQSS</a>). Géographe de formation, ses intérêts de recherche incluent la justice et l’équité environnementale, la mobilité durable, les pollutions atmosphérique et sonore, et le vélo en ville. Il a publié une centaine d’articles scientifiques dans différents domaines des études urbaines et de la géographie mobilisant la géomatique et l’analyse spatiale.</p>
+<p>Dans ce chapitre, nous abordons quelques techniques de traitement d’images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d’un notebook Python sur Google Colab: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-TransformationSpatiales.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
+<p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes: * SciPy * NumPy * OpenCV * RasterIO * Geemap * <a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a> * xarray</p>
+<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et GDAL doivent être installés:</p>
+<div id="4a35bd40" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU rioxarray <span class="st">"geemap[workshop]"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="images-utilisées" class="level3" data-number="5.0.1">
+<h3 data-number="5.0.1" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">5.0.1</span> Images utilisées</h3>
+<p>Nous allons utilisés les images suivantes dans ce chapitre:</p>
+<div id="e1f4bdf9" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif <span class="op">-</span>O RGBNIR_of_S2A.tif</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>raster<span class="op">/</span>landsat7.tif <span class="op">-</span>O landsat7.tif</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>images<span class="op">/</span>berkeley.jpg <span class="op">-</span>O berkeley.jpg</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="sec-041" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-041"><span class="header-section-number">5.1</span> Analyse fréquentielle</h2>
+</section>
+<section id="sec-042" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-042"><span class="header-section-number">5.2</span> Filtrage d’image</h2>
+<section id="filtrage-linéaire-stationnaire" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="filtrage-linéaire-stationnaire"><span class="header-section-number">5.2.1</span> Filtrage linéaire stationnaire</h3>
+<p>Un filtrage linéaire stationnaire consiste à appliquer une même pondération locale des valeurs des pixels dans une fenêtre glissante. La taille de cette fenêtre est généralement impaire (3,5, etc.) afin de définir une position centrale et une fenêtre symétrique.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Mettre une figure ici</p>
+</div>
+</div>
+<p>Le filtre le plus simple est certainement le filtre moyen qui consiste à appliquer le même poids uniforme dans la fenêtre glissante.</p>
+<p><span class="math display">\[
+F= \frac{1}{25}\left[
+\begin{array}{c|c|c|c|c}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\
+\hline
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\
+\hline
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\
+\hline
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\
+\hline
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1
+\end{array}
+\right]
+\]</span></p>
+<p>En python, on dispose des fonctions <code>rolling</code> et <code>sliding_window</code> définis dans la librairie numpy. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l’image avec deux nouvelles dimensions <code>x_win</code> et <code>y_win</code>:</p>
+<div id="70f1af88" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> ds:</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    rolling_win <span class="op">=</span> ds.rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(rolling_win[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,...])</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(rolling_win.shape)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;xarray.DataArray (x_win: 5, y_win: 5)&gt;
+array([[ nan,  nan,  nan,  nan,  nan],
+       [ nan, 203., 204., 203., 202.],
+       [ nan, 207., 208., 206., 204.],
+       [ nan, 207., 206., 204., 200.],
+       [ nan, 204., 203., 200., 196.]], dtype=float32)
+Coordinates:
+    band         int64 2
+    x            float64 1.5
+    y            float64 1.5
+    spatial_ref  int64 0
+Dimensions without coordinates: x_win, y_win
+(3, 771, 1311, 5, 5)</code></pre>
+</div>
+</div>
+<p>L’avantage de cette approche est qu’il n’y a pas d’utilisation inutile de la mémoire. Noter les <code>nan</code> sur les bords de l’image car la fenêtre déborde sur les bordures de l’image. Par la suite un opérateur moyenne peut être appliqué.</p>
+<div id="38f76f9a" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#print(median_filter)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>filtre_moyen.astype(<span class="st">'int'</span>).plot.imshow(rgb<span class="op">=</span><span class="st">"band"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-TransformationSpatiales_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Filtre de Sobel, filtre Prewitt</p>
+</div>
+</div>
+<section id="filtrage-par-convolution" class="level4" data-number="5.2.1.1">
+<h4 data-number="5.2.1.1" class="anchored" data-anchor-id="filtrage-par-convolution"><span class="header-section-number">5.2.1.1</span> Filtrage par convolution</h4>
+<p>La façon la plus efficace d’appliquer un filtre linéaire est d’appliquer une convolution.</p>
+<div id="9c8671bf" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>scharr <span class="op">=</span> np.array([[ <span class="op">-</span><span class="dv">3</span><span class="op">-</span><span class="ot">3j</span>, <span class="dv">0</span><span class="op">-</span><span class="ot">10j</span>,  <span class="op">+</span><span class="dv">3</span> <span class="op">-</span><span class="ot">3j</span>],</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                   [<span class="op">-</span><span class="dv">10</span><span class="op">+</span><span class="ot">0j</span>, <span class="dv">0</span><span class="op">+</span> <span class="ot">0j</span>, <span class="op">+</span><span class="dv">10</span> <span class="op">+</span><span class="ot">0j</span>],</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                   [ <span class="op">-</span><span class="dv">3</span><span class="op">+</span><span class="ot">3j</span>, <span class="dv">0</span><span class="op">+</span><span class="ot">10j</span>,  <span class="op">+</span><span class="dv">3</span> <span class="op">+</span><span class="ot">3j</span>]]) <span class="co"># Gx + j*Gy</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ds.isel(band<span class="op">=</span><span class="dv">0</span>).shape)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>grad <span class="op">=</span> signal.convolve2d(ds.isel(band<span class="op">=</span><span class="dv">0</span>), scharr, boundary<span class="op">=</span><span class="st">'symm'</span>, mode<span class="op">=</span><span class="st">'same'</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> xr.DataArray(np.<span class="bu">abs</span>(grad), dims<span class="op">=</span>(<span class="st">"y"</span>, <span class="st">"x"</span>), coords<span class="op">=</span> {<span class="st">'x'</span>: ds.coords[<span class="st">'x'</span>], <span class="st">'y'</span>: ds.coords[<span class="st">'y'</span>], <span class="st">'spatial_ref'</span>: <span class="dv">0</span>})</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arr)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>arr.plot.imshow()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(771, 1311)
+&lt;xarray.DataArray (y: 771, x: 1311)&gt;
+array([[  65.96969001,   58.85575588,   54.91812087, ..., 1474.        ,
+        1037.01205393,  389.99487176],
+       [  61.07372594,   39.8246155 ,   89.18520057, ..., 1763.79647352,
+         864.92543031,  270.20362692],
+       [  98.48857802,  112.44554237,  168.10710871, ..., 2110.61365484,
+         870.36658943,  204.40156555],
+       ...,
+       [ 143.17821063,  597.00753764, 2479.42977315, ...,  216.00925906,
+         248.33847869,  200.89798406],
+       [ 106.07544485,  393.67245268, 2188.78824924, ...,  124.96399481,
+         159.90622252,  346.34087255],
+       [  41.59326869,  229.05894438, 1845.1216762 , ...,  175.16278143,
+          33.37663854,  414.3911196 ]])
+Coordinates:
+  * x            (x) float64 0.5 1.5 2.5 3.5 ... 1.308e+03 1.31e+03 1.31e+03
+  * y            (y) float64 0.5 1.5 2.5 3.5 4.5 ... 767.5 768.5 769.5 770.5
+    spatial_ref  int64 0</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-TransformationSpatiales_files/figure-html/cell-6-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="filtrage-par-une-couche-convolutionnelle" class="level4" data-number="5.2.1.2">
+<h4 data-number="5.2.1.2" class="anchored" data-anchor-id="filtrage-par-une-couche-convolutionnelle"><span class="header-section-number">5.2.1.2</span> Filtrage par une couche convolutionnelle</h4>
+<p>Une couche convolutionnelle est simplement un ensemble de filtres appliqué sur la donnée d’entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2.</p>
+</section>
+</section>
+<section id="filtrage-adaptatif" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="filtrage-adaptatif"><span class="header-section-number">5.2.2</span> Filtrage adaptatif</h3>
+<p>Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d’une image. Le filtre n’est alors plus stationnaire et sa réponse va varier en fonction du contenu local.</p>
+</section>
+</section>
+<section id="sec-043" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-043"><span class="header-section-number">5.3</span> Segmentation</h2>
+</section>
+<section id="sec-044" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-044"><span class="header-section-number">5.4</span> Vectorisation et rasterisation</h2>
+</section>
+<section id="sec-045" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="sec-045"><span class="header-section-number">5.5</span> Analyse de terrain</h2>
+<section id="sec-0451" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="sec-0451"><span class="header-section-number">5.5.1</span> Élévation</h3>
+</section>
+<section id="sec-0452" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="sec-0452"><span class="header-section-number">5.5.2</span> Pente</h3>
+</section>
+<section id="sec-0453" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="sec-0453"><span class="header-section-number">5.5.3</span> Ombrage</h3>
+</section>
+<section id="sec-0454" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="sec-0454"><span class="header-section-number">5.5.4</span> Visibilité</h3>
+</section>
+</section>
+<section id="sec-046" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="sec-046"><span class="header-section-number">5.6</span> Quiz de révision du chapitre</h2>
+</section>
+<section id="sec-047" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="sec-047"><span class="header-section-number">5.7</span> Exercices de révision</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -627,13 +895,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Préface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Préface</span>
+      <a href="./03-TransformationSpectrales.html" class="pagination-link" aria-label="Transformations spectrales">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transformations spectrales</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./00-PriseEnMainPython.html" class="pagination-link" aria-label="Introduction au langage Python">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction au langage Python</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="Bibliographie">
+        <span class="nav-page-text">Bibliographie</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -645,7 +913,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

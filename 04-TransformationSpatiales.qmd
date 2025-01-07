@@ -1,32 +1,122 @@
+---
+jupyter: python3
+execute:
+  echo: true
+  eval: false
+  message: false
+  warning: false
+---
+
 # Transformations spatiales {#sec-chap04}
 
-Dans le chapitre, nous abordons les méthodes...
+Dans ce chapitre, nous abordons quelques techniques de traitement d'images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d'un notebook Python sur Google Colab:
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-TransformationSpatiales.ipynb) 
 
-::: bloc_package
-::: bloc_package-header
-::: bloc_package-icon
-:::
+Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
+* SciPy 
+* NumPy 
+* OpenCV
+* RasterIO 
+* Geemap
+* [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
+* xarray 
 
-**Liste des *packages* utilisés dans ce chapitre**
-:::
 
-::: bloc_package-body
--   Pour importer et manipuler des fichiers géographiques :
-    -   `sf` pour importer et manipuler des données vectorielles.
-    -   `terra` pour importer et manipuler des données matricielles.
--   Pour construire des cartes et des graphiques :
-    -   `tmap` est certainement le meilleur *package* pour la cartographie.
-    -   `ggplot2` pour construire des graphiques.
-:::
-:::
+
+Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être installés:
+```{python}
+%%capture
+!pip install -qU rioxarray "geemap[workshop]"
+```
+### Images utilisées
+
+Nous allons utilisés les images suivantes dans ce chapitre:
+```{python}
+!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
+!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
+!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
+```
+
 
 ## Analyse fréquentielle {#sec-041}
 
 ## Filtrage d'image {#sec-042}
 
-Filtre médian, filtre moyen
+### Filtrage linéaire stationnaire
 
+Un filtrage linéaire stationnaire consiste à appliquer une même pondération locale des valeurs des pixels dans une fenêtre glissante. La taille de cette fenêtre est généralement impaire (3,5, etc.) afin de définir une position centrale et une fenêtre symétrique.
+ 
+:::{.callout-note}
+Mettre une figure ici
+:::
+
+Le filtre le plus simple est certainement le filtre moyen qui consiste à appliquer le même poids uniforme dans la fenêtre glissante.
+
+$$
+F= \frac{1}{25}\left[
+\begin{array}{c|c|c|c|c}
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1
+\end{array}
+\right]
+$$
+
+En python, on dispose des fonctions `rolling` et `sliding_window` définis dans la librairie numpy. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l'image avec deux nouvelles  dimensions `x_win` et `y_win`:
+
+```{python}
+#| eval: true
+import rioxarray as rxr
+with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as ds:
+    rolling_win = ds.rolling(x=5, y=5,  min_periods= 3, center= True).construct(x="x_win", y="y_win", keep_attrs= True)
+    print(rolling_win[1,1,1,...])
+    print(rolling_win.shape)
+```
+L'avantage de cette approche est qu'il n'y a pas d'utilisation inutile de la mémoire. Noter les `nan` sur les bords de l'image car la fenêtre déborde sur les bordures de l'image. Par la suite un opérateur moyenne peut être appliqué.
+```{python}
+#| eval: true
+filtre_moyen= rolling_win.mean(dim= ['x_win', 'y_win'], skipna= True)
+#print(median_filter)
+filtre_moyen.astype('int').plot.imshow(rgb="band")
+```
+
+:::{.callout-note}
 Filtre de Sobel, filtre Prewitt
+:::
+
+#### Filtrage par convolution
+
+La façon la plus efficace d'appliquer un filtre linéaire est d'appliquer une convolution.
+```{python}
+#| eval: true
+import numpy as np
+from scipy import signal
+import xarray as xr
+
+scharr = np.array([[ -3-3j, 0-10j,  +3 -3j],
+                   [-10+0j, 0+ 0j, +10 +0j],
+                   [ -3+3j, 0+10j,  +3 +3j]]) # Gx + j*Gy
+print(ds.isel(band=0).shape)
+grad = signal.convolve2d(ds.isel(band=0), scharr, boundary='symm', mode='same')
+
+arr = xr.DataArray(np.abs(grad), dims=("y", "x"), coords= {'x': ds.coords['x'], 'y': ds.coords['y'], 'spatial_ref': 0})
+print(arr)
+arr.plot.imshow()
+```
+
+#### Filtrage par une couche convolutionnelle
+
+Une couche convolutionnelle est simplement un ensemble de filtres appliqué sur la donnée d'entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2.
+
+### Filtrage adaptatif
+
+Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d'une image. Le filtre n'est alors plus stationnaire et sa réponse va varier en fonction du contenu local.
 
 ## Segmentation {#sec-043}
 
@@ -45,7 +135,7 @@ Filtre de Sobel, filtre Prewitt
 ```{python}
 #| label: quizChapitre06
 #| echo: false 
-#| eval: true 
+#| eval: false 
 #| message: false 
 #| warning: false 
 #| results: asis
@@ -56,68 +146,3 @@ render_quizz(Chap06Quiz)
 ```
 
 ## Exercices de révision {#sec-047}
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-**Exercice 1.** À compléter
-:::
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-library(sf)
-library(terra)
-# ...
-# à compléter
-```
-Correction à la [section @sec-08041].
-:::
-:::
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-**Exercice 2.** À compléter
-:::
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-library(sf)
-library(terra)
-# ...
-# à compléter
-```
-
-Correction à la [section @sec-08042].
-:::
-:::
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-**Exercice 3.** À compléter
-:::
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-library(sf)
-library(terra)
-# ...
-# à compléter
-```
-
-Correction à la [section @sec-08043].
-:::
-:::

@@ -1,7 +1,16 @@
+---
+jupyter: python3
+execute:
+  echo: true
+  eval: false
+  message: false
+  warning: false
+---
+
 # Transformations spectrales {#sec-chap03}
 
 Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d'images. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb) 
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb) 
 
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 * SciPy 
@@ -22,78 +31,17 @@ Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être instal
 
 ## Qu'est ce que l'information spectrale?
 
-L'information spectrale touche à l'exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l'image). 
+L'information spectrale touche à l'exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l'image). La taille de cette dimension spectrale dépend du type de capteurs considéré. Un capteur à très haute résolution spatiale par exemple aura très peu de bandes (4 ou 5). Un capteur multispectral pourra contenir une quinzaine de bande. À l'autre extrême, on trouvera les capteurs hyperspectraux qui peuvent contenir des centaines de bandes spectrales.
 
-## Indices spectraux {#sec-031}
+## Indices spectraux
 
-## Réduction de dimension {#sec-032}
+Il existe une vaste littérature sur les indices spectraux, le choix d'un indice plutôt qu'un autre dépend fortement de l'application visée, nous allons simplement couvrir les principes de base ici.
 
-### Analyses en composantes principales {#sec-0311}
+Le principe d'un indice spectral consiste à mettre en valeur certaines caractéristiques du spectre comme des pentes, des gradients, etc.
+
+## Réduction de dimension
+
+### Analyses en composantes principales
 
 
-## Exercices de révision {#sec-037}
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-**Exercice 1.** À compléter
-:::
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-library(sf)
-library(terra)
-# ...
-# à compléter
-```
-Correction à la [section @sec-08031].
-:::
-:::
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-**Exercice 2.** À compléter
-:::
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-library(sf)
-library(terra)
-# ...
-# à compléter
-```
-
-Correction à la [section @sec-08032].
-:::
-:::
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-**Exercice 3.** À compléter
-:::
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-library(sf)
-library(terra)
-# ...
-# à compléter
-```
-
-Correction à la [section @sec-08033].
-:::
-:::
+## Exercices de révision

@@ -211,6 +211,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./04-TransformationSpatiales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations spatiales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bibliographie</span></a>
   </div>
@@ -319,7 +325,7 @@ div.csl-indent {
 </ol>
 <section id="création-dun-environnement-virtuel" class="level3" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</h3>
-<p>Il y a deux façons d’installer environnement virtuel selon votre distribution de Python:</p>
+<p>Il y a deux façons d’installer un environnement virtuel selon votre distribution de Python:</p>
 <ol type="1">
 <li><strong>Option 1</strong> : vous utilisez <a href="https://www.anaconda.com/download">Anaconda</a> ou <a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a>, dans ce cas la commande <code>conda</code> est utilisée pour créer un environnement test avec Python 3.10:</li>
 </ol>
@@ -330,24 +336,10 @@ div.csl-indent {
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env <span class="at">-n</span> test python=3.10</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate test</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note: si vous utiliser des notebook jupyter, vous avez déjà un environnement virtuel qui contient le serveur jupyter.</p>
 </section>
 <section id="création-dun-environnement-de-travail-local" class="level3" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="création-dun-environnement-de-travail-local"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local</h3>
-<p>Les notebooks Python fonctionne par défaut dans l’environnement Google Colab. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur Jupyter, créer un fichier <code>environnement.yaml</code> avec l’information suivante:</p>
-<pre class="{yaml}"><code>name: jupyter_env
-dependencies:
-  - python=3.10
-  - jupyter
-  - pip
-  - pip:
-    - -r requirements.txt</code></pre>
-<p>La commande <code>python -m pip list --format=freeze &gt; requirements.txt</code> vous permet d’extraire la liste des librairies actuelles. Vous pouvez fixer vous même ces librairies dans un fichier <code>requirements.txt</code></p>
-<pre class="{txt}"><code>geemap
-rasterio
-rioxarray</code></pre>
-<p>Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code></p>
-<p>Une fenêtre devrait alors apparaître dans votre fureteur: <img src="https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/41586_2020_2649_Fig2_HTML.png" id="fig-naturenumpy1" class="img-fluid quarto-figure quarto-figure-center anchored" style="width:100.0%" alt="La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après (Harris 2020))."></p>
+<p>Les notebooks Python fonctionnent par défaut dans l’environnement <a href="https://colab.google/">Google Colab</a>. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html">Jupyter</a>. Il suffit de suivre les étapes suivantes: 1. Faire une installation du contenu du livre soit en utilisant une commande <code>git clone</code> ou en récupérant le <code>.zip</code> du livre 2. Ouvrer une console Windows ou Linux et placer vous dans le répertoire du livre <code>TraitementImagesPythonVol1</code>. Assurez vous que vous avez accès à conda en tapant <code>conda --version</code> 3. Lancer la commande <code>conda env create -f jupyter_env.yaml</code> 4. Activer le nouvel environnement: <code>conda activate jupyter_env</code> 5. Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code> Une fenêtre devrait alors apparaître dans votre fureteur: <img src="https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/jupyter-accueil.png" id="fig-naturenumpy1" class="img-fluid quarto-figure quarto-figure-center anchored" style="width:100.0%" alt="La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après (Harris 2020))."></p>
 </section>
 </section>
 <section id="les-structures-de-base" class="level2" data-number="1.4">
@@ -432,20 +424,7 @@ rioxarray</code></pre>
 </section>
 <section id="sec-016" class="level2" data-number="1.9">
 <h2 data-number="1.9" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.9</span> Cahier de révision (notebook)</h2>
-<div class="bloc_exercice">
-<div class="bloc_exercice-header">
-<div class="bloc_exercice-icon">
-
-</div>
-<p><strong>Notebook 1.</strong> À compléter <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/A24_TEL726_introduction_aux_librairies_python.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a></p>
-</div>
-<div class="bloc_exercice-body">
-<div id="a265c06b" class="cell" data-message="false" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
+<p>/TODO</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
