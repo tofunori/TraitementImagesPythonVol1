@@ -154,7 +154,7 @@ div.csl-indent {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Traitement d’images satellites avec Python</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/SerieBoldR/TraitementImagesVol1" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/sfoucher/TraitementImagesVol1" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -260,7 +260,7 @@ div.csl-indent {
   <li><a href="#sec-015" id="toc-sec-015" class="nav-link" data-scroll-target="#sec-015"><span class="header-section-number">2.6</span> Quiz de révision du chapitre</a></li>
   <li><a href="#sec-016" id="toc-sec-016" class="nav-link" data-scroll-target="#sec-016"><span class="header-section-number">2.7</span> Exercices de révision</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/sfoucher/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -287,13 +287,13 @@ div.csl-indent {
 <p>Dans ce chapitre, nous abordons quelques formats d’images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d’un notebook Python: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
 <p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes: * SciPy * NumPy * OpenCV * RasterIO * <a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a> * xarray</p>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et gdal doivent être installé:</p>
-<div id="712dc15c" class="cell" data-execution_count="1">
+<div id="54d688d9" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get update</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get install gdal<span class="op">-</span><span class="bu">bin</span> libgdal<span class="op">-</span>dev</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>q rioxarray</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nous allons utilisés ces deux images dans ce chapitre:</p>
-<div id="ba48514b" class="cell" data-execution_count="2">
+<div id="7d9e65bf" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif <span class="op">-</span>O RGBNIR_of_S2A.tif</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>raster<span class="op">/</span>landsat7.tif <span class="op">-</span>O landsat7.tif</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>images<span class="op">/</span>berkeley.jpg <span class="op">-</span>O berkeley.jpg</span>
@@ -330,7 +330,7 @@ div.csl-indent {
 <section id="lecture-avec-la-librairie-pil" class="level5" data-number="2.1.1.1.1">
 <h5 data-number="2.1.1.1.1" class="anchored" data-anchor-id="lecture-avec-la-librairie-pil"><span class="header-section-number">2.1.1.1.1</span> Lecture avec la librairie PIL</h5>
 <p>La librairie PIL retourne un objet de type <code>PngImageFile</code>, l’affichage de l’image se fait directement dans la cellule de sortie.</p>
-<div id="99928a13" class="cell" data-execution_count="3">
+<div id="7de01c31" class="cell" data-execution_count="3">
 <div id="lst-lecture-PIL-PNG" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-lecture-PIL-PNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -355,7 +355,7 @@ Bloc de code&nbsp;2.1: Lecture d’une image en format PNG avec PIL
 <section id="lecture-avec-la-librairie-opencv" class="level5" data-number="2.1.1.1.2">
 <h5 data-number="2.1.1.1.2" class="anchored" data-anchor-id="lecture-avec-la-librairie-opencv"><span class="header-section-number">2.1.1.1.2</span> Lecture avec la librairie OpenCV</h5>
 <p>La librairie <a href="https://docs.opencv.org/4.10.0/index.html">OpenCV</a> est aussi très populaire en vision par ordinateur. La fonction <code>imread</code> donne directement un objet de type NumPy en sortie.</p>
-<div id="d2de81d4" class="cell" data-execution_count="4">
+<div id="ff9da6b1" class="cell" data-execution_count="4">
 <div id="lst-lecture-opencv-PNG" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-lecture-opencv-PNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -373,7 +373,7 @@ Bloc de code&nbsp;2.2: Lecture d’une image en format PNG avec OpenCV
 <section id="lecture-avec-la-librairie-rasterio" class="level5" data-number="2.1.1.1.3">
 <h5 data-number="2.1.1.1.3" class="anchored" data-anchor-id="lecture-avec-la-librairie-rasterio"><span class="header-section-number">2.1.1.1.3</span> Lecture avec la librairie RasterIO</h5>
 <p>Rien ne nous empêche de lire une image de format RVB avec <a href="https://rasterio.readthedocs.io/en/stable/">RasterIO</a> comme décrit dans (<a href="#lst-lecturerasterioPNG" class="quarto-xref">bloc&nbsp;<span>2.3</span></a>). Vous noterez cependant les avertissements concernant l’absence de géoréférence pour ce type d’image.</p>
-<div id="cfa0da9a" class="cell" data-execution_count="5">
+<div id="02b5e5d0" class="cell" data-execution_count="5">
 <div id="lst-lecturerasterioPNG" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-lecturerasterioPNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -406,7 +406,7 @@ Bloc de code&nbsp;2.3: Lecture d’une image en format PNG avec OpenCV
 <section id="métadonnées-des-images" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="métadonnées-des-images"><span class="header-section-number">2.1.2</span> Métadonnées des images</h3>
 <p>La manière la plus directe d’accéder à la métadonnée d’une image est d’utiliser les commandes 🔖<a href="https://rasterio.readthedocs.io/en/stable/cli.html#info"><code>rio info</code></a> de la librairie Rasterio ou <code>gdalinfo</code> de la librairie <code>gdal</code>. Le résultat est imprimé dans la sortie standard ou sous forme d’un dictionnaire Python.</p>
-<div id="c552216d" class="cell" data-execution_count="6">
+<div id="36bf1821" class="cell" data-execution_count="6">
 <div id="lst-gdalinfo" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-gdalinfo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -501,7 +501,7 @@ Band 4 Block=2074x1926 Type=UInt16, ColorInterp=Undefined
 </div>
 </div>
 <p>Le plus simple est d’utiliser la fonction <code>rio info</code>:</p>
-<div id="29c123ec" class="cell" data-execution_count="7">
+<div id="8e02bdc2" class="cell" data-execution_count="7">
 <div id="lst-rioinfo" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-rioinfo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -650,7 +650,7 @@ Figure&nbsp;2.1: La librairie NumPy est le fondement de nombreuses librairies sc
 <section id="information-de-base" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="information-de-base"><span class="header-section-number">2.2.2</span> Information de base</h3>
 <p>Les deux informations de base à afficher sur une matrice sont 1) les dimensions de la matrice et 2) le format de stockage (le type). Pour cela, on peut utiliser le (<a href="#lst-numpyshape" class="quarto-xref">bloc&nbsp;<span>2.6</span></a>), le résultat nous informe que la matrice a 3 dimensions et une taille de <code>(442, 553, 3)</code> et un type <code>uint8</code> qui représente 1 octet (8 bit). Par conséquent, la matrice a <code>442</code> lignes, <code>553</code> colonnes et <code>3</code> canaux ou bandes. Il faut prêter une attention particulière aux valeurs minimales et maximales tolérées par le type de la donnée comme indiqué dans le (<a href="#tbl-numpytype" class="quarto-xref">tableau&nbsp;<span>2.1</span></a>) (voir aussi 🔖<a href="https://numpy.org/doc/stable/user/basics.types.html">Data types — NumPy v2.1 Manual</a>).</p>
-<div id="fc2a376a" class="cell" data-execution_count="8">
+<div id="e075220b" class="cell" data-execution_count="8">
 <div id="lst-numpyshape" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-numpyshape-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -760,7 +760,7 @@ Figure&nbsp;2.2: Vue d’ensemble des opérations de base des matrices avec NumP
 <p>Le découpage (ou <em>slicing</em> en anglais) consiste à produire une nouvelle matrice qui est un sous-ensemble de la matrice d’origine. Un découpage se fait avec le symbole ‘:’, la syntaxe générale pour définir un découpage est <code>[début:fin:pas]</code>. Si on ne spécifie pas <code>début</code> ou <code>fin</code> alors les valeurs 0 ou <code>dimension-1</code> sont considérées implicitement. Quelques exemples: * choisir un pixel en particulier avec toutes les bandes: <code>matrice[1,1,:]</code> * choisir la colonne 2: <code>matrice[:,2,:]</code></p>
 <p>La syntaxe de base pour le découpage (<em>slicing</em>) des tableaux NumPy repose sur l’utilisation des deux-points (<code>:</code>) à l’intérieur des crochets d’indexation. Cette notation permet de sélectionner des plages d’éléments de manière concise et intuitive. La structure générale du découpage est <code>matrice[start:stop:step]</code>, où : 1. <code>start</code> représente l’index de départ (inclus) 2. <code>stop</code> indique l’index de fin (exclu) 3. <code>step</code> définit l’intervalle entre chaque élément sélectionné</p>
 <p>Si l’un de ces paramètres est omis, NumPy utilise des valeurs par défaut : 0 pour <code>start</code>, la taille du tableau pour <code>stop</code>, et 1 pour <code>step</code>. Par exemple, pour un tableau unidimensionnel <code>array</code>, on peut extraire les éléments du deuxième au quatrième avec <code>array[1:4]</code>. Pour sélectionner tous les éléments à partir du troisième, on utiliserait <code>array[2:]</code>. Cette syntaxe s’applique également aux tableaux multidimensionnels, où chaque dimension est séparée par une virgule. Ainsi, pour une matrice 2D m, <code>m[0:2, 1:3]</code> sélectionnerait une sous-matrice 2x2 composée des deux premières lignes et des deuxième et troisième colonnes. L’indexation négative est également supportée, permettant de compter à partir de la fin du tableau. Par exemple, <code>a[-3:]</code> sélectionnerait les trois derniers éléments d’un tableau.</p>
-<div id="d585b830" class="cell" data-execution_count="10">
+<div id="9c1ea25f" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> cv2.imread(<span class="st">'modis-aqua.PNG'</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>img_col <span class="op">=</span> img[:,<span class="dv">1</span>,:]</span>
@@ -847,7 +847,7 @@ Dimensions de la matrice:  (442, 3)</code></pre>
 <p><strong>Exercice 1.</strong> À compléter</p>
 </div>
 <div class="bloc_exercice-body">
-<div id="41a127af" class="cell" data-message="false" data-execution_count="11">
+<div id="5b15f55d" class="cell" data-message="false" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -862,7 +862,7 @@ Dimensions de la matrice:  (442, 3)</code></pre>
 <p><strong>Exercice 2.</strong> À compléter</p>
 </div>
 <div class="bloc_exercice-body">
-<div id="d6082589" class="cell" data-message="false" data-execution_count="12">
+<div id="d93767c1" class="cell" data-message="false" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -877,7 +877,7 @@ Dimensions de la matrice:  (442, 3)</code></pre>
 <p><strong>Exercice 3.</strong> À compléter</p>
 </div>
 <div class="bloc_exercice-body">
-<div id="77fc6f58" class="cell" data-message="false" data-execution_count="13">
+<div id="96832312" class="cell" data-message="false" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># à compléter</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -989,7 +989,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/github\.com\/SerieBoldR\/MethodesAnalyseSpatiale\/livre\/index\.html");
+      var filterRegex = new RegExp("https:\/\/github\.com\/sfoucher\/TraitementImagesVol1\/livre\/index\.html");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -1337,7 +1337,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/SerieBoldR/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sfoucher/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
