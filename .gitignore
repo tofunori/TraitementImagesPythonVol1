@@ -4,3 +4,10 @@
 .Ruserdata
 
 /.quarto/
+*.tif
+*.tif.aux.xml
+*.tif:Zone.Identifier
+modis-aqua.PNG:Zone.Identifier
+modis-aqua.PNG
+berkeley.jpg
+berkeley.jpg:Zone.Identifier

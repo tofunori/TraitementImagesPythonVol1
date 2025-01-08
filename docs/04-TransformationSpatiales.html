@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
 <link href="./03-TransformationSpectrales.html" rel="prev">
-<link href="./images/introduction/Couverture_16_01-01.png" rel="icon" type="image/png">
+<link href="./images/gen-ai/Gemini_Generated_Image_3a8wwf3a8wwf3a8w.jpg" rel="icon" type="image/jpeg">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -241,8 +241,8 @@ window.Quarto = {
    
   <ul>
   <li><a href="#images-utilisées" id="toc-images-utilisées" class="nav-link active" data-scroll-target="#images-utilisées"><span class="header-section-number">5.0.1</span> Images utilisées</a></li>
-  <li><a href="#sec-041" id="toc-sec-041" class="nav-link" data-scroll-target="#sec-041"><span class="header-section-number">5.1</span> Analyse fréquentielle</a></li>
-  <li><a href="#sec-042" id="toc-sec-042" class="nav-link" data-scroll-target="#sec-042"><span class="header-section-number">5.2</span> Filtrage d’image</a>
+  <li><a href="#analyse-fréquentielle" id="toc-analyse-fréquentielle" class="nav-link" data-scroll-target="#analyse-fréquentielle"><span class="header-section-number">5.1</span> Analyse fréquentielle</a></li>
+  <li><a href="#filtrage-dimage" id="toc-filtrage-dimage" class="nav-link" data-scroll-target="#filtrage-dimage"><span class="header-section-number">5.2</span> Filtrage d’image</a>
   <ul class="collapse">
   <li><a href="#filtrage-linéaire-stationnaire" id="toc-filtrage-linéaire-stationnaire" class="nav-link" data-scroll-target="#filtrage-linéaire-stationnaire"><span class="header-section-number">5.2.1</span> Filtrage linéaire stationnaire</a></li>
   <li><a href="#filtrage-adaptatif" id="toc-filtrage-adaptatif" class="nav-link" data-scroll-target="#filtrage-adaptatif"><span class="header-section-number">5.2.2</span> Filtrage adaptatif</a></li>
@@ -283,27 +283,57 @@ window.Quarto = {
 </header>
 
 
-<p>Dans ce chapitre, nous abordons quelques techniques de traitement d’images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d’un notebook Python sur Google Colab: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-TransformationSpatiales.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
-<p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes: * SciPy * NumPy * OpenCV * RasterIO * Geemap * <a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a> * xarray</p>
-<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et GDAL doivent être installés:</p>
-<div id="4a35bd40" class="cell" data-execution_count="1">
+<p>Dans ce chapitre, nous abordons quelques techniques de traitement d’images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d’un notebook Python sur Google Colab:</p>
+<p><a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-TransformationSpatiales.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
+<p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes: * SciPy</p>
+<ul>
+<li><p>NumPy</p></li>
+<li><p>OpenCV</p></li>
+<li><p>RasterIO</p></li>
+<li><p>Geemap</p></li>
+<li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
+<li><p>xarray</p></li>
+</ul>
+<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installés:</p>
+<div id="10c51129" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU rioxarray <span class="st">"geemap[workshop]"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="images-utilisées" class="level3" data-number="5.0.1">
 <h3 data-number="5.0.1" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">5.0.1</span> Images utilisées</h3>
-<p>Nous allons utilisés les images suivantes dans ce chapitre:</p>
-<div id="e1f4bdf9" class="cell" data-execution_count="2">
+<p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
+<div id="5e9744cb" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif <span class="op">-</span>O RGBNIR_of_S2A.tif</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>raster<span class="op">/</span>landsat7.tif <span class="op">-</span>O landsat7.tif</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>images<span class="op">/</span>berkeley.jpg <span class="op">-</span>O berkeley.jpg</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Vérifiez que vous êtes capable de les lire :</p>
+<div id="4caf86e2" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'RGBNIR_of_S2A.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgbnir:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgbnir)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="sec-041" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="sec-041"><span class="header-section-number">5.1</span> Analyse fréquentielle</h2>
+<section id="analyse-fréquentielle" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="analyse-fréquentielle"><span class="header-section-number">5.1</span> Analyse fréquentielle</h2>
 </section>
-<section id="sec-042" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="sec-042"><span class="header-section-number">5.2</span> Filtrage d’image</h2>
+<section id="filtrage-dimage" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="filtrage-dimage"><span class="header-section-number">5.2</span> Filtrage d’image</h2>
+<p>Le filtrage d’image a plusieurs objectifs en télédétection:</p>
+<ol type="1">
+<li><p>La réduction du bruit afin d’améliorer la résolution radiométrique et améliorer la lisibilité de l’image.</p></li>
+<li><p>Le réhaussement de l’image afin d’améliorer le contraste ou faire ressortir les contours.</p></li>
+<li><p>La production de nouvelles caractéristiques: c.à.d dériver de nouvelles images mettant en valeur certaines informations dans l’image comme la texture, les contours, etc.</p></li>
+</ol>
+<p>Il existe de nombreuses méthodes de filtrage dans la littérature, on peut rassembler ces filtres en quatre grandes catégories:</p>
+<ol type="1">
+<li><p>Le filtrage peut-être global ou local, c.à.d prendre en compte toute l’image pour filtrer (ex: filtrage par Fourier) ou seulement localement avec une fenêtre ou un voisinage local.</p></li>
+<li><p>La fonction de filtrage peut-être linéaire ou non linéaire.</p></li>
+<li><p>La fonction de filtrage peut être stationnaire ou adaptative</p></li>
+<li><p>Le filtrage peut-être mono-échelle ou multi-échelles</p></li>
+</ol>
 <section id="filtrage-linéaire-stationnaire" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="filtrage-linéaire-stationnaire"><span class="header-section-number">5.2.1</span> Filtrage linéaire stationnaire</h3>
 <p>Un filtrage linéaire stationnaire consiste à appliquer une même pondération locale des valeurs des pixels dans une fenêtre glissante. La taille de cette fenêtre est généralement impaire (3,5, etc.) afin de définir une position centrale et une fenêtre symétrique.</p>
@@ -337,37 +367,36 @@ F= \frac{1}{25}\left[
 \right]
 \]</span></p>
 <p>En python, on dispose des fonctions <code>rolling</code> et <code>sliding_window</code> définis dans la librairie numpy. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l’image avec deux nouvelles dimensions <code>x_win</code> et <code>y_win</code>:</p>
-<div id="70f1af88" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> ds:</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    rolling_win <span class="op">=</span> ds.rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(rolling_win[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,...])</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(rolling_win.shape)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6181cf15" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>rolling_win <span class="op">=</span> img_rgb.rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rolling_win[<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,...])</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rolling_win.shape)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;xarray.DataArray (x_win: 5, y_win: 5)&gt;
 array([[ nan,  nan,  nan,  nan,  nan],
-       [ nan, 203., 204., 203., 202.],
-       [ nan, 207., 208., 206., 204.],
-       [ nan, 207., 206., 204., 200.],
-       [ nan, 204., 203., 200., 196.]], dtype=float32)
+       [ nan,  nan, 209., 210., 209.],
+       [ nan,  nan, 213., 214., 212.],
+       [ nan,  nan, 213., 212., 210.],
+       [ nan,  nan, 210., 209., 206.]], dtype=float32)
 Coordinates:
-    band         int64 2
+    band         int64 1
     x            float64 1.5
-    y            float64 1.5
+    y            float64 0.5
     spatial_ref  int64 0
 Dimensions without coordinates: x_win, y_win
 (3, 771, 1311, 5, 5)</code></pre>
 </div>
 </div>
 <p>L’avantage de cette approche est qu’il n’y a pas d’utilisation inutile de la mémoire. Noter les <code>nan</code> sur les bords de l’image car la fenêtre déborde sur les bordures de l’image. Par la suite un opérateur moyenne peut être appliqué.</p>
-<div id="38f76f9a" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#print(median_filter)</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>filtre_moyen.astype(<span class="st">'int'</span>).plot.imshow(rgb<span class="op">=</span><span class="st">"band"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="799998d7" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#print(median_filter)</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>filtre_moyen.astype(<span class="st">'int'</span>).plot.imshow(rgb<span class="op">=</span><span class="st">"band"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04-TransformationSpatiales_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="04-TransformationSpatiales_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -387,21 +416,21 @@ Note
 </div>
 <section id="filtrage-par-convolution" class="level4" data-number="5.2.1.1">
 <h4 data-number="5.2.1.1" class="anchored" data-anchor-id="filtrage-par-convolution"><span class="header-section-number">5.2.1.1</span> Filtrage par convolution</h4>
-<p>La façon la plus efficace d’appliquer un filtre linéaire est d’appliquer une convolution.</p>
-<div id="9c8671bf" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>scharr <span class="op">=</span> np.array([[ <span class="op">-</span><span class="dv">3</span><span class="op">-</span><span class="ot">3j</span>, <span class="dv">0</span><span class="op">-</span><span class="ot">10j</span>,  <span class="op">+</span><span class="dv">3</span> <span class="op">-</span><span class="ot">3j</span>],</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                   [<span class="op">-</span><span class="dv">10</span><span class="op">+</span><span class="ot">0j</span>, <span class="dv">0</span><span class="op">+</span> <span class="ot">0j</span>, <span class="op">+</span><span class="dv">10</span> <span class="op">+</span><span class="ot">0j</span>],</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                   [ <span class="op">-</span><span class="dv">3</span><span class="op">+</span><span class="ot">3j</span>, <span class="dv">0</span><span class="op">+</span><span class="ot">10j</span>,  <span class="op">+</span><span class="dv">3</span> <span class="op">+</span><span class="ot">3j</span>]]) <span class="co"># Gx + j*Gy</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ds.isel(band<span class="op">=</span><span class="dv">0</span>).shape)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>grad <span class="op">=</span> signal.convolve2d(ds.isel(band<span class="op">=</span><span class="dv">0</span>), scharr, boundary<span class="op">=</span><span class="st">'symm'</span>, mode<span class="op">=</span><span class="st">'same'</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> xr.DataArray(np.<span class="bu">abs</span>(grad), dims<span class="op">=</span>(<span class="st">"y"</span>, <span class="st">"x"</span>), coords<span class="op">=</span> {<span class="st">'x'</span>: ds.coords[<span class="st">'x'</span>], <span class="st">'y'</span>: ds.coords[<span class="st">'y'</span>], <span class="st">'spatial_ref'</span>: <span class="dv">0</span>})</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arr)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>arr.plot.imshow()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>La façon la plus efficace d’appliquer un filtre linéaire est d’appliquer une convolution. La convolution est généralement très efficace car elle est peut être calculée dans le domaine fréquentielle.</p>
+<div id="fdf17048" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>scharr <span class="op">=</span> np.array([[ <span class="op">-</span><span class="dv">3</span><span class="op">-</span><span class="ot">3j</span>, <span class="dv">0</span><span class="op">-</span><span class="ot">10j</span>,  <span class="op">+</span><span class="dv">3</span> <span class="op">-</span><span class="ot">3j</span>],</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                   [<span class="op">-</span><span class="dv">10</span><span class="op">+</span><span class="ot">0j</span>, <span class="dv">0</span><span class="op">+</span> <span class="ot">0j</span>, <span class="op">+</span><span class="dv">10</span> <span class="op">+</span><span class="ot">0j</span>],</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                   [ <span class="op">-</span><span class="dv">3</span><span class="op">+</span><span class="ot">3j</span>, <span class="dv">0</span><span class="op">+</span><span class="ot">10j</span>,  <span class="op">+</span><span class="dv">3</span> <span class="op">+</span><span class="ot">3j</span>]]) <span class="co"># Gx + j*Gy</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(img_rgb.isel(band<span class="op">=</span><span class="dv">0</span>).shape)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>grad <span class="op">=</span> signal.convolve2d(img_rgb.isel(band<span class="op">=</span><span class="dv">0</span>), scharr, boundary<span class="op">=</span><span class="st">'symm'</span>, mode<span class="op">=</span><span class="st">'same'</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># on reconstruit un xarray à partir du résultat:</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> xr.DataArray(np.<span class="bu">abs</span>(grad), dims<span class="op">=</span>(<span class="st">"y"</span>, <span class="st">"x"</span>), coords<span class="op">=</span> {<span class="st">'x'</span>: img_rgb.coords[<span class="st">'x'</span>], <span class="st">'y'</span>: img_rgb.coords[<span class="st">'y'</span>], <span class="st">'spatial_ref'</span>: <span class="dv">0</span>})</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arr)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>arr.plot.imshow()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(771, 1311)
 &lt;xarray.DataArray (y: 771, x: 1311)&gt;
@@ -426,7 +455,7 @@ Coordinates:
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04-TransformationSpatiales_files/figure-html/cell-6-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="04-TransformationSpatiales_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -434,12 +463,12 @@ Coordinates:
 </section>
 <section id="filtrage-par-une-couche-convolutionnelle" class="level4" data-number="5.2.1.2">
 <h4 data-number="5.2.1.2" class="anchored" data-anchor-id="filtrage-par-une-couche-convolutionnelle"><span class="header-section-number">5.2.1.2</span> Filtrage par une couche convolutionnelle</h4>
-<p>Une couche convolutionnelle est simplement un ensemble de filtres appliqué sur la donnée d’entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2.</p>
+<p>Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d’entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2.</p>
 </section>
 </section>
 <section id="filtrage-adaptatif" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="filtrage-adaptatif"><span class="header-section-number">5.2.2</span> Filtrage adaptatif</h3>
-<p>Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d’une image. Le filtre n’est alors plus stationnaire et sa réponse va varier en fonction du contenu local.</p>
+<p>Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d’une image. Le filtre n’est alors plus stationnaire et sa réponse peut varier en fonction du contenu local.</p>
 </section>
 </section>
 <section id="sec-043" class="level2" data-number="5.3">

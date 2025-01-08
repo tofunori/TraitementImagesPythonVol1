@@ -86,7 +86,7 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./01-ImportationManipulationImages.html" rel="next">
 <link href="./00-auteurs.html" rel="prev">
-<link href="./images/introduction/Couverture_16_01-01.png" rel="icon" type="image/png">
+<link href="./images/gen-ai/Gemini_Generated_Image_3a8wwf3a8wwf3a8w.jpg" rel="icon" type="image/jpeg">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -239,9 +239,9 @@ div.csl-indent {
   <li><a href="#bonnes-pratiques" id="toc-bonnes-pratiques" class="nav-link" data-scroll-target="#bonnes-pratiques"><span class="header-section-number">1.3</span> Bonnes pratiques</a>
   <ul class="collapse">
   <li><a href="#création-dun-environnement-virtuel" id="toc-création-dun-environnement-virtuel" class="nav-link" data-scroll-target="#création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</a></li>
-  <li><a href="#création-dun-environnement-de-travail-local" id="toc-création-dun-environnement-de-travail-local" class="nav-link" data-scroll-target="#création-dun-environnement-de-travail-local"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local</a></li>
+  <li><a href="#création-dun-environnement-de-travail-local-avancé" id="toc-création-dun-environnement-de-travail-local-avancé" class="nav-link" data-scroll-target="#création-dun-environnement-de-travail-local-avancé"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local (avancé)</a></li>
   </ul></li>
-  <li><a href="#les-structures-de-base" id="toc-les-structures-de-base" class="nav-link" data-scroll-target="#les-structures-de-base"><span class="header-section-number">1.4</span> Les structures de base</a></li>
+  <li><a href="#les-structures-de-base-en-python" id="toc-les-structures-de-base-en-python" class="nav-link" data-scroll-target="#les-structures-de-base-en-python"><span class="header-section-number">1.4</span> Les structures de base en Python</a></li>
   <li><a href="#les-listes" id="toc-les-listes" class="nav-link" data-scroll-target="#les-listes"><span class="header-section-number">1.5</span> Les listes</a>
   <ul class="collapse">
   <li><a href="#les-tuples" id="toc-les-tuples" class="nav-link" data-scroll-target="#les-tuples"><span class="header-section-number">1.5.1</span> Les tuples</a></li>
@@ -337,13 +337,14 @@ div.csl-indent {
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env <span class="at">-n</span> test python=3.10</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate test</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="création-dun-environnement-de-travail-local" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="création-dun-environnement-de-travail-local"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local</h3>
-<p>Les notebooks Python fonctionnent par défaut dans l’environnement <a href="https://colab.google/">Google Colab</a>. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html">Jupyter</a>. Il suffit de suivre les étapes suivantes: 1. Faire une installation du contenu du livre soit en utilisant une commande <code>git clone</code> ou en récupérant le <code>.zip</code> du livre 2. Ouvrer une console Windows ou Linux et placer vous dans le répertoire du livre <code>TraitementImagesPythonVol1</code>. Assurez vous que vous avez accès à conda en tapant <code>conda --version</code> 3. Lancer la commande <code>conda env create -f jupyter_env.yaml</code> 4. Activer le nouvel environnement: <code>conda activate jupyter_env</code> 5. Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code> Une fenêtre devrait alors apparaître dans votre fureteur: <img src="https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/jupyter-accueil.png" id="fig-naturenumpy1" class="img-fluid quarto-figure quarto-figure-center anchored" style="width:100.0%" alt="La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après (Harris 2020))."></p>
+<section id="création-dun-environnement-de-travail-local-avancé" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="création-dun-environnement-de-travail-local-avancé"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local (avancé)</h3>
+<p><strong>Note</strong>: les notebooks peuvent fonctionner localement uniquement sous Linux ou avec WSL2.</p>
+<p>Les notebooks Python fonctionnent par défaut dans l’environnement <a href="https://colab.google/">Google Colab</a>. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html">Jupyter</a>. Il suffit de suivre les étapes suivantes: 1. Installer <code>WSL2</code> sous <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows</a> 2. Installer <a href="https://code.visualstudio.com/docs/setup/windows">vscode</a> 3. Installer <a href="https://docs.anaconda.com/miniconda/install/#quick-command-line-install">Miniconda</a> 4. Faire une installation du contenu du livre soit en utilisant une commande <code>git clone</code> ou en récupérant le <code>.zip</code> du livre 5. Ouvrir WSL2 et placer vous dans le répertoire du livre <code>TraitementImagesPythonVol1</code>. Assurez vous que vous avez accès à conda en tapant <code>conda --version</code> 6. Lancer la commande <code>conda env create -f jupyter_env.yaml</code> 7. Activer le nouvel environnement: <code>conda activate jupyter_env</code> 8. Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code> Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu de gauche vous pouvez accéder aux notebooks dans le répertoire <code>notebooks</code>: <img src="https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/jupyter-accueil.png" id="fig-naturenumpy1" class="img-fluid quarto-figure quarto-figure-center anchored" style="width:100.0%" alt="La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après (Harris 2020))."></p>
 </section>
 </section>
-<section id="les-structures-de-base" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="les-structures-de-base"><span class="header-section-number">1.4</span> Les structures de base</h2>
+<section id="les-structures-de-base-en-python" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="les-structures-de-base-en-python"><span class="header-section-number">1.4</span> Les structures de base en Python</h2>
 <p>Il y a essentiellement deux structures de données que Python manipule : les listes et les dictionnaires.</p>
 </section>
 <section id="les-listes" class="level2" data-number="1.5">

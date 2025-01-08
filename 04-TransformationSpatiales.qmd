@@ -10,37 +10,71 @@ execute:
 # Transformations spatiales {#sec-chap04}
 
 Dans ce chapitre, nous abordons quelques techniques de traitement d'images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d'un notebook Python sur Google Colab:
+
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-TransformationSpatiales.ipynb) 
 
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 * SciPy 
+
 * NumPy 
+
 * OpenCV
+
 * RasterIO 
+
 * Geemap
+
 * [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
+
 * xarray 
 
-
-
-Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être installés:
+Dans l'environnement Google Colab, seul `rioxarray` doit être installés:
 ```{python}
 %%capture
 !pip install -qU rioxarray "geemap[workshop]"
 ```
 ### Images utilisées
 
-Nous allons utilisés les images suivantes dans ce chapitre:
+Nous allons utilisez les images suivantes dans ce chapitre:
 ```{python}
 !wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
 !wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
 !wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
 ```
+Vérifiez que vous êtes capable de les lire :
+```{python}
+#| eval: true
+#| output: false
+import rioxarray as rxr
+with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
+    print(img_rgb)
+with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
+    print(img_rgbnir)
+```
+
+## Analyse fréquentielle
 
 
-## Analyse fréquentielle {#sec-041}
 
-## Filtrage d'image {#sec-042}
+## Filtrage d'image
+
+Le filtrage d'image a plusieurs objectifs en télédétection:
+
+1. La réduction du bruit afin d'améliorer la résolution radiométrique et améliorer la lisibilité de l'image.
+
+2. Le réhaussement de l'image afin d'améliorer le contraste ou faire ressortir les contours.
+
+3. La production de nouvelles caractéristiques: c.à.d dériver de nouvelles images mettant en valeur certaines informations dans l'image comme la texture, les contours, etc.
+
+Il existe de nombreuses méthodes de filtrage dans la littérature, on peut rassembler ces filtres en quatre grandes catégories: 
+
+1. Le filtrage peut-être global ou local, c.à.d prendre en compte toute l'image pour filtrer (ex: filtrage par Fourier) ou seulement localement avec une fenêtre ou un voisinage local.  
+
+2. La fonction de filtrage peut-être linéaire ou non linéaire.
+
+3. La fonction de filtrage peut être stationnaire ou adaptative
+
+4. Le filtrage peut-être mono-échelle ou multi-échelles 
 
 ### Filtrage linéaire stationnaire
 
@@ -73,10 +107,9 @@ En python, on dispose des fonctions `rolling` et `sliding_window` définis dans 
 ```{python}
 #| eval: true
 import rioxarray as rxr
-with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as ds:
-    rolling_win = ds.rolling(x=5, y=5,  min_periods= 3, center= True).construct(x="x_win", y="y_win", keep_attrs= True)
-    print(rolling_win[1,1,1,...])
-    print(rolling_win.shape)
+rolling_win = img_rgb.rolling(x=5, y=5,  min_periods= 3, center= True).construct(x="x_win", y="y_win", keep_attrs= True)
+print(rolling_win[0,0,1,...])
+print(rolling_win.shape)
 ```
 L'avantage de cette approche est qu'il n'y a pas d'utilisation inutile de la mémoire. Noter les `nan` sur les bords de l'image car la fenêtre déborde sur les bordures de l'image. Par la suite un opérateur moyenne peut être appliqué.
 ```{python}
@@ -92,7 +125,7 @@ Filtre de Sobel, filtre Prewitt
 
 #### Filtrage par convolution
 
-La façon la plus efficace d'appliquer un filtre linéaire est d'appliquer une convolution.
+La façon la plus efficace d'appliquer un filtre linéaire est d'appliquer une convolution. La convolution est généralement très efficace car elle est peut être calculée dans le domaine fréquentielle.
 ```{python}
 #| eval: true
 import numpy as np
@@ -102,21 +135,21 @@ import xarray as xr
 scharr = np.array([[ -3-3j, 0-10j,  +3 -3j],
                    [-10+0j, 0+ 0j, +10 +0j],
                    [ -3+3j, 0+10j,  +3 +3j]]) # Gx + j*Gy
-print(ds.isel(band=0).shape)
-grad = signal.convolve2d(ds.isel(band=0), scharr, boundary='symm', mode='same')
-
-arr = xr.DataArray(np.abs(grad), dims=("y", "x"), coords= {'x': ds.coords['x'], 'y': ds.coords['y'], 'spatial_ref': 0})
+print(img_rgb.isel(band=0).shape)
+grad = signal.convolve2d(img_rgb.isel(band=0), scharr, boundary='symm', mode='same')
+# on reconstruit un xarray à partir du résultat:
+arr = xr.DataArray(np.abs(grad), dims=("y", "x"), coords= {'x': img_rgb.coords['x'], 'y': img_rgb.coords['y'], 'spatial_ref': 0})
 print(arr)
 arr.plot.imshow()
 ```
 
 #### Filtrage par une couche convolutionnelle
 
-Une couche convolutionnelle est simplement un ensemble de filtres appliqué sur la donnée d'entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2.
+Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2.
 
 ### Filtrage adaptatif
 
-Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d'une image. Le filtre n'est alors plus stationnaire et sa réponse va varier en fonction du contenu local.
+Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d'une image. Le filtre n'est alors plus stationnaire et sa réponse peut varier en fonction du contenu local.
 
 ## Segmentation {#sec-043}
 

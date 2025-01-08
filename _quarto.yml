@@ -48,8 +48,8 @@ book:
       Traitement d'images satellites avec Python.
     right: |
       Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.
-  cover-image: images/introduction/Couverture_16_01-01.png
-  favicon: images/introduction/Couverture_16_01-01.png
+  cover-image: images/gen-ai/Gemini_Generated_Image_3a8wwf3a8wwf3a8w.jpg
+  favicon: images/gen-ai/Gemini_Generated_Image_3a8wwf3a8wwf3a8w.jpg
   site-url: https://github.com/SerieBoldR/MethodesAnalyseSpatiale/livre/index.html
   repo-url: https://github.com/SerieBoldR/TraitementImagesVol1
   repo-branch: main

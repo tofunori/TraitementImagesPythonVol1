@@ -6,6 +6,12 @@ jupyter: python3
 ```
 **Résumé :** Ce livre vise à décrire une panoplie de méthodes de traitement d’images satellites avec le langage Python. Celles et ceux souhaitant migrer progressivement d’un autre logiciel d’imagerie et de télédétection vers Python trouveront dans cet ouvrage les éléments pour une transition en douceur. La philosophie de ce livre est de donner toutes les clefs de compréhension et de mise en œuvre des méthodes abordées dans Python. La présentation des méthodes est basée sur une approche compréhensive et intuitive plutôt que mathématique, sans pour autant négliger la rigueur mathématique ou statistique.
 
+:::{.callout-important}
+**Ce projet est en cours et le contenu n'est pas complet**
+
+![](images/logos/under-construction-2408062_640.png){width=50%}
+:::
+
 **Remerciements :** Ce manuel a été réalisé avec le soutien de la fabriqueREL. Fondée en 2019, la fabriqueREL est portée par divers établissements d'enseignement supérieur du Québec et agit en collaboration avec les services de soutien pédagogique et les bibliothèques. Son but est de faire des ressources éducatives libres (REL) le matériel privilégié en enseignement supérieur au Québec.
 
 **Maquette de la page couverture et identité graphique du livre :** Andrés Henao Florez.
@@ -14,7 +20,7 @@ jupyter: python3
 
 **Révision linguistique :** Denise Latreille.
 
-© Philippe Apparicio, Yacine Bouroubi, Samuel Foucher et Mickël Foucher.
+© Philippe Apparicio, Yacine Bouroubi, Samuel Foucher et Mickaël Germain.
 
 **Pour citer cet ouvrage :** Apparicio P., Bouroubi, Y., Foucher, S. et M. Germain (2024). *Traitement d’images satellites avec Python*. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA. <br /> <br />
 
@@ -42,7 +48,7 @@ La licence de ce livre, CC BY-SA (@fig-Licence), oblige donc à :
 
 -   Attribuer la paternité de l'auteur dans vos versions dérivées, ainsi qu'une mention concernant les grandes modifications apportées, en utilisant la formulation suivante : 
 
-Apparicio Philippe, Yacine Bouroubi, Samuel Foucher et Mickaël Foucher (2024). *Traitement d’images satellites : *. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA.
+Apparicio Philippe, Yacine Bouroubi, Samuel Foucher et Mickaël Germain (2024). *Traitement d’images satellites : *. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA.
 
 -   Utiliser la même licence ou une licence similaire à toutes versions dérivées.
 
@@ -230,7 +236,7 @@ Les images de télédétection ont des particularités et des propriétés qui l
 1. Les images sont géoréférencées : Cela veut dire que pour chaque pixel nous pouvons y associer une position géographique ou cartographique.
 2. Le point de vue est très différent : Ces images sont prises avec une vue d'en haut (Nadir) ou oblique avec une distance qui peut être très grande (On parle d'images distales).
 3. Elles possèdent plus que 3 bandes : Contrairement aux images en vision, les images de télédétection possèdent bien souvent plus que 3 bandes. Il n'est pas rare de trouver 4 bandes (Pléiade), 13 bandes (Sentinel-2, Landsat) et même 200 bandes pour des capteurs hyperspectraux.
-4. Elles peuvent être calibrées : Les valeurs numérique de l'image peuvent être converties en quantités physiques (luminance, réflectance, section efficiace, etc.) via une fonction de calibration.
+4. Elles peuvent être calibrées : Les valeurs numérique de l'image peuvent être converties en quantités physiques (luminance, réflectance, section efficace, etc.) via une fonction de calibration.
 5. Elles sont de grande taille : Il n'est pas rare de manipuler des images qui font plusieurs dizaines de milliers de pixels en dimension.
 
 ### Ressources en ligne
