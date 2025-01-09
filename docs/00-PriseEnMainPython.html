@@ -238,7 +238,7 @@ div.csl-indent {
   </ul></li>
   <li><a href="#bonnes-pratiques" id="toc-bonnes-pratiques" class="nav-link" data-scroll-target="#bonnes-pratiques"><span class="header-section-number">1.3</span> Bonnes pratiques</a>
   <ul class="collapse">
-  <li><a href="#création-dun-environnement-virtuel" id="toc-création-dun-environnement-virtuel" class="nav-link" data-scroll-target="#création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</a></li>
+  <li><a href="#sec-00-01" id="toc-sec-00-01" class="nav-link" data-scroll-target="#sec-00-01"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</a></li>
   <li><a href="#création-dun-environnement-de-travail-local-avancé" id="toc-création-dun-environnement-de-travail-local-avancé" class="nav-link" data-scroll-target="#création-dun-environnement-de-travail-local-avancé"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local (avancé)</a></li>
   </ul></li>
   <li><a href="#les-structures-de-base-en-python" id="toc-les-structures-de-base-en-python" class="nav-link" data-scroll-target="#les-structures-de-base-en-python"><span class="header-section-number">1.4</span> Les structures de base en Python</a></li>
@@ -323,8 +323,8 @@ div.csl-indent {
 <li><p><strong>Utilisez des environnements virtuels</strong> : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre. Par exemple, si vous souhaitez vérifier une nouvelle version de Python, utilisez un environnement : <code>conda create --name test python=3.11</code></p></li>
 <li><p><strong>Vérifiez l’installation</strong> : Après l’installation, ouvrez un terminal et tapez <code>python --version</code> pour vous assurer que tout fonctionne correctement.</p></li>
 </ol>
-<section id="création-dun-environnement-virtuel" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="création-dun-environnement-virtuel"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</h3>
+<section id="sec-00-01" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="sec-00-01"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</h3>
 <p>Il y a deux façons d’installer un environnement virtuel selon votre distribution de Python:</p>
 <ol type="1">
 <li><strong>Option 1</strong> : vous utilisez <a href="https://www.anaconda.com/download">Anaconda</a> ou <a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a>, dans ce cas la commande <code>conda</code> est utilisée pour créer un environnement test avec Python 3.10:</li>
@@ -408,8 +408,8 @@ div.csl-indent {
 <ul>
 <li>Pour importer et manipuler des fichiers géographiques&nbsp;:
 <ul>
-<li><code>sf</code> pour importer et manipuler des données vectorielles.</li>
-<li><code>terra</code> pour importer et manipuler des données matricielles.</li>
+<li><code>numpy</code> pour manipuler des données matricielles.</li>
+<li><code>rasterio</code> pour importer et manipuler des données matricielles.</li>
 </ul></li>
 <li>Pour construire des cartes et des graphiques&nbsp;:
 <ul>
@@ -425,7 +425,6 @@ div.csl-indent {
 </section>
 <section id="sec-016" class="level2" data-number="1.9">
 <h2 data-number="1.9" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.9</span> Cahier de révision (notebook)</h2>
-<p>/TODO</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">

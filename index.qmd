@@ -195,7 +195,7 @@ Une autre option est de télécharger le *repo* complet du livre directement sur
 
 Le livre est organisé autour de quatre grandes parties.
 
-**Partie 1. Importation et manipulation de données spatiales.** Dans cette première partie, nous voyons comment importer, manipuler, cartographier et exporter des données spatiales dans R, principalement avec les *packages* `sf` pour les données vectorielles, `terra` pour les données matricielles (images) et `tmap` pour la cartographie ([chapitre @sec-chap01]). Maîtriser les notions abordées dans ce chapitre constitue une étape préalable et indispensable à tout projet d'analyse spatiale. D'une part, avant d'analyser des données spatiales, il convient de les structurer (importation et manipulation) et de les explorer (cartographie). D'autre part, une fois la ou les méthodes d'analyse spatiale mises en œuvre, il convient de cartographier les résultats finaux et de les exporter au besoin dans un format de données géographiques (shapefile (`shp`), GeoPackage (`GPKG`), GeoJSON (`geojson`), sqlite (`sqlite`), GeoTiff, etc.).
+**Partie 1. Importation et manipulation de données spatiales.** Dans cette première partie, nous voyons comment importer, manipuler, visualiser et exporter des données spatiales de type image (ou de type matriciel) avec Python, principalement avec les *packages* `rasterio`, `xarray` et `numpy` ([chapitre @sec-chap01]). Ce chapitre vous permettra de maîtriser la manipulation à bas niveau de différents types d'imagerie. Différents exemples et exercises sont disponibles avec différents capteurs satellites (multi-spectral, RGB-NIR, SAR, etc.)
 
 **Partie 2. Transformations des données spatiales**. Cette deuxième partie comprend deux chapitres : les transformations spectrales ([chapitre @sec-chap03]) et les transformations spatiales ([chapitre @sec-chap04]).
 
@@ -244,65 +244,4 @@ Les images de télédétection ont des particularités et des propriétés qui l
 
 ### Listes des *librairies* utilisés {#sect0071 .unnumbered}
 
-Dans ce livre, nous utilisons de nombreux *packages* Python que vous pouvez installer avec le code ci-dessous.
-
-```{python}
-#| echo: true
-#| eval: false
-#| message: false
-#| warning: false
-
-import sys
-import subprocess
-import pkg_resources
-
-# Liste des packages
-list_packages = ["pandas", "scikit-image", "matplotlib", 
-                 "geopandas", "rasterio", "folium"]
-
-# Packages non installés dans la liste
-installed_packages = {pkg.key for pkg in pkg_resources.working_set}
-packages_not_installed = [pkg for pkg in list_packages if pkg.lower() not in installed_packages]
-
-# Installation des packages manquants
-if packages_not_installed:
-    print("Installing missing packages...")
-    for package in packages_not_installed:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-    print("All packages installed successfully.")
-else:
-    print("All required packages are already installed.")
-```
-
-
-### Python 101 {#sect0073 .unnumbered}
-
-
-
-```{python}
-#| label: fig-polar
-#| fig-cap: "A line plot on a polar axis"
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
-
-```{python}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-
-# Chargement des fonctions supplémentaires
-#source("code_complementaire/QuizzFunctions.R")
-```
+Dans ce livre, nous utilisons de nombreux *packages* Python que vous pouvez installer en une seule fois (voir [section @sec-00-01]) ou chapitre par chapitre.

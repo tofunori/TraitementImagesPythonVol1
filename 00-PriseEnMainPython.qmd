@@ -71,7 +71,7 @@ Python est un langage très dynamique, qui évolue constamment. Cela pose certai
 
 4. **Vérifiez l'installation** : Après l'installation, ouvrez un terminal et tapez `python --version` pour vous assurer que tout fonctionne correctement.
 
-### Création d'un environnement virtuel
+### Création d'un environnement virtuel {#sec-00-01}
 
 Il y a deux façons d'installer un environnement virtuel selon votre distribution de Python:
 
@@ -86,7 +86,7 @@ conda env -n test python=3.10
 conda activate test
 ```
 
-### Création d'un environnement de travail local (avancé)
+### Création d'un environnement de travail local (avancé) 
 
 __Note__: les notebooks peuvent fonctionner localement uniquement sous Linux ou avec WSL2.
 
@@ -180,8 +180,8 @@ Ces caractéristiques font de Python un excellent choix pour apprendre et appliq
 
 ::: bloc_package-body
 -   Pour importer et manipuler des fichiers géographiques :
-    -   `sf` pour importer et manipuler des données vectorielles.
-    -   `terra` pour importer et manipuler des données matricielles.
+    -   `numpy` pour manipuler des données matricielles.
+    -   `rasterio` pour importer et manipuler des données matricielles.
 -   Pour construire des cartes et des graphiques :
     -   `tmap` est certainement le meilleur *package* pour la cartographie.
     -   `ggplot2` pour construire des graphiques.
@@ -190,18 +190,5 @@ Ces caractéristiques font de Python un excellent choix pour apprendre et appliq
 
 ## Quiz de révision du chapitre
 
-```{python}
-#| label: quizChapitre02
-#| echo: false 
-#| eval: false 
-#| message: false 
-#| warning: false 
-#| results: asis
-
-#source("code_complementaire/QuizzFunctions.R")
-#Chap01Quiz <- quizz("quiz/Chap01.yml", "Chap01")
-#render_quizz(Chap01Quiz)
-```
-
 ## Cahier de révision (notebook) {#sec-016}
-/TODO
+

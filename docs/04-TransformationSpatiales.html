@@ -295,20 +295,20 @@ window.Quarto = {
 <li><p>xarray</p></li>
 </ul>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installés:</p>
-<div id="c3f53410" class="cell" data-execution_count="1">
+<div id="a81eec95" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU rioxarray <span class="st">"geemap[workshop]"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="images-utilisées" class="level3" data-number="5.0.1">
 <h3 data-number="5.0.1" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">5.0.1</span> Images utilisées</h3>
 <p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
-<div id="54311da0" class="cell" data-execution_count="2">
+<div id="134f594b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif <span class="op">-</span>O RGBNIR_of_S2A.tif</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>raster<span class="op">/</span>landsat7.tif <span class="op">-</span>O landsat7.tif</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>images<span class="op">/</span>berkeley.jpg <span class="op">-</span>O berkeley.jpg</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifiez que vous êtes capable de les lire :</p>
-<div id="3ad34557" class="cell" data-execution_count="3">
+<div id="2d2b58a6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
@@ -367,7 +367,7 @@ F= \frac{1}{25}\left[
 \right]
 \]</span></p>
 <p>En python, on dispose des fonctions <code>rolling</code> et <code>sliding_window</code> définis dans la librairie numpy. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l’image avec deux nouvelles dimensions <code>x_win</code> et <code>y_win</code>:</p>
-<div id="eb50fcd5" class="cell" data-execution_count="4">
+<div id="68ea777f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>rolling_win <span class="op">=</span> img_rgb.rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rolling_win[<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,...])</span>
@@ -389,7 +389,7 @@ Dimensions without coordinates: x_win, y_win
 </div>
 </div>
 <p>L’avantage de cette approche est qu’il n’y a pas d’utilisation inutile de la mémoire. Noter les <code>nan</code> sur les bords de l’image car la fenêtre déborde sur les bordures de l’image. Par la suite un opérateur moyenne peut être appliqué.</p>
-<div id="2a793e6e" class="cell" data-execution_count="5">
+<div id="f6b10d26" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#print(median_filter)</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>filtre_moyen.astype(<span class="st">'int'</span>).plot.imshow(rgb<span class="op">=</span><span class="st">"band"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -417,7 +417,7 @@ Note
 <section id="filtrage-par-convolution" class="level4" data-number="5.2.1.1">
 <h4 data-number="5.2.1.1" class="anchored" data-anchor-id="filtrage-par-convolution"><span class="header-section-number">5.2.1.1</span> Filtrage par convolution</h4>
 <p>La façon la plus efficace d’appliquer un filtre linéaire est d’appliquer une convolution. La convolution est généralement très efficace car elle est peut être calculée dans le domaine fréquentielle.</p>
-<div id="5279b891" class="cell" data-execution_count="6">
+<div id="c059260f" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
