@@ -1,1 +1,1 @@
-Sitemap: https://github.com/sfoucher/TraitementImagesVol1/livre/index.html/sitemap.xml
+Sitemap: https://serie-python-tele.github.io/TraitementImagesVol1/index.html/sitemap.xml

@@ -4,19 +4,19 @@ jupyter: python3
 ```{=tex}
 \renewcommand{\partname}{} % Réinitialiser partie
 ```
-**Résumé :** Ce livre vise à décrire une panoplie de méthodes de traitement d’images satellites avec le langage Python. Celles et ceux souhaitant migrer progressivement d’un autre logiciel d’imagerie et de télédétection vers Python trouveront dans cet ouvrage les éléments pour une transition en douceur. La philosophie de ce livre est de donner toutes les clefs de compréhension et de mise en œuvre des méthodes abordées dans Python. La présentation des méthodes est basée sur une approche compréhensive et intuitive plutôt que mathématique, sans pour autant négliger la rigueur mathématique ou statistique.
+**Résumé :** Ce livre vise à décrire une panoplie de méthodes de traitement d’images satellites avec le langage Python. Celles et ceux souhaitant migrer progressivement d’un autre logiciel d’imagerie et de télédétection vers Python trouveront dans cet ouvrage les éléments pour une transition en douceur. La philosophie de ce livre est de donner toutes les clefs de compréhension et de mise en œuvre des méthodes abordées dans Python. La présentation des méthodes est basée sur une approche compréhensive et intuitive plutôt que mathématique, sans pour autant négliger la rigueur mathématique ou statistique. Des rappels sur les fondements en télédétection pourront apparaître au besoin afin d'éclairer les approches techniques.
 
 :::{.callout-important}
-**Ce projet est en cours et le contenu n'est pas complet**
+**Ce projet est en cours d'écriture et le contenu n'est pas complet**
 
-![](images/logos/under-construction-2408062_640.png){width=50%}
+![](images/logos/under-construction-2408062_640.png){width=50% fig-align="left"}
 :::
 
 **Remerciements :** Ce manuel a été réalisé avec le soutien de la fabriqueREL. Fondée en 2019, la fabriqueREL est portée par divers établissements d'enseignement supérieur du Québec et agit en collaboration avec les services de soutien pédagogique et les bibliothèques. Son but est de faire des ressources éducatives libres (REL) le matériel privilégié en enseignement supérieur au Québec.
 
-**Maquette de la page couverture et identité graphique du livre :** Andrés Henao Florez.
+**Maquette de la page couverture et identité graphique du livre :** .
 
-**Mise en page :** Philippe Apparicio et Marie-Hélène Gadbois Del Carpio.
+**Mise en page :** Samuel Foucher, Philippe Apparicio et Marie-Hélène Gadbois Del Carpio.
 
 **Révision linguistique :** Denise Latreille.
 
@@ -64,7 +64,7 @@ Apparicio Philippe, Yacine Bouroubi, Samuel Foucher et Mickaël Germain (2024). 
 :::
 
 ::: bloc_astuce-body
-Pour chaque méthode d'analyse spatiale abordée dans le livre, une description détaillée et une mise en œuvre dans Python sont disponibles. Par conséquent, plusieurs adaptations du manuel sont possibles :
+Pour chaque méthode de traitement d'image abordée dans le livre, une description détaillée et une mise en œuvre dans Python sont disponibles. Par conséquent, plusieurs adaptations du manuel sont possibles :
 
 -   Conserver uniquement les chapitres sur les méthodes ciblées dans votre cours.
 
@@ -185,9 +185,9 @@ Il comprend un court exercice de révision à la fin de chaque chapitre.
 
 ## Comment utiliser les données du livre pour reproduire les exemples? {#sect003 .unnumbered}
 
-Ce livre comprend des exemples détaillés et appliqués dans R pour chacune des méthodes abordées. Ces exemples se basent sur des jeux de données structurés et mis à disposition avec le livre. Ils sont disponibles sur le *repo github* dans le sous-dossier `data`, à l'adresse <https://github.com/SerieBoldR/TraitementImagesVol1/tree/main/data>.
+Ce livre comprend des exemples détaillés et appliqués en Python pour chacune des méthodes abordées. Ces exemples se basent sur des jeux de données ouverts et mis à disposition avec le livre. Ils sont disponibles sur le *repo github* dans le sous-dossier `data`, à l'adresse <https://github.com/serie-tele-pyton/TraitementImagesVol1/tree/main/data>.
 
-Une autre option est de télécharger le *repo* complet du livre directement sur *github* (<https://github.com/SerieBoldR/TraitementImagesVol1>) en cliquant sur le bouton `Code`, puis le bouton `Download ZIP` (@fig-downloaffromgit). Les données se trouvent alors dans le sous-dossier nommé `data`.
+Une autre option est de télécharger le *repo* complet du livre directement sur *github* (<https://github.com/serie-tele-pyton/TraitementImagesVol1>) en cliquant sur le bouton `Code`, puis le bouton `Download ZIP` (@fig-downloaffromgit). Les données se trouvent alors dans le sous-dossier nommé `data`.
 
 ![Téléchargement de l'intégralité du livre](images/introduction/download_github.png){#fig-downloaffromgit width="40%" fig-align="center"}
 
@@ -199,7 +199,7 @@ Le livre est organisé autour de quatre grandes parties.
 
 **Partie 2. Transformations des données spatiales**. Cette troisième partie comprend deux chapitres : les transformations spectrales ([chapitre @sec-chap03]) et les transformations spatiales ([chapitre @sec-chap04]).
 
-**Partie 3. Classifications d'images.** Cette troisième partie comprend deux chapitres : les classifications supervisées ([chapitre @sec-chap05]) et non supervisées ([chapitre @sec-chap06]).
+**Partie 3. Classifications d'images** Cette troisième partie comprend deux chapitres : les classifications supervisées ([chapitre @sec-chap05]) et non supervisées ([chapitre @sec-chap06]).
 
 **Partie 4. Données massives**. Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes [chapitre @sec-chap07], notammment Google Earth Engine.
 
