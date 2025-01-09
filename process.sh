@@ -13,3 +13,6 @@ quarto convert 04-TransformationSpatiales.qmd
 mv 04-TransformationSpatiales.ipynb ./notebooks/
 quarto render 04-TransformationSpatiales.qmd --to docx  --no-execute --output-dir ./docx
 
+git add .
+git commit -m 'new content'
+git push
