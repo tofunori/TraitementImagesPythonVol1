@@ -77,10 +77,14 @@ La transformée de Fourier permet de transformer une image dans un espace fréqu
 
 Dans le cas d'un signal périodique en une dimension:
 ```{python}
-#| eval: true
+#| eval: false
+
+import scipy
 arr = xr.DataArray(np.sin(np.linspace(0, 15.7, 30)) ** 2,
                    dims=('x'), coords={'x': np.linspace(0, 5, 30)})
-fft = xrscipy.fft.fft(arr, 'x')
+fft = xrscipy.fft.fft(arr.data, 'x')
+#fft = scipy.fft.fft(arr.data)
+
 plt.figure(figsize=(10, 4))
 plt.subplot(1, 2, 1)
 arr.plot()
