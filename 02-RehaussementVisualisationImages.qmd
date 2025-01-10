@@ -9,17 +9,26 @@ execute:
 
 # Réhaussement et visualisation d'images {#sec-chap02}
 
-## Préambule
+## :rocket: Préambule
+### :dart: Objectifs
 Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d'images. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb){target="_blank"} 
 
+### Librairies
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
+
 * SciPy 
+
 * NumPy 
+
 * OpenCV
+
 * RasterIO 
+
 * Geemap
+
 * [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
+
 * xarray 
 
 
@@ -32,9 +41,9 @@ Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être instal
 !pip install -q rioxarray
 !pip install -qU "geemap[workshop]"
 ```
-### Images utilisées
+### Données
 
-Nous allons utilisés ces deux images dans ce chapitre:
+Nous allons utilisés ces images dans ce chapitre:
 ```{python}
 !wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
 !wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
