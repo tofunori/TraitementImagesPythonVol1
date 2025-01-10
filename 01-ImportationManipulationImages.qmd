@@ -8,8 +8,9 @@ execute:
 ---
 # Importation et manipulation de données spatiales {#sec-chap01}
 
+## Préambule
 Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb) 
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb){target="_blank"}  
 
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 * SciPy
