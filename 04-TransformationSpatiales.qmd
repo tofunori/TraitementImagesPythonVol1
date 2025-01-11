@@ -73,13 +73,19 @@ L'analyse fréquentielle, issue du traitement du signal, permet d'avoir un autre
 
 ### La transformée de Fourier
 
-La transformée de Fourier permet de transformer une image dans un espace fréquentielle. Cette transformée est complètement reversible. Dans le cas des images numériques, on parle de `2D-DFT` (*2D-Discrete Fourier Transform*) qui est un algorithme optimisé pour le calcul fréquentiel [@Cooley-1965]: 
+La transformée de Fourier permet de transformer une image dans un espace fréquentielle. Cette transformée est complètement reversible. Dans le cas des images numériques, on parle de `2D-DFT` (*2D-Discrete Fourier Transform*) qui est un algorithme optimisé pour le calcul fréquentiel [@Cooley-1965]. La *1D-DFT* peu s'écrire simplement comme une projection sur une série d'exponentielles complexes:  
 
-Dans le cas d'un simple signal périodique à une dimension avec une fréquence de 4/16 on obtient deux pics de fréquence à la position de 4 cycles observés sur $N=16$ observations. Les puissances de Fourier sont affichés dans un espace fréquentiel en cycles par unité d'espacement de l'échantillon (avec zéro au début) variant entre -1 et +1. Par exemple, si l'espacement des échantillons est en secondes, l'unité de fréquence est cycles/seconde (ou Hz). Dans le cas de N échantillons, le pic sera observé à la fréquence $+/- 4/16=0.25$ cycles/secondes. La fréquence d'échantillonnage $F_s$ du signal a aussi beaucoup d'importance aussi et doit être au moins a deux fois la plus haute fréquence observée (ici $F_s > 0.5$) sinon un phénomène de repliement appelé aliasing sera observé. 
+$$X[k] = \sum_{n=0 \ldots N-1} x[n] \times \exp(-j \times 2\pi \times k \times n/N))$$
+
+La transformée inverse prend une forme similaire:
+
+$$x[k] = \frac{1}{N}\sum_{n=0 \ldots N-1} X[n] \times \exp(j \times 2\pi \times k \times n/N))$$
+Le signal d'origine est donc reconstruit à partir d'une somme de sinusoïde complexe $\exp(j2\pi \frac{k}{N}n))$ de fréquence $k/N$. Noter qu'à partir de $k=N/2$, les sinusoïdes se répètent à un signe près et forme un miroir des composantes, la convention est lors de mettre ces composantes dans une espace négatif $[-N/2,\ldots,-1]$.
+
+Dans le cas d'un simple signal périodique à une dimension avec une fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de fréquence à la position de 4 cycles observés sur $N=16$ observations. Les puissances de Fourier sont affichés dans un espace fréquentiel en cycles par unité d'espacement de l'échantillon (avec zéro au début) variant entre -1 et +1. Par exemple, si l'espacement des échantillons est en secondes, l'unité de fréquence est cycles/seconde (ou Hz). Dans le cas de N échantillons, le pic sera observé à la fréquence $+/- 4/16=0.25$ cycles/secondes. La fréquence d'échantillonnage $F_s$ du signal a aussi beaucoup d'importance aussi et doit être au moins a deux fois la plus haute fréquence observée (ici $F_s > 0.5$) sinon un phénomène de repliement appelé aliasing sera observé. 
 ```{python}
 #| eval: true
 
-import xrscipy.fft as fft
 import math
 Fs= 2.0
 Ts= 1/Fs
@@ -90,8 +96,6 @@ fourier = np.fft.fft(arr)
 freq = np.fft.fftfreq(fourier.size, d=Ts)
 fourier = xr.DataArray(fourier,
                    dims=('f'), coords={'f': freq})
-
-#fft = fft.fft(arr, 'x').rename({'x':'f'})
 
 plt.figure(figsize=(10, 4))
 plt.subplot(1, 2, 1)
