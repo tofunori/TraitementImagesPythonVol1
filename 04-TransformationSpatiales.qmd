@@ -1,5 +1,6 @@
 ---
 jupyter: python3
+from: markdown+emoji
 execute:
   echo: true
   eval: false
@@ -12,6 +13,9 @@ execute:
 
 
 ## :rocket: Préambule
+
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+
 ### :dart: Objectifs
 Dans ce chapitre, nous abordons quelques techniques de traitement d'images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d'un notebook Python sur Google Colab:
 
@@ -55,6 +59,7 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 !wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
 !wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
 !wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
+!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif -O SAR.tif
 ```
 Vérifiez que vous êtes capable de les lire :
 ```{python}
@@ -64,6 +69,8 @@ Vérifiez que vous êtes capable de les lire :
 with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
     print(img_rgb)
 with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
+    print(img_rgbnir)
+with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
     print(img_rgbnir)
 ```
 
