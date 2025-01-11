@@ -286,11 +286,13 @@ La librairie NumPy fournit des mécanismes pour exclure automatiquement certaine
 
 ## Données en géoscience {#sec-013}
 
+Les données en géoscience contiennent beaucoup de métadonnées et peuvent être composées de différentes variables avec différentes unités, résolution, etc.  Ces données sont aussi souvent étiquetées avec des dates sur certains axes, des coordonnées géographiques, des identifiants d'expériences, etc. Par conséquent, utiliser seulement des matrices est souvent incomplet [@xarray-2017].
+
 Calibration, unités, données manquantes, données éparses.
 
 ### xarray
 
-[Xarray](https://docs.xarray.dev/en/latest/getting-started-guide/why-xarray.html) est une puissante bibliothèque Python qui améliore les matrices multidimensionnelles de type NumPy en y ajoutant des étiquettes, des dimensions, des coordonnées et des attributs. Elle fournit deux structures de données principales : DataArray (un tableau étiqueté à N dimensions) et Dataset (une base de données de tableaux multidimensionnels en mémoire).
+[Xarray](https://docs.xarray.dev/en/latest/getting-started-guide/why-xarray.html) est une puissante bibliothèque Python qui améliore les matrices multidimensionnelles de type numpy en y ajoutant des étiquettes, des dimensions, des coordonnées et des attributs. Elle fournit deux structures de données principales : `DataArray` (un tableau étiqueté à N dimensions) et `Dataset` (une base de données de tableaux multidimensionnels en mémoire).
 
 Les caractéristiques principales sont les suivantes:
 
