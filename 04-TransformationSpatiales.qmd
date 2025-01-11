@@ -313,6 +313,8 @@ On zoomant sur l'image on peut clairement voir que les détails de l'image sont 
 ```{python}
 #| eval: true
 #| echo: false
+
+filtered= filtre_moyen + ponderation * (img_SAR.sel(band=1).drop("band") - filtre_moyen)
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
 plt.subplot(1, 2, 1)
 xr.ufuncs.log10(filtre_moyen).isel(x=slice(None, 250),y=slice(None, 250)).plot.imshow()
