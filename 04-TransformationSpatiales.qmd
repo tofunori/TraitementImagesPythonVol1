@@ -286,8 +286,11 @@ xr.ufuncs.log10(filtre_moyen).plot.imshow()
 ```
 Au lieu d'appliquer un filtre moyen de manière indiscriminée, le filtre de Lee [@Lee-1986] applique une pondération en fonction du contenu local de l'image $I$ dans sa forme la plus simple:
 
-$$ I_F = I_M + K \times (I - I_M)\\
-K= \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
+$$ 
+\begin{aligned}
+I_F & = I_M + K \times (I - I_M) \\
+K & = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
+\end{aligned}
 $$
 Ainsi si la variance locale est élevée $K$ s'approche de $1$ préservant ainsi les détails de l'image sinon l'image moyenne $I_M$ est appliquée.
 ```{python}
@@ -309,6 +312,7 @@ axes[1].set_title("Pondération")
 On zoomant sur l'image on peut clairement voir que les détails de l'image sont mieux préservés:
 ```{python}
 #| eval: true
+#| echo: false
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
 plt.subplot(1, 2, 1)
 xr.ufuncs.log10(filtre_moyen).isel(x=slice(None, 250),y=slice(None, 250)).plot.imshow()
