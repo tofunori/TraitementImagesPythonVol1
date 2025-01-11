@@ -24,16 +24,16 @@ book:
   subtitle: "Première édition"
   search: true
   author: 
+    - name: Samuel Foucher
+      url: https://www.usherbrooke.ca/recherche/fr/specialistes/details/samuel.foucher
+      affiliation: Département de géomatique appliquée<br>Université de Sherbrooke
+      affiliation-url: https://www.usherbrooke.ca/geomatique/
     - name: Philippe Apparicio
       url: https://www.usherbrooke.ca/recherche/fr/specialistes/details/philippe.apparicio
       affiliation: Département de géomatique appliquée<br>Université de Sherbrooke
       affiliation-url: https://www.usherbrooke.ca/geomatique/
     - name: Yacine Bouroubi
       url: https://www.usherbrooke.ca/recherche/fr/specialistes/details/yacine-bouroubi
-      affiliation: Département de géomatique appliquée<br>Université de Sherbrooke
-      affiliation-url: https://www.usherbrooke.ca/geomatique/
-    - name: Samuel Foucher
-      url: https://www.usherbrooke.ca/recherche/fr/specialistes/details/samuel.foucher
       affiliation: Département de géomatique appliquée<br>Université de Sherbrooke
       affiliation-url: https://www.usherbrooke.ca/geomatique/
     - name: Mickaël Germain

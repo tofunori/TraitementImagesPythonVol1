@@ -20,9 +20,9 @@ jupyter: python3
 
 **Révision linguistique :** Denise Latreille.
 
-© Philippe Apparicio, Yacine Bouroubi, Samuel Foucher et Mickaël Germain.
+© Samuel Foucher, Philippe Apparicio, Yacine Bouroubi et Mickaël Germain.
 
-**Pour citer cet ouvrage :** Apparicio P., Bouroubi, Y., Foucher, S. et M. Germain (2024). *Traitement d’images satellites avec Python*. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA. <br /> <br />
+**Pour citer cet ouvrage :** Foucher S., Apparicio P., Bouroubi, Y. et M. Germain (2024). *Traitement d’images satellites avec Python*. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA. <br /> <br />
 
 ![](images/introduction/CouvertureP2.png){width="80%" fig-align="left"}
 
