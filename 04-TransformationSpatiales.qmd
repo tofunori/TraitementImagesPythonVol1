@@ -117,32 +117,21 @@ plt.show()
 
 ### L'aliasing
 
-L'aliasing est un problème fréquent en traitement du signal. Il résulte d'une fréquence d'échantillonnage trop faible par rapport au contenu fréquentielle du signal. Ceci peut se voir lorsque vous sous-échantillonner fortement une image avec un facteur de décimation (par exemple 1 pixel sur 4). L'image présente alors un aspect faussement texturée avec beaucoup de haute fréquences:
+L'aliasing est un problème fréquent en traitement du signal. Il résulte d'une fréquence d'échantillonnage trop faible par rapport au contenu fréquentielle du signal. Ceci peut se voir lorsque vous sous-échantillonner fortement une image avec un facteur de décimation (par exemple 1 pixel sur 4). En prenant un pixel sur 2, on réduit la fréquence d'échantillonnage d'un facteur 2 ce qui nous impose de réduire les fréquences maximales de l'image. L'image présente alors un aspect faussement texturée avec beaucoup de haute fréquences:
 
 ```{python}
 #| eval: true
-from scipy.ndimage import gaussian_filter
-plt.figure(figsize=(10, 4))
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
 plt.subplot(1, 2, 1)
 img_rgb.astype('int').plot.imshow(rgb="band")
+axes[0].set_title("Originale")
 plt.subplot(1, 2, 2)
 img_rgb[:,::4,::4].astype('int').plot.imshow(rgb="band")
+axes[1].set_title("Décimée par un facteur 4")
 plt.show()
 ```
 
-
-```{python}
-#| eval: true
-import xrscipy.signal as dsp
-
-plt.figure(figsize=(10, 4))
-plt.subplot(1, 2, 1)
-img_rgb.astype('int').plot.imshow(rgb="band")
-plt.subplot(1, 2, 2)
-dsp.decimate(img_rgb, q=4, dim='x').astype('int').plot.imshow(rgb="band")
-plt.show()
-```
-
+Une façon de réduire ce bruit est de filtrer par un filtre passe-bas pour réduire les hautes fréquences par exemple un filtre Gaussien:
 ```{python}
 #| eval: true
 from scipy.ndimage import gaussian_filter
@@ -151,15 +140,30 @@ q= 4
 sigma= q*1.1774/math.pi
 arr = xr.DataArray(gaussian_filter(img_rgb.to_numpy(), sigma= (0,sigma,sigma)), dims=('band',"y", "x"), coords= {'x': img_rgb.coords['x'], 'y': img_rgb.coords['y'], 'spatial_ref': 0})
 
-plt.figure(figsize=(10, 4))
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
 plt.subplot(1, 2, 1)
 img_rgb.astype('int').plot.imshow(rgb="band")
+axes[0].set_title("Originale")
 plt.subplot(1, 2, 2)
 arr[:,::q,::q].astype('int').plot.imshow(rgb="band")
-
+axes[1].set_title("Décimée par un facteur 4")
 plt.show()
-
 ```
+
+```{python}
+#| eval: true
+import xrscipy.signal as dsp
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
+plt.subplot(1, 2, 1)
+img_rgb.astype('int').plot.imshow(rgb="band")
+axes[0].set_title("Originale")
+plt.subplot(1, 2, 2)
+dsp.decimate(img_rgb, q=4, dim='x').astype('int').plot.imshow(rgb="band")
+axes[1].set_title("Décimée par un facteur 4")
+```
+
+
 
 
 
