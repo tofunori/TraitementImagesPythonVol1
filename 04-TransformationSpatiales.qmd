@@ -190,6 +190,8 @@ Il existe de nombreuses méthodes de filtrage dans la littérature, on peut rass
 
 4. Le filtrage peut-être mono-échelle ou multi-échelles 
 
+La librairie Scipy ([Multidimensional image processing (scipy.ndimage)](https://docs.scipy.org/doc/scipy/reference/ndimage.html)) contient une panoplie complète de filtres.
+
 ### Filtrage linéaire stationnaire
 
 Un filtrage linéaire stationnaire consiste à appliquer une même pondération locale des valeurs des pixels dans une fenêtre glissante. La taille de cette fenêtre est généralement impaire (3,5, etc.) afin de définir une position centrale et une fenêtre symétrique.
@@ -254,15 +256,19 @@ print(arr)
 arr.plot.imshow()
 ```
 
-
+##### Gestion des bordures
 
 #### Filtrage par une couche convolutionnelle
+
+:::{.callout-important}
+Cette section nécessite la librairie Pytorch avec un GPU et ne fonctionnera que sur Colab.
+:::
 
 Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2.
 
 ### Filtrage adaptatif
 
-Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d'une image. Le filtre n'est alors plus stationnaire et sa réponse peut varier en fonction du contenu local. Ce type de filtre est très utilisé pour filtrer les images SAR (Synthetic Aperture Radar) qui sont dégradées par un bruit multiplicatif que l'on appelle *speckle*.
+Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d'une image. Le filtre n'est alors plus stationnaire et sa réponse peut varier en fonction du contenu local. Ce type de filtre est très utilisé pour filtrer les images SAR (Synthetic Aperture Radar) qui sont dégradées par un bruit multiplicatif que l'on appelle *speckle*. On peut voir un exemple d'une image Sentinel-1 (bande HH) sur la région de Montréal, remarquée que l'image est affichée en dB en appliquant la fonction `log10`.
 
 ```{python}
 #| eval: true
@@ -271,14 +277,21 @@ print(img_SAR.rio.crs)
 #img_SAR.sel(band=2).drop("band").imshow()
 xr.ufuncs.log10(img_SAR.sel(band=1).drop("band")).plot()
 ```
-
+Un des filtres les plus simples pour réduire le bruit est d'appliquer un filtre moyenne, par exemple un $5x5$ ci dessous:
 ```{python}
+#| eval: true
 rolling_win = img_SAR.sel(band=2).rolling(x=5, y=5,  min_periods= 3, center= True).construct(x="x_win", y="y_win", keep_attrs= True)
 filtre_moyen= rolling_win.mean(dim= ['x_win', 'y_win'], skipna= True)
 xr.ufuncs.log10(filtre_moyen).plot.imshow()
 ```
-Au lieu d'appliquer un filtre moyen, le filtre de Lee applique une pondération:
+Au lieu d'appliquer un filtre moyen de manière indiscriminée, le filtre de Lee [@Lee-1986] applique une pondération en fonction du contenu local de l'image $I$ dans sa forme la plus simple:
+
+$$ I_F = I_M + K \times (I - I_M)\\
+K= \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
+$$
+Ainsi si la variance locale est élevée $K$ s'approche de $1$ préservant ainsi les détails de l'image sinon l'image moyenne $I_M$ est appliquée.
 ```{python}
+#| eval: true
 rolling_win = img_SAR.sel(band=2).rolling(x=5, y=5,  min_periods= 3, center= True).construct(x="x_win", y="y_win", keep_attrs= True)
 filtre_moyen= rolling_win.mean(dim= ['x_win', 'y_win'], skipna= True)
 ecart_type= rolling_win.std(dim= ['x_win', 'y_win'], skipna= True)
@@ -290,19 +303,19 @@ plt.subplot(1, 2, 1)
 cv.plot.imshow( vmin=0, vmax=2)
 axes[0].set_title("CV")
 plt.subplot(1, 2, 2)
-ponderation.plot.imshow( vmin=0, vmax=1) #cmap=plt.get_cmap('hot'),
+ponderation.plot.imshow( vmin=0, vmax=1) 
 axes[1].set_title("Pondération")
 ```
-
+On zoomant sur l'image on peut clairement voir que les détails de l'image sont mieux préservés:
 ```{python}
+#| eval: true
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
 plt.subplot(1, 2, 1)
-xr.ufuncs.log10(filtre_moyen).plot.imshow()
-axes[0].set_title("CV")
+xr.ufuncs.log10(filtre_moyen).isel(x=slice(None, 250),y=slice(None, 250)).plot.imshow()
+axes[0].set_title("Filtre moyen")
 plt.subplot(1, 2, 2)
-filtered= filtre_moyen  + ponderation*(img_SAR.sel(band=1).drop("band") - filtre_moyen)
-xr.ufuncs.log10(filtered).plot.imshow() #cmap=plt.get_cmap('hot'),
-axes[1].set_title("Pondération")
+xr.ufuncs.log10(filtered).isel(x=slice(None, 250),y=slice(None, 250)).plot.imshow() #cmap=plt.get_cmap('hot'),
+axes[1].set_title("Filtre de Lee")
 ```
 
 ## Segmentation
