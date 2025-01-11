@@ -288,6 +288,59 @@ La librairie NumPy fournit des mécanismes pour exclure automatiquement certaine
 
 Calibration, unités, données manquantes, données éparses.
 
+### xarray
+
+[Xarray](https://docs.xarray.dev/en/latest/getting-started-guide/why-xarray.html) est une puissante bibliothèque Python qui améliore les matrices multidimensionnelles de type NumPy en y ajoutant des étiquettes, des dimensions, des coordonnées et des attributs. Elle fournit deux structures de données principales : DataArray (un tableau étiqueté à N dimensions) et Dataset (une base de données de tableaux multidimensionnels en mémoire).
+
+Les caractéristiques principales sont les suivantes:
+
+- Opérations sur les dimensions nommées au lieu des numéros d'axe
+
+- Sélection et opérations basées sur les étiquettes
+
+- Diffusion automatique de tableaux basée sur les noms de dimensions
+
+- Alignement de type base de données avec des étiquettes de coordonnées
+
+- Suivi des métadonnées grâce aux dictionnaires Python
+
+#### Avantages
+La bibliothèque réduit considérablement la complexité du code et améliore la lisibilité du code pour les applications de calcul scientifique dans divers domaines, notamment la physique, l'astronomie, les géosciences, la bio-informatique, l'ingénierie, la finance et l'apprentissage profond. Elle s'intègre de manière transparente avec NumPy et pandas tout en restant compatible avec l'écosystème Python au sens large.
+
+
+#### DataArray
+Un tableau multidimensionnel étiqueté avec des propriétés clées :
+
+- `valeurs` : Les données réelles du tableau
+
+- `dims` : Dimensions nommées (par exemple, « x », « y », « z »)
+
+- `coords` : Dictionnaire de tableaux étiquetant chaque point
+
+- `attrs` : Stockage de métadonnées arbitraires
+
+- `name` : Identifiant facultatif
+
+#### Dataset 
+Un conteneur de type dictionnaire de `DataArrays` avec des dimensions alignées, contenant :
+
+- `dims` : Dictionnaire de correspondance entre les noms des dimensions et les longueurs
+
+- `data_vars` : Dictionnaire des variables du DataArray
+
+- `coords` : Dictionnaire des variables de coordonnées
+
+- `attrs` : Stockage des métadonnées
+
+Les principales différences sont les suivantes :
+- DataArray contient un seul tableau avec des étiquettes
+- Le Dataset contient plusieurs DataArrays alignés.
+
+
+Ces trois structures prennent en charge les opérations de type dictionnaire et les calculs de coordination tout en conservant les métadonnées.
+
+![](https://docs.xarray.dev/en/latest/_images/dataset-diagram.png)
+
 netcdf, xarray, GRIB.
 
 Données météos, exemple avec SWOT.
