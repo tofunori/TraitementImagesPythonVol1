@@ -69,27 +69,35 @@ with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
 
 ## Analyse fréquentielle
 
-L'analyse fréquentielle, issue du traitement du signal, permet d'avoir un autre point de vue sur les données à partir de ses composantes harmoniques. La modifications des composantes de Fourier modifie l'ensemble de l'image et permet de corriger des problèmes systématiques comme des artefacts ou du bruit de capteur.
+L'analyse fréquentielle, issue du traitement du signal, permet d'avoir un autre point de vue sur les données à partir de ses composantes harmoniques. La modifications de ces composantes de Fourier modifie l'ensemble de l'image et permet de corriger des problèmes systématiques comme des artefacts ou du bruit de capteur. Bien que ce domaine soit un peu éloigné de la télédétection, les images fourniment par les capteurs sont tous sujets à des étapes de traitement du signal et il faut donc en connaître les grands principes afin de pouvoir comprendre certains enjeux lors des traitements.
 
 ### La transformée de Fourier
 
-La transformée de Fourier permet de transformer une image dans un espace fréquentielle. Cette transformée est complètement reversible. Dans le cas des images numériques, on parle de `2D-FFT` (*2D-Fast Fourier Transform*). 
+La transformée de Fourier permet de transformer une image dans un espace fréquentielle. Cette transformée est complètement reversible. Dans le cas des images numériques, on parle de `2D-DFT` (*2D-Discrete Fourier Transform*) qui est un algorithme optimisé pour le calcul fréquentiel [@Cooley-1965]: 
 
-Dans le cas d'un signal périodique en une dimension:
+Dans le cas d'un simple signal périodique à une dimension avec une fréquence de 4/16 on obtient deux pics de fréquence à la position de 4 cycles observés sur $N=16$ observations. Les puissances de Fourier sont affichés dans un espace fréquentiel en cycles par unité d'espacement de l'échantillon (avec zéro au début) variant entre -1 et +1. Par exemple, si l'espacement des échantillons est en secondes, l'unité de fréquence est cycles/seconde (ou Hz). Dans le cas de N échantillons, le pic sera observé à la fréquence $+/- 4/16=0.25$ cycles/secondes. La fréquence d'échantillonnage $F_s$ du signal a aussi beaucoup d'importance aussi et doit être au moins a deux fois la plus haute fréquence observée (ici $F_s > 0.5$) sinon un phénomène de repliement appelé aliasing sera observé. 
 ```{python}
-#| eval: false
+#| eval: true
 
-import scipy
-arr = xr.DataArray(np.sin(np.linspace(0, 15.7, 30)) ** 2,
-                   dims=('x'), coords={'x': np.linspace(0, 5, 30)})
-fft = xrscipy.fft.fft(arr.data, 'x')
-#fft = scipy.fft.fft(arr.data)
+import xrscipy.fft as fft
+import math
+Fs= 2.0
+Ts= 1/Fs
+N= 16
+arr = xr.DataArray(np.sin(2*math.pi*np.arange(0,N,Ts)*4/16),
+                   dims=('x'), coords={'x': np.arange(0,N,Ts)})
+fourier = np.fft.fft(arr)
+freq = np.fft.fftfreq(fourier.size, d=Ts)
+fourier = xr.DataArray(fourier,
+                   dims=('f'), coords={'f': freq})
+
+#fft = fft.fft(arr, 'x').rename({'x':'f'})
 
 plt.figure(figsize=(10, 4))
 plt.subplot(1, 2, 1)
-arr.plot()
+arr.plot.line(color='red', linestyle='dashed', marker='o', markerfacecolor='blue')
 plt.subplot(1, 2, 2)
-np.abs(fft).plot()
+np.abs(fourier).plot.line(color='red', linestyle='dashed', marker='o', markerfacecolor='blue')
 plt.show()
 ```
 
