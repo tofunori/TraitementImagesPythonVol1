@@ -44,14 +44,37 @@ Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être instal
 !pip install -q rioxarray
 !pip install -qU "geemap[workshop]"
 ```
-### Données
-
-Nous allons utilisés ces images dans ce chapitre:
+Vérifier les importations:
 ```{python}
+#| eval: true
+import numpy as np
+import rioxarray as rxr
+from scipy import signal
+import xarray as xr
+import xrscipy
+import matplotlib.pyplot as plt
+```
+### Données
+Nous allons utilisez les images suivantes dans ce chapitre:
+```{python}
+%%capture
 !wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
 !wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
+!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
+!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif -O SAR.tif
 ```
+Vérifiez que vous êtes capable de les lire :
+```{python}
+#| eval: true
+#| output: false
 
+with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
+    print(img_rgb)
+with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
+    print(img_rgbnir)
+with rxr.open_rasterio('subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif', mask_and_scale= True) as img_SAR:
+    print(img_SAR)
+```
 ## Réhaussements visuels
 
 Le but du réhaussement visuel d'une image vise principalement à améliorer la qualité visuelle d'une image en améliorant le contraste, la dynamique ou la texture d'une image. De manière générale, ce réhaussement ne modifie pas la donnée d'origine mais est plutôt appliquée dynamiquement à l'affichage pour des fins d'inspection visuelle.

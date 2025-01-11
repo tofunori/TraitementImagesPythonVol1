@@ -40,7 +40,38 @@ Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être instal
 !pip install -q rioxarray
 !pip install -qU "geemap[workshop]"
 ```
+Vérifier les importations:
+```{python}
+#| eval: true
+import numpy as np
+import rioxarray as rxr
+from scipy import signal
+import xarray as xr
+import xrscipy
+import matplotlib.pyplot as plt
+```
+### Images utilisées
 
+Nous allons utilisez les images suivantes dans ce chapitre:
+```{python}
+%%capture
+!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
+!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
+!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
+!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_1_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903_resampled.tif -O sentinel2.tif
+```
+Vérifiez que vous êtes capable de les lire :
+```{python}
+#| eval: true
+#| output: false
+
+with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
+    print(img_rgb)
+with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
+    print(img_rgbnir)
+with rxr.open_rasterio('sentinel2.tif', mask_and_scale= True) as img_rgbnir:
+    print(img_s2)
+```
 ## Qu'est ce que l'information spectrale?
 
 L'information spectrale touche à l'exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l'image). La taille de cette dimension spectrale dépend du type de capteurs considéré. Un capteur à très haute résolution spatiale par exemple aura très peu de bandes (4 ou 5). Un capteur multispectral pourra contenir une quinzaine de bande. À l'autre extrême, on trouvera les capteurs hyperspectraux qui peuvent contenir des centaines de bandes spectrales.

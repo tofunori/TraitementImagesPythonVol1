@@ -38,7 +38,16 @@ Dans l'environnement Google Colab, seul `rioxarray` et gdal doivent être instal
 !apt-get install gdal-bin libgdal-dev
 !pip install -q rioxarray
 ```
-
+Vérifier les importations:
+```{python}
+#| eval: true
+import numpy as np
+import rioxarray as rxr
+from scipy import signal
+import xarray as xr
+import xrscipy
+import matplotlib.pyplot as plt
+```
 ### Données
 
 Nous allons utilisés ces images dans ce chapitre:
@@ -48,7 +57,16 @@ Nous allons utilisés ces images dans ce chapitre:
 !wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
 !wget https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/modis-aqua.PNG -O modis-aqua.PNG
 ```
+Vérifiez que vous êtes capable de les lire :
+```{python}
+#| eval: true
+#| output: false
 
+with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
+    print(img_rgb)
+with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
+    print(img_rgbnir)
+```
 ## Importation d'images {#sec-011}
 
 La première étape avant tout traitement est d'accéder à la donnée image pour qu'elle soit manipulée par le programme Python. L'imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines librairies, comme 🔖[Xarray](https://docs.xarray.dev/en/stable/), qui on cherchées à optimiser la lecture et l'écriture de grandes images. Il est donc conseiller de toujours garder un oeil sur l'espace mémoire occupé par les variables Python reliées aux images. La librairie principale en géomatique qui va nous permettre d'importer (et d'exporter) de l'imagerie est la librairie [GDAL](https://gdal.org) qui rassemble la plupart des formats sous forme de *driver* (ou pilote en français). 
