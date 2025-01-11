@@ -1,5 +1,6 @@
 ---
 jupyter: python3
+from: markdown+emoji
 execute:
   echo: true
   eval: false
@@ -10,6 +11,7 @@ execute:
 # Transformations spectrales {#sec-chap03}
 
 ## :rocket: Préambule
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 ### :dart: Objectifs
 Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d'images. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb){target="_blank"} 

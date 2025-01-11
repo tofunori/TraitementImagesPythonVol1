@@ -1,5 +1,6 @@
 ---
 jupyter: python3
+from: markdown+emoji
 execute:
   echo: true
   eval: false
@@ -8,6 +9,8 @@ execute:
 ---
 
 # Réhaussement et visualisation d'images {#sec-chap02}
+
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
 ## :rocket: Préambule
 ### :dart: Objectifs

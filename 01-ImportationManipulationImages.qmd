@@ -1,5 +1,6 @@
 ---
 jupyter: python3
+from: markdown+emoji
 execute:
   echo: true
   eval: false
@@ -9,6 +10,7 @@ execute:
 # Importation et manipulation de données spatiales {#sec-chap01}
 
 ## :rocket: Préambule
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 ### :dart: Objectifs
 Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
 

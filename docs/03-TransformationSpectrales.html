@@ -211,10 +211,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#rocket-préambule" id="toc-rocket-préambule" class="nav-link active" data-scroll-target="#rocket-préambule"><span class="header-section-number">4.1</span> :rocket: Préambule</a>
+  <li><a href="#préambule" id="toc-préambule" class="nav-link active" data-scroll-target="#préambule"><span class="header-section-number">4.1</span> <span class="emoji" data-emoji="rocket">🚀</span> Préambule</a>
   <ul class="collapse">
-  <li><a href="#dart-objectifs" id="toc-dart-objectifs" class="nav-link" data-scroll-target="#dart-objectifs"><span class="header-section-number">4.1.1</span> :dart: Objectifs</a></li>
-  <li><a href="#librairies" id="toc-librairies" class="nav-link" data-scroll-target="#librairies"><span class="header-section-number">4.1.2</span> Librairies</a></li>
+  <li><a href="#librairies" id="toc-librairies" class="nav-link" data-scroll-target="#librairies"><span class="header-section-number">4.1.1</span> Librairies</a></li>
   </ul></li>
   <li><a href="#quest-ce-que-linformation-spectrale" id="toc-quest-ce-que-linformation-spectrale" class="nav-link" data-scroll-target="#quest-ce-que-linformation-spectrale"><span class="header-section-number">4.2</span> Qu’est ce que l’information spectrale?</a></li>
   <li><a href="#indices-spectraux" id="toc-indices-spectraux" class="nav-link" data-scroll-target="#indices-spectraux"><span class="header-section-number">4.3</span> Indices spectraux</a></li>
@@ -248,14 +247,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="rocket-préambule" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="rocket-préambule"><span class="header-section-number">4.1</span> :rocket: Préambule</h2>
-<section id="dart-objectifs" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="dart-objectifs"><span class="header-section-number">4.1.1</span> :dart: Objectifs</h3>
-<p>Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d’images. Ce chapitre est aussi disponible sous la forme d’un notebook Python: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
-</section>
-<section id="librairies" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="librairies"><span class="header-section-number">4.1.2</span> Librairies</h3>
+<section id="préambule" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="préambule"><span class="header-section-number">4.1</span> <span class="emoji" data-emoji="rocket">🚀</span> Préambule</h2>
+<p>Assurez-vous de lire ce préambule avant d’exécutez le reste du notebook. ### <span class="emoji" data-emoji="dart">🎯</span> Objectifs Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d’images. Ce chapitre est aussi disponible sous la forme d’un notebook Python: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
+<section id="librairies" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="librairies"><span class="header-section-number">4.1.1</span> Librairies</h3>
 <p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes: * SciPy</p>
 <ul>
 <li><p>NumPy</p></li>
@@ -266,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>xarray</p></li>
 </ul>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et GDAL doivent être installés:</p>
-<div id="5fa98f07" class="cell" data-execution_count="1">
+<div id="bca2952c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get update</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get install gdal<span class="op">-</span><span class="bu">bin</span> libgdal<span class="op">-</span>dev</span>
