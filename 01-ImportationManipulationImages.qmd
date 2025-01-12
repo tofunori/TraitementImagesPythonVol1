@@ -67,7 +67,7 @@ with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
 with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
     print(img_rgbnir)
 ```
-## Importation d'images {#sec-011}
+## Importation d'images
 
 La première étape avant tout traitement est d'accéder à la donnée image pour qu'elle soit manipulée par le programme Python. L'imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines librairies, comme 🔖[Xarray](https://docs.xarray.dev/en/stable/), qui on cherchées à optimiser la lecture et l'écriture de grandes images. Il est donc conseiller de toujours garder un oeil sur l'espace mémoire occupé par les variables Python reliées aux images. La librairie principale en géomatique qui va nous permettre d'importer (et d'exporter) de l'imagerie est la librairie [GDAL](https://gdal.org) qui rassemble la plupart des formats sous forme de *driver* (ou pilote en français). 
 
@@ -183,7 +183,7 @@ Le plus simple est d'utiliser la fonction `rio info`:
 !rio info RGBNIR_of_S2A.tif --indent 2 --verbose
 ```
 
-## Manipulation des images {#sec-012}
+## Manipulation des images
 
 ### Manipulation de la matrice de pixels 
 
@@ -302,7 +302,7 @@ La librairie NumPy fournit des mécanismes pour exclure automatiquement certaine
 
 ### Recalage d'images et co-registration 
 
-## Données en géoscience {#sec-013}
+## Données en géoscience
 
 Les données en géoscience contiennent beaucoup de métadonnées et peuvent être composées de différentes variables avec différentes unités, résolution, etc.  Ces données sont aussi souvent étiquetées avec des dates sur certains axes, des coordonnées géographiques, des identifiants d'expériences, etc. Par conséquent, utiliser seulement des matrices est souvent incomplet [@xarray-2017].
 
@@ -365,89 +365,20 @@ netcdf, xarray, GRIB.
 
 Données météos, exemple avec SWOT.
 
-## Importation de données vectorielles {#sec-012}
+## Importation de données vectorielles
 
-### Importation d'un fichier *shapefile* {#sec-0121}
+### Importation d'un fichier *shapefile*
 
-### Importation d'une couche dans un *GeoPackage* {#sec-0122}
+### Importation d'une couche dans un *GeoPackage*
 
-### Importation d'une couche dans une *geodatabase* d'ESRI {#sec-0123}
+### Importation d'une couche dans une *geodatabase* d'ESRI
 
-### Importation d'un fichier *shapefile* {#sec-0124}
+### Importation d'un fichier *shapefile*
 
-## Manipulation de données vectorielles {#sec-014}
+## Manipulation de données vectorielles
 
 ### Requêtes attributaires 
 
-## Quiz de révision du chapitre {#sec-015}
+## Quiz de révision du chapitre 
 
-## Exercices de révision {#sec-016}
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-
-**Exercice 1.** À compléter
-:::
-
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-
-# ...
-# à compléter
-```
-
-Correction à la [section @sec-08011].
-:::
-:::
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-
-**Exercice 2.** À compléter
-:::
-
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-
-# ...
-# à compléter
-```
-
-Correction à la [section @sec-08012].
-:::
-:::
-
-::: bloc_exercice
-::: bloc_exercice-header
-::: bloc_exercice-icon
-:::
-
-**Exercice 3.** À compléter
-:::
-
-::: bloc_exercice-body
-```{python}
-#| echo: true 
-#| message: false 
-#| warning: false 
-#| eval: false
-
-# ...
-# à compléter
-```
-
-Correction à la [section @sec-08013].
-:::
-:::
+## Exercices de révision 
