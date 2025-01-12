@@ -48,8 +48,8 @@ book:
       Traitement d'images satellites avec Python.
     right: |
       Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.
-  cover-image: images/cover_thumbnail.png
-  favicon: images/logo-small.png
+  cover-image: images/couverture-full.jpg
+  favicon: images/couverture-full.jpg
   site-url: https://serie-python-tele.github.io/TraitementImagesPythonVol1/index.html
   repo-url: https://github.com/serie-python-tele/TraitementImagesPythonVol1
   repo-branch: main
