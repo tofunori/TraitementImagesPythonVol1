@@ -18,19 +18,20 @@ Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visua
 
 ### Librairies
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
-* SciPy 
 
-* NumPy 
+* [SciPy -](https://scipy.org/)
 
-* OpenCV
+* [NumPy -](https://numpy.org/) 
 
-* RasterIO 
+* [opencv-python · PyPI](https://pypi.org/project/opencv-python/)
 
-* Geemap
+* [scikit-image](https://scikit-image.org/)
+
+* [Rasterio](https://rasterio.readthedocs.io/en/stable/)
+
+* [Xarray](https://docs.xarray.dev/en/stable/)
 
 * [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
-
-* xarray 
 
 Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être installés:
 ```{python}

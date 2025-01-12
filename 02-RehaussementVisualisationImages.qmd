@@ -21,19 +21,19 @@ Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visua
 ### Librairies
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 
-* SciPy 
+* [SciPy -](https://scipy.org/)
 
-* NumPy 
+* [NumPy -](https://numpy.org/) 
 
-* OpenCV
+* [opencv-python · PyPI](https://pypi.org/project/opencv-python/)
 
-* RasterIO 
+* [scikit-image](https://scikit-image.org/)
 
-* Geemap
+* [Rasterio](https://rasterio.readthedocs.io/en/stable/)
+
+* [Xarray](https://docs.xarray.dev/en/stable/)
 
 * [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
-
-* xarray 
 
 
 

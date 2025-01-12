@@ -19,17 +19,19 @@ Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture
 ### Librairies
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 
-* scipy
+* [SciPy -](https://scipy.org/)
 
-* numpy 
+* [NumPy -](https://numpy.org/) 
 
-* opencv
+* [opencv-python · PyPI](https://pypi.org/project/opencv-python/)
 
-* rasterio 
+* [scikit-image](https://scikit-image.org/)
+
+* [Rasterio](https://rasterio.readthedocs.io/en/stable/)
+
+* [Xarray](https://docs.xarray.dev/en/stable/)
 
 * [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
-
-* xarray
 
 
 Dans l'environnement Google Colab, seul `rioxarray` et gdal doivent être installé:
