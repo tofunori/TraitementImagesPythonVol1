@@ -15,6 +15,7 @@ Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 ## :rocket: Préambule
 ### :dart: Objectifs
 Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d'images. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
+
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb){target="_blank"} 
 
 ### Librairies
@@ -152,7 +153,8 @@ with rio.open('RGBNIR_of_S2A.tif') as src:
 
 Le réhaussement linéaire d'une image est la forme la plus simple de réhaussement, elle consiste 1) à optimiser les valeurs des pixels d'une image afin de maximiser la dynamique disponibles à l'affichage, ou 2) changer le format de stockage des valeurs (e.g. de 8 bit à 16 bit):
 
-$$ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1$$
+$$ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1$${#eq-rehauss-lin}
+
 Par cette opération, on passe de la dynamique de départ ($max_0 - min_0$) vers la dynamique cible ($max_1 - min_1$). Bien que cette opération semble triviale, il est important d'être conscient des trois contraintes suivantes:
 1. **Faire attention à la dynamique cible**, ainsi, pour sauvegarder une image en format 8 bit, on utilisera alors $max_1=255$ et $min_1=0$.
 2. **Préservation de la valeur de no data** : il faut faire attention à la valeur $min_1$ dans le cas d'une valeur présente pour *no_data*. Par exemple, si *no_data=0* alors il faut s'assurer que $min_1>0$.

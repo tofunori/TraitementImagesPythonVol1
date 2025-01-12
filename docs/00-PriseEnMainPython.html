@@ -154,7 +154,7 @@ div.csl-indent {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Traitement d’images satellites avec Python</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/serie-python-tele/TraitementImagesVol1" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/serie-python-tele/TraitementImagesPythonVol1" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -241,18 +241,18 @@ div.csl-indent {
   <li><a href="#sec-00-01" id="toc-sec-00-01" class="nav-link" data-scroll-target="#sec-00-01"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</a></li>
   <li><a href="#création-dun-environnement-de-travail-local-avancé" id="toc-création-dun-environnement-de-travail-local-avancé" class="nav-link" data-scroll-target="#création-dun-environnement-de-travail-local-avancé"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local (avancé)</a></li>
   </ul></li>
-  <li><a href="#les-structures-de-base-en-python" id="toc-les-structures-de-base-en-python" class="nav-link" data-scroll-target="#les-structures-de-base-en-python"><span class="header-section-number">1.4</span> Les structures de base en Python</a></li>
-  <li><a href="#les-listes" id="toc-les-listes" class="nav-link" data-scroll-target="#les-listes"><span class="header-section-number">1.5</span> Les listes</a>
+  <li><a href="#les-structures-de-base-en-python" id="toc-les-structures-de-base-en-python" class="nav-link" data-scroll-target="#les-structures-de-base-en-python"><span class="header-section-number">1.4</span> Les structures de base en Python</a>
   <ul class="collapse">
-  <li><a href="#les-tuples" id="toc-les-tuples" class="nav-link" data-scroll-target="#les-tuples"><span class="header-section-number">1.5.1</span> Les tuples</a></li>
-  <li><a href="#les-ensembles-sets" id="toc-les-ensembles-sets" class="nav-link" data-scroll-target="#les-ensembles-sets"><span class="header-section-number">1.5.2</span> Les ensembles (Sets)</a></li>
+  <li><a href="#les-listes" id="toc-les-listes" class="nav-link" data-scroll-target="#les-listes"><span class="header-section-number">1.4.1</span> Les listes</a></li>
+  <li><a href="#les-tuples" id="toc-les-tuples" class="nav-link" data-scroll-target="#les-tuples"><span class="header-section-number">1.4.2</span> Les tuples</a></li>
+  <li><a href="#les-ensembles-sets" id="toc-les-ensembles-sets" class="nav-link" data-scroll-target="#les-ensembles-sets"><span class="header-section-number">1.4.3</span> Les ensembles (Sets)</a></li>
   </ul></li>
-  <li><a href="#dictionnaires" id="toc-dictionnaires" class="nav-link" data-scroll-target="#dictionnaires"><span class="header-section-number">1.6</span> Dictionnaires</a></li>
-  <li><a href="#programmation-objet" id="toc-programmation-objet" class="nav-link" data-scroll-target="#programmation-objet"><span class="header-section-number">1.7</span> Programmation objet</a></li>
-  <li><a href="#quiz-de-révision-du-chapitre" id="toc-quiz-de-révision-du-chapitre" class="nav-link" data-scroll-target="#quiz-de-révision-du-chapitre"><span class="header-section-number">1.8</span> Quiz de révision du chapitre</a></li>
-  <li><a href="#sec-016" id="toc-sec-016" class="nav-link" data-scroll-target="#sec-016"><span class="header-section-number">1.9</span> Cahier de révision (notebook)</a></li>
+  <li><a href="#dictionnaires" id="toc-dictionnaires" class="nav-link" data-scroll-target="#dictionnaires"><span class="header-section-number">1.5</span> Dictionnaires</a></li>
+  <li><a href="#programmation-objet" id="toc-programmation-objet" class="nav-link" data-scroll-target="#programmation-objet"><span class="header-section-number">1.6</span> Programmation objet</a></li>
+  <li><a href="#quiz-de-révision-du-chapitre" id="toc-quiz-de-révision-du-chapitre" class="nav-link" data-scroll-target="#quiz-de-révision-du-chapitre"><span class="header-section-number">1.7</span> Quiz de révision du chapitre</a></li>
+  <li><a href="#sec-016" id="toc-sec-016" class="nav-link" data-scroll-target="#sec-016"><span class="header-section-number">1.8</span> Cahier de révision (notebook)</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/serie-python-tele/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/serie-python-tele/TraitementImagesPythonVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -287,7 +287,7 @@ div.csl-indent {
 <li><p><a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a> : est une distribution légère de Python qui vous permet d’ajouter les librairies au besoin.</p></li>
 <li><p>PyPy : C’est comme une version turbo de Python, optimisée pour la vitesse.</p></li>
 </ul>
-<p>Jython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de “parler” Java (Jython) ou .NET (IronPython). Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.</p>
+<p>Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.</p>
 </section>
 <section id="les-styles-de-programmation-en-python" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="les-styles-de-programmation-en-python"><span class="header-section-number">1.2</span> Les styles de programmation en Python</h2>
@@ -340,15 +340,24 @@ div.csl-indent {
 <section id="création-dun-environnement-de-travail-local-avancé" class="level3" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="création-dun-environnement-de-travail-local-avancé"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local (avancé)</h3>
 <p><strong>Note</strong>: les notebooks peuvent fonctionner localement uniquement sous Linux ou avec WSL2.</p>
-<p>Les notebooks Python fonctionnent par défaut dans l’environnement <a href="https://colab.google/">Google Colab</a>. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html">Jupyter</a>. Il suffit de suivre les étapes suivantes: 1. Installer <code>WSL2</code> sous <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows</a> 2. Installer <a href="https://code.visualstudio.com/docs/setup/windows">vscode</a> 3. Installer <a href="https://docs.anaconda.com/miniconda/install/#quick-command-line-install">Miniconda</a> 4. Faire une installation du contenu du livre soit en utilisant une commande <code>git clone</code> ou en récupérant le <code>.zip</code> du livre 5. Ouvrir WSL2 et placer vous dans le répertoire du livre <code>TraitementImagesPythonVol1</code>. Assurez vous que vous avez accès à conda en tapant <code>conda --version</code> 6. Lancer la commande <code>conda env create -f jupyter_env.yaml</code> 7. Activer le nouvel environnement: <code>conda activate jupyter_env</code> 8. Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code> Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu de gauche vous pouvez accéder aux notebooks dans le répertoire <code>notebooks</code>: <img src="https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/jupyter-accueil.png" id="fig-naturenumpy1" class="img-fluid quarto-figure quarto-figure-center anchored" style="width:100.0%" alt="La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après (Harris 2020))."></p>
+<p>Les notebooks Python fonctionnent par défaut dans l’environnement <a href="https://colab.google/">Google Colab</a>. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html">Jupyter</a>. Il suffit de suivre les étapes suivantes: 1. Installer <code>WSL2</code> sous <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows</a> 2. Installer <a href="https://code.visualstudio.com/docs/setup/windows">vscode</a> 3. Installer <a href="https://docs.anaconda.com/miniconda/install/#quick-command-line-install">Miniconda</a> 4. Faire une installation du contenu du livre soit en utilisant une commande <code>git clone</code> ou en récupérant le <code>.zip</code> du livre 5. Ouvrir WSL2 et placer vous dans le répertoire du livre <code>TraitementImagesPythonVol1</code>. Assurez vous que vous avez accès à conda en tapant <code>conda --version</code> 6. Lancer la commande <code>conda env create -f jupyter_env.yaml</code> 7. Activer le nouvel environnement: <code>conda activate jupyter_env</code> 8. Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code> Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu de gauche vous pouvez accéder aux notebooks dans le répertoire <code>notebooks</code>:</p>
+<div id="fig-jupyterlab" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-scap="Client Jupyter Lab">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-jupyterlab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/jupyter-accueil.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-fig-scap="Client Jupyter Lab">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-jupyterlab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après <span class="citation" data-cites="NumpyNature">(<a href="references.html#ref-NumpyNature" role="doc-biblioref">Harris 2020</a>)</span>).
+</figcaption>
+</figure>
+</div>
 </section>
 </section>
 <section id="les-structures-de-base-en-python" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="les-structures-de-base-en-python"><span class="header-section-number">1.4</span> Les structures de base en Python</h2>
 <p>Il y a essentiellement deux structures de données que Python manipule : les listes et les dictionnaires.</p>
-</section>
-<section id="les-listes" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="les-listes"><span class="header-section-number">1.5</span> Les listes</h2>
+<section id="les-listes" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="les-listes"><span class="header-section-number">1.4.1</span> Les listes</h3>
 <p>Les listes sont comme des boites extensibles où vous pouvez ranger différents types d’objets :</p>
 <ul>
 <li><p>Représentées par des crochets : <code>[1, 2, 3, "python"]</code>.</p></li>
@@ -356,8 +365,9 @@ div.csl-indent {
 <li><p>Permettent les doublons (deux fois la même valeur).</p></li>
 <li><p>Idéales pour stocker des collections d’éléments que vous voulez modifier</p></li>
 </ul>
-<section id="les-tuples" class="level3" data-number="1.5.1">
-<h3 data-number="1.5.1" class="anchored" data-anchor-id="les-tuples"><span class="header-section-number">1.5.1</span> Les tuples</h3>
+</section>
+<section id="les-tuples" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="les-tuples"><span class="header-section-number">1.4.2</span> Les tuples</h3>
 <p>Les tuples sont similaires aux listes, mais les boîtes sont scellées :</p>
 <ul>
 <li><p>Représentés par des parenthèses : <code>(1, 2, 3, "python")</code>.</p></li>
@@ -366,8 +376,8 @@ div.csl-indent {
 <li><p>Souvent utilisé pour stocker des données qui ne doivent pas changer (comme des paramètres).</p></li>
 </ul>
 </section>
-<section id="les-ensembles-sets" class="level3" data-number="1.5.2">
-<h3 data-number="1.5.2" class="anchored" data-anchor-id="les-ensembles-sets"><span class="header-section-number">1.5.2</span> Les ensembles (Sets)</h3>
+<section id="les-ensembles-sets" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="les-ensembles-sets"><span class="header-section-number">1.4.3</span> Les ensembles (Sets)</h3>
 <p>Les ensembles sont comme des boites magiques qui ne gardent qu’un exemplaire de chaque objet :</p>
 <ul>
 <li><p>Représentés par des accolades : <code>{1, 2, 3}</code>.</p></li>
@@ -377,8 +387,8 @@ div.csl-indent {
 </ul>
 </section>
 </section>
-<section id="dictionnaires" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="dictionnaires"><span class="header-section-number">1.6</span> Dictionnaires</h2>
+<section id="dictionnaires" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="dictionnaires"><span class="header-section-number">1.5</span> Dictionnaires</h2>
 <p>Les dictionnaires sont comme des boites avec des étiquettes sur chcune d’elle :</p>
 <ul>
 <li><p>Représentés par des accolades avec des paires clé-valeur : <code>{"nom": "Python", "année": 1991}</code>.</p></li>
@@ -387,8 +397,8 @@ div.csl-indent {
 <li><p>Utiles pour stocker des données associatives ou pour créer des tables de recherche rapide</p></li>
 </ul>
 </section>
-<section id="programmation-objet" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="programmation-objet"><span class="header-section-number">1.7</span> Programmation objet</h2>
+<section id="programmation-objet" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="programmation-objet"><span class="header-section-number">1.6</span> Programmation objet</h2>
 <p>La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe “Voiture” pourrait avoir des attributs comme “couleur” et “vitesse”, et des méthodes comme “démarrer” et “accélérer”.</p>
 <p>Python rend la POO accessible avec des fonctionnalités conviviales :</p>
 <ol type="1">
@@ -420,11 +430,11 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="quiz-de-révision-du-chapitre" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="quiz-de-révision-du-chapitre"><span class="header-section-number">1.8</span> Quiz de révision du chapitre</h2>
+<section id="quiz-de-révision-du-chapitre" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="quiz-de-révision-du-chapitre"><span class="header-section-number">1.7</span> Quiz de révision du chapitre</h2>
 </section>
-<section id="sec-016" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.9</span> Cahier de révision (notebook)</h2>
+<section id="sec-016" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.8</span> Cahier de révision (notebook)</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -527,7 +537,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/serie-python-tele\.github\.io\/TraitementImagesVol1\/index\.html");
+      var filterRegex = new RegExp("https:\/\/serie-python-tele\.github\.io\/TraitementImagesPythonVol1\/index\.html");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -875,7 +885,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/serie-python-tele/TraitementImagesVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/serie-python-tele/TraitementImagesPythonVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

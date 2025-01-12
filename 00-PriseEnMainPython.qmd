@@ -21,7 +21,6 @@ Il existe plusieurs [distributions](https://wiki.python.org/moin/PythonDistribut
 
 * PyPy : C'est comme une version turbo de Python, optimisée pour la vitesse.
 
-Jython et IronPython : Ces versions sont comme des traducteurs, permettant à Python de "parler" Java (Jython) ou .NET (IronPython).
 Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.
 
 ## Les styles de programmation en Python
@@ -101,13 +100,14 @@ Les notebooks Python fonctionnent par défaut dans l'environnement [Google Colab
 8. Le serveur jupyter peut ensuite être lancé avec la commande suivante:
 `jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''`
 Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu de gauche vous pouvez accéder aux notebooks dans le répertoire `notebooks`:
-![La librairie NumPy est le fondement de nombreuses librairies scientifiques (d'après [@NumpyNature]).](https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/jupyter-accueil.png){#fig-naturenumpy1 width="100%" fig-align="center"}
+
+![La librairie NumPy est le fondement de nombreuses librairies scientifiques (d'après [@NumpyNature]).](https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/jupyter-accueil.png){#fig-jupyterlab fig-scap='Client Jupyter Lab' width="100%" fig-align="center"}
 
 ## Les structures de base en Python
 
 Il y a essentiellement deux structures de données que Python manipule : les listes et les dictionnaires.
 
-## Les listes
+### Les listes
 
 Les listes sont comme des boites extensibles où vous pouvez ranger différents types d'objets :
 

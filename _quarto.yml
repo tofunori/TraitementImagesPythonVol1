@@ -50,8 +50,8 @@ book:
       Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.
   cover-image: images/gen-ai/Gemini_Generated_Image_3a8wwf3a8wwf3a8w.jpg
   favicon: images/gen-ai/Gemini_Generated_Image_3a8wwf3a8wwf3a8w.jpg
-  site-url: https://serie-python-tele.github.io/TraitementImagesVol1/index.html
-  repo-url: https://github.com/serie-python-tele/TraitementImagesVol1
+  site-url: https://serie-python-tele.github.io/TraitementImagesPythonVol1/index.html
+  repo-url: https://github.com/serie-python-tele/TraitementImagesPythonVol1
   repo-branch: main
   repo-actions:
   - issue
