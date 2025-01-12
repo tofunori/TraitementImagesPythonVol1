@@ -86,7 +86,7 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
 <link href="./03-TransformationSpectrales.html" rel="prev">
-<link href="./images/cover_thumbnail.png" rel="icon" type="image/png">
+<link href="./images/logo-small.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -334,12 +334,12 @@ window.Quarto = {
 <li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
 </ul>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installés:</p>
-<div id="98a6aa85" class="cell" data-execution_count="1">
+<div id="c06342a9" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU matplotlib rioxarray xrscipy</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifier les importations:</p>
-<div id="49cb874d" class="cell" data-execution_count="2">
+<div id="f808cd31" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
@@ -351,7 +351,7 @@ window.Quarto = {
 <section id="images-utilisées" class="level3" data-number="5.1.3">
 <h3 data-number="5.1.3" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">5.1.3</span> Images utilisées</h3>
 <p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
-<div id="93b23b69" class="cell" data-execution_count="3">
+<div id="c6e58ba6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif <span class="op">-</span>O RGBNIR_of_S2A.tif</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>raster<span class="op">/</span>landsat7.tif <span class="op">-</span>O landsat7.tif</span>
@@ -359,7 +359,7 @@ window.Quarto = {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif <span class="op">-</span>O SAR.tif</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifiez que vous êtes capable de les lire :</p>
-<div id="9fdcf038" class="cell" data-execution_count="4">
+<div id="0c539c68" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'RGBNIR_of_S2A.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgbnir:</span>
@@ -380,7 +380,7 @@ window.Quarto = {
 <p><span class="math display">\[x[k] = \frac{1}{N}\sum_{n=0 \ldots N-1} X[n] \times \exp(j \times 2\pi \times k \times n/N))\]</span></p>
 <p>Le signal d’origine est donc reconstruit à partir d’une somme de sinusoïde complexe <span class="math inline">\(\exp(j2\pi \frac{k}{N}n))\)</span> de fréquence <span class="math inline">\(k/N\)</span>. Noter qu’à partir de <span class="math inline">\(k=N/2\)</span>, les sinusoïdes se répètent à un signe près et forme un miroir des composantes, la convention est lors de mettre ces composantes dans une espace négatif <span class="math inline">\([-N/2,\ldots,-1]\)</span>.</p>
 <p>Dans le cas d’un simple signal périodique à une dimension avec une fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de fréquence à la position de 4 cycles observés sur <span class="math inline">\(N=16\)</span> observations. Les puissances de Fourier sont affichés dans un espace fréquentiel en cycles par unité d’espacement de l’échantillon (avec zéro au début) variant entre -1 et +1. Par exemple, si l’espacement des échantillons est en secondes, l’unité de fréquence est cycles/seconde (ou Hz). Dans le cas de N échantillons, le pic sera observé à la fréquence <span class="math inline">\(+/- 4/16=0.25\)</span> cycles/secondes. La fréquence d’échantillonnage <span class="math inline">\(F_s\)</span> du signal a aussi beaucoup d’importance aussi et doit être au moins a deux fois la plus haute fréquence observée (ici <span class="math inline">\(F_s &gt; 0.5\)</span>) sinon un phénomène de repliement appelé aliasing sera observé.</p>
-<div id="e4d4fdda" class="cell" data-execution_count="5">
+<div id="656cf6d8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Fs<span class="op">=</span> <span class="fl">2.0</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Ts<span class="op">=</span> <span class="dv">1</span><span class="op">/</span>Fs</span>
@@ -415,7 +415,7 @@ window.Quarto = {
 <section id="laliasing" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="laliasing"><span class="header-section-number">5.2.3</span> L’aliasing</h3>
 <p>L’aliasing est un problème fréquent en traitement du signal. Il résulte d’une fréquence d’échantillonnage trop faible par rapport au contenu fréquentielle du signal. Ceci peut se produire lorsque vous sous-échantillonner fortement une image avec un facteur de décimation (par exemple 1 pixel sur 2). En prenant un pixel sur 2, on réduit la fréquence d’échantillonnage d’un facteur 2 ce qui nous impose de réduire le contenu fréquentielle de l’image et donc les fréquences maximales de l’image. L’image présente alors un aspect faussement texturée avec beaucoup de haute fréquences:</p>
-<div id="a4585ba2" class="cell" data-execution_count="6">
+<div id="b304eb76" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>img_rgb.astype(<span class="st">'int'</span>).plot.imshow(rgb<span class="op">=</span><span class="st">"band"</span>)</span>
@@ -433,7 +433,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Une façon de réduire le contenu fréquentiel est de filtrer par un filtre passe-bas pour réduire les hautes fréquences par exemple avec un filtre Gaussien:</p>
-<div id="0f02e988" class="cell" data-execution_count="7">
+<div id="b69829ce" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.ndimage <span class="im">import</span> gaussian_filter</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>q<span class="op">=</span> <span class="dv">4</span></span>
@@ -456,7 +456,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="5c197af7" class="cell" data-execution_count="8">
+<div id="7dfadb0d" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xrscipy.signal <span class="im">as</span> dsp</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
@@ -528,7 +528,7 @@ F= \frac{1}{25}\left[
 \right]
 \]</span></p>
 <p>En python, on dispose des fonctions <code>rolling</code> et <code>sliding_window</code> définis dans la librairie numpy. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l’image avec deux nouvelles dimensions <code>x_win</code> et <code>y_win</code>:</p>
-<div id="5c640cd5" class="cell" data-execution_count="9">
+<div id="ff29c242" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>rolling_win <span class="op">=</span> img_rgb.rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rolling_win[<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,...])</span>
@@ -550,7 +550,7 @@ Dimensions without coordinates: x_win, y_win
 </div>
 </div>
 <p>L’avantage de cette approche est qu’il n’y a pas d’utilisation inutile de la mémoire. Noter les <code>nan</code> sur les bords de l’image car la fenêtre déborde sur les bordures de l’image. Par la suite un opérateur moyenne peut être appliqué.</p>
-<div id="2fc647e3" class="cell" data-execution_count="10">
+<div id="9d4f504b" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#print(median_filter)</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>filtre_moyen.astype(<span class="st">'int'</span>).plot.imshow(rgb<span class="op">=</span><span class="st">"band"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -588,7 +588,7 @@ F= \left[
 \right]
 \]</span></p>
 <p>Remarquez l’utilisation de chiffres complexes afin de passer deux filtres différents sur la partie réelle et imaginaire.</p>
-<div id="3da3b834" class="cell" data-execution_count="11">
+<div id="9bf8c5f8" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>scharr <span class="op">=</span> np.array([[ <span class="op">-</span><span class="dv">3</span><span class="op">-</span><span class="ot">3j</span>, <span class="dv">0</span><span class="op">-</span><span class="ot">10j</span>,  <span class="op">+</span><span class="dv">3</span> <span class="op">-</span><span class="ot">3j</span>],</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                   [<span class="op">-</span><span class="dv">10</span><span class="op">+</span><span class="ot">0j</span>, <span class="dv">0</span><span class="op">+</span> <span class="ot">0j</span>, <span class="op">+</span><span class="dv">10</span> <span class="op">+</span><span class="ot">0j</span>],</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                   [ <span class="op">-</span><span class="dv">3</span><span class="op">+</span><span class="ot">3j</span>, <span class="dv">0</span><span class="op">+</span><span class="ot">10j</span>,  <span class="op">+</span><span class="dv">3</span> <span class="op">+</span><span class="ot">3j</span>]]) <span class="co"># Gx + j*Gy</span></span>
@@ -647,7 +647,7 @@ Important
 </div>
 </div>
 <p>Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d’entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2.</p>
-<div id="406b7d3d" class="cell" data-execution_count="12">
+<div id="cfbc80f4" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -680,7 +680,7 @@ Important
 <span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    axs[i].set_title(<span class="ss">f'Filter </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span>)</span>
 <span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f55dbd92" class="cell" data-execution_count="13">
+<div id="4776d360" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Forward pass</span></span>
@@ -699,7 +699,7 @@ Important
 <section id="filtrage-adaptatif" class="level3" data-number="5.3.2">
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="filtrage-adaptatif"><span class="header-section-number">5.3.2</span> Filtrage adaptatif</h3>
 <p>Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d’une image. Le filtre n’est alors plus stationnaire et sa réponse peut varier en fonction du contenu local. Ce type de filtre est très utilisé pour filtrer les images SAR (Synthetic Aperture Radar) qui sont dégradées par un bruit multiplicatif que l’on appelle <em>speckle</em>. On peut voir un exemple d’une image Sentinel-1 (bande HH) sur la région de Montréal, remarquée que l’image est affichée en dB en appliquant la fonction <code>log10</code>.</p>
-<div id="3997560c" class="cell" data-execution_count="14">
+<div id="3016cf9b" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(img_SAR.rio.resolution())</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(img_SAR.rio.crs)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#img_SAR.sel(band=2).drop("band").imshow()</span></span>
@@ -717,7 +717,7 @@ EPSG:4326</code></pre>
 </div>
 </div>
 <p>Un des filtres les plus simples pour réduire le bruit est d’appliquer un filtre moyenne, par exemple un <span class="math inline">\(5x5\)</span> ci dessous:</p>
-<div id="3e7ed509" class="cell" data-execution_count="15">
+<div id="7b755d85" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>rolling_win <span class="op">=</span> img_SAR.sel(band<span class="op">=</span><span class="dv">2</span>).rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>xr.ufuncs.log10(filtre_moyen).plot.imshow()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -737,7 +737,7 @@ K &amp; = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
 \end{aligned}
 \tag{5.1}\]</span></span></p>
 <p>Ainsi si la variance locale est élevée <span class="math inline">\(K\)</span> s’approche de <span class="math inline">\(1\)</span> préservant ainsi les détails de l’image sinon l’image moyenne <span class="math inline">\(I_M\)</span> est appliquée.</p>
-<div id="5a716abe" class="cell" data-execution_count="16">
+<div id="546f0fbf" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>rolling_win <span class="op">=</span> img_SAR.sel(band<span class="op">=</span><span class="dv">2</span>).rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>ecart_type<span class="op">=</span> rolling_win.std(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
@@ -763,7 +763,7 @@ K &amp; = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
 </div>
 </div>
 <p>On zoomant sur l’image on peut clairement voir que les détails de l’image sont mieux préservés:</p>
-<div id="fbd630b8" class="cell" data-execution_count="17">
+<div id="aa157b14" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>Text(0.5, 1.0, 'Filtre de Lee')</code></pre>
 </div>
