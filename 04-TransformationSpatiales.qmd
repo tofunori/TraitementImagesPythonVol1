@@ -82,11 +82,11 @@ L'analyse fréquentielle, issue du traitement du signal, permet d'avoir un autre
 
 La transformée de Fourier permet de transformer une image dans un espace fréquentielle. Cette transformée est complètement reversible. Dans le cas des images numériques, on parle de `2D-DFT` (*2D-Discrete Fourier Transform*) qui est un algorithme optimisé pour le calcul fréquentiel [@Cooley-1965]. La *1D-DFT* peu s'écrire simplement comme une projection sur une série d'exponentielles complexes:  
 
-$$X[k] = \sum_{n=0 \ldots N-1} x[n] \times \exp(-j \times 2\pi \times k \times n/N))$$ 
+$$X[k] = \sum_{n=0 \ldots N-1} x[n] \times \exp(-j \times 2\pi \times k \times n/N))$$ {#eq-dft}
 
 La transformée inverse prend une forme similaire:
 
-$$x[k] = \frac{1}{N}\sum_{n=0 \ldots N-1} X[n] \times \exp(j \times 2\pi \times k \times n/N))$$ 
+$$x[k] = \frac{1}{N}\sum_{n=0 \ldots N-1} X[n] \times \exp(j \times 2\pi \times k \times n/N))$$ {#eq-idft}
 
 Le signal d'origine est donc reconstruit à partir d'une somme de sinusoïde complexe $\exp(j2\pi \frac{k}{N}n))$ de fréquence $k/N$. Noter qu'à partir de $k=N/2$, les sinusoïdes se répètent à un signe près et forme un miroir des composantes, la convention est lors de mettre ces composantes dans une espace négatif $[-N/2,\ldots,-1]$.
 
@@ -119,6 +119,41 @@ plt.show()
 
 ### Filtrage fréquentielle
 
+Un filtrage fréquentielle consiste à modifier le spectre de Fourier afin d'éliminer ou de réduire certaines composantes fréquentielles. On peut distinguer trois grandes catégories de filtres fréquentielles:
+
+1. Les filtres passe-bas qui ne préservent que les basses fréquences pour, par exemple, lisser une image.
+
+2. Les filtres passe-haut qui ne préservent que les hautes fréquences pour ne préserver que les détails.
+
+3. Les filtres passe-bandes qui vont préserver les fréquences dans une bandes particulières.
+
+La librairie Scipy contient différents filtres fréquentielles. Notez, qu'un filtrage fréquentielle est une simple multiplication de la réponse du filtre $F[k]$ par les composantes fréquentielles du signal à filtrer $X[k]$:
+
+$$
+X_f[k] = F[k] \times X[k]
+$$ {#eq-fourier-filter}
+
+À noter que cette multiplication dans l'espace de Fourier est équivalente à une opération de convolution dans l'espace originale du signal $x$:
+
+$$
+x_f = IDFT^{-1}[F]*x
+$$ {#eq-convolve}
+
+```{python}
+#| eval: true
+from scipy import ndimage, datasets
+import numpy.fft
+import matplotlib.pyplot as plt
+fig, (ax1, ax2) = plt.subplots(1, 2)
+plt.gray()  # show the filtered result in grayscale
+ascent = datasets.ascent()
+input_ = numpy.fft.fft2(ascent)
+result = ndimage.fourier_gaussian(input_, sigma=4)
+result = numpy.fft.ifft2(result)
+ax1.imshow(ascent)
+ax2.imshow(result.real)  # the imaginary part is an artifact
+plt.show()
+```
 
 ### L'aliasing
 
@@ -218,7 +253,7 @@ F= \frac{1}{25}\left[
 1 & 1 & 1 & 1 & 1
 \end{array}
 \right]
-$$
+$${#eq-boxfilter}
 
 En python, on dispose des fonctions `rolling` et `sliding_window` définis dans la librairie numpy. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l'image avec deux nouvelles  dimensions `x_win` et `y_win`:
 
@@ -254,7 +289,7 @@ F= \left[
 -3+3j & 0+10j & +3+3j
 \end{array}
 \right]
-$$
+$${#eq-scharr-filter}
 
 Remarquez l'utilisation de chiffres complexes afin de passer deux filtres différents sur la partie réelle et imaginaire.
 
@@ -313,7 +348,7 @@ print(input.shape)
 fig, axs = plt.subplots(1, 2, figsize=(20, 5))
 for i in range(2):
     axs[i].imshow(conv_layer.weight.data.numpy()[i, 0])
-    axs[i].set_title(f'Filter {i+1}')
+    axs[i].set_title(f'Filtre {i+1}')
 plt.show()
 ```
 
@@ -322,7 +357,7 @@ Le résultat est alors calculé sur GPU (si disponible):
 #| eval: true
 import torch
 import matplotlib.pyplot as plt
-# Forward pass
+
 output = conv_layer(input)
 print(f'Image (BxCxHxW): {input.shape}')
 print(f'Sortie (BxFxHxW): {output.shape}')
@@ -330,7 +365,7 @@ print(f'Sortie (BxFxHxW): {output.shape}')
 fig, axs = plt.subplots(1, 2, figsize=(20, 5))
 for i in range(2):
     axs[i].imshow(output.detach().data.numpy()[0,i], vmin=-1, vmax=1)
-    axs[i].set_title(f'Filter {i+1}')
+    axs[i].set_title(f'Filtre {i+1}')
 plt.show()
 ```
 
