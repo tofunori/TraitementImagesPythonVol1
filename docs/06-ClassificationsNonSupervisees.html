@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Transformations spectrales – Traitement d'images satellites avec Python</title>
+<title>7&nbsp; Classifications d’images non supervisées – Traitement d'images satellites avec Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./04-TransformationSpatiales.html" rel="next">
-<link href="./02-RehaussementVisualisationImages.html" rel="prev">
+<link href="./07-PlateformesMegadonnees.html" rel="next">
+<link href="./05-ClassificationsSupervisees.html" rel="prev">
 <link href="./images/couverture-full.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-TransformationSpectrales.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transformations spectrales</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-ClassificationsNonSupervisees.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classifications d’images non supervisées</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-TransformationSpectrales.html" class="sidebar-item-text sidebar-link active">
+  <a href="./03-TransformationSpectrales.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transformations spectrales</span></span></a>
   </div>
 </li>
@@ -207,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-ClassificationsNonSupervisees.html" class="sidebar-item-text sidebar-link">
+  <a href="./06-ClassificationsNonSupervisees.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classifications d’images non supervisées</span></span></a>
   </div>
 </li>
@@ -237,18 +237,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#préambule" id="toc-préambule" class="nav-link active" data-scroll-target="#préambule"><span class="header-section-number">4.1</span> <span class="emoji" data-emoji="rocket">🚀</span> Préambule</a>
+  <li><a href="#préambule" id="toc-préambule" class="nav-link active" data-scroll-target="#préambule"><span class="header-section-number">7.1</span> <span class="emoji" data-emoji="rocket">🚀</span> Préambule</a>
   <ul class="collapse">
-  <li><a href="#librairies" id="toc-librairies" class="nav-link" data-scroll-target="#librairies"><span class="header-section-number">4.1.1</span> Librairies</a></li>
-  <li><a href="#images-utilisées" id="toc-images-utilisées" class="nav-link" data-scroll-target="#images-utilisées"><span class="header-section-number">4.1.2</span> Images utilisées</a></li>
+  <li><a href="#objectifs" id="toc-objectifs" class="nav-link" data-scroll-target="#objectifs"><span class="header-section-number">7.1.1</span> <span class="emoji" data-emoji="dart">🎯</span> Objectifs</a></li>
+  <li><a href="#librairies" id="toc-librairies" class="nav-link" data-scroll-target="#librairies"><span class="header-section-number">7.1.2</span> Librairies</a></li>
+  <li><a href="#images-utilisées" id="toc-images-utilisées" class="nav-link" data-scroll-target="#images-utilisées"><span class="header-section-number">7.1.3</span> Images utilisées</a></li>
   </ul></li>
-  <li><a href="#quest-ce-que-linformation-spectrale" id="toc-quest-ce-que-linformation-spectrale" class="nav-link" data-scroll-target="#quest-ce-que-linformation-spectrale"><span class="header-section-number">4.2</span> Qu’est ce que l’information spectrale?</a></li>
-  <li><a href="#indices-spectraux" id="toc-indices-spectraux" class="nav-link" data-scroll-target="#indices-spectraux"><span class="header-section-number">4.3</span> Indices spectraux</a></li>
-  <li><a href="#réduction-de-dimension" id="toc-réduction-de-dimension" class="nav-link" data-scroll-target="#réduction-de-dimension"><span class="header-section-number">4.4</span> Réduction de dimension</a>
+  <li><a href="#sec-061" id="toc-sec-061" class="nav-link" data-scroll-target="#sec-061"><span class="header-section-number">7.2</span> Classifications strictes</a>
   <ul class="collapse">
-  <li><a href="#analyses-en-composantes-principales" id="toc-analyses-en-composantes-principales" class="nav-link" data-scroll-target="#analyses-en-composantes-principales"><span class="header-section-number">4.4.1</span> Analyses en composantes principales</a></li>
+  <li><a href="#sec-0611" id="toc-sec-0611" class="nav-link" data-scroll-target="#sec-0611"><span class="header-section-number">7.2.1</span> K-means</a></li>
+  <li><a href="#sec-0612" id="toc-sec-0612" class="nav-link" data-scroll-target="#sec-0612"><span class="header-section-number">7.2.2</span> K-mediodes</a></li>
+  <li><a href="#sec-0613" id="toc-sec-0613" class="nav-link" data-scroll-target="#sec-0613"><span class="header-section-number">7.2.3</span> Isodata</a></li>
   </ul></li>
-  <li><a href="#exercices-de-révision" id="toc-exercices-de-révision" class="nav-link" data-scroll-target="#exercices-de-révision"><span class="header-section-number">4.5</span> Exercices de révision</a></li>
+  <li><a href="#sec-062" id="toc-sec-062" class="nav-link" data-scroll-target="#sec-062"><span class="header-section-number">7.3</span> Classifications floues</a></li>
+  <li><a href="#sec-0621" id="toc-sec-0621" class="nav-link" data-scroll-target="#sec-0621"><span class="header-section-number">7.4</span> C-Means</a>
+  <ul class="collapse">
+  <li><a href="#sec-0622" id="toc-sec-0622" class="nav-link" data-scroll-target="#sec-0622"><span class="header-section-number">7.4.1</span> C-Means intégrant une dimension spatiale</a></li>
+  </ul></li>
+  <li><a href="#sec-063" id="toc-sec-063" class="nav-link" data-scroll-target="#sec-063"><span class="header-section-number">7.5</span> Quiz de révision du chapitre</a></li>
+  <li><a href="#sec-064" id="toc-sec-064" class="nav-link" data-scroll-target="#sec-064"><span class="header-section-number">7.6</span> Exercices de révision</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/serie-python-tele/TraitementImagesPythonVol1/issues/new" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
@@ -257,7 +264,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-chap03" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transformations spectrales</span></span></h1>
+<h1 class="title"><span id="sec-chap06" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classifications d’images non supervisées</span></span></h1>
 </div>
 
 
@@ -274,11 +281,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="préambule" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="préambule"><span class="header-section-number">4.1</span> <span class="emoji" data-emoji="rocket">🚀</span> Préambule</h2>
-<p>Assurez-vous de lire ce préambule avant d’exécutez le reste du notebook. ### <span class="emoji" data-emoji="dart">🎯</span> Objectifs Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d’images. Ce chapitre est aussi disponible sous la forme d’un notebook Python: <a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
-<section id="librairies" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="librairies"><span class="header-section-number">4.1.1</span> Librairies</h3>
+<section id="préambule" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="préambule"><span class="header-section-number">7.1</span> <span class="emoji" data-emoji="rocket">🚀</span> Préambule</h2>
+<p>Assurez-vous de lire ce préambule avant d’exécutez le reste du notebook.</p>
+<section id="objectifs" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="objectifs"><span class="header-section-number">7.1.1</span> <span class="emoji" data-emoji="dart">🎯</span> Objectifs</h3>
+<p>Dans ce chapitre, nous abordons quelques techniques de traitement d’images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d’un notebook Python sur Google Colab:</p>
+<p><a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
+</section>
+<section id="librairies" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="librairies"><span class="header-section-number">7.1.2</span> Librairies</h3>
 <p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes:</p>
 <ul>
 <li><p><a href="https://scipy.org/">SciPy -</a></p></li>
@@ -289,16 +301,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><a href="https://docs.xarray.dev/en/stable/">Xarray</a></p></li>
 <li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
 </ul>
-<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et GDAL doivent être installés:</p>
-<div id="5ff13eac" class="cell" data-execution_count="1">
+<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installés:</p>
+<div id="1828a381" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get update</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get install gdal<span class="op">-</span><span class="bu">bin</span> libgdal<span class="op">-</span>dev</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>q rioxarray</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU <span class="st">"geemap[workshop]"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU matplotlib rioxarray xrscipy</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifier les importations:</p>
-<div id="7d930f82" class="cell" data-execution_count="2">
+<div id="1cfe53b9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
@@ -307,44 +316,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="images-utilisées" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">4.1.2</span> Images utilisées</h3>
+<section id="images-utilisées" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">7.1.3</span> Images utilisées</h3>
 <p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
-<div id="7c54513b" class="cell" data-execution_count="3">
+<div id="51fb295f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif <span class="op">-</span>O RGBNIR_of_S2A.tif</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>raster<span class="op">/</span>landsat7.tif <span class="op">-</span>O landsat7.tif</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>images<span class="op">/</span>berkeley.jpg <span class="op">-</span>O berkeley.jpg</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_1_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903_resampled.tif <span class="op">-</span>O sentinel2.tif</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif <span class="op">-</span>O SAR.tif</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifiez que vous êtes capable de les lire :</p>
-<div id="e8e3b6c2" class="cell" data-execution_count="4">
+<div id="4a637a6a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'RGBNIR_of_S2A.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgbnir:</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgbnir)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'sentinel2.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_s2:</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_s2)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'SAR.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_SAR:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_SAR)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="quest-ce-que-linformation-spectrale" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="quest-ce-que-linformation-spectrale"><span class="header-section-number">4.2</span> Qu’est ce que l’information spectrale?</h2>
-<p>L’information spectrale touche à l’exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l’image). La taille de cette dimension spectrale dépend du type de capteurs considéré. Un capteur à très haute résolution spatiale par exemple aura très peu de bandes (4 ou 5). Un capteur multispectral pourra contenir une quinzaine de bande. À l’autre extrême, on trouvera les capteurs hyperspectraux qui peuvent contenir des centaines de bandes spectrales.</p>
+<section id="sec-061" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="sec-061"><span class="header-section-number">7.2</span> Classifications strictes</h2>
+<section id="sec-0611" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="sec-0611"><span class="header-section-number">7.2.1</span> K-means</h3>
 </section>
-<section id="indices-spectraux" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="indices-spectraux"><span class="header-section-number">4.3</span> Indices spectraux</h2>
-<p>Il existe une vaste littérature sur les indices spectraux, le choix d’un indice plutôt qu’un autre dépend fortement de l’application visée, nous allons simplement couvrir les principes de base ici.</p>
-<p>Le principe d’un indice spectral consiste à mettre en valeur certaines caractéristiques du spectre comme des pentes, des gradients, etc.</p>
+<section id="sec-0612" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="sec-0612"><span class="header-section-number">7.2.2</span> K-mediodes</h3>
 </section>
-<section id="réduction-de-dimension" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="réduction-de-dimension"><span class="header-section-number">4.4</span> Réduction de dimension</h2>
-<section id="analyses-en-composantes-principales" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="analyses-en-composantes-principales"><span class="header-section-number">4.4.1</span> Analyses en composantes principales</h3>
+<section id="sec-0613" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="sec-0613"><span class="header-section-number">7.2.3</span> Isodata</h3>
 </section>
 </section>
-<section id="exercices-de-révision" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="exercices-de-révision"><span class="header-section-number">4.5</span> Exercices de révision</h2>
+<section id="sec-062" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="sec-062"><span class="header-section-number">7.3</span> Classifications floues</h2>
+</section>
+<section id="sec-0621" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="sec-0621"><span class="header-section-number">7.4</span> C-Means</h2>
+<section id="sec-0622" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="sec-0622"><span class="header-section-number">7.4.1</span> C-Means intégrant une dimension spatiale</h3>
+</section>
+</section>
+<section id="sec-063" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="sec-063"><span class="header-section-number">7.5</span> Quiz de révision du chapitre</h2>
+</section>
+<section id="sec-064" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="sec-064"><span class="header-section-number">7.6</span> Exercices de révision</h2>
 
 
 </section>
@@ -772,13 +790,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./02-RehaussementVisualisationImages.html" class="pagination-link" aria-label="Réhaussement et visualisation d'images">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Réhaussement et visualisation d’images</span></span>
+      <a href="./05-ClassificationsSupervisees.html" class="pagination-link" aria-label="Classifications d'images supervisées">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Classifications d’images supervisées</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./04-TransformationSpatiales.html" class="pagination-link" aria-label="Transformations spatiales">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations spatiales</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./07-PlateformesMegadonnees.html" class="pagination-link" aria-label="Introduction aux plateformes de mégadonnées">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction aux plateformes de mégadonnées</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
