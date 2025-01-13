@@ -141,7 +141,7 @@ $$ {#eq-convolve}
 
 ```{python}
 #| eval: true
-#| eval: true
+
 from scipy import ndimage
 import numpy.fft
 
