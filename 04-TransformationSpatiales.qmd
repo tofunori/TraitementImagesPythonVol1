@@ -145,7 +145,7 @@ from scipy import ndimage
 import numpy.fft
 import matplotlib.pyplot as plt
 fig, (ax1, ax2) = plt.subplots(1, 2)
-input_ = numpy.fft.fft2(img_rgb.to_numpy())
+input_ = numpy.fft.fft2(img_rgb.to_numpy().swap(0,2))
 result = ndimage.fourier_gaussian(input_, sigma=4)
 result = numpy.fft.ifft2(result)
 ax1.imshow(img_rgb)
