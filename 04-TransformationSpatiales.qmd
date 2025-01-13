@@ -280,9 +280,10 @@ arr.plot.imshow()
 Cette section nécessite la librairie Pytorch avec un GPU et ne fonctionnera que sur Colab.
 :::
 
-Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2.
+Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut ici imposer les mêmes filtres de gradient dans la couche convolutionnelle:
 
 ```{python}
+#| eval: true
 import torch
 import torch.nn as nn
 import numpy as np
@@ -294,8 +295,8 @@ nchannels= normalized_img.size()[0] # nombre de canaux de l'image
 conv_layer = nn.Conv2d(in_channels= nchannels, out_channels=2, kernel_size=3, padding=1, stride=1, dilation= 1)
 
 # Filtre de Sobel
-sobel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-sobel_y = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
+sobel_x = np.array([[-3, 0, 3], [-10, 0, 10], [-3, 0, 3]])
+sobel_y = np.array([[-3, -10, -3], [0, 0, 0], [3, 10, 3]])
 
 kernel = np.stack([sobel_x, sobel_y])
 kernel = kernel.reshape(2, 1, 3, 3)
@@ -316,14 +317,15 @@ for i in range(2):
 plt.show()
 ```
 
-
+Le résultat est alors calculé sur GPU (si disponible):
 ```{python}
+#| eval: true
 import torch
 import matplotlib.pyplot as plt
 # Forward pass
 output = conv_layer(input)
-print(f'Input shape (BxCxHxW): {input.shape}')
-print(f'Output shape (BxFxHxW): {output.shape}')
+print(f'Image (BxCxHxW): {input.shape}')
+print(f'Sortie (BxFxHxW): {output.shape}')
 
 fig, axs = plt.subplots(1, 2, figsize=(20, 5))
 for i in range(2):
