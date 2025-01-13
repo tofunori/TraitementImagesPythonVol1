@@ -141,16 +141,14 @@ $$ {#eq-convolve}
 
 ```{python}
 #| eval: true
-from scipy import ndimage, datasets
+from scipy import ndimage
 import numpy.fft
 import matplotlib.pyplot as plt
 fig, (ax1, ax2) = plt.subplots(1, 2)
-plt.gray()  # show the filtered result in grayscale
-ascent = datasets.ascent()
-input_ = numpy.fft.fft2(ascent)
+input_ = numpy.fft.fft2(img_rgb.to_numpy())
 result = ndimage.fourier_gaussian(input_, sigma=4)
 result = numpy.fft.ifft2(result)
-ax1.imshow(ascent)
+ax1.imshow(img_rgb)
 ax2.imshow(result.real)  # the imaginary part is an artifact
 plt.show()
 ```
