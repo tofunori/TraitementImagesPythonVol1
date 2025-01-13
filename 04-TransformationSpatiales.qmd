@@ -70,7 +70,7 @@ with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
     print(img_rgb)
 with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
     print(img_rgbnir)
-with rxr.open_rasterio('subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif', mask_and_scale= True) as img_SAR:
+with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
     print(img_SAR)
 ```
 
@@ -141,15 +141,18 @@ $$ {#eq-convolve}
 
 ```{python}
 #| eval: true
+#| eval: true
 from scipy import ndimage
 import numpy.fft
-import matplotlib.pyplot as plt
-fig, (ax1, ax2) = plt.subplots(1, 2)
-input_ = numpy.fft.fft2(img_rgb.to_numpy().transpose(1, 2, 0))
-result = ndimage.fourier_gaussian(input_, sigma=4)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+input_ = numpy.fft.fft2(img_rgb.to_numpy()) 
+result = [ndimage.fourier_gaussian(input_[b], sigma=4) for b in range(3)] # on filtre chaque bande avec un filtre Gaussien
 result = numpy.fft.ifft2(result)
-ax1.imshow(img_rgb.to_numpy().transpose(1, 2, 0))
-ax2.imshow(result.real)  # the imaginary part is an artifact
+ax1.imshow(img_rgb.to_numpy().transpose(1, 2, 0).astype('uint8'))
+ax1.set_title('Originale')
+ax2.imshow(result.real.transpose(1, 2, 0).astype('uint8'))  # La partie imaginaire n'est pas utile ici
+ax2.set_title('Filtrage Gaussien')
 plt.show()
 ```
 
@@ -266,8 +269,9 @@ L'avantage de cette approche est qu'il n'y a pas d'utilisation inutile de la mé
 ```{python}
 #| eval: true
 filtre_moyen= rolling_win.mean(dim= ['x_win', 'y_win'], skipna= True)
-#print(median_filter)
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 4))
 filtre_moyen.astype('int').plot.imshow(rgb="band")
+ax.set_title("Filtre moyen 5x5")
 ```
 
 :::{.callout-note}
@@ -302,7 +306,9 @@ grad = signal.convolve2d(img_rgb.isel(band=0), scharr, boundary='symm', mode='sa
 # on reconstruit un xarray à partir du résultat:
 arr = xr.DataArray(np.abs(grad), dims=("y", "x"), coords= {'x': img_rgb.coords['x'], 'y': img_rgb.coords['y'], 'spatial_ref': 0})
 print(arr)
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 4))
 arr.plot.imshow()
+ax.set_title("Amplitude du filtre de Scharr")
 ```
 
 ##### Gestion des bordures
@@ -343,7 +349,7 @@ conv_layer.bias = nn.Parameter(torch.zeros(2,))
 input= normalized_img.unsqueeze(0) # il faut ajouter une dimension pour le nombre d'échantillons
 print(input.shape)
 # Visualize the filters
-fig, axs = plt.subplots(1, 2, figsize=(20, 5))
+fig, axs = plt.subplots(1, 2, figsize=(8, 5))
 for i in range(2):
     axs[i].imshow(conv_layer.weight.data.numpy()[i, 0])
     axs[i].set_title(f'Filtre {i+1}')
@@ -362,8 +368,8 @@ print(f'Sortie (BxFxHxW): {output.shape}')
 
 fig, axs = plt.subplots(1, 2, figsize=(20, 5))
 for i in range(2):
-    axs[i].imshow(output.detach().data.numpy()[0,i], vmin=-1, vmax=1)
-    axs[i].set_title(f'Filtre {i+1}')
+    axs[i].imshow(output.detach().data.numpy()[0,i], vmin=-5000, vmax=5000, cmap= 'gray')
+    axs[i].set_title(f'Filtrage {i+1}')
 plt.show()
 ```
 
@@ -375,15 +381,18 @@ Les filtrages adaptatifs consistent à appliquer un traitement en fonction du co
 #| eval: true
 print(img_SAR.rio.resolution())
 print(img_SAR.rio.crs)
-#img_SAR.sel(band=2).drop("band").imshow()
+fig, axs = plt.subplots(1, 1, figsize=(6, 4))
 xr.ufuncs.log10(img_SAR.sel(band=1).drop("band")).plot()
+axs.set_title("Image SAR Sentinel-1 (dB)")
 ```
 Un des filtres les plus simples pour réduire le bruit est d'appliquer un filtre moyenne, par exemple un $5x5$ ci dessous:
 ```{python}
 #| eval: true
 rolling_win = img_SAR.sel(band=2).rolling(x=5, y=5,  min_periods= 3, center= True).construct(x="x_win", y="y_win", keep_attrs= True)
 filtre_moyen= rolling_win.mean(dim= ['x_win', 'y_win'], skipna= True)
+fig, axs = plt.subplots(1, 1, figsize=(6, 4))
 xr.ufuncs.log10(filtre_moyen).plot.imshow()
+axs.set_title("Filtrage moyen 5x5 (dB)")
 ```
 Au lieu d'appliquer un filtre moyen de manière indiscriminée, le filtre de Lee [@Lee-1986] applique une pondération en fonction du contenu local de l'image $I$ dans sa forme la plus simple:
 
@@ -403,7 +412,7 @@ ecart_type= rolling_win.std(dim= ['x_win', 'y_win'], skipna= True)
 cv= ecart_type/filtre_moyen
 ponderation = (cv - 0.25) / cv
 
-fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12, 4))
 plt.subplot(1, 2, 1)
 cv.plot.imshow( vmin=0, vmax=2)
 axes[0].set_title("CV")
