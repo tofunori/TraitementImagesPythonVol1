@@ -1,3 +1,5 @@
+ipywidget
+scipy
 geemap
 rasterio
 rioxarray
