@@ -10,7 +10,10 @@ mv 03-TransformationSpectrales.ipynb ./notebooks/
 
 quarto convert 04-TransformationSpatiales.qmd
 mv 04-TransformationSpatiales.ipynb ./notebooks/
-quarto render 04-TransformationSpatiales.qmd --to docx  --no-execute --output-dir ./docx
+
+quarto convert 05-ClassificationsSupervisees.qmd
+mv 05-ClassificationsSupervisees.ipynb ./notebooks/
+#quarto render 04-TransformationSpatiales.qmd --to docx  --no-execute --output-dir ./docx
 
 git add .
 git commit -m 'new content'
