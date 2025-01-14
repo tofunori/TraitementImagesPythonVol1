@@ -2,8 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
-
+tex-hacks/*
+lua/*
 /.quarto/
+*.tex
 *.tif
 *.tif.aux.xml
 *.tif:Zone.Identifier
@@ -12,3 +14,8 @@ modis-aqua.PNG
 berkeley.jpg
 berkeley.jpg:Zone.Identifier
 scratch-pad.qmd
+update-tlmgr-latest.sh
+
+
+/.luarc.json
+index.log

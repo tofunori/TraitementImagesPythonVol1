@@ -1,12 +1,14 @@
 % Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{unicode,pdfpagemode=UseOutlines,pdfdisplaydoctitle=true,pdfpagelayout=SinglePage,pdfstartpage=1}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
+  11pt,
   letterpaper,
-  DIV=11,
-  numbers=noendperiod]{scrreprt}
+  open=any,
+  twoside=false,
+  french]{scrbook}
 
 \usepackage{amsmath,amssymb}
 \usepackage{iftex}
@@ -40,6 +42,8 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
+\usepackage[top=20mm,left=15mm,right=15mm,heightrounded]{geometry}
+\usepackage{svg}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
@@ -165,7 +169,42 @@
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
-\KOMAoption{captions}{tableheading}
+\usepackage{colortbl}
+\usepackage[scaled=.8]{cascadia-code}
+% Bibliographies in French have raised r and e for the number "édition" e.g. 1re, 3e
+\DeclareUnicodeCharacter{1D49}{$^\text{e}$}
+\DeclareUnicodeCharacter{02B3}{$^\text{r}$}
+% \usepackage{transparent}
+\titlehead{\centering\includegraphics[width=4in]{images/couverture-full.png}}
+\usepackage{xparse}
+\usepackage{tcolorbox}
+\definecolor{package_color}{HTML}{e2e1f2}
+\definecolor{objectif_color}{HTML}{e2efec}
+\definecolor{notes_color}{HTML}{eef5fb}
+\definecolor{allerloin_color}{HTML}{fcf7de}
+\definecolor{astuce_color}{HTML}{f0f6ec}
+\definecolor{attention_color}{HTML}{fef4ec}
+\definecolor{exercise_color}{HTML}{fbe8f2}
+\definecolor{background_color}{HTML}{FAF9FF}
+\usepackage{xparse}
+\renewcommand{\thepart}{} % Enlever numérotation des parties
+\setcounter{secnumdepth}{3} % Activer la numérotation des sections jusqu'au niveau des sous-sections
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
 \makeatletter
 \@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
 \makeatother
@@ -201,7 +240,11 @@
 \@ifpackageloaded{float}{}{\usepackage{float}}
 \floatstyle{ruled}
 \@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
-\floatname{codelisting}{Listing}
+\floatname{codelisting}{Bloc
+
+de
+
+code}
 \newcommand*\listoflistings{\listof{codelisting}{Liste des Listings}}
 \makeatother
 \makeatletter
@@ -229,13 +272,13 @@
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={Traitement d'images satellites avec Python},
-  pdfauthor={Philippe Apparicio; Yacine Bouroubi; Samuel Foucher; Mickaël Germain},
+  pdfauthor={Samuel Foucher; Philippe Apparicio; Yacine Bouroubi; Mickaël Germain},
   pdflang={fr},
   colorlinks=true,
-  linkcolor={blue},
+  linkcolor={violet},
   filecolor={Maroon},
-  citecolor={Blue},
-  urlcolor={Blue},
+  citecolor={violet},
+  urlcolor={Green4},
   pdfcreator={LaTeX via pandoc}}
 
 
@@ -247,12 +290,15 @@
 }
 \makeatother
 \subtitle{Première édition}
-\author{Philippe Apparicio \and Yacine Bouroubi \and Samuel
-Foucher \and Mickaël Germain}
-\date{2024-09-27}
+\author{Samuel Foucher \and Philippe Apparicio \and Yacine
+Bouroubi \and Mickaël Germain}
+\date{2025-01-14}
 
 \begin{document}
+\frontmatter
 \maketitle
+
+\usepackage{xparse}
 
 \renewcommand*\contentsname{Table des matières}
 {
@@ -260,7 +306,10 @@ Foucher \and Mickaël Germain}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
+\listoffigures
+\listoftables
 
+\mainmatter
 \bookmarksetup{startatroot}
 
 \chapter*{Préface}\label{pruxe9face}
@@ -278,7 +327,18 @@ une transition en douceur. La philosophie de ce livre est de donner
 toutes les clefs de compréhension et de mise en œuvre des méthodes
 abordées dans Python. La présentation des méthodes est basée sur une
 approche compréhensive et intuitive plutôt que mathématique, sans pour
-autant négliger la rigueur mathématique ou statistique.
+autant négliger la rigueur mathématique ou statistique. Des rappels sur
+les fondements en télédétection pourront apparaître au besoin afin
+d'éclairer les approches techniques.
+
+\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, breakable, opacityback=0, arc=.35mm, rightrule=.15mm, left=2mm, bottomtitle=1mm, bottomrule=.15mm, leftrule=.75mm, toptitle=1mm, titlerule=0mm, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, coltitle=black, colframe=quarto-callout-important-color-frame, colback=white]
+
+\textbf{Ce projet est en cours d'écriture et le contenu n'est pas
+complet}
+
+\includegraphics[width=0.5\textwidth,height=\textheight]{images/logos/under-construction-2408062_640.png}\hfill
+
+\end{tcolorbox}
 
 \textbf{Remerciements~:} Ce manuel a été réalisé avec le soutien de la
 fabriqueREL. Fondée en 2019, la fabriqueREL est portée par divers
@@ -288,18 +348,19 @@ bibliothèques. Son but est de faire des ressources éducatives libres
 (REL) le matériel privilégié en enseignement supérieur au Québec.
 
 \textbf{Maquette de la page couverture et identité graphique du livre~:}
-Andrés Henao Florez.
+.
 
-\textbf{Mise en page~:} Philippe Apparicio et Marie-Hélène Gadbois Del
-Carpio.
+\textbf{Mise en page~:} Samuel Foucher, Philippe Apparicio et
+Marie-Hélène Gadbois Del Carpio.
 
 \textbf{Révision linguistique~:} Denise Latreille.
 
-© Philippe Apparicio, Yacine Bouroubi, Samuel Foucher et Mickël Foucher.
+© Samuel Foucher, Philippe Apparicio, Yacine Bouroubi et Mickaël
+Germain.
 
-\textbf{Pour citer cet ouvrage~:} Apparicio P., Bouroubi, Y., Foucher,
-S. et M. Germain (2024). \emph{Traitement d'images satellites avec
-Python}. Université de Sherbrooke, Département de géomatique appliquée.
+\textbf{Pour citer cet ouvrage~:} Foucher S., Apparicio P., Bouroubi, Y.
+et M. Germain (2024). \emph{Traitement d'images satellites avec Python}.
+Université de Sherbrooke, Département de géomatique appliquée.
 fabriqueREL. Licence CC~BY-SA.
 
 \includegraphics[width=0.8\textwidth,height=\textheight]{images/introduction/CouvertureP2.png}\hfill
@@ -377,10 +438,10 @@ La licence de ce livre, CC BY-SA (figure~\ref{fig-Licence}), oblige donc
   utilisant la formulation suivante~:
 \end{itemize}
 
-Apparicio Philippe, Yacine Bouroubi, Samuel Foucher et Mickaël Foucher
-(2024). \emph{Traitement d'images satellites : }. Université de
-Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence
-CC~BY-SA.
+Samuel Foucher, Apparicio Philippe, Mickaël Germain, Yacine Bouroubi et
+Étienne Clabaut (2024). \emph{Traitement d'images satellites : }.
+Université de Sherbrooke, Département de géomatique appliquée.
+fabriqueREL. Licence CC~BY-SA.
 
 \begin{itemize}
 \tightlist
@@ -401,9 +462,11 @@ CC~BY-SA.
 
 \end{figure}%
 
+\begin{tcolorbox}[colback=background_color, colframe=astuce_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocAstuce.png} \textbf{Astuce}}]
+
 \textbf{Suggestions d'adaptation du manuel}
 
-Pour chaque méthode d'analyse spatiale abordée dans le livre, une
+Pour chaque méthode de traitement d'image abordée dans le livre, une
 description détaillée et une mise en œuvre dans Python sont disponibles.
 Par conséquent, plusieurs adaptations du manuel sont possibles~:
 
@@ -443,6 +506,8 @@ Par conséquent, plusieurs adaptations du manuel sont possibles~:
   pédagogique.
 \end{itemize}
 
+\end{tcolorbox}
+
 \section*{Comment lire ce manuel?}\label{sect002}
 \addcontentsline{toc}{section}{Comment lire ce manuel?}
 
@@ -451,38 +516,66 @@ Par conséquent, plusieurs adaptations du manuel sont possibles~:
 Le livre comprend plusieurs types de blocs de texte qui en facilitent la
 lecture.
 
+\begin{tcolorbox}[colback=background_color, colframe=package_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocPackage.png} \textbf{Package}}]
+
 \textbf{Bloc \emph{packages}}
 
 Habituellement localisé au début d'un chapitre, il comprend la liste des
 \emph{packages} Python utilisés pour un chapitre.
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=background_color, colframe=objectif_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocObjectif.png} \textbf{Objectif}}]
 
 \textbf{Bloc objectif}
 
 Il comprend une description des objectifs d'un chapitre ou d'une
 section.
 
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=background_color, colframe=notes_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocNote.png} \textbf{Note}}]
+
 \textbf{Bloc notes}
 
 Il comprend une information secondaire sur une notion, une idée abordée
 dans une section.
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=background_color, colframe=allerloin_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocAllerPlusLoin.png} \textbf{Aller plus loin}}]
 
 \textbf{Bloc pour aller plus loin}
 
 Il comprend des références ou des extensions d'une méthode abordée dans
 une section.
 
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=background_color, colframe=astuce_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocAstuce.png} \textbf{Astuce}}]
+
 \textbf{Bloc astuce}
 
 Il décrit un élément qui vous facilitera la vie~: une propriété
 statistique, un \emph{package}, une fonction, une syntaxe Python.
 
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=background_color, colframe=attention_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocAttention.png} \textbf{Attention}}]
+
 \textbf{Bloc attention}
 
 Il comprend une notion ou un élément important à bien maîtriser.
 
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=background_color, colframe=exercise_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocExercice.png} \textbf{Exercice}}]
+
 \textbf{Bloc exercice}
 
 Il comprend un court exercice de révision à la fin de chaque chapitre.
+
+\end{tcolorbox}
 
 \section*{Comment utiliser les données du livre pour reproduire les
 exemples?}\label{sect003}
@@ -492,19 +585,19 @@ pour reproduire les exemples?}
 \markright{Comment utiliser les données du livre pour reproduire les
 exemples?}
 
-Ce livre comprend des exemples détaillés et appliqués dans R pour
+Ce livre comprend des exemples détaillés et appliqués en Python pour
 chacune des méthodes abordées. Ces exemples se basent sur des jeux de
-données structurés et mis à disposition avec le livre. Ils sont
-disponibles sur le \emph{repo github} dans le sous-dossier
-\texttt{data}, à l'adresse
-\url{https://github.com/SerieBoldR/TraitementImagesVol1/tree/main/data}.
+données ouverts et mis à disposition avec le livre. Ils sont disponibles
+sur le \emph{repo github} dans le sous-dossier \texttt{data}, à
+l'adresse
+\url{https://github.com/serie-tele-pyton/TraitementImagesVol1/tree/main/data}.
 
 Une autre option est de télécharger le \emph{repo} complet du livre
 directement sur \emph{github}
-(\url{https://github.com/SerieBoldR/TraitementImagesVol1}) en cliquant
-sur le bouton \texttt{Code}, puis le bouton \texttt{Download\ ZIP}
-(figure~\ref{fig-downloaffromgit}). Les données se trouvent alors dans
-le sous-dossier nommé \texttt{data}.
+(\url{https://github.com/serie-tele-pyton/TraitementImagesVol1}) en
+cliquant sur le bouton \texttt{Code}, puis le bouton
+\texttt{Download\ ZIP} (figure~\ref{fig-downloaffromgit}). Les données
+se trouvent alors dans le sous-dossier nommé \texttt{data}.
 
 \begin{figure}
 
@@ -528,26 +621,20 @@ Le livre est organisé autour de quatre grandes parties.
 
 \textbf{Partie 1. Importation et manipulation de données spatiales.}
 Dans cette première partie, nous voyons comment importer, manipuler,
-cartographier et exporter des données spatiales dans R, principalement
-avec les \emph{packages} \texttt{sf} pour les données vectorielles,
-\texttt{terra} pour les données matricielles (images) et \texttt{tmap}
-pour la cartographie (chapitre~\ref{sec-chap01}). Maîtriser les notions
-abordées dans ce chapitre constitue une étape préalable et indispensable
-à tout projet d'analyse spatiale. D'une part, avant d'analyser des
-données spatiales, il convient de les structurer (importation et
-manipulation) et de les explorer (cartographie). D'autre part, une fois
-la ou les méthodes d'analyse spatiale mises en œuvre, il convient de
-cartographier les résultats finaux et de les exporter au besoin dans un
-format de données géographiques (shapefile (\texttt{shp}), GeoPackage
-(\texttt{GPKG}), GeoJSON (\texttt{geojson}), sqlite (\texttt{sqlite}),
-GeoTiff, etc.).
+visualiser et exporter des données spatiales de type image (ou de type
+matriciel) avec Python, principalement avec les \emph{packages}
+\texttt{rasterio}, \texttt{xarray} et \texttt{numpy}
+(chapitre~\ref{sec-chap01}). Ce chapitre vous permettra de maîtriser la
+manipulation à bas niveau de différents types d'imagerie. Différents
+exemples et exercises sont disponibles avec différents capteurs
+satellites (multi-spectral, RGB-NIR, SAR, etc.)
 
-\textbf{Partie 2. Transformations des données spatiales}. Cette
-troisième partie comprend deux chapitres~: les transformations
-spectrales (chapitre~\ref{sec-chap03}) et les transformations spatiales
+\textbf{Partie 2. Transformations des données spatiales}. Cette deuxième
+partie comprend deux chapitres~: les transformations spectrales
+(chapitre~\ref{sec-chap03}) et les transformations spatiales
 (chapitre~\ref{sec-chap04}).
 
-\textbf{Partie 3. Classifications d'images.} Cette troisième partie
+\textbf{Partie 3. Classifications d'images} Cette troisième partie
 comprend deux chapitres~: les classifications supervisées
 (chapitre~\ref{sec-chap05}) et non supervisées
 (chapitre~\ref{sec-chap06}).
@@ -628,20 +715,31 @@ ordinateur ou images en vision pour faire plus court.
 
 Les images de télédétection ont des particularités et des propriétés qui
 les différencient des images de tous les jours. On peut souligner au
-moins cinq caractéristiques principales: 1. Les images sont
-géoréférencées : Cela veut dire que pour chaque pixel nous pouvons y
-associer une position géographique ou cartographique. 2. Le point de vue
-est très différent : Ces images sont prises avec une vue d'en haut
-(Nadir) ou oblique avec une distance qui peut être très grande (On parle
-d'images distales). 3. Elles possèdent plus que 3 bandes : Contrairement
-aux images en vision, les images de télédétection possèdent bien souvent
-plus que 3 bandes. Il n'est pas rare de trouver 4 bandes (Pléiade), 13
-bandes (Sentinel-2, Landsat) et même 200 bandes pour des capteurs
-hyperspectraux. 4. Elles peuvent être calibrées : Les valeurs numérique
-de l'image peuvent être converties en quantités physiques (luminance,
-réflectance, section efficiace, etc.) via une fonction de calibration.
-5. Elles sont de grande taille : Il n'est pas rare de manipuler des
-images qui font plusieurs dizaines de milliers de pixels en dimension.
+moins cinq caractéristiques principales:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Les images sont géoréférencées : Cela veut dire que pour chaque pixel
+  nous pouvons y associer une position géographique ou cartographique.
+\item
+  Le point de vue est très différent : Ces images sont prises avec une
+  vue d'en haut (Nadir) ou oblique avec une distance qui peut être très
+  grande (On parle d'images distales).
+\item
+  Elles possèdent plus que 3 bandes : Contrairement aux images en
+  vision, les images de télédétection possèdent bien souvent plus que 3
+  bandes. Il n'est pas rare de trouver 4 bandes (Pléiade), 13 bandes
+  (Sentinel-2, Landsat) et même 200 bandes pour des capteurs
+  hyperspectraux.
+\item
+  Elles peuvent être calibrées : Les valeurs numérique de l'image
+  peuvent être converties en quantités physiques (luminance,
+  réflectance, section efficace, etc.) via une fonction de calibration.
+\item
+  Elles sont de grande taille : Il n'est pas rare de manipuler des
+  images qui font plusieurs dizaines de milliers de pixels en dimension.
+\end{enumerate}
 
 \subsection*{Ressources en ligne}\label{ressources-en-ligne}
 \addcontentsline{toc}{subsection}{Ressources en ligne}
@@ -651,62 +749,8 @@ utilisés}{Listes des librairies utilisés}}\label{sect0071}
 \addcontentsline{toc}{subsection}{Listes des \emph{librairies} utilisés}
 
 Dans ce livre, nous utilisons de nombreux \emph{packages} Python que
-vous pouvez installer avec le code ci-dessous.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ImportTok{import}\NormalTok{ sys}
-\ImportTok{import}\NormalTok{ subprocess}
-\ImportTok{import}\NormalTok{ pkg\_resources}
-
-\CommentTok{\# Liste des packages}
-\NormalTok{list\_packages }\OperatorTok{=}\NormalTok{ [}\StringTok{"pandas"}\NormalTok{, }\StringTok{"scikit{-}image"}\NormalTok{, }\StringTok{"matplotlib"}\NormalTok{, }
-                 \StringTok{"geopandas"}\NormalTok{, }\StringTok{"rasterio"}\NormalTok{, }\StringTok{"folium"}\NormalTok{]}
-
-\CommentTok{\# Packages non installés dans la liste}
-\NormalTok{installed\_packages }\OperatorTok{=}\NormalTok{ \{pkg.key }\ControlFlowTok{for}\NormalTok{ pkg }\KeywordTok{in}\NormalTok{ pkg\_resources.working\_set\}}
-\NormalTok{packages\_not\_installed }\OperatorTok{=}\NormalTok{ [pkg }\ControlFlowTok{for}\NormalTok{ pkg }\KeywordTok{in}\NormalTok{ list\_packages }\ControlFlowTok{if}\NormalTok{ pkg.lower() }\KeywordTok{not} \KeywordTok{in}\NormalTok{ installed\_packages]}
-
-\CommentTok{\# Installation des packages manquants}
-\ControlFlowTok{if}\NormalTok{ packages\_not\_installed:}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"Installing missing packages..."}\NormalTok{)}
-    \ControlFlowTok{for}\NormalTok{ package }\KeywordTok{in}\NormalTok{ packages\_not\_installed:}
-\NormalTok{        subprocess.check\_call([sys.executable, }\StringTok{"{-}m"}\NormalTok{, }\StringTok{"pip"}\NormalTok{, }\StringTok{"install"}\NormalTok{, package])}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"All packages installed successfully."}\NormalTok{)}
-\ControlFlowTok{else}\NormalTok{:}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"All required packages are already installed."}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection*{Python 101}\label{sect0073}
-\addcontentsline{toc}{subsection}{Python 101}
-
-\begin{figure}
-
-\centering{
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
-\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
-
-\NormalTok{r }\OperatorTok{=}\NormalTok{ np.arange(}\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\FloatTok{0.01}\NormalTok{)}
-\NormalTok{theta }\OperatorTok{=} \DecValTok{2} \OperatorTok{*}\NormalTok{ np.pi }\OperatorTok{*}\NormalTok{ r}
-\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(}
-\NormalTok{  subplot\_kw }\OperatorTok{=}\NormalTok{ \{}\StringTok{\textquotesingle{}projection\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}polar\textquotesingle{}}\NormalTok{\} }
-\NormalTok{)}
-\NormalTok{ax.plot(theta, r)}
-\NormalTok{ax.set\_rticks([}\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.5}\NormalTok{, }\DecValTok{2}\NormalTok{])}
-\NormalTok{ax.grid(}\VariableTok{True}\NormalTok{)}
-\NormalTok{plt.show()}
-\end{Highlighting}
-\end{Shaded}
-
-}
-
-\caption{\label{fig-polar}}
-
-\end{figure}%
+vous pouvez installer en une seule fois (voir section~\ref{sec-00-01})
+ou chapitre par chapitre.
 
 \bookmarksetup{startatroot}
 
@@ -714,42 +758,6 @@ vous pouvez installer avec le code ci-dessous.
 \addcontentsline{toc}{chapter}{À propos des auteurs}
 
 \markboth{À propos des auteurs}{À propos des auteurs}
-
-\href{https://www.usherbrooke.ca/recherche/fr/specialistes/details/philippe.apparicio}{\textbf{Philippe
-Apparicio}} est professeur titulaire au
-\href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
-appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
-Sherbrooke}. Il y enseigne aux
-\href{https://www.usherbrooke.ca/geomatique/etudes/programmes}{programmes
-de 1\textsuperscript{er} et 2\textsuperscript{e} cycles de géomatique}
-les cours \emph{Transport et mobilité durable}, \emph{Modélisation et
-analyse spatiale} et \emph{Géomatique appliquée à la gestion urbaine}.
-Durant les dernières années, il a offert plusieurs formations aux Écoles
-d'été du Centre interuniversitaire québécois de statistiques sociales
-(\href{https://www.ciqss.org/}{CIQSS}). Géographe de formation, ses
-intérêts de recherche incluent la justice et l'équité environnementale,
-la mobilité durable, les pollutions atmosphérique et sonore, et le vélo
-en ville. Il a publié une centaine d'articles scientifiques dans
-différents domaines des études urbaines et de la géographie mobilisant
-la géomatique et l'analyse spatiale.
-
-\href{https://www.usherbrooke.ca/geomatique/departement/personnel/personnel-enseignant/yacine-bouroubi}{\textbf{Yacine
-Bouroubi}} est professeur titulaire au
-\href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
-appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
-Sherbrooke}. Il y enseigne aux
-\href{https://www.usherbrooke.ca/geomatique/etudes/programmes}{programmes
-de 1\textsuperscript{er} et 2\textsuperscript{e} cycles de géomatique}
-les cours \emph{Transport et mobilité durable}, \emph{Modélisation et
-analyse spatiale} et \emph{Géomatique appliquée à la gestion urbaine}.
-Durant les dernières années, il a offert plusieurs formations aux Écoles
-d'été du Centre interuniversitaire québécois de statistiques sociales
-(\href{https://www.ciqss.org/}{CIQSS}). Géographe de formation, ses
-intérêts de recherche incluent la justice et l'équité environnementale,
-la mobilité durable, les pollutions atmosphérique et sonore, et le vélo
-en ville. Il a publié une centaine d'articles scientifiques dans
-différents domaines des études urbaines et de la géographie mobilisant
-la géomatique et l'analyse spatiale.
 
 \href{https://www.usherbrooke.ca/recherche/fr/specialistes/details/samuel.foucher}{\textbf{Samuel
 Foucher}} est professeur titulaire au
@@ -769,8 +777,44 @@ en ville. Il a publié une centaine d'articles scientifiques dans
 différents domaines des études urbaines et de la géographie mobilisant
 la géomatique et l'analyse spatiale.
 
+\href{https://www.usherbrooke.ca/recherche/fr/specialistes/details/philippe.apparicio}{\textbf{Philippe
+Apparicio}} est professeur titulaire au
+\href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
+appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
+Sherbrooke}. Il y enseigne aux
+\href{https://www.usherbrooke.ca/geomatique/etudes/programmes}{programmes
+de 1\textsuperscript{er} et 2\textsuperscript{e} cycles de géomatique}
+les cours \emph{Transport et mobilité durable}, \emph{Modélisation et
+analyse spatiale} et \emph{Géomatique appliquée à la gestion urbaine}.
+Durant les dernières années, il a offert plusieurs formations aux Écoles
+d'été du Centre interuniversitaire québécois de statistiques sociales
+(\href{https://www.ciqss.org/}{CIQSS}). Géographe de formation, ses
+intérêts de recherche incluent la justice et l'équité environnementale,
+la mobilité durable, les pollutions atmosphérique et sonore, et le vélo
+en ville. Il a publié une centaine d'articles scientifiques dans
+différents domaines des études urbaines et de la géographie mobilisant
+la géomatique et l'analyse spatiale.
+
 \href{https://www.usherbrooke.ca/geomatique/departement/personnel/personnel-enseignant/mickael-germain}{\textbf{Mickaël
 Germain}} est professeur titulaire au
+\href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
+appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
+Sherbrooke}. Il y enseigne aux
+\href{https://www.usherbrooke.ca/geomatique/etudes/programmes}{programmes
+de 1\textsuperscript{er} et 2\textsuperscript{e} cycles de géomatique}
+les cours \emph{Transport et mobilité durable}, \emph{Modélisation et
+analyse spatiale} et \emph{Géomatique appliquée à la gestion urbaine}.
+Durant les dernières années, il a offert plusieurs formations aux Écoles
+d'été du Centre interuniversitaire québécois de statistiques sociales
+(\href{https://www.ciqss.org/}{CIQSS}). Géographe de formation, ses
+intérêts de recherche incluent la justice et l'équité environnementale,
+la mobilité durable, les pollutions atmosphérique et sonore, et le vélo
+en ville. Il a publié une centaine d'articles scientifiques dans
+différents domaines des études urbaines et de la géographie mobilisant
+la géomatique et l'analyse spatiale.
+
+\href{https://www.usherbrooke.ca/geomatique/departement/personnel/personnel-enseignant/yacine-bouroubi}{\textbf{Yacine
+Bouroubi}} est professeur titulaire au
 \href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
 appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
 Sherbrooke}. Il y enseigne aux
@@ -838,8 +882,6 @@ principales distributions :
   vitesse.
 \end{itemize}
 
-Jython et IronPython : Ces versions sont comme des traducteurs,
-permettant à Python de ``parler'' Java (Jython) ou .NET (IronPython).
 Chaque distribution a ses forces, que ce soit la simplicité, la vitesse
 ou des fonctionnalités spécifiques. Le choix dépend de vos besoins,
 comme choisir entre une glace simple ou un banana split élaboré.
@@ -856,7 +898,7 @@ programmation}\label{les-outils-de-programmation}
 
 Un code python prend la forme d'un simple fichier texte avec l'extension
 \texttt{.py} et peut être modifié avec un simple éditeur de texte.
-Cependnant, il n'y aura pas de rétroactions immédiates de l'interpréteur
+Cependant, il n'y aura pas de rétroactions immédiates de l'interpréteur
 Python ce qui rend la correction d'erreurs (débogage) beaucoup plus
 laborieux.
 
@@ -913,39 +955,50 @@ Voici quelques options populaires :
   rapide, il est apprécié pour sa simplicité et sa vitesse. Le choix
   dépend de vos besoins, que vous soyez débutant ou développeur
   chevronné. L'important est de trouver l'éditeur qui vous convient le
-  mieux pour coder confortablemen
+  mieux pour coder confortablement.
 \end{itemize}
 
 \section{Bonnes pratiques}\label{bonnes-pratiques}
 
-Python est un langage très dynamique, qui évolue constamment. Il est
-fortement conseillé d'utiliser des environnements virtuels pour gérer
-vos différentes librairies. Voici quelques bonnes pratiques à suivre :
+Python est un langage très dynamique, qui évolue constamment. Cela pose
+certains défis pour la gestion du code à long terme. Il est fortement
+conseillé d'utiliser des environnements virtuels pour gérer vos
+différentes librairies. Voici quelques bonnes pratiques à suivre :
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{N'installez par la dernière version de Python} : installez
-  toujours une version ou deux qui précède
+  \textbf{N'installez par la toute dernière version de Python} :
+  installez toujours une version ou deux qui précède
   \href{https://www.python.org/downloads/}{la dernière version}. Les
   versions trop récentes peuvent être instables. La version de python
   désirée peut être spécifiée au moment de la création d'un
-  environnement virtuel (voir plus bas).
+  environnement virtuel (voir plus bas). Vous pouvez afficher la liste
+  des versions de python avec la commande
+  \texttt{conda\ search\ -\/-full-name\ python}. Il est recommandé
+  d'installer 1 ou 2 version antérieure, par exemple si 3.13 est la
+  version plus récente, installer plutôt la version 3.11.
+\item
+  \textbf{N'utilisez pas de version obsolète de Python} : cela peut
+  sembler contradictoire avec le point 1 mais c'est l'excès inverse. Si
+  vous utilisez une version trop ancienne alors toutes vos librairies
+  vont cessez d'évoluer et peuvent devenir obsolète.
 \item
   \textbf{Utilisez des environnements virtuels} : Pensez-y comme à des
   compartiments séparées pour chaque projet. Cela évite les conflits
   entre les différentes versions de bibliothèques et garde votre système
-  propre.
+  propre. Par exemple, si vous souhaitez vérifier une nouvelle version
+  de Python, utilisez un environnement :
+  \texttt{conda\ create\ -\/-name\ test\ python=3.11}
 \item
   \textbf{Vérifiez l'installation} : Après l'installation, ouvrez un
   terminal et tapez \texttt{python\ -\/-version} pour vous assurer que
   tout fonctionne correctement.
 \end{enumerate}
 
-\subsection{Création d'un environnement
-virtuel}\label{cruxe9ation-dun-environnement-virtuel}
+\subsection{Création d'un environnement virtuel}\label{sec-00-01}
 
-Il y a deux façons d'installer environnement virtuel selon votre
+Il y a deux façons d'installer un environnement virtuel selon votre
 distribution de Python:
 
 \begin{enumerate}
@@ -982,15 +1035,58 @@ distribution de Python:
 \end{Highlighting}
 \end{Shaded}
 
-Note: si vous utiliser des notebook jupyter, vous avez déjà un
-environnement virtuel qui contient le serveur jupyter.
+\subsection{Création d'un environnement de travail local
+(avancé)}\label{cruxe9ation-dun-environnement-de-travail-local-avancuxe9}
 
-\section{Les structures de base}\label{les-structures-de-base}
+\textbf{Note}: les notebooks peuvent fonctionner localement uniquement
+sous Linux ou avec WSL2.
+
+Les notebooks Python fonctionnent par défaut dans l'environnement
+\href{https://colab.google/}{Google Colab}. Si vous souhaitez faire
+fonctionner ces notebook localement, vous pouvez installer un
+environnement local avec un serveur
+\href{https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html}{Jupyter}.
+Il suffit de suivre les étapes suivantes: 1. Installer \texttt{WSL2}
+sous
+\href{https://learn.microsoft.com/en-us/windows/wsl/install}{Windows} 2.
+Installer
+\href{https://code.visualstudio.com/docs/setup/windows}{vscode} 3.
+Installer
+\href{https://docs.anaconda.com/miniconda/install/\#quick-command-line-install}{Miniconda}
+4. Faire une installation du contenu du livre soit en utilisant une
+commande \texttt{git\ clone} ou en récupérant le \texttt{.zip} du livre
+5. Ouvrir WSL2 et placer vous dans le répertoire du livre
+\texttt{TraitementImagesPythonVol1}. Assurez vous que vous avez accès à
+conda en tapant \texttt{conda\ -\/-version} 6. Lancer la commande
+\texttt{conda\ env\ create\ -f\ jupyter\_env.yaml} 7. Activer le nouvel
+environnement: \texttt{conda\ activate\ jupyter\_env} 8. Le serveur
+jupyter peut ensuite être lancé avec la commande suivante:
+\texttt{jupyter\ lab\ -\/-ip=\textquotesingle{}*\textquotesingle{}\ -\/-NotebookApp.token=\textquotesingle{}\textquotesingle{}\ -\/-NotebookApp.password=\textquotesingle{}\textquotesingle{}}
+Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu
+de gauche vous pouvez accéder aux notebooks dans le répertoire
+\texttt{notebooks}:
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=1\textwidth,height=\textheight]{index_files/mediabag/jupyter-accueil.png}
+
+}
+
+\caption[Client Jupyter Lab]{\label{fig-jupyterlab}La librairie NumPy
+est le fondement de nombreuses librairies scientifiques (d'après (Harris
+2020)).}
+
+\end{figure}%
+
+\section{Les structures de base en
+Python}\label{les-structures-de-base-en-python}
 
 Il y a essentiellement deux structures de données que Python manipule :
 les listes et les dictionnaires.
 
-\section{Les listes}\label{les-listes}
+\subsection{Les listes}\label{les-listes}
 
 Les listes sont comme des boites extensibles où vous pouvez ranger
 différents types d'objets :
@@ -1060,7 +1156,7 @@ d'elle :
   de recherche rapide
 \end{itemize}
 
-\section{Progrmmation objet}\label{progrmmation-objet}
+\section{Programmation objet}\label{programmation-objet}
 
 La programmation orientée objet (POO) en Python est comme construire
 avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres
@@ -1090,6 +1186,8 @@ Ces caractéristiques font de Python un excellent choix pour apprendre et
 appliquer les concepts de la POO, rendant le code plus organisé et
 réutilisable
 
+\begin{tcolorbox}[colback=background_color, colframe=package_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocPackage.png} \textbf{Package}}]
+
 \textbf{Liste des \emph{packages} utilisés dans ce chapitre}
 
 \begin{itemize}
@@ -1100,9 +1198,10 @@ réutilisable
   \begin{itemize}
   \tightlist
   \item
-    \texttt{sf} pour importer et manipuler des données vectorielles.
+    \texttt{numpy} pour manipuler des données matricielles.
   \item
-    \texttt{terra} pour importer et manipuler des données matricielles.
+    \texttt{rasterio} pour importer et manipuler des données
+    matricielles.
   \end{itemize}
 \item
   Pour construire des cartes et des graphiques~:
@@ -1117,181 +1216,266 @@ réutilisable
   \end{itemize}
 \end{itemize}
 
+\end{tcolorbox}
+
 \section{Quiz de révision du
 chapitre}\label{quiz-de-ruxe9vision-du-chapitre}
 
 \section{Cahier de révision (notebook)}\label{sec-016}
-
-\textbf{Notebook 1.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
 
 \bookmarksetup{startatroot}
 
 \chapter{Importation et manipulation de données
 spatiales}\label{sec-chap01}
 
-Dans le chapitre, nous abordons quelques formats d'images ainsi que leur
-lecture.
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule}
 
-\textbf{Liste des \emph{librairies} utilisées dans ce chapitre}
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+\#\#\# :dart: Objectifs Dans ce chapitre, nous abordons quelques formats
+d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous
+la forme d'un notebook Python:
+
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb}{\includesvg{index_files/mediabag/colab-badge.svg}}
+
+\subsection{Librairies}\label{librairies}
+
+Les librairies qui vont être explorées dans ce chapitre sont les
+suivantes:
+
+\begin{itemize}
+\item
+  \href{https://scipy.org/}{SciPy -}
+\item
+  \href{https://numpy.org/}{NumPy -}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
+\end{itemize}
+
+Dans l'environnement Google Colab, seul \texttt{rioxarray} et gdal
+doivent être installé:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get update}
+\OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get install gdal}\OperatorTok{{-}}\BuiltInTok{bin}\NormalTok{ libgdal}\OperatorTok{{-}}\NormalTok{dev}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{q rioxarray}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifier les importations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Données}\label{donnuxe9es}
+
+Nous allons utilisés ces images dans ce chapitre:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{raw.githubusercontent.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{modis}\OperatorTok{{-}}\NormalTok{aqua.PNG }\OperatorTok{{-}}\NormalTok{O modis}\OperatorTok{{-}}\NormalTok{aqua.PNG}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Importation d'images}\label{importation-dimages}
+
+La première étape avant tout traitement est d'accéder à la donnée image
+pour qu'elle soit manipulée par le programme Python. L'imagerie
+satellite présente certains défis notamment en raison de la taille
+parfois très importante des images. Il existe maintenant certaines
+librairies, comme \href{https://docs.xarray.dev/en/stable/}{Xarray}, qui
+on cherchées à optimiser la lecture et l'écriture de grandes images. Il
+est donc conseiller de toujours garder un oeil sur l'espace mémoire
+occupé par les variables Python reliées aux images. La librairie
+principale en géomatique qui va nous permettre d'importer (et
+d'exporter) de l'imagerie est la librairie \href{https://gdal.org}{GDAL}
+qui rassemble la plupart des formats sous forme de \emph{driver} (ou
+pilote en français).
+
+Dans le domaine de la géomatique, il faut prêter attention à trois
+caractéristiques principales des images: 1. \textbf{La matrice des
+données} elle-même qui contient les valeurs brutes des pixels. Cette
+matrice sera souvent un cube à trois dimensions. En Python, ce cube sera
+le plus souvent un objet de la librairie
+\href{https://numpy.org/}{NumPy} (voir section). 2. \textbf{La dynamique
+des images} c.à.d le format de stockage des valeurs individuelles
+(octet, entier, double, etc.). Ce format décide principalement de la
+résolution radiométrique et des valeurs minimales et maximales
+supportées. 3. \textbf{La métadonnée} qui va transporter l'information
+auxiliaire de l'image comme les dimensions et la position de l'image, la
+date, etc. Cette donnée auxiliaire prendra souvent la forme d'un
+dictionnaire Python.
+
+Les différents formats se distinguent principalement sur la manière dont
+ces trois caractéristiques sont gérées.
+
+\subsection{Formats des images}\label{formats-des-images}
+
+Il existe maintenant de nombreux formats numériques pour la donnée de
+type image parfois appelé donnée matricielle ou donnée \emph{raster}. La
+librairie GDAL rassemble la plupart des formats matriciels rencontrés en
+géomatique (voir
+\href{https://gdal.org/en/latest/drivers/raster/index.html}{Raster
+drivers --- GDAL documentation} pour une liste complète).
+
+On peut distinguer deux grandes familles de format: 1. Les formats de
+type \textbf{RVB} issus de l'imagerie numérique grand publique comme
+\href{https://gdal.org/en/latest/drivers/raster/jpeg.html\#raster-jpeg}{JPEG},
+\href{https://gdal.org/en/latest/drivers/raster/png.html\#raster-png}{png},
+etc. Ces formats ne supportent généralement que trois bandes au maximum
+(rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255
+(format dit 8 bit). 2. \textbf{Les géo-formats} issus des domaines
+scientifiques ou techniques comme GeoTIFF, HDF5, etc. qui peuvent
+inclure plus que trois bandes et des dynamiques plus élevées (16 bit ou
+même float).
+
+Les formats RVB restent très utilisés en Python notamment par les
+librairies dites de vision par ordinateur (\emph{Computer Vision}) comme
+OpenCV et sickit-image ainsi que les grandes librairies en apprentissage
+profond (PyTorch, Tensorflow).
+
+\begin{tcolorbox}[colback=background_color, colframe=package_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocPackage.png} \textbf{Package}}]
+
+\textbf{Installation de gdal dans un système Linux }
 
 \begin{itemize}
 \tightlist
 \item
-  Pour importer et manipuler des fichiers géographiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{sf} pour importer et manipuler des données vectorielles.
-  \item
-    \texttt{Rasterio} pour importer et manipuler des données
-    matricielles.
-  \end{itemize}
-\item
-  Pour construire des cartes et des graphiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{tmap} est certainement le meilleur \emph{package} pour la
-    cartographie.
-  \item
-    \texttt{Matplotlib} pour construire des graphiques.
-  \end{itemize}
+  Pour installer GDAL~:
 \end{itemize}
 
-\section{Bases de Quarto\ldots{}}\label{sec-010}
+\begin{verbatim}
+!apt-get update
+!apt-get install gdal-bin libgdal-dev
+\end{verbatim}
 
-Voici comment faire une liste~:
+\end{tcolorbox}
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{texte en gras}
-\item
-  \emph{texte en italique}
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \textbf{\emph{Gras et italique}}
-  \end{itemize}
-\item
-  R\textsuperscript{2} et NO\textsubscript{2}
-\item
-  \textsc{Petites majuscules}
-\item
-  Pour un lien Web,
-  \href{https://www.usherbrooke.ca/geomatique/}{Département de
-  géomatique appliquée}.
-\end{itemize}
-
-Voici comment intégrer des équations LaTeX. La formule de la distance
-euclidienne (équation~\ref{eq-DistEuc}). Pour écrire directement une
-équation dans le texte, il suffit de \(E = mc^2\).
-
-\begin{equation}\phantomsection\label{eq-DistLongLat}{
- d_{ij} = 2R \cdot \text{ arcsin} \left( \sqrt{\text{sin}^2 \left( \frac{\delta _i - \delta _j}{2} \right) + \text{cos }\delta _i \cdot \text{cos }\delta _j \cdot \text{sin}^2 \left( \frac{\phi _i - \phi _j}{2} \right)} \right)
-}\end{equation}
-
-\begin{equation}\phantomsection\label{eq-DistEuc}{
- d_{ij} = \sqrt{(x_i-x_j)^2+(y_i-y_j)^2}
-}\end{equation}
-
-\begin{itemize}
-\tightlist
-\item
-  Intégrer une figure (image) et l'appeler dans le texte
-  (figure~\ref{fig-downloaffromgit}). À la
-  figure~\ref{fig-downloaffromgit}, \ldots{} Notez que la numérotation
-  des figures, des tableaux, des équations est automatique.
-\end{itemize}
-
-\begin{figure}
-
-\centering{
-
-\includegraphics[width=0.4\textwidth,height=\textheight]{images/introduction/download_github.png}
-
-}
-
-\caption{\label{fig-downloaffromgit}Téléchargement de l'intégralité du
-livre}
-
-\end{figure}%
-
-\begin{itemize}
-\tightlist
-\item
-  Les références sont au format BibTeX. Par exemple, vous pouvez les
-  télécharger de Google Scholar et les intégrer à la fin du fichier
-  references.bib. Voici comment intégrer des références (Mather et Koch
-  2022; Richards, Richards et al. 2022). Selon Ferdinand Boon et Guy
-  Rochon (1992).
-\end{itemize}
-
-Le code R ci-dessous permet de faire un tableau dans un chunk! Pour
-appeler le tableau (\textbf{?@tbl-TabMatricesSpatiales}).
-
-\section{Importation d'images}\label{sec-011}
-
-\subsection{Formats de données}\label{sec-0112}
-
-\begin{itemize}
-\tightlist
-\item
-  Format de type vision par ordinateur (RGB):
-
-  \begin{itemize}
-  \tightlist
-  \item
-    jpeg, png
-  \end{itemize}
-\item
-  Format avec compression ou sans compression
-\end{itemize}
-
-Voici comment faire une liste
-
-\begin{itemize}
-\tightlist
-\item
-  Format RVB
-
-  \begin{itemize}
-  \tightlist
-  \item
-    jpeg
-  \item
-    png
-  \end{itemize}
-\item
-  GeoTiff
-\item
-  COG
-\item
-  NetCDF
-\item
-  HDF5
-\end{itemize}
-
-\subsubsection{Formats de type RVB}\label{sec-01121}
+\subsubsection{Formats de type RVB}\label{formats-de-type-rvb}
 
 Les premiers formats pour de l'imagerie à une bande (monochrome) et à
 trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des
 sciences de l'ordinateur. On trouvera, entre autres, les formats pbm,
-png et jpeg. Ces formats supportent peu de métadonnées dans un entête
-(header) très limités. Ces formats restent très populaires dans le
-domaine de la vision par ordinateur.
+png et jpeg. Ces formats supportent peu de métadonnées et sont placées
+dans un entête (\emph{header}) très limité. Cependant, ces formats
+restent très populaires dans le domaine de la vision par ordinateur et
+sont très utilisés en apprentissage profond en particulier. Pour la
+lecture des images RVB, on peut utiliser les librairies Rasterio,
+\href{https://he-arc.github.io/livre-python/pillow/index.html}{PIL} ou
+\href{https://docs.opencv.org/4.10.0/index.html}{OpenCV}.
 
-\subsubsection{Le format GeoTiff}\label{sec-01122}
+\paragraph{Lecture avec la librairie
+PIL}\label{lecture-avec-la-librairie-pil}
+
+La librairie PIL retourne un objet de type \texttt{PngImageFile},
+l'affichage de l'image se fait directement dans la cellule de sortie.
+
+\begin{codelisting}
+
+\caption{\label{lst-lecture-PIL-PNG}Lecture d'une image en format PNG
+avec PIL}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ PIL }\ImportTok{import}\NormalTok{ Image}
+\NormalTok{img }\OperatorTok{=}\NormalTok{ Image.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}modis{-}aqua.PNG\textquotesingle{}}\NormalTok{)}
+\NormalTok{img}
+\end{Highlighting}
+\end{Shaded}
+
+}
+
+\end{codelisting}%
+
+\includegraphics{01-ImportationManipulationImages_files/figure-pdf/cell-6-output-1.png}
+
+\paragraph{Lecture avec la librairie
+OpenCV}\label{lecture-avec-la-librairie-opencv}
+
+La librairie \href{https://docs.opencv.org/4.10.0/index.html}{OpenCV}
+est aussi très populaire en vision par ordinateur. La fonction
+\texttt{imread} donne directement un objet de type NumPy en sortie.
+
+\begin{codelisting}
+
+\caption{\label{lst-lecture-opencv-PNG}Lecture d'une image en format PNG
+avec OpenCV}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ cv2}
+\NormalTok{img }\OperatorTok{=}\NormalTok{ cv2.imread(}\StringTok{\textquotesingle{}modis{-}aqua.PNG\textquotesingle{}}\NormalTok{)}
+\NormalTok{img}
+\end{Highlighting}
+\end{Shaded}
+
+}
+
+\end{codelisting}%
+
+\paragraph{Lecture avec la librairie
+RasterIO}\label{lecture-avec-la-librairie-rasterio}
+
+Rien ne nous empêche de lire une image de format RVB avec
+\href{https://rasterio.readthedocs.io/en/stable/}{RasterIO} comme décrit
+dans (bloc~\ref{lst-lecturerasterioPNG}). Vous noterez cependant les
+avertissements concernant l'absence de géoréférence pour ce type
+d'image.
+
+\begin{codelisting}
+
+\caption{\label{lst-lecturerasterioPNG}Lecture d'une image en format PNG
+avec OpenCV}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rasterio}
+\NormalTok{img}\OperatorTok{=}\NormalTok{ rasterio.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}modis{-}aqua.PNG\textquotesingle{}}\NormalTok{)}
+\NormalTok{img}
+\end{Highlighting}
+\end{Shaded}
+
+}
+
+\end{codelisting}%
+
+\subsubsection{Le format GeoTiff}\label{le-format-geotiff}
 
 Le format GeoTIFF est une extension du format TIFF (Tagged Image File
 Format) qui permet d'incorporer des métadonnées géospatiales directement
@@ -1305,12 +1489,13 @@ format supporte plus que trois bandes aussi longtemps que ces bandes
 sont de même dimension.
 
 Le format GeoTIFF est très utilisé et est largement supporté par les
-bibliothèques et logiciels géospatiaux, notamment GDAL (Geospatial Data
-Abstraction Library), qui offre des capacités de lecture et d'écriture
-pour ce format. Cette compatibilité étendue a contribué à son adoption
+bibliothèques et logiciels géospatiaux, notamment
+\href{https://gdal.org}{GDAL} (\emph{Geospatial Data Abstraction
+Library}), qui offre des capacités de lecture et d'écriture pour ce
+format. Cette compatibilité étendue a contribué à son adoption
 généralisée dans la communauté géospatiale.
 
-\paragraph{Standardisation par l'OGC}\label{sec-011221}
+\paragraph{Standardisation par l'OGC}\label{standardisation-par-logc}
 
 Le standard GeoTIFF proposé par l'Open Geospatial Consortium (OGC) en
 2019 formalise et étend les spécifications originales du format GeoTIFF,
@@ -1320,197 +1505,1004 @@ plusieurs améliorations et clarifications importantes.
 
 \subsubsection{Le format COG}\label{le-format-cog}
 
-Une innovation récente dans l'écosystème GeoTIFF est le format ``Cloud
-Optimized GeoTIFF'' (COG), conçu pour faciliter l'utilisation de
-fichiers GeoTIFF hébergés sur des serveurs web HTTP. Le COG permet aux
-utilisateurs et aux logiciels d'accéder à des parties spécifiques du
-fichier sans avoir à le télécharger entièrement, ce qui est
-particulièrement utile pour les applications basées sur le cloud.
+Une innovation récente dans l'écosystème GeoTIFF est le format
+\emph{Cloud Optimized GeoTIFF} (\href{http://cogeo.org/}{COG}), conçu
+pour faciliter l'utilisation de fichiers GeoTIFF hébergés sur des
+serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels
+d'accéder à des parties spécifiques du fichier sans avoir à le
+télécharger entièrement, ce qui est particulièrement utile pour les
+applications basées sur le cloud.
 
-\subsection{Métadonnées des images}\label{sec-0113}
+\subsection{Métadonnées des images}\label{muxe9tadonnuxe9es-des-images}
 
-\subsection{Données en géoscience}\label{sec-0114}
+La manière la plus directe d'accéder à la métadonnée d'une image est
+d'utiliser les commandes
+\href{https://rasterio.readthedocs.io/en/stable/cli.html\#info}{\texttt{rio\ info}}
+de la librairie Rasterio ou \texttt{gdalinfo} de la librairie
+\texttt{gdal}. Le résultat est imprimé dans la sortie standard ou sous
+forme d'un dictionnaire Python.
+
+\begin{codelisting}
+
+\caption{\label{lst-gdalinfo}Collecte d'information sur une image avec
+gdal}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{!}\NormalTok{gdalinfo RGBNIR\_of\_S2A.tif}
+\end{Highlighting}
+\end{Shaded}
+
+}
+
+\end{codelisting}%
+
+\begin{verbatim}
+Warning 1: TIFFReadDirectory:Sum of Photometric type-related color channels and ExtraSamples doesn't match SamplesPerPixel. Defining non-color channels as ExtraSamples.
+Driver: GTiff/GeoTIFF
+Files: RGBNIR_of_S2A.tif
+       RGBNIR_of_S2A.tif.aux.xml
+Size is 2074, 1926
+Coordinate System is:
+PROJCS["WGS 84 / UTM zone 18N",
+    GEOGCS["WGS 84",
+        DATUM["WGS_1984",
+            SPHEROID["WGS 84",6378137,298.257223563,
+                AUTHORITY["EPSG","7030"]],
+            AUTHORITY["EPSG","6326"]],
+        PRIMEM["Greenwich",0,
+            AUTHORITY["EPSG","8901"]],
+        UNIT["degree",0.0174532925199433,
+            AUTHORITY["EPSG","9122"]],
+        AUTHORITY["EPSG","4326"]],
+    PROJECTION["Transverse_Mercator"],
+    PARAMETER["latitude_of_origin",0],
+    PARAMETER["central_meridian",-75],
+    PARAMETER["scale_factor",0.9996],
+    PARAMETER["false_easting",500000],
+    PARAMETER["false_northing",0],
+    UNIT["metre",1,
+        AUTHORITY["EPSG","9001"]],
+    AXIS["Easting",EAST],
+    AXIS["Northing",NORTH],
+    AUTHORITY["EPSG","32618"]]
+Origin = (731780.000000000000000,5040800.000000000000000)
+Pixel Size = (10.000000000000000,-10.000000000000000)
+Metadata:
+  AREA_OR_POINT=Area
+  TIFFTAG_IMAGEDESCRIPTION=subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903
+  TIFFTAG_RESOLUTIONUNIT=1 (unitless)
+  TIFFTAG_XRESOLUTION=1
+  TIFFTAG_YRESOLUTION=1
+Image Structure Metadata:
+  INTERLEAVE=BAND
+Corner Coordinates:
+Upper Left  (  731780.000, 5040800.000) ( 72d 2' 3.11"W, 45d28'55.98"N)
+Lower Left  (  731780.000, 5021540.000) ( 72d 2'35.69"W, 45d18'32.70"N)
+Upper Right (  752520.000, 5040800.000) ( 71d46' 9.19"W, 45d28'30.08"N)
+Lower Right (  752520.000, 5021540.000) ( 71d46'44.67"W, 45d18' 6.95"N)
+Center      (  742150.000, 5031170.000) ( 71d54'23.16"W, 45d23'31.71"N)
+Band 1 Block=2074x1926 Type=UInt16, ColorInterp=Gray
+  Min=86.000 Max=15104.000 
+  Minimum=86.000, Maximum=15104.000, Mean=1426.625, StdDev=306.564
+  Metadata:
+    STATISTICS_MAXIMUM=15104
+    STATISTICS_MEAN=1426.6252674912
+    STATISTICS_MINIMUM=86
+    STATISTICS_STDDEV=306.56427126942
+    STATISTICS_VALID_PERCENT=100
+Band 2 Block=2074x1926 Type=UInt16, ColorInterp=Undefined
+  Min=1139.000 Max=14352.000 
+  Minimum=1139.000, Maximum=14352.000, Mean=1669.605, StdDev=310.919
+  Metadata:
+    STATISTICS_MAXIMUM=14352
+    STATISTICS_MEAN=1669.6050060032
+    STATISTICS_MINIMUM=1139
+    STATISTICS_STDDEV=310.91935787639
+    STATISTICS_VALID_PERCENT=100
+Band 3 Block=2074x1926 Type=UInt16, ColorInterp=Undefined
+  Min=706.000 Max=15280.000 
+  Minimum=706.000, Maximum=15280.000, Mean=1471.392, StdDev=385.447
+  Metadata:
+    STATISTICS_MAXIMUM=15280
+    STATISTICS_MEAN=1471.3923473736
+    STATISTICS_MINIMUM=706
+    STATISTICS_STDDEV=385.44654593014
+    STATISTICS_VALID_PERCENT=100
+Band 4 Block=2074x1926 Type=UInt16, ColorInterp=Undefined
+  Min=1067.000 Max=15642.000 
+  Minimum=1067.000, Maximum=15642.000, Mean=4393.945, StdDev=1037.934
+  Metadata:
+    STATISTICS_MAXIMUM=15642
+    STATISTICS_MEAN=4393.94485025
+    STATISTICS_MINIMUM=1067
+    STATISTICS_STDDEV=1037.933939728
+    STATISTICS_VALID_PERCENT=100
+\end{verbatim}
+
+Le plus simple est d'utiliser la fonction \texttt{rio\ info}:
+
+\begin{codelisting}
+
+\caption{\label{lst-rioinfo}Collecte d'information sur une image avec
+rasterio}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{!}\NormalTok{rio info RGBNIR\_of\_S2A.tif }\OperatorTok{{-}{-}}\NormalTok{indent }\DecValTok{2} \OperatorTok{{-}{-}}\NormalTok{verbose}
+\end{Highlighting}
+\end{Shaded}
+
+}
+
+\end{codelisting}%
+
+\begin{verbatim}
+WARNING:rasterio._env:CPLE_AppDefined in RGBNIR_of_S2A.tif: TIFFReadDirectory:Sum of Photometric type-related color channels and ExtraSamples doesn't match SamplesPerPixel. Defining non-color channels as ExtraSamples.
+WARNING:rasterio._env:CPLE_AppDefined in RGBNIR_of_S2A.tif: TIFFReadDirectory:Sum of Photometric type-related color channels and ExtraSamples doesn't match SamplesPerPixel. Defining non-color channels as ExtraSamples.
+WARNING:rasterio._env:CPLE_AppDefined in TIFFReadDirectory:Sum of Photometric type-related color channels and ExtraSamples doesn't match SamplesPerPixel. Defining non-color channels as ExtraSamples.
+{
+  "blockxsize": 2074,
+  "blockysize": 1926,
+  "bounds": [
+    731780.0,
+    5021540.0,
+    752520.0,
+    5040800.0
+  ],
+  "checksum": [
+    18623,
+    42114,
+    31774,
+    54171
+  ],
+  "colorinterp": [
+    "gray",
+    "undefined",
+    "undefined",
+    "undefined"
+  ],
+  "count": 4,
+  "crs": "EPSG:32618",
+  "descriptions": [
+    null,
+    null,
+    null,
+    null
+  ],
+  "driver": "GTiff",
+  "dtype": "uint16",
+  "height": 1926,
+  "indexes": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "interleave": "band",
+  "lnglat": [
+    -71.90643373271799,
+    45.39214029576973
+  ],
+  "mask_flags": [
+    [
+      "all_valid"
+    ],
+    [
+      "all_valid"
+    ],
+    [
+      "all_valid"
+    ],
+    [
+      "all_valid"
+    ]
+  ],
+  "nodata": null,
+  "res": [
+    10.0,
+    10.0
+  ],
+  "shape": [
+    1926,
+    2074
+  ],
+  "stats": [
+    {
+      "max": 15104.0,
+      "mean": 1426.6252674912,
+      "min": 86.0,
+      "std": 306.56427126942
+    },
+    {
+      "max": 14352.0,
+      "mean": 1669.6050060032,
+      "min": 1139.0,
+      "std": 310.91935787639
+    },
+    {
+      "max": 15280.0,
+      "mean": 1471.3923473736,
+      "min": 706.0,
+      "std": 385.44654593014
+    },
+    {
+      "max": 15642.0,
+      "mean": 4393.94485025,
+      "min": 1067.0,
+      "std": 1037.933939728
+    }
+  ],
+  "tiled": false,
+  "transform": [
+    10.0,
+    0.0,
+    731780.0,
+    0.0,
+    -10.0,
+    5040800.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "units": [
+    null,
+    null,
+    null,
+    null
+  ],
+  "width": 2074
+}
+\end{verbatim}
+
+\section{Manipulation des images}\label{manipulation-des-images}
+
+\subsection{Manipulation de la matrice de
+pixels}\label{manipulation-de-la-matrice-de-pixels}
+
+La donnée brute de l'image est généralement contenue dans un cube
+matricielle à trois dimensions (deux dimensions spatiales et une
+dimension spectrale). Comme exposé précédemment, la librairie dite
+\emph{``fondationnelle''} pour la manipulation de matrices en Python est
+\href{https://numpy.org/}{NumPy}. Cette librairie contient un nombre
+très important de fonctionnalités couvrant l'algèbre linéaires, les
+statistiques, etc. et constitue la fondation de nombreuses librairies
+(voir (figure~\ref{fig-naturenumpy1}))
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=1\textwidth,height=\textheight]{index_files/mediabag/41586_2020_2649_Fig2.png}
+
+}
+
+\caption{\label{fig-naturenumpy1}La librairie NumPy est le fondement de
+nombreuses librairies scientifiques (d'après (Harris 2020)).}
+
+\end{figure}%
+
+\subsection{Information de base}\label{information-de-base}
+
+Les deux informations de base à afficher sur une matrice sont 1) les
+dimensions de la matrice et 2) le format de stockage (le type). Pour
+cela, on peut utiliser le (bloc~\ref{lst-numpyshape}), le résultat nous
+informe que la matrice a 3 dimensions et une taille de
+\texttt{(442,\ 553,\ 3)} et un type \texttt{uint8} qui représente 1
+octet (8 bit). Par conséquent, la matrice a \texttt{442} lignes,
+\texttt{553} colonnes et \texttt{3} canaux ou bandes. Il faut prêter une
+attention particulière aux valeurs minimales et maximales tolérées par
+le type de la donnée comme indiqué dans le (tableau~\ref{tbl-numpytype})
+(voir aussi
+\href{https://numpy.org/doc/stable/user/basics.types.html}{Data types
+--- NumPy v2.1 Manual}).
+
+\begin{codelisting}
+
+\caption{\label{lst-numpyshape}Lecture d'une image en format PNG avec
+OpenCV}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ cv2}
+\NormalTok{img }\OperatorTok{=}\NormalTok{ cv2.imread(}\StringTok{\textquotesingle{}modis{-}aqua.PNG\textquotesingle{}}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Nombre de dimensions: \textquotesingle{}}\NormalTok{,img.ndim)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Dimensions de la matrice: \textquotesingle{}}\NormalTok{,img.shape)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Type de la donnée: \textquotesingle{}}\NormalTok{,img.dtype)}
+\end{Highlighting}
+\end{Shaded}
+
+}
+
+\end{codelisting}%
+
+\begin{verbatim}
+Nombre de dimensions:  3
+Dimensions de la matrice:  (442, 553, 3)
+Type de la donnée:  uint8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ IPython.display }\ImportTok{import}\NormalTok{ Markdown}
+\ImportTok{from}\NormalTok{ tabulate }\ImportTok{import}\NormalTok{ tabulate}
+\NormalTok{table }\OperatorTok{=}\NormalTok{ [[}\StringTok{"uint8"}\NormalTok{, }\StringTok{"char"}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{255}\NormalTok{],}
+\NormalTok{        [}\StringTok{"int8"}\NormalTok{, }\StringTok{"signed char"}\NormalTok{, }\DecValTok{8}\NormalTok{, }\OperatorTok{{-}}\DecValTok{127}\NormalTok{, }\OperatorTok{+}\DecValTok{128}\NormalTok{],}
+\NormalTok{        [}\StringTok{"uint16"}\NormalTok{, }\StringTok{"unsigned short"}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{0}\NormalTok{, }\OperatorTok{{-}}\DecValTok{32768}\NormalTok{, }\OperatorTok{+}\DecValTok{32767}\NormalTok{],}
+\NormalTok{        [}\StringTok{"int16"}\NormalTok{, }\StringTok{"short"}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{655355}\NormalTok{]]}
+\NormalTok{Markdown(tabulate(table, headers}\OperatorTok{=}\NormalTok{[}\StringTok{"dtype"}\NormalTok{, }\StringTok{"Nom"}\NormalTok{, }\StringTok{"Taille (bits)"}\NormalTok{, }\StringTok{"Min"}\NormalTok{, }\StringTok{"Max"}\NormalTok{], tablefmt}\OperatorTok{=}\StringTok{"pipe"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}llrrr@{}}
+
+\caption{\label{tbl-numpytype}Type de données de NumPy}
+
+\tabularnewline
+
+\toprule\noalign{}
+dtype & Nom & Taille (bits) & Min & Max \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+uint8 & char & 8 & 0 & 255 \\
+int8 & signed char & 8 & -127 & 128 \\
+uint16 & unsigned short & 16 & 0 & -32768 \\
+int16 & short & 16 & 0 & 655355 \\
+
+\end{longtable}
+
+\begin{tcolorbox}[colback=background_color, colframe=allerloin_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocAllerPlusLoin.png} \textbf{Aller plus loin}}]
+
+\textbf{Les différents types de données en dans NumPy}
+
+Il comprend des références ou des extensions d'une méthode abordée dans
+une section.
+
+\end{tcolorbox}
+
+\subsection{Découpage et indexation de la
+matrice}\label{duxe9coupage-et-indexation-de-la-matrice}
+
+L'indexation et le découpage des matrices dans NumPy sont des techniques
+essentielles pour manipuler efficacement les données
+multidimensionnelles en Python, offrant une syntaxe puissante et
+flexible pour accéder et modifier des sous-ensembles spécifiques
+d'éléments dans les tableaux (voir figure~\ref{fig-naturenumpy2}).
+Indexer une matrice consiste à accéder à une valeur dans la matrice pour
+une position particulière, la syntaxe générale est
+\texttt{matrice{[}ligne,\ colonne,\ bande{]}} et est similaire à la
+manipulation des
+\href{https://docs.python.org/fr/3/tutorial/introduction.html\#lists}{listes}
+en Python. Les indices commencent à \texttt{0} et se termine à la
+\texttt{taille-1} de l'axe considéré.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=1\textwidth,height=\textheight]{index_files/mediabag/41586_2020_2649_Fig1.png}
+
+}
+
+\caption{\label{fig-naturenumpy2}Vue d'ensemble des opérations de base
+des matrices avec NumPy}
+
+\end{figure}%
+
+Le découpage (ou \emph{slicing} en anglais) consiste à produire une
+nouvelle matrice qui est un sous-ensemble de la matrice d'origine. Un
+découpage se fait avec le symbole `:', la syntaxe générale pour définir
+un découpage est \texttt{{[}début:fin:pas{]}}. Si on ne spécifie pas
+\texttt{début} ou \texttt{fin} alors les valeurs 0 ou
+\texttt{dimension-1} sont considérées implicitement. Quelques exemples:
+* choisir un pixel en particulier avec toutes les bandes:
+\texttt{matrice{[}1,1,:{]}} * choisir la colonne 2:
+\texttt{matrice{[}:,2,:{]}}
+
+La syntaxe de base pour le découpage (\emph{slicing}) des tableaux NumPy
+repose sur l'utilisation des deux-points (\texttt{:}) à l'intérieur des
+crochets d'indexation. Cette notation permet de sélectionner des plages
+d'éléments de manière concise et intuitive. La structure générale du
+découpage est \texttt{matrice{[}start:stop:step{]}}, où : 1.
+\texttt{start} représente l'index de départ (inclus) 2. \texttt{stop}
+indique l'index de fin (exclu) 3. \texttt{step} définit l'intervalle
+entre chaque élément sélectionné
+
+Si l'un de ces paramètres est omis, NumPy utilise des valeurs par défaut
+: 0 pour \texttt{start}, la taille du tableau pour \texttt{stop}, et 1
+pour \texttt{step}. Par exemple, pour un tableau unidimensionnel
+\texttt{array}, on peut extraire les éléments du deuxième au quatrième
+avec \texttt{array{[}1:4{]}}. Pour sélectionner tous les éléments à
+partir du troisième, on utiliserait \texttt{array{[}2:{]}}. Cette
+syntaxe s'applique également aux tableaux multidimensionnels, où chaque
+dimension est séparée par une virgule. Ainsi, pour une matrice 2D m,
+\texttt{m{[}0:2,\ 1:3{]}} sélectionnerait une sous-matrice 2x2 composée
+des deux premières lignes et des deuxième et troisième colonnes.
+L'indexation négative est également supportée, permettant de compter à
+partir de la fin du tableau. Par exemple, \texttt{a{[}-3:{]}}
+sélectionnerait les trois derniers éléments d'un tableau.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ cv2}
+\NormalTok{img }\OperatorTok{=}\NormalTok{ cv2.imread(}\StringTok{\textquotesingle{}modis{-}aqua.PNG\textquotesingle{}}\NormalTok{)}
+\NormalTok{img\_col }\OperatorTok{=}\NormalTok{ img[:,}\DecValTok{1}\NormalTok{,:]}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Nombre de dimensions: \textquotesingle{}}\NormalTok{,img\_col.ndim)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Dimensions de la matrice: \textquotesingle{}}\NormalTok{,img\_col.shape)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Nombre de dimensions:  2
+Dimensions de la matrice:  (442, 3)
+\end{verbatim}
+
+\begin{tcolorbox}[colback=background_color, colframe=allerloin_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocAllerPlusLoin.png} \textbf{Aller plus loin}}]
+
+\textbf{Une vue versus une copie}
+
+Avec NumPy, les manipulations peuvent créer des vues ou des copies. Une
+vue est une simple représentation de la même donnée originale alors
+qu'une copie est un nouvel espace mémoire.
+
+Par défaut, un découpage créé une vue.
+
+On peut vérifier si l'espace mémoire est partagé avec
+\texttt{np.shares\_memory(arr,\ slice\_arr)}.
+
+On peut toujours forcer une copie avec la méthode \texttt{copy()}
+
+\end{tcolorbox}
+
+\subsubsection{Exemple 1: calcul d'un rapport de
+bande}\label{exemple-1-calcul-dun-rapport-de-bande}
+
+\subsubsection{Exemple 2: application d'un filtrage
+spatial}\label{exemple-2-application-dun-filtrage-spatial}
+
+\subsection{Mosaïquage, masquage et
+découpage}\label{mosauxefquage-masquage-et-duxe9coupage}
+
+\subsubsection{Masquage}\label{masquage}
+
+L'utilisation d'un masque est un outil important en traitement d'image
+car la plupart des images de télédétection contiennent des pixels non
+valides qu'il faut exclure des traitements (ce que l'on appelle le
+\emph{no data} en Anglais). Il y a plusieurs raison possibles pour la
+présence de pixels non valides: 1. L'image est projetée dans une grille
+cartographique et certaines zones, généralement situées en dehors de
+l'empreinte au sol du capteur, sont à exclure. 2. La présence de nuages
+que l'on veut exclure. 3. La présence de pixels erronés dûs à des
+problèmes de capteurs. 4. La présence de valeurs non numériques
+(\emph{not a number} ou \texttt{nan})
+
+La librairie NumPy fournit des mécanismes pour exclure automatiquement
+certaines valeurs.
+
+\subsection{Changement de projection
+cartographique}\label{changement-de-projection-cartographique}
+
+\subsection{Recalage d'images et
+co-registration}\label{recalage-dimages-et-co-registration}
+
+\section{Données en géoscience}\label{donnuxe9es-en-guxe9oscience}
+
+Les données en géoscience contiennent beaucoup de métadonnées et peuvent
+être composées de différentes variables avec différentes unités,
+résolution, etc. Ces données sont aussi souvent étiquetées avec des
+dates sur certains axes, des coordonnées géographiques, des identifiants
+d'expériences, etc. Par conséquent, utiliser seulement des matrices est
+souvent incomplet (Hoyer et Hamman 2017).
 
 Calibration, unités, données manquantes, données éparses.
+
+\subsection{xarray}\label{xarray}
+
+\href{https://docs.xarray.dev/en/latest/getting-started-guide/why-xarray.html}{Xarray}
+est une puissante bibliothèque Python qui améliore les matrices
+multidimensionnelles de type numpy en y ajoutant des étiquettes, des
+dimensions, des coordonnées et des attributs. Elle fournit deux
+structures de données principales : \texttt{DataArray} (un tableau
+étiqueté à N dimensions) et \texttt{Dataset} (une base de données de
+tableaux multidimensionnels en mémoire).
+
+Les caractéristiques principales sont les suivantes:
+
+\begin{itemize}
+\item
+  Opérations sur les dimensions nommées au lieu des numéros d'axe
+\item
+  Sélection et opérations basées sur les étiquettes
+\item
+  Diffusion automatique de tableaux basée sur les noms de dimensions
+\item
+  Alignement de type base de données avec des étiquettes de coordonnées
+\item
+  Suivi des métadonnées grâce aux dictionnaires Python
+\end{itemize}
+
+\subsubsection{Avantages}\label{avantages}
+
+La bibliothèque réduit considérablement la complexité du code et
+améliore la lisibilité du code pour les applications de calcul
+scientifique dans divers domaines, notamment la physique, l'astronomie,
+les géosciences, la bio-informatique, l'ingénierie, la finance et
+l'apprentissage profond. Elle s'intègre de manière transparente avec
+NumPy et pandas tout en restant compatible avec l'écosystème Python au
+sens large.
+
+\subsubsection{DataArray}\label{dataarray}
+
+Un tableau multidimensionnel étiqueté avec des propriétés clées :
+
+\begin{itemize}
+\item
+  \texttt{valeurs} : Les données réelles du tableau
+\item
+  \texttt{dims} : Dimensions nommées (par exemple, « x », « y », « z »)
+\item
+  \texttt{coords} : Dictionnaire de tableaux étiquetant chaque point
+\item
+  \texttt{attrs} : Stockage de métadonnées arbitraires
+\item
+  \texttt{name} : Identifiant facultatif
+\end{itemize}
+
+\subsubsection{Dataset}\label{dataset}
+
+Un conteneur de type dictionnaire de \texttt{DataArrays} avec des
+dimensions alignées, contenant :
+
+\begin{itemize}
+\item
+  \texttt{dims} : Dictionnaire de correspondance entre les noms des
+  dimensions et les longueurs
+\item
+  \texttt{data\_vars} : Dictionnaire des variables du DataArray
+\item
+  \texttt{coords} : Dictionnaire des variables de coordonnées
+\item
+  \texttt{attrs} : Stockage des métadonnées
+\end{itemize}
+
+Les principales différences sont les suivantes : - DataArray contient un
+seul tableau avec des étiquettes - Le Dataset contient plusieurs
+DataArrays alignés.
+
+Ces trois structures prennent en charge les opérations de type
+dictionnaire et les calculs de coordination tout en conservant les
+métadonnées.
+
+\includegraphics{index_files/mediabag/dataset-diagram.png}
 
 netcdf, xarray, GRIB.
 
 Données météos, exemple avec SWOT.
 
-\section{Importation de données vectorielles}\label{sec-012}
+\section{Importation de données
+vectorielles}\label{importation-de-donnuxe9es-vectorielles}
 
 \subsection{\texorpdfstring{Importation d'un fichier
-\emph{shapefile}}{Importation d'un fichier shapefile}}\label{sec-0121}
+\emph{shapefile}}{Importation d'un fichier shapefile}}\label{importation-dun-fichier-shapefile}
 
 \subsection{\texorpdfstring{Importation d'une couche dans un
-\emph{GeoPackage}}{Importation d'une couche dans un GeoPackage}}\label{sec-0122}
+\emph{GeoPackage}}{Importation d'une couche dans un GeoPackage}}\label{importation-dune-couche-dans-un-geopackage}
 
 \subsection{\texorpdfstring{Importation d'une couche dans une
 \emph{geodatabase}
-d'ESRI}{Importation d'une couche dans une geodatabase d'ESRI}}\label{sec-0123}
+d'ESRI}{Importation d'une couche dans une geodatabase d'ESRI}}\label{importation-dune-couche-dans-une-geodatabase-desri}
 
 \subsection{\texorpdfstring{Importation d'un fichier
-\emph{shapefile}}{Importation d'un fichier shapefile}}\label{sec-0124}
+\emph{shapefile}}{Importation d'un fichier shapefile}}\label{importation-dun-fichier-shapefile-1}
 
-\section{Manipulation d'images}\label{sec-013}
+\section{Manipulation de données
+vectorielles}\label{manipulation-de-donnuxe9es-vectorielles}
 
-\subsection{Manipulation d'une matrice}\label{sec-0131}
+\subsection{Requêtes attributaires}\label{requuxeates-attributaires}
 
-\begin{itemize}
-\tightlist
-\item
-  Numpy
-\end{itemize}
+\section{Quiz de révision du
+chapitre}\label{quiz-de-ruxe9vision-du-chapitre-1}
 
-\subsection{Mosaïquage, masquage et découpage}\label{sec-0132}
-
-\subsection{Changement de projection cartographique}\label{sec-0133}
-
-\subsection{Recalage d'images et co-registration}\label{sec-0134}
-
-\subsection{Requêtes attributaires}\label{sec-0135}
-
-\section{Manipulation de données vectorielles}\label{sec-014}
-
-\section{Quiz de révision du chapitre}\label{sec-015}
-
-\section{Exercices de révision}\label{sec-016}
-
-\textbf{Exercice 1.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08011}.
-
-\textbf{Exercice 2.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08012}.
-
-\textbf{Exercice 3.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08013}.
+\section{Exercices de révision}\label{exercices-de-ruxe9vision}
 
 \bookmarksetup{startatroot}
 
 \chapter{Réhaussement et visualisation d'images}\label{sec-chap02}
 
-Dans le chapitre, nous abordons\ldots{}
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\textbf{Liste des \emph{packages} utilisés dans ce chapitre}
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-1}
+
+\subsection{:dart: Objectifs}\label{dart-objectifs}
+
+Dans ce chapitre, nous abordons quelques techniques de réhaussement et
+de visualisation d'images. Ce chapitre est aussi disponible sous la
+forme d'un notebook Python:
+
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb}{\includesvg{index_files/mediabag/colab-badge.svg}}
+
+\subsection{Librairies}\label{librairies-1}
+
+Les librairies qui vont être explorées dans ce chapitre sont les
+suivantes:
 
 \begin{itemize}
-\tightlist
 \item
-  Pour importer et manipuler des fichiers géographiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{sf} pour importer et manipuler des données vectorielles.
-  \item
-    \texttt{terra} pour importer et manipuler des données matricielles.
-  \end{itemize}
+  \href{https://scipy.org/}{SciPy -}
 \item
-  Pour construire des cartes et des graphiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{tmap} est certainement le meilleur \emph{package} pour la
-    cartographie.
-  \item
-    \texttt{ggplot2} pour construire des graphiques.
-  \end{itemize}
+  \href{https://numpy.org/}{NumPy -}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
 \end{itemize}
 
-\section{Visualisation sur le Web}\label{sec-021}
+Dans l'environnement Google Colab, seul \texttt{rioxarray} et GDAL
+doivent être installés:
 
-WMS
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get update}
+\OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get install gdal}\OperatorTok{{-}}\BuiltInTok{bin}\NormalTok{ libgdal}\OperatorTok{{-}}\NormalTok{dev}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{q rioxarray}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU }\StringTok{"geemap[workshop]"}
+\end{Highlighting}
+\end{Shaded}
 
-\section{Réhaussement visuel}\label{sec-022}
+Vérifier les importations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Données}\label{donnuxe9es-1}
+
+Nous allons utilisez les images suivantes dans ce chapitre:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif }\OperatorTok{{-}}\NormalTok{O SAR.tif}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
+    \BuiltInTok{print}\NormalTok{(img\_SAR)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Réhaussements visuels}\label{ruxe9haussements-visuels}
+
+Le but du réhaussement visuel d'une image vise principalement à
+améliorer la qualité visuelle d'une image en améliorant le contraste, la
+dynamique ou la texture d'une image. De manière générale, ce
+réhaussement ne modifie pas la donnée d'origine mais est plutôt
+appliquée dynamiquement à l'affichage pour des fins d'inspection
+visuelle.
+
+\subsection{Statistiques d'une image}\label{statistiques-dune-image}
+
+On peut considérer un ensemble de statistique globales pour chacune des
+bandes d'une image: - valeurs minimales et maximales - valeurs moyennes,
+médianes et quantiles - écart-types, skewness et kurtosis Ces
+statistiques doivent être calculées pour chaque bande d'une image
+multispectrale.
+
+En ligne de commande, \texttt{gdalinfo} permet d'interroger rapidement
+un fichier image pour connaitre les statistiques de base:
+
+\begin{codelisting}
+
+\caption{\label{lst-gdalstats}Statistiques d'une image avec gdal}
+
+\centering{
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{!}\NormalTok{gdalinfo }\OperatorTok{{-}}\NormalTok{stats landsat7.tif}
+\end{Highlighting}
+\end{Shaded}
+
+}
+
+\end{codelisting}%
+
+\begin{verbatim}
+Driver: GTiff/GeoTIFF
+Files: landsat7.tif
+       landsat7.tif.aux.xml
+Size is 2181, 1917
+Coordinate System is:
+PROJCS["WGS 84 / Pseudo-Mercator",
+    GEOGCS["WGS 84",
+        DATUM["WGS_1984",
+            SPHEROID["WGS 84",6378137,298.257223563,
+                AUTHORITY["EPSG","7030"]],
+            AUTHORITY["EPSG","6326"]],
+        PRIMEM["Greenwich",0,
+            AUTHORITY["EPSG","8901"]],
+        UNIT["degree",0.0174532925199433,
+            AUTHORITY["EPSG","9122"]],
+        AUTHORITY["EPSG","4326"]],
+    PROJECTION["Mercator_1SP"],
+    PARAMETER["central_meridian",0],
+    PARAMETER["scale_factor",1],
+    PARAMETER["false_easting",0],
+    PARAMETER["false_northing",0],
+    UNIT["metre",1,
+        AUTHORITY["EPSG","9001"]],
+    AXIS["X",EAST],
+    AXIS["Y",NORTH],
+    EXTENSION["PROJ4","+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs"],
+    AUTHORITY["EPSG","3857"]]
+Origin = (-13651650.000000000000000,4576290.000000000000000)
+Pixel Size = (30.000000000000000,-30.000000000000000)
+Metadata:
+  AREA_OR_POINT=Area
+  OVR_RESAMPLING_ALG=NEAREST
+  TIFFTAG_RESOLUTIONUNIT=1 (unitless)
+  TIFFTAG_XRESOLUTION=1
+  TIFFTAG_YRESOLUTION=1
+Image Structure Metadata:
+  COMPRESSION=DEFLATE
+  INTERLEAVE=PIXEL
+Corner Coordinates:
+Upper Left  (-13651650.000, 4576290.000) (122d38' 5.49"W, 37d58'40.08"N)
+Lower Left  (-13651650.000, 4518780.000) (122d38' 5.49"W, 37d34'10.00"N)
+Upper Right (-13586220.000, 4576290.000) (122d 2'49.53"W, 37d58'40.08"N)
+Lower Right (-13586220.000, 4518780.000) (122d 2'49.53"W, 37d34'10.00"N)
+Center      (-13618935.000, 4547535.000) (122d20'27.51"W, 37d46'26.05"N)
+Band 1 Block=512x512 Type=Byte, ColorInterp=Red
+  Min=19.000 Max=233.000 
+  Minimum=19.000, Maximum=233.000, Mean=98.433, StdDev=21.164
+  NoData Value=0
+  Overviews: 1091x959, 546x480
+  Metadata:
+    STATISTICS_MAXIMUM=233
+    STATISTICS_MEAN=98.433096940153
+    STATISTICS_MINIMUM=19
+    STATISTICS_STDDEV=21.164021026458
+Band 2 Block=512x512 Type=Byte, ColorInterp=Green
+  Min=19.000 Max=178.000 
+  Minimum=19.000, Maximum=178.000, Mean=55.068, StdDev=22.204
+  NoData Value=0
+  Overviews: 1091x959, 546x480
+  Metadata:
+    STATISTICS_MAXIMUM=178
+    STATISTICS_MEAN=55.067787534804
+    STATISTICS_MINIMUM=19
+    STATISTICS_STDDEV=22.203571974581
+Band 3 Block=512x512 Type=Byte, ColorInterp=Blue
+  Min=19.000 Max=187.000 
+  Minimum=19.000, Maximum=187.000, Mean=43.341, StdDev=20.330
+  NoData Value=0
+  Overviews: 1091x959, 546x480
+  Metadata:
+    STATISTICS_MAXIMUM=187
+    STATISTICS_MEAN=43.340507443056
+    STATISTICS_MINIMUM=19
+    STATISTICS_STDDEV=20.32987736339
+\end{verbatim}
+
+Les librairies de base comme \texttt{xarray} et \texttt{numpy} peuvent
+facilement produire des statistiques comme avec la fonction
+\href{https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html\#rasterio.io.BufferedDatasetWriter.stats}{stats}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rasterio }\ImportTok{as}\NormalTok{ rio}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ControlFlowTok{with}\NormalTok{ rio.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}landsat7.tif\textquotesingle{}}\NormalTok{) }\ImportTok{as}\NormalTok{ src:}
+\NormalTok{    stats}\OperatorTok{=}\NormalTok{ src.stats()}
+    \BuiltInTok{print}\NormalTok{(stats)}
+\end{Highlighting}
+\end{Shaded}
+
+La librairie \texttt{xarray} donne accès à des fonctionnalités plus
+sophistiquées comme le calcul des quantiles:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ riox}
+\ControlFlowTok{with}\NormalTok{ riox.open\_rasterio(}\StringTok{\textquotesingle{}landsat7.tif\textquotesingle{}}\NormalTok{, masked}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ src:}
+    \BuiltInTok{print}\NormalTok{(src)}
+\NormalTok{quantiles }\OperatorTok{=}\NormalTok{ src.quantile(dim}\OperatorTok{=}\NormalTok{[}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{], q}\OperatorTok{=}\NormalTok{[}\FloatTok{.025}\NormalTok{,}\FloatTok{.25}\NormalTok{,}\FloatTok{.5}\NormalTok{,}\FloatTok{.75}\NormalTok{,}\FloatTok{.975}\NormalTok{])}
+\NormalTok{quantiles}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+<xarray.DataArray (band: 3, y: 1917, x: 2181)> Size: 50MB
+[12542931 values with dtype=float32]
+Coordinates:
+  * band         (band) int64 24B 1 2 3
+  * x            (x) float64 17kB -1.365e+07 -1.365e+07 ... -1.359e+07
+  * y            (y) float64 15kB 4.576e+06 4.576e+06 ... 4.519e+06 4.519e+06
+    spatial_ref  int64 8B 0
+Attributes:
+    AREA_OR_POINT:           Area
+    OVR_RESAMPLING_ALG:      NEAREST
+    TIFFTAG_RESOLUTIONUNIT:  1 (unitless)
+    TIFFTAG_XRESOLUTION:     1
+    TIFFTAG_YRESOLUTION:     1
+    STATISTICS_MAXIMUM:      233
+    STATISTICS_MEAN:         98.433096940153
+    STATISTICS_MINIMUM:      19
+    STATISTICS_STDDEV:       21.164021026458
+    scale_factor:            1.0
+    add_offset:              0.0
+\end{verbatim}
+
+\begin{verbatim}
+<xarray.DataArray (quantile: 5, band: 3)> Size: 120B
+array([[ 54.,  19.,  19.],
+       [ 85.,  38.,  27.],
+       [ 99.,  54.,  38.],
+       [111.,  69.,  57.],
+       [140., 102.,  89.]])
+Coordinates:
+  * band      (band) int64 24B 1 2 3
+  * quantile  (quantile) float64 40B 0.025 0.25 0.5 0.75 0.975
+\end{verbatim}
+
+\subsubsection{Calcul de l'histogramme}\label{calcul-de-lhistogramme}
+
+Le calcul d'un histogramme pour une image (une bande) permet d'avoir une
+vue plus détaillée de la répartition des valeurs radiométriques. Le
+calcul d'un histogramme nécessite minimalement de faire le choix d'une
+valeur du nombre de \emph{bins} (ou de la largeur). Un \emph{bin} est un
+intervalle de valeurs pour lequel on peut calculer le nombre de valeurs
+observées dans l'image. La fonction de base pour ce type de calcul est
+la fonction \texttt{numpy.histogram()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\NormalTok{array }\OperatorTok{=}\NormalTok{ np.random.randint(}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{100}\NormalTok{) }\CommentTok{\# 100 valeurs aléatoires entre 0 et 10}
+\NormalTok{hist, bin\_limites }\OperatorTok{=}\NormalTok{ np.histogram(array, density}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}valeurs :\textquotesingle{}}\NormalTok{,hist)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{};imites :\textquotesingle{}}\NormalTok{,bin\_limites)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+valeurs : [0.12222222 0.08888889 0.11111111 0.05555556 0.15555556 0.12222222
+ 0.12222222 0.11111111 0.1        0.12222222]
+;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
+\end{verbatim}
+
+Le calcul se fait avec 10 intervalles par défaut.
+
+Pour des besoins de visualisation, le calcul des valeurs extrêmes de
+l'histogramme peut aussi se faire via les quantiles comme discutés
+auparavant.
+
+\paragraph{Visualisation des
+histogrammes}\label{visualisation-des-histogrammes}
+
+La librarie \texttt{rasterio} est probablement l'outil le plus simples
+pour visualiser rapidement des histogrammes sur une image
+multi-spectrale:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rasterio }\ImportTok{as}\NormalTok{ rio}
+\ImportTok{from}\NormalTok{ rasterio.plot }\ImportTok{import}\NormalTok{ show\_hist}
+\ControlFlowTok{with}\NormalTok{ rio.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{) }\ImportTok{as}\NormalTok{ src:}
+\NormalTok{  show\_hist(src, bins}\OperatorTok{=}\DecValTok{50}\NormalTok{, lw}\OperatorTok{=}\FloatTok{0.0}\NormalTok{, stacked}\OperatorTok{=}\VariableTok{False}\NormalTok{, alpha}\OperatorTok{=}\FloatTok{0.3}\NormalTok{,histtype}\OperatorTok{=}\StringTok{\textquotesingle{}stepfilled\textquotesingle{}}\NormalTok{, title}\OperatorTok{=}\StringTok{"Histogram"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{02-RehaussementVisualisationImages_files/figure-pdf/cell-10-output-1.png}
+
+\subsection{Réhaussements
+linéaires}\label{ruxe9haussements-linuxe9aires}
+
+Le réhaussement linéaire d'une image est la forme la plus simple de
+réhaussement, elle consiste 1) à optimiser les valeurs des pixels d'une
+image afin de maximiser la dynamique disponibles à l'affichage, ou 2)
+changer le format de stockage des valeurs (e.g.~de 8 bit à 16 bit):
+
+\begin{equation}\phantomsection\label{eq-rehauss-lin}{ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1}\end{equation}
+
+Par cette opération, on passe de la dynamique de départ
+(\(max_0 - min_0\)) vers la dynamique cible (\(max_1 - min_1\)). Bien
+que cette opération semble triviale, il est important d'être conscient
+des trois contraintes suivantes: 1. \textbf{Faire attention à la
+dynamique cible}, ainsi, pour sauvegarder une image en format 8 bit, on
+utilisera alors \(max_1=255\) et \(min_1=0\). 2. \textbf{Préservation de
+la valeur de no data} : il faut faire attention à la valeur \(min_1\)
+dans le cas d'une valeur présente pour \emph{no\_data}. Par exemple, si
+\emph{no\_data=0} alors il faut s'assurer que \(min_1>0\). 3.
+\textbf{Précision du calcul} : si possible réaliser la division
+ci-dessus en format \emph{float}
+
+\subsection{Réhaussements non
+linéaires}\label{ruxe9haussements-non-linuxe9aires}
 
 Calcul d'histogrammes, étirement, égalisation, styling
 
-\section{Composés couleurs}\label{sec-023}
+\subsection{Composés couleurs}\label{composuxe9s-couleurs}
 
-\begin{itemize}
-\item
-  Vraies couleurs
-\item
-  Fausses couleurs
-\end{itemize}
+Le système visuel humain est sensible seulement à la partie visible du
+spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du
+bleu au rouge. L'ensemble des couleurs du spectre visible peut être
+obtenu à partir du mélange de trois couleurs primaires (rouge, vert et
+bleu). Ce système de décomposition à trois couleurs est à la base de la
+plupart des systèmes de visualisation ou de représentation de
+l'information de couleur. On peut trouver des variantes comme le système
+HSV (\emph{Hue-Saturation-Value}) utilisé en encodage de données vidéos.
 
-\section{Visualisation 3D}\label{sec-024}
+\section{Visualisation}\label{visualisation}
+
+\subsection{Visualisation en Python}\label{visualisation-en-python}
+
+Il faut d'entrée mentionner que Python n'est pas vraiment fait pour
+visualiser de la donnée de grande taille, le niveau d'interactivité est
+aussi plus limité. Néanmoins, il est possible de visualiser de petites
+images avec la librairie Matplotlib.
+
+\subsection{Outils de visualisation}\label{outils-de-visualisation}
+
+Il existe plusieurs outils gratuits de visualisation d'une image
+satellite, on peut mentionner les deux principaux: - QGIS - ESA Snap
+
+\subsection{Visualisation sur le Web}\label{visualisation-sur-le-web}
+
+Une des meilleures pratiques pour visualiser une image de grande taille
+est d'utiliser un service de type Web Mapping Service (WMS). Cependant,
+type de service nécessite une architecture client-serveur qui est plus
+complexe à mettre en place.
+
+Google Earth Engine offre des moyens de visualiser de la donnée locale:
+\emph{Working with Local Geospatial Data} --- via
+\href{https://geog-312.gishub.org/book/geospatial/geemap.html\#working-with-local-geospatial-data}{17.
+Geemap --- Introduction to GIS Programming}
+
+via \href{https://github.com/opengeos/data/tree/main/raster}{data/raster
+at main · opengeos/data}
+
+\subsection{Visualisation 3D}\label{visualisation-3d}
 
 drapper une image satellite sur un DEM
 
-\section{Quiz de révision du chapitre}\label{sec-025}
+\section{Quiz de révision du
+chapitre}\label{quiz-de-ruxe9vision-du-chapitre-2}
 
-\section{Exercices de révision}\label{sec-027}
-
-\textbf{Exercice 1.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08021}.
-
-\textbf{Exercice 2.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08022}.
-
-\textbf{Exercice 3.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08023}.
+\section{Exercices de révision}\label{exercices-de-ruxe9vision-1}
 
 \part{Partie 2. Transformations des données satellitaires}
 
@@ -1518,179 +2510,826 @@ Correction à la section~\ref{sec-08023}.
 
 \chapter{Transformations spectrales}\label{sec-chap03}
 
-Dans le chapitre, nous abordons les méthodes\ldots{}
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-2}
 
-\textbf{Liste des \emph{packages} utilisés dans ce chapitre}
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+\#\#\# :dart: Objectifs Dans ce chapitre, nous abordons quelques
+techniques de réhaussement et de visualisation d'images. Ce chapitre est
+aussi disponible sous la forme d'un notebook Python:
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb}{\includesvg{index_files/mediabag/colab-badge.svg}}
+
+\subsection{Librairies}\label{librairies-2}
+
+Les librairies qui vont être explorées dans ce chapitre sont les
+suivantes:
 
 \begin{itemize}
-\tightlist
 \item
-  Pour importer et manipuler des fichiers géographiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{sf} pour importer et manipuler des données vectorielles.
-  \item
-    \texttt{terra} pour importer et manipuler des données matricielles.
-  \end{itemize}
+  \href{https://scipy.org/}{SciPy -}
 \item
-  Pour construire des cartes et des graphiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{tmap} est certainement le meilleur \emph{package} pour la
-    cartographie.
-  \item
-    \texttt{ggplot2} pour construire des graphiques.
-  \end{itemize}
+  \href{https://numpy.org/}{NumPy -}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
 \end{itemize}
 
-\section{Indices spectraux}\label{sec-031}
-
-\section{Réduction de dimension}\label{sec-032}
-
-\subsection{Analyses en composantes principales}\label{sec-0311}
-
-\section{Exercices de révision}\label{sec-037}
-
-\textbf{Exercice 1.} À compléter
+Dans l'environnement Google Colab, seul \texttt{rioxarray} et GDAL
+doivent être installés:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get update}
+\OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get install gdal}\OperatorTok{{-}}\BuiltInTok{bin}\NormalTok{ libgdal}\OperatorTok{{-}}\NormalTok{dev}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{q rioxarray}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU }\StringTok{"geemap[workshop]"}
 \end{Highlighting}
 \end{Shaded}
 
-Correction à la section~\ref{sec-08031}.
-
-\textbf{Exercice 2.} À compléter
+Vérifier les importations:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
 \end{Highlighting}
 \end{Shaded}
 
-Correction à la section~\ref{sec-08032}.
+\subsection{Images utilisées}\label{images-utilisuxe9es}
 
-\textbf{Exercice 3.} À compléter
+Nous allons utilisez les images suivantes dans ce chapitre:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_1\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903\_resampled.tif }\OperatorTok{{-}}\NormalTok{O sentinel2.tif}
 \end{Highlighting}
 \end{Shaded}
 
-Correction à la section~\ref{sec-08033}.
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}sentinel2.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_s2:}
+    \BuiltInTok{print}\NormalTok{(img\_s2)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Qu'est ce que l'information
+spectrale?}\label{quest-ce-que-linformation-spectrale}
+
+L'information spectrale touche à l'exploitation de la dimension
+spectrale des images (c.à.d le long des bandes spectrales de l'image).
+La taille de cette dimension spectrale dépend du type de capteurs
+considéré. Un capteur à très haute résolution spatiale par exemple aura
+très peu de bandes (4 ou 5). Un capteur multispectral pourra contenir
+une quinzaine de bande. À l'autre extrême, on trouvera les capteurs
+hyperspectraux qui peuvent contenir des centaines de bandes spectrales.
+
+\section{Indices spectraux}\label{indices-spectraux}
+
+Il existe une vaste littérature sur les indices spectraux, le choix d'un
+indice plutôt qu'un autre dépend fortement de l'application visée, nous
+allons simplement couvrir les principes de base ici.
+
+Le principe d'un indice spectral consiste à mettre en valeur certaines
+caractéristiques du spectre comme des pentes, des gradients, etc.
+
+\section{Réduction de dimension}\label{ruxe9duction-de-dimension}
+
+\subsection{Analyses en composantes
+principales}\label{analyses-en-composantes-principales}
+
+\section{Exercices de révision}\label{exercices-de-ruxe9vision-2}
 
 \bookmarksetup{startatroot}
 
 \chapter{Transformations spatiales}\label{sec-chap04}
 
-Dans le chapitre, nous abordons les méthodes\ldots{}
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-3}
 
-\textbf{Liste des \emph{packages} utilisés dans ce chapitre}
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+
+\subsection{:dart: Objectifs}\label{dart-objectifs-1}
+
+Dans ce chapitre, nous abordons quelques techniques de traitement
+d'images dans le domaine spatial uniquement. Ce chapitre est aussi
+disponible sous la forme d'un notebook Python sur Google Colab:
+
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\includesvg{index_files/mediabag/colab-badge.svg}}
+
+\subsection{Librairies}\label{librairies-3}
+
+Les librairies qui vont être explorées dans ce chapitre sont les
+suivantes:
 
 \begin{itemize}
-\tightlist
 \item
-  Pour importer et manipuler des fichiers géographiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{sf} pour importer et manipuler des données vectorielles.
-  \item
-    \texttt{terra} pour importer et manipuler des données matricielles.
-  \end{itemize}
+  \href{https://scipy.org/}{SciPy -}
 \item
-  Pour construire des cartes et des graphiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{tmap} est certainement le meilleur \emph{package} pour la
-    cartographie.
-  \item
-    \texttt{ggplot2} pour construire des graphiques.
-  \end{itemize}
+  \href{https://numpy.org/}{NumPy -}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
 \end{itemize}
 
-\section{Analyse fréquentielle}\label{sec-041}
+Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
+installés:
 
-\section{Filtrage d'image}\label{sec-042}
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy}
+\end{Highlighting}
+\end{Shaded}
 
-Filtre médian, filtre moyen
+Vérifier les importations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Images utilisées}\label{images-utilisuxe9es-1}
+
+Nous allons utilisez les images suivantes dans ce chapitre:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif }\OperatorTok{{-}}\NormalTok{O SAR.tif}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
+    \BuiltInTok{print}\NormalTok{(img\_SAR)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Analyse fréquentielle}\label{analyse-fruxe9quentielle}
+
+L'analyse fréquentielle, issue du traitement du signal, permet d'avoir
+un autre point de vue sur les données à partir de ses composantes
+harmoniques. La modifications de ces composantes de Fourier modifie
+l'ensemble de l'image et permet de corriger des problèmes systématiques
+comme des artefacts ou du bruit de capteur. Bien que ce domaine soit un
+peu éloigné de la télédétection, les images fourniment par les capteurs
+sont tous sujets à des étapes de traitement du signal et il faut donc en
+connaître les grands principes afin de pouvoir comprendre certains
+enjeux lors des traitements.
+
+\subsection{La transformée de
+Fourier}\label{la-transformuxe9e-de-fourier}
+
+La transformée de Fourier permet de transformer une image dans un espace
+fréquentielle. Cette transformée est complètement reversible. Dans le
+cas des images numériques, on parle de \texttt{2D-DFT}
+(\emph{2D-Discrete Fourier Transform}) qui est un algorithme optimisé
+pour le calcul fréquentiel (Cooley et Tukey 1965). La \emph{1D-DFT} peu
+s'écrire simplement comme une projection sur une série d'exponentielles
+complexes:
+
+\begin{equation}\phantomsection\label{eq-dft}{X[k] = \sum_{n=0 \ldots N-1} x[n] \times \exp(-j \times 2\pi \times k \times n/N))}\end{equation}
+
+La transformée inverse prend une forme similaire:
+
+\begin{equation}\phantomsection\label{eq-idft}{x[k] = \frac{1}{N}\sum_{n=0 \ldots N-1} X[n] \times \exp(j \times 2\pi \times k \times n/N))}\end{equation}
+
+Le signal d'origine est donc reconstruit à partir d'une somme de
+sinusoïde complexe \(\exp(j2\pi \frac{k}{N}n))\) de fréquence \(k/N\).
+Noter qu'à partir de \(k=N/2\), les sinusoïdes se répètent à un signe
+près et forme un miroir des composantes, la convention est lors de
+mettre ces composantes dans une espace négatif \([-N/2,\ldots,-1]\).
+
+Dans le cas d'un simple signal périodique à une dimension avec une
+fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de
+fréquence à la position de 4 cycles observés sur \(N=16\) observations.
+Les puissances de Fourier sont affichés dans un espace fréquentiel en
+cycles par unité d'espacement de l'échantillon (avec zéro au début)
+variant entre -1 et +1. Par exemple, si l'espacement des échantillons
+est en secondes, l'unité de fréquence est cycles/seconde (ou Hz). Dans
+le cas de N échantillons, le pic sera observé à la fréquence
+\(+/- 4/16=0.25\) cycles/secondes. La fréquence d'échantillonnage
+\(F_s\) du signal a aussi beaucoup d'importance aussi et doit être au
+moins a deux fois la plus haute fréquence observée (ici \(F_s > 0.5\))
+sinon un phénomène de repliement appelé aliasing sera observé.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ math}
+\NormalTok{Fs}\OperatorTok{=} \FloatTok{2.0}
+\NormalTok{Ts}\OperatorTok{=} \DecValTok{1}\OperatorTok{/}\NormalTok{Fs}
+\NormalTok{N}\OperatorTok{=} \DecValTok{16}
+\NormalTok{arr }\OperatorTok{=}\NormalTok{ xr.DataArray(np.sin(}\DecValTok{2}\OperatorTok{*}\NormalTok{math.pi}\OperatorTok{*}\NormalTok{np.arange(}\DecValTok{0}\NormalTok{,N,Ts)}\OperatorTok{*}\DecValTok{4}\OperatorTok{/}\DecValTok{16}\NormalTok{),}
+\NormalTok{                   dims}\OperatorTok{=}\NormalTok{(}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{), coords}\OperatorTok{=}\NormalTok{\{}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{: np.arange(}\DecValTok{0}\NormalTok{,N,Ts)\})}
+\NormalTok{fourier }\OperatorTok{=}\NormalTok{ np.fft.fft(arr)}
+\NormalTok{freq }\OperatorTok{=}\NormalTok{ np.fft.fftfreq(fourier.size, d}\OperatorTok{=}\NormalTok{Ts)}
+\NormalTok{fourier }\OperatorTok{=}\NormalTok{ xr.DataArray(fourier,}
+\NormalTok{                   dims}\OperatorTok{=}\NormalTok{(}\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{), coords}\OperatorTok{=}\NormalTok{\{}\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{: freq\})}
+
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{arr.plot.line(color}\OperatorTok{=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, linestyle}\OperatorTok{=}\StringTok{\textquotesingle{}dashed\textquotesingle{}}\NormalTok{, marker}\OperatorTok{=}\StringTok{\textquotesingle{}o\textquotesingle{}}\NormalTok{, markerfacecolor}\OperatorTok{=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Signal périodique"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{np.}\BuiltInTok{abs}\NormalTok{(fourier).plot.line(color}\OperatorTok{=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, linestyle}\OperatorTok{=}\StringTok{\textquotesingle{}dashed\textquotesingle{}}\NormalTok{, marker}\OperatorTok{=}\StringTok{\textquotesingle{}o\textquotesingle{}}\NormalTok{, markerfacecolor}\OperatorTok{=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Composantes de Fourier (amplitude)"}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-6-output-1.png}
+
+\subsection{Filtrage fréquentielle}\label{filtrage-fruxe9quentielle}
+
+Un filtrage fréquentielle consiste à modifier le spectre de Fourier afin
+d'éliminer ou de réduire certaines composantes fréquentielles. On peut
+distinguer trois grandes catégories de filtres fréquentielles:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Les filtres passe-bas qui ne préservent que les basses fréquences
+  pour, par exemple, lisser une image.
+\item
+  Les filtres passe-haut qui ne préservent que les hautes fréquences
+  pour ne préserver que les détails.
+\item
+  Les filtres passe-bandes qui vont préserver les fréquences dans une
+  bandes particulières.
+\end{enumerate}
+
+La librairie Scipy contient différents filtres fréquentielles. Notez,
+qu'un filtrage fréquentielle est une simple multiplication de la réponse
+du filtre \(F[k]\) par les composantes fréquentielles du signal à
+filtrer \(X[k]\):
+
+\begin{equation}\phantomsection\label{eq-fourier-filter}{
+X_f[k] = F[k] \times X[k]
+}\end{equation}
+
+À noter que cette multiplication dans l'espace de Fourier est
+équivalente à une opération de convolution dans l'espace originale du
+signal \(x\):
+
+\begin{equation}\phantomsection\label{eq-convolve}{
+x_f = IDFT^{-1}[F]*x
+}\end{equation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ ndimage}
+\ImportTok{import}\NormalTok{ numpy.fft}
+
+\NormalTok{fig, (ax1, ax2) }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{input\_ }\OperatorTok{=}\NormalTok{ numpy.fft.fft2(img\_rgb.to\_numpy()) }
+\NormalTok{result }\OperatorTok{=}\NormalTok{ [ndimage.fourier\_gaussian(input\_[b], sigma}\OperatorTok{=}\DecValTok{4}\NormalTok{) }\ControlFlowTok{for}\NormalTok{ b }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{3}\NormalTok{)] }\CommentTok{\# on filtre chaque bande avec un filtre Gaussien}
+\NormalTok{result }\OperatorTok{=}\NormalTok{ numpy.fft.ifft2(result)}
+\NormalTok{ax1.imshow(img\_rgb.to\_numpy().transpose(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{).astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{))}
+\NormalTok{ax1.set\_title(}\StringTok{\textquotesingle{}Originale\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax2.imshow(result.real.transpose(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{).astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{))  }\CommentTok{\# La partie imaginaire n\textquotesingle{}est pas utile ici}
+\NormalTok{ax2.set\_title(}\StringTok{\textquotesingle{}Filtrage Gaussien\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-7-output-1.png}
+
+\subsection{L'aliasing}\label{laliasing}
+
+L'aliasing est un problème fréquent en traitement du signal. Il résulte
+d'une fréquence d'échantillonnage trop faible par rapport au contenu
+fréquentielle du signal. Ceci peut se produire lorsque vous
+sous-échantillonner fortement une image avec un facteur de décimation
+(par exemple 1 pixel sur 2). En prenant un pixel sur 2, on réduit la
+fréquence d'échantillonnage d'un facteur 2 ce qui nous impose de réduire
+le contenu fréquentielle de l'image et donc les fréquences maximales de
+l'image. L'image présente alors un aspect faussement texturée avec
+beaucoup de haute fréquences:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{img\_rgb.astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Originale"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{img\_rgb[:,::}\DecValTok{4}\NormalTok{,::}\DecValTok{4}\NormalTok{].astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Décimée par un facteur 4"}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-8-output-1.png}
+
+Une façon de réduire le contenu fréquentiel est de filtrer par un filtre
+passe-bas pour réduire les hautes fréquences par exemple avec un filtre
+Gaussien:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ scipy.ndimage }\ImportTok{import}\NormalTok{ gaussian\_filter}
+
+\NormalTok{q}\OperatorTok{=} \DecValTok{4}
+\NormalTok{sigma}\OperatorTok{=}\NormalTok{ q}\OperatorTok{*}\FloatTok{1.1774}\OperatorTok{/}\NormalTok{math.pi}
+\NormalTok{arr }\OperatorTok{=}\NormalTok{ xr.DataArray(gaussian\_filter(img\_rgb.to\_numpy(), sigma}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,sigma,sigma)), dims}\OperatorTok{=}\NormalTok{(}\StringTok{\textquotesingle{}band\textquotesingle{}}\NormalTok{,}\StringTok{"y"}\NormalTok{, }\StringTok{"x"}\NormalTok{), coords}\OperatorTok{=}\NormalTok{ \{}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{: img\_rgb.coords[}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{], }\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{: img\_rgb.coords[}\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{], }\StringTok{\textquotesingle{}spatial\_ref\textquotesingle{}}\NormalTok{: }\DecValTok{0}\NormalTok{\})}
+
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{img\_rgb.astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Originale"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{arr[:,::q,::q].astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Décimée par un facteur 4"}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-9-output-1.png}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ xrscipy.signal }\ImportTok{as}\NormalTok{ dsp}
+
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{img\_rgb.astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Originale"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{dsp.decimate(img\_rgb, q}\OperatorTok{=}\DecValTok{4}\NormalTok{, dim}\OperatorTok{=}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{).astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Décimée par un facteur 4"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Décimée par un facteur 4')
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-10-output-2.png}
+
+\section{Filtrage d'image}\label{filtrage-dimage}
+
+Le filtrage d'image a plusieurs objectifs en télédétection:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  La réduction du bruit afin d'améliorer la résolution radiométrique et
+  améliorer la lisibilité de l'image.
+\item
+  Le réhaussement de l'image afin d'améliorer le contraste ou faire
+  ressortir les contours.
+\item
+  La production de nouvelles caractéristiques: c.à.d dériver de
+  nouvelles images mettant en valeur certaines informations dans l'image
+  comme la texture, les contours, etc.
+\end{enumerate}
+
+Il existe de nombreuses méthodes de filtrage dans la littérature, on
+peut rassembler ces filtres en quatre grandes catégories:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Le filtrage peut-être global ou local, c.à.d prendre en compte toute
+  l'image pour filtrer (ex: filtrage par Fourier) ou seulement
+  localement avec une fenêtre ou un voisinage local.
+\item
+  La fonction de filtrage peut-être linéaire ou non linéaire.
+\item
+  La fonction de filtrage peut être stationnaire ou adaptative
+\item
+  Le filtrage peut-être mono-échelle ou multi-échelles
+\end{enumerate}
+
+La librairie Scipy
+(\href{https://docs.scipy.org/doc/scipy/reference/ndimage.html}{Multidimensional
+image processing (scipy.ndimage)}) contient une panoplie complète de
+filtres.
+
+\subsection{Filtrage linéaire
+stationnaire}\label{filtrage-linuxe9aire-stationnaire}
+
+Un filtrage linéaire stationnaire consiste à appliquer une même
+pondération locale des valeurs des pixels dans une fenêtre glissante. La
+taille de cette fenêtre est généralement impaire (3,5, etc.) afin de
+définir une position centrale et une fenêtre symétrique.
+
+\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, opacitybacktitle=0.6, breakable, opacityback=0, arc=.35mm, rightrule=.15mm, left=2mm, bottomtitle=1mm, bottomrule=.15mm, leftrule=.75mm, toptitle=1mm, titlerule=0mm, colbacktitle=quarto-callout-note-color!10!white, toprule=.15mm, coltitle=black, colframe=quarto-callout-note-color-frame, colback=white]
+
+Mettre une figure ici
+
+\end{tcolorbox}
+
+Le filtre le plus simple est certainement le filtre moyen qui consiste à
+appliquer le même poids uniforme dans la fenêtre glissante.
+
+\begin{equation}\phantomsection\label{eq-boxfilter}{
+F= \frac{1}{25}\left[
+\begin{array}{c|c|c|c|c}
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1
+\end{array}
+\right]
+}\end{equation}
+
+En python, on dispose des fonctions \texttt{rolling} et
+\texttt{sliding\_window} définis dans la librairie numpy. Par exemple
+pour le cas du filtre moyen on peut construire une nouvelle vue de
+l'image avec deux nouvelles dimensions \texttt{x\_win} et
+\texttt{y\_win}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\NormalTok{rolling\_win }\OperatorTok{=}\NormalTok{ img\_rgb.rolling(x}\OperatorTok{=}\DecValTok{5}\NormalTok{, y}\OperatorTok{=}\DecValTok{5}\NormalTok{,  min\_periods}\OperatorTok{=} \DecValTok{3}\NormalTok{, center}\OperatorTok{=} \VariableTok{True}\NormalTok{).construct(x}\OperatorTok{=}\StringTok{"x\_win"}\NormalTok{, y}\OperatorTok{=}\StringTok{"y\_win"}\NormalTok{, keep\_attrs}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(rolling\_win[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,...])}
+\BuiltInTok{print}\NormalTok{(rolling\_win.shape)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+<xarray.DataArray (x_win: 5, y_win: 5)> Size: 100B
+array([[ nan,  nan,  nan,  nan,  nan],
+       [ nan,  nan, 209., 210., 209.],
+       [ nan,  nan, 213., 214., 212.],
+       [ nan,  nan, 213., 212., 210.],
+       [ nan,  nan, 210., 209., 206.]], dtype=float32)
+Coordinates:
+    band         int64 8B 1
+    x            float64 8B 1.5
+    y            float64 8B 0.5
+    spatial_ref  int64 8B 0
+Dimensions without coordinates: x_win, y_win
+(3, 771, 1311, 5, 5)
+\end{verbatim}
+
+L'avantage de cette approche est qu'il n'y a pas d'utilisation inutile
+de la mémoire. Noter les \texttt{nan} sur les bords de l'image car la
+fenêtre déborde sur les bordures de l'image. Par la suite un opérateur
+moyenne peut être appliqué.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{filtre\_moyen}\OperatorTok{=}\NormalTok{ rolling\_win.mean(dim}\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}x\_win\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\_win\textquotesingle{}}\NormalTok{], skipna}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{filtre\_moyen.astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{ax.set\_title(}\StringTok{"Filtre moyen 5x5"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Filtre moyen 5x5')
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-12-output-2.png}
+
+\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, opacitybacktitle=0.6, breakable, opacityback=0, arc=.35mm, rightrule=.15mm, left=2mm, bottomtitle=1mm, bottomrule=.15mm, leftrule=.75mm, toptitle=1mm, titlerule=0mm, colbacktitle=quarto-callout-note-color!10!white, toprule=.15mm, coltitle=black, colframe=quarto-callout-note-color-frame, colback=white]
 
 Filtre de Sobel, filtre Prewitt
 
-\section{Segmentation}\label{sec-043}
+\end{tcolorbox}
 
-\section{Vectorisation et rasterisation}\label{sec-044}
+\subsubsection{Filtrage par convolution}\label{filtrage-par-convolution}
 
-\section{Analyse de terrain}\label{sec-045}
+La façon la plus efficace d'appliquer un filtre linéaire est d'appliquer
+une convolution. La convolution est généralement très efficace car elle
+est peut être calculée dans le domaine fréquentielle. Prenons l'exemple
+du filtre de Scharr (Jahne et S. 1999), ce filtre permet de détecter les
+contours horizontaux et verticaux:
 
-\subsection{Élévation}\label{sec-0451}
+\begin{equation}\phantomsection\label{eq-scharr-filter}{
+F= \left[
+\begin{array}{ccc}
+-3-3j & 0-10j & +3-3j \\
+-10+0j & 0+0j & +10+0j \\
+-3+3j & 0+10j & +3+3j
+\end{array}
+\right]
+}\end{equation}
 
-\subsection{Pente}\label{sec-0452}
-
-\subsection{Ombrage}\label{sec-0453}
-
-\subsection{Visibilité}\label{sec-0454}
-
-\section{Quiz de révision du chapitre}\label{sec-046}
-
-\section{Exercices de révision}\label{sec-047}
-
-\textbf{Exercice 1.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08041}.
-
-\textbf{Exercice 2.} À compléter
+Remarquez l'utilisation de chiffres complexes afin de passer deux
+filtres différents sur la partie réelle et imaginaire.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
+\NormalTok{scharr }\OperatorTok{=}\NormalTok{ np.array([[ }\OperatorTok{{-}}\DecValTok{3}\OperatorTok{{-}}\OtherTok{3j}\NormalTok{, }\DecValTok{0}\OperatorTok{{-}}\OtherTok{10j}\NormalTok{,  }\OperatorTok{+}\DecValTok{3} \OperatorTok{{-}}\OtherTok{3j}\NormalTok{],}
+\NormalTok{                   [}\OperatorTok{{-}}\DecValTok{10}\OperatorTok{+}\OtherTok{0j}\NormalTok{, }\DecValTok{0}\OperatorTok{+} \OtherTok{0j}\NormalTok{, }\OperatorTok{+}\DecValTok{10} \OperatorTok{+}\OtherTok{0j}\NormalTok{],}
+\NormalTok{                   [ }\OperatorTok{{-}}\DecValTok{3}\OperatorTok{+}\OtherTok{3j}\NormalTok{, }\DecValTok{0}\OperatorTok{+}\OtherTok{10j}\NormalTok{,  }\OperatorTok{+}\DecValTok{3} \OperatorTok{+}\OtherTok{3j}\NormalTok{]]) }\CommentTok{\# Gx + j*Gy}
+\BuiltInTok{print}\NormalTok{(img\_rgb.isel(band}\OperatorTok{=}\DecValTok{0}\NormalTok{).shape)}
+\NormalTok{grad }\OperatorTok{=}\NormalTok{ signal.convolve2d(img\_rgb.isel(band}\OperatorTok{=}\DecValTok{0}\NormalTok{), scharr, boundary}\OperatorTok{=}\StringTok{\textquotesingle{}symm\textquotesingle{}}\NormalTok{, mode}\OperatorTok{=}\StringTok{\textquotesingle{}same\textquotesingle{}}\NormalTok{)}
+\CommentTok{\# on reconstruit un xarray à partir du résultat:}
+\NormalTok{arr }\OperatorTok{=}\NormalTok{ xr.DataArray(np.}\BuiltInTok{abs}\NormalTok{(grad), dims}\OperatorTok{=}\NormalTok{(}\StringTok{"y"}\NormalTok{, }\StringTok{"x"}\NormalTok{), coords}\OperatorTok{=}\NormalTok{ \{}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{: img\_rgb.coords[}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{], }\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{: img\_rgb.coords[}\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{], }\StringTok{\textquotesingle{}spatial\_ref\textquotesingle{}}\NormalTok{: }\DecValTok{0}\NormalTok{\})}
+\BuiltInTok{print}\NormalTok{(arr)}
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{arr.plot.imshow()}
+\NormalTok{ax.set\_title(}\StringTok{"Amplitude du filtre de Scharr"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-Correction à la section~\ref{sec-08042}.
+\begin{verbatim}
+(771, 1311)
+<xarray.DataArray (y: 771, x: 1311)> Size: 8MB
+array([[  65.96969001,   58.85575588,   54.91812087, ..., 1474.        ,
+        1037.01205393,  389.99487176],
+       [  61.07372594,   39.8246155 ,   89.18520057, ..., 1763.79647352,
+         864.92543031,  270.20362692],
+       [  98.48857802,  112.44554237,  168.10710871, ..., 2110.61365484,
+         870.36658943,  204.40156555],
+       ...,
+       [ 143.17821063,  597.00753764, 2479.42977315, ...,  216.00925906,
+         248.33847869,  200.89798406],
+       [ 106.07544485,  393.67245268, 2188.78824924, ...,  124.96399481,
+         159.90622252,  346.34087255],
+       [  41.59326869,  229.05894438, 1845.1216762 , ...,  175.16278143,
+          33.37663854,  414.3911196 ]], shape=(771, 1311))
+Coordinates:
+  * x            (x) float64 10kB 0.5 1.5 2.5 ... 1.308e+03 1.31e+03 1.31e+03
+  * y            (y) float64 6kB 0.5 1.5 2.5 3.5 4.5 ... 767.5 768.5 769.5 770.5
+    spatial_ref  int64 8B 0
+\end{verbatim}
 
-\textbf{Exercice 3.} À compléter
+\begin{verbatim}
+Text(0.5, 1.0, 'Amplitude du filtre de Scharr')
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-13-output-3.png}
+
+\paragraph{Gestion des bordures}\label{gestion-des-bordures}
+
+L'application de filtres à l'intérieur de fenêtres glissantes implique
+de gérer les bords de l'image car la fenêtre de traitement va
+nécessairement déborder de quelques pixels en dehors de l'image
+(généralement la moitié de la fenêtre déborde). On peut soit décider
+d'ignorer les valeurs en dehors de l'image en imposant une valeur
+\texttt{nan}, prolonger l'image de quelques lignes et colonnes avec des
+valeurs mirroirs ou constantes.
+
+\subsubsection{Filtrage par une couche
+convolutionnelle}\label{filtrage-par-une-couche-convolutionnelle}
+
+\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacitybacktitle=0.6, breakable, opacityback=0, arc=.35mm, rightrule=.15mm, left=2mm, bottomtitle=1mm, bottomrule=.15mm, leftrule=.75mm, toptitle=1mm, titlerule=0mm, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, coltitle=black, colframe=quarto-callout-important-color-frame, colback=white]
+
+Cette section nécessite la librairie Pytorch avec un GPU et ne
+fonctionnera que sur Colab.
+
+\end{tcolorbox}
+
+Une couche convolutionnelle est simplement un ensemble de filtres
+appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des
+réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut
+ici imposer les mêmes filtres de gradient dans la couche
+convolutionnelle:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
+\ImportTok{import}\NormalTok{ torch}
+\ImportTok{import}\NormalTok{ torch.nn }\ImportTok{as}\NormalTok{ nn}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\NormalTok{normalized\_img}\OperatorTok{=}\NormalTok{ torch.tensor(img\_rgb.to\_numpy())}
+\NormalTok{nchannels}\OperatorTok{=}\NormalTok{ normalized\_img.size()[}\DecValTok{0}\NormalTok{] }\CommentTok{\# nombre de canaux de l\textquotesingle{}image}
+
+\CommentTok{\# Define a conv2d layer}
+\NormalTok{conv\_layer }\OperatorTok{=}\NormalTok{ nn.Conv2d(in\_channels}\OperatorTok{=}\NormalTok{ nchannels, out\_channels}\OperatorTok{=}\DecValTok{2}\NormalTok{, kernel\_size}\OperatorTok{=}\DecValTok{3}\NormalTok{, padding}\OperatorTok{=}\DecValTok{1}\NormalTok{, stride}\OperatorTok{=}\DecValTok{1}\NormalTok{, dilation}\OperatorTok{=} \DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Filtre de Sobel}
+\NormalTok{sobel\_x }\OperatorTok{=}\NormalTok{ np.array([[}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{], [}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{10}\NormalTok{], [}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{]])}
+\NormalTok{sobel\_y }\OperatorTok{=}\NormalTok{ np.array([[}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\OperatorTok{{-}}\DecValTok{3}\NormalTok{], [}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{], [}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{3}\NormalTok{]])}
+
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ np.stack([sobel\_x, sobel\_y])}
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ kernel.reshape(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ np.tile(kernel,(}\DecValTok{1}\NormalTok{,nchannels,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\BuiltInTok{print}\NormalTok{(kernel.shape)}
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ torch.as\_tensor(kernel,dtype}\OperatorTok{=}\NormalTok{torch.float32)}
+\NormalTok{conv\_layer.weight }\OperatorTok{=}\NormalTok{ nn.Parameter(kernel)}
+\NormalTok{conv\_layer.bias }\OperatorTok{=}\NormalTok{ nn.Parameter(torch.zeros(}\DecValTok{2}\NormalTok{,))}
+
+\BuiltInTok{input}\OperatorTok{=}\NormalTok{ normalized\_img.unsqueeze(}\DecValTok{0}\NormalTok{) }\CommentTok{\# il faut ajouter une dimension pour le nombre d\textquotesingle{}échantillons}
+\BuiltInTok{print}\NormalTok{(}\BuiltInTok{input}\NormalTok{.shape)}
+\CommentTok{\# Visualize the filters}
+\NormalTok{fig, axs }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{2}\NormalTok{):}
+\NormalTok{    axs[i].imshow(conv\_layer.weight.data.numpy()[i, }\DecValTok{0}\NormalTok{])}
+\NormalTok{    axs[i].set\_title(}\SpecialStringTok{f\textquotesingle{}Filtre }\SpecialCharTok{\{}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.show()}
 \end{Highlighting}
 \end{Shaded}
 
-Correction à la section~\ref{sec-08043}.
+\begin{verbatim}
+(2, 3, 3, 3)
+torch.Size([1, 3, 771, 1311])
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-14-output-2.png}
+
+Le résultat est alors calculé sur GPU (si disponible):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ torch}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+
+\NormalTok{output }\OperatorTok{=}\NormalTok{ conv\_layer(}\BuiltInTok{input}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}Image (BxCxHxW): }\SpecialCharTok{\{}\BuiltInTok{input}\SpecialCharTok{.}\NormalTok{shape}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}Sortie (BxFxHxW): }\SpecialCharTok{\{}\NormalTok{output}\SpecialCharTok{.}\NormalTok{shape}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{fig, axs }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{2}\NormalTok{):}
+\NormalTok{    axs[i].imshow(output.detach().data.numpy()[}\DecValTok{0}\NormalTok{,i], vmin}\OperatorTok{={-}}\DecValTok{5000}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{5000}\NormalTok{, cmap}\OperatorTok{=} \StringTok{\textquotesingle{}gray\textquotesingle{}}\NormalTok{)}
+\NormalTok{    axs[i].set\_title(}\SpecialStringTok{f\textquotesingle{}Filtrage }\SpecialCharTok{\{}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Image (BxCxHxW): torch.Size([1, 3, 771, 1311])
+Sortie (BxFxHxW): torch.Size([1, 2, 771, 1311])
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-15-output-2.png}
+
+\subsection{Filtrage adaptatif}\label{filtrage-adaptatif}
+
+Les filtrages adaptatifs consistent à appliquer un traitement en
+fonction du contenu local d'une image. Le filtre n'est alors plus
+stationnaire et sa réponse peut varier en fonction du contenu local. Ce
+type de filtre est très utilisé pour filtrer les images SAR (Synthetic
+Aperture Radar) qui sont dégradées par un bruit multiplicatif que l'on
+appelle \emph{speckle}. On peut voir un exemple d'une image Sentinel-1
+(bande HH) sur la région de Montréal, remarquée que l'image est affichée
+en dB en appliquant la fonction \texttt{log10}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(img\_SAR.rio.resolution())}
+\BuiltInTok{print}\NormalTok{(img\_SAR.rio.crs)}
+\NormalTok{fig, axs }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{xr.ufuncs.log10(img\_SAR.sel(band}\OperatorTok{=}\DecValTok{1}\NormalTok{).drop(}\StringTok{"band"}\NormalTok{)).plot()}
+\NormalTok{axs.set\_title(}\StringTok{"Image SAR Sentinel{-}1 (dB)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(0.00029254428869762705, -0.000287092818453516)
+EPSG:4326
+\end{verbatim}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Image SAR Sentinel-1 (dB)')
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-16-output-3.png}
+
+Un des filtres les plus simples pour réduire le bruit est d'appliquer un
+filtre moyenne, par exemple un \(5x5\) ci dessous:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rolling\_win }\OperatorTok{=}\NormalTok{ img\_SAR.sel(band}\OperatorTok{=}\DecValTok{2}\NormalTok{).rolling(x}\OperatorTok{=}\DecValTok{5}\NormalTok{, y}\OperatorTok{=}\DecValTok{5}\NormalTok{,  min\_periods}\OperatorTok{=} \DecValTok{3}\NormalTok{, center}\OperatorTok{=} \VariableTok{True}\NormalTok{).construct(x}\OperatorTok{=}\StringTok{"x\_win"}\NormalTok{, y}\OperatorTok{=}\StringTok{"y\_win"}\NormalTok{, keep\_attrs}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{filtre\_moyen}\OperatorTok{=}\NormalTok{ rolling\_win.mean(dim}\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}x\_win\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\_win\textquotesingle{}}\NormalTok{], skipna}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{fig, axs }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{xr.ufuncs.log10(filtre\_moyen).plot.imshow()}
+\NormalTok{axs.set\_title(}\StringTok{"Filtrage moyen 5x5 (dB)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Filtrage moyen 5x5 (dB)')
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-17-output-2.png}
+
+Au lieu d'appliquer un filtre moyen de manière indiscriminée, le filtre
+de Lee (Lee 1986) applique une pondération en fonction du contenu local
+de l'image \(I\) dans sa forme la plus simple:
+
+\begin{equation}\phantomsection\label{eq-lee-filter}{ 
+\begin{aligned}
+I_F & = I_M + K \times (I - I_M) \\
+K & = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
+\end{aligned}
+}\end{equation}
+
+Ainsi si la variance locale est élevée \(K\) s'approche de \(1\)
+préservant ainsi les détails de l'image sinon l'image moyenne \(I_M\)
+est appliquée.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rolling\_win }\OperatorTok{=}\NormalTok{ img\_SAR.sel(band}\OperatorTok{=}\DecValTok{2}\NormalTok{).rolling(x}\OperatorTok{=}\DecValTok{5}\NormalTok{, y}\OperatorTok{=}\DecValTok{5}\NormalTok{,  min\_periods}\OperatorTok{=} \DecValTok{3}\NormalTok{, center}\OperatorTok{=} \VariableTok{True}\NormalTok{).construct(x}\OperatorTok{=}\StringTok{"x\_win"}\NormalTok{, y}\OperatorTok{=}\StringTok{"y\_win"}\NormalTok{, keep\_attrs}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{filtre\_moyen}\OperatorTok{=}\NormalTok{ rolling\_win.mean(dim}\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}x\_win\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\_win\textquotesingle{}}\NormalTok{], skipna}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{ecart\_type}\OperatorTok{=}\NormalTok{ rolling\_win.std(dim}\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}x\_win\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\_win\textquotesingle{}}\NormalTok{], skipna}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{cv}\OperatorTok{=}\NormalTok{ ecart\_type}\OperatorTok{/}\NormalTok{filtre\_moyen}
+\NormalTok{ponderation }\OperatorTok{=}\NormalTok{ (cv }\OperatorTok{{-}} \FloatTok{0.25}\NormalTok{) }\OperatorTok{/}\NormalTok{ cv}
+
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{cv.plot.imshow( vmin}\OperatorTok{=}\DecValTok{0}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{2}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"CV"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{ponderation.plot.imshow( vmin}\OperatorTok{=}\DecValTok{0}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{1}\NormalTok{) }
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Pondération"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Pondération')
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-18-output-2.png}
+
+On zoomant sur l'image on peut clairement voir que les détails de
+l'image sont mieux préservés:
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Filtre de Lee')
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-19-output-2.png}
+
+\section{Segmentation}\label{segmentation}
+
+La segmentation d'image consiste à séparer une image en régions
+homogènes spatialement connexes (segments) où les valeurs sont uniformes
+selon un certain critère (couleurs, texture, etc.). Une image présente
+généralement beaucoup de pixels redondants, l'intérêt de ce type de
+méthode est essentiellement de réduire la quantité de pxiels nécessaire.
+En télédétection, on parle souvent d'approche objet. En vision par
+ordinateur, on parle parfois de super-pixel. Il existe de nombreuses
+méthodes de segmentation, la librairie \texttt{sickit-image} rend
+disponible plusieurs implémentations sur des images RVB
+(\href{https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_segmentations.html\#sphx-glr-auto-examples-segmentation-plot-segmentations-py}{Comparison
+of segmentation and superpixel algorithms --- skimage 0.25.0
+documentation}).
+
+\section{Vectorisation et
+rasterisation}\label{vectorisation-et-rasterisation}
+
+\section{Analyse de terrain}\label{analyse-de-terrain}
+
+\subsection{Élévation}\label{uxe9luxe9vation}
+
+\subsection{Pente}\label{pente}
+
+\subsection{Ombrage}\label{ombrage}
+
+\subsection{Visibilité}\label{visibilituxe9}
+
+\section{Quiz de révision du
+chapitre}\label{quiz-de-ruxe9vision-du-chapitre-3}
+
+\section{Exercices de révision}\label{exercices-de-ruxe9vision-3}
 
 \part{Partie 3. Classifications d'images}
 
@@ -1698,34 +3337,89 @@ Correction à la section~\ref{sec-08043}.
 
 \chapter{Classifications d'images supervisées}\label{sec-chap05}
 
-Dans le chapitre, nous abordons les classifications supervisées\ldots.
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-4}
 
-\textbf{Liste des \emph{packages} utilisés dans ce chapitre}
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+
+\subsection{:dart: Objectifs}\label{dart-objectifs-2}
+
+Dans ce chapitre, nous abordons quelques techniques de traitement
+d'images dans le domaine spatial uniquement. Ce chapitre est aussi
+disponible sous la forme d'un notebook Python sur Google Colab:
+
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\includesvg{index_files/mediabag/colab-badge.svg}}
+
+\subsection{Librairies}\label{librairies-4}
+
+Les librairies qui vont être explorées dans ce chapitre sont les
+suivantes:
 
 \begin{itemize}
-\tightlist
 \item
-  Pour importer et manipuler des fichiers géographiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{sf} pour importer et manipuler des données vectorielles.
-  \item
-    \texttt{terra} pour importer et manipuler des données matricielles.
-  \end{itemize}
+  \href{https://scipy.org/}{SciPy -}
 \item
-  Pour construire des cartes et des graphiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{tmap} est certainement le meilleur \emph{package} pour la
-    cartographie.
-  \item
-    \texttt{ggplot2} pour construire des graphiques.
-  \end{itemize}
+  \href{https://numpy.org/}{NumPy -}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
 \end{itemize}
+
+Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
+installés:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifier les importations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Images utilisées}\label{images-utilisuxe9es-2}
+
+Nous allons utilisez les images suivantes dans ce chapitre:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif }\OperatorTok{{-}}\NormalTok{O SAR.tif}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
+    \BuiltInTok{print}\NormalTok{(img\_SAR)}
+\end{Highlighting}
+\end{Shaded}
 
 \section{Classification d'images pixel par pixel}\label{sec-051}
 
@@ -1748,78 +3442,93 @@ aléatoires}\label{sec-0514}
 
 \section{Exercices de révision}\label{sec-054}
 
-\textbf{Exercice 1.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08061}.
-
-\textbf{Exercice 2.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08062}.
-
-\textbf{Exercice 3.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08063}.
-
 \bookmarksetup{startatroot}
 
 \chapter{Classifications d'images non supervisées}\label{sec-chap06}
 
-Dans le chapitre, nous abordons les classifications non
-supervisées\ldots.
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-5}
 
-\textbf{Liste des \emph{packages} utilisés dans ce chapitre}
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+
+\subsection{:dart: Objectifs}\label{dart-objectifs-3}
+
+Dans ce chapitre, nous abordons quelques techniques de traitement
+d'images dans le domaine spatial uniquement. Ce chapitre est aussi
+disponible sous la forme d'un notebook Python sur Google Colab:
+
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\includesvg{index_files/mediabag/colab-badge.svg}}
+
+\subsection{Librairies}\label{librairies-5}
+
+Les librairies qui vont être explorées dans ce chapitre sont les
+suivantes:
 
 \begin{itemize}
-\tightlist
 \item
-  Pour importer et manipuler des fichiers géographiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{sf} pour importer et manipuler des données vectorielles.
-  \item
-    \texttt{terra} pour importer et manipuler des données matricielles.
-  \end{itemize}
+  \href{https://scipy.org/}{SciPy -}
 \item
-  Pour construire des cartes et des graphiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{tmap} est certainement le meilleur \emph{package} pour la
-    cartographie.
-  \item
-    \texttt{ggplot2} pour construire des graphiques.
-  \end{itemize}
+  \href{https://numpy.org/}{NumPy -}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
 \end{itemize}
+
+Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
+installés:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifier les importations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Images utilisées}\label{images-utilisuxe9es-3}
+
+Nous allons utilisez les images suivantes dans ce chapitre:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif }\OperatorTok{{-}}\NormalTok{O SAR.tif}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
+    \BuiltInTok{print}\NormalTok{(img\_SAR)}
+\end{Highlighting}
+\end{Shaded}
 
 \section{Classifications strictes}\label{sec-061}
 
@@ -1839,79 +3548,95 @@ supervisées\ldots.
 
 \section{Exercices de révision}\label{sec-064}
 
-\textbf{Exercice 1.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08051}.
-
-\textbf{Exercice 2.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08052}.
-
-\textbf{Exercice 3.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08053}.
-
 \part{Partie 4. Données massives}
 
 \bookmarksetup{startatroot}
 
 \chapter{Introduction aux plateformes de mégadonnées}\label{sec-chap07}
 
-Dans le chapitre, nous abordons\ldots{}
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-6}
 
-\textbf{Liste des \emph{packages} utilisés dans ce chapitre}
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+
+\subsection{:dart: Objectifs}\label{dart-objectifs-4}
+
+Dans ce chapitre, nous abordons quelques techniques de traitement
+d'images dans le domaine spatial uniquement. Ce chapitre est aussi
+disponible sous la forme d'un notebook Python sur Google Colab:
+
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\includesvg{index_files/mediabag/colab-badge.svg}}
+
+\subsection{Librairies}\label{librairies-6}
+
+Les librairies qui vont être explorées dans ce chapitre sont les
+suivantes:
 
 \begin{itemize}
-\tightlist
 \item
-  Pour importer et manipuler des fichiers géographiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{sf} pour importer et manipuler des données vectorielles.
-  \item
-    \texttt{terra} pour importer et manipuler des données matricielles.
-  \end{itemize}
+  \href{https://scipy.org/}{SciPy -}
 \item
-  Pour construire des cartes et des graphiques~:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{tmap} est certainement le meilleur \emph{package} pour la
-    cartographie.
-  \item
-    \texttt{ggplot2} pour construire des graphiques.
-  \end{itemize}
+  \href{https://numpy.org/}{NumPy -}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
 \end{itemize}
+
+Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
+installés:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifier les importations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Images utilisées}\label{images-utilisuxe9es-4}
+
+Nous allons utilisez les images suivantes dans ce chapitre:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif }\OperatorTok{{-}}\NormalTok{O SAR.tif}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
+    \BuiltInTok{print}\NormalTok{(img\_SAR)}
+\end{Highlighting}
+\end{Shaded}
 
 \section{Données massives}\label{sec-071}
 
@@ -1923,266 +3648,6 @@ Engine}}{Manipulation de données satellitaires avec Google Earth Engine}}\label
 
 \section{Exercices de révision}\label{sec-074}
 
-\textbf{Exercice 1.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08071}.
-
-\textbf{Exercice 2.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08072}.
-
-\textbf{Exercice 3.} À compléter
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\CommentTok{\# ...}
-\CommentTok{\# à compléter}
-\end{Highlighting}
-\end{Shaded}
-
-Correction à la section~\ref{sec-08073}.
-
-\part{Partie 5. Exercices et bibliographie}
-
-\bookmarksetup{startatroot}
-
-\chapter{Correction des exercices}\label{sec-chap10}
-
-\section{Exercices du chapitre~1}\label{sec-0801}
-
-\subsection{Exercice~1}\label{sec-08011}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~2}\label{sec-08012}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~3}\label{sec-08013}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\section{Exercices du chapitre~2}\label{sec-0802}
-
-\subsection{Exercice~1}\label{sec-08021}
-
-\begin{figure}
-
-\centering{
-
-\includegraphics[width=0.65\textwidth,height=\textheight]{images/Chap10/ExoMatriceDeContiguiteCorrection.png}
-
-}
-
-\caption{\label{fig-ExoMatriceDeContiguite}Exercice sur la contiguïté et
-les ordres d'adjacence}
-
-\end{figure}%
-
-\subsection{Exercice~2}\label{sec-08022}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~3}\label{sec-08023}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-Les valeurs du \emph{I} de Moran sont les suivantes~: 0,69 pour la
-matrice \emph{Rook}, 0,52 pour la matrice inverse de la distance au
-carré réduite et 0,75 pour la matrice selon le critère des deux plus
-proches voisins.
-
-\section{Exercices du chapitre~3}\label{sec-0803}
-
-\subsection{Exercice~1}\label{sec-08031}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~2}\label{sec-08032}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~3}\label{sec-08033}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\section{Exercices du chapitre~4}\label{sec-0804}
-
-\subsection{Exercice~1}\label{sec-08041}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~2}\label{sec-08042}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~3}\label{sec-08043}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\section{Exercices du chapitre~5}\label{sec-0805}
-
-\subsection{Exercice~1}\label{sec-08051}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~2}\label{sec-08052}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#\# Construction du réseau}
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~3}\label{sec-08053}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\section{Exercices du chapitre~6}\label{sec-0806}
-
-\subsection{Exercice~1}\label{sec-08061}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~2}\label{sec-08062}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~3}\label{sec-08063}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\section{Exercices du chapitre~7}\label{sec-0807}
-
-\subsection{Exercice~1}\label{sec-08071}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~2}\label{sec-08072}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Exercice~3}\label{sec-08073}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{library(sf)}
-\NormalTok{library(terra)}
-\end{Highlighting}
-\end{Shaded}
-
 \bookmarksetup{startatroot}
 
 \chapter*{Bibliographie}\label{bibliographie}
@@ -2192,26 +3657,39 @@ proches voisins.
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
-\bibitem[\citeproctext]{ref-PrecisTeleVol1}
-Bonn, Ferdinand et Guy Rochon. 1992. \emph{Précis de télédétection.
-Volume 1 : principes et méthodes}. Presses de l'université du Québec;
-Agence universitaire de la Francophonie.
+\bibitem[\citeproctext]{ref-Cooley-1965}
+Cooley, James W. et John W. Tukey. 1965. {«~An algorithm for the machine
+calculation of complex Fourier series.~»} \emph{{Math. Comput.}}:
+297‑301.
+\url{https://web.stanford.edu/class/cme324/classics/cooley-tukey.pdf}.
 
-\bibitem[\citeproctext]{ref-mather2022computer}
-Mather, Paul M et Magaly Koch. 2022. \emph{Computer processing of
-remotely-sensed images}. John Wiley \& Sons.
+\bibitem[\citeproctext]{ref-NumpyNature}
+Harris, Millman, C. R. 2020. {«~Array programming with NumPy.~»}
+\emph{{Nature}}: 357‑362.
+\url{https://doi.org/10.1038/s41586-020-2649-2}.
+
+\bibitem[\citeproctext]{ref-xarray-2017}
+Hoyer, S. et J. Hamman. 2017. {«~xarray: N-D labeled Arrays and Datasets
+in Python.~»} \emph{{Journal of Open Research Software}} 5 (1): 10.
+\url{https://doi.org/10.5334/jors.148}.
+
+\bibitem[\citeproctext]{ref-Scharr1999}
+Jahne, Scharr, B et Korkel S. 1999. \emph{Principles of filter design}.
+Handbook of Computer Vision; Applications; Academic Press.
+
+\bibitem[\citeproctext]{ref-Lee-1986}
+Lee, J. S. 1986. {«~Speckle suppression and analysis for synthetic
+aperture radar images.~»} \emph{{Opt. Eng.}} 25 (5): 636‑643.
+\url{https://doi.org/10.1117/12.7973877}.
 
 \bibitem[\citeproctext]{ref-OGCGeoTIFF}
 OGC. 2019. {«~{OGC GeoTIFF Standard}.~»}
 \url{https://docs.ogc.org/is/19-008r4/19-008r4.html/}.
 
-\bibitem[\citeproctext]{ref-richards2022remote}
-Richards, John A, John A Richards et al. 2022. \emph{Remote sensing
-digital image analysis}. Vol. 5. Springer.
-
 \end{CSLReferences}
 
 
+\backmatter
 
 
 \end{document}

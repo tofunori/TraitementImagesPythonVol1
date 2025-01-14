@@ -367,13 +367,13 @@ div.csl-indent {
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="création-dun-environnement-de-travail-local-avancé"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local (avancé)</h3>
 <p><strong>Note</strong>: les notebooks peuvent fonctionner localement uniquement sous Linux ou avec WSL2.</p>
 <p>Les notebooks Python fonctionnent par défaut dans l’environnement <a href="https://colab.google/">Google Colab</a>. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html">Jupyter</a>. Il suffit de suivre les étapes suivantes: 1. Installer <code>WSL2</code> sous <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows</a> 2. Installer <a href="https://code.visualstudio.com/docs/setup/windows">vscode</a> 3. Installer <a href="https://docs.anaconda.com/miniconda/install/#quick-command-line-install">Miniconda</a> 4. Faire une installation du contenu du livre soit en utilisant une commande <code>git clone</code> ou en récupérant le <code>.zip</code> du livre 5. Ouvrir WSL2 et placer vous dans le répertoire du livre <code>TraitementImagesPythonVol1</code>. Assurez vous que vous avez accès à conda en tapant <code>conda --version</code> 6. Lancer la commande <code>conda env create -f jupyter_env.yaml</code> 7. Activer le nouvel environnement: <code>conda activate jupyter_env</code> 8. Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code> Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu de gauche vous pouvez accéder aux notebooks dans le répertoire <code>notebooks</code>:</p>
-<div id="fig-jupyterlab" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-scap="Client Jupyter Lab" data-fig-align="center">
+<div id="fig-jupyterlab" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-scap="Client Jupyter Lab">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-jupyterlab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/jupyter-accueil.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-fig-scap="Client Jupyter Lab">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-jupyterlab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.1: La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après <span class="citation" data-cites="NumpyNature">(<a href="references.html#ref-NumpyNature" role="doc-biblioref">Harris 2020</a>)</span>).
+Figure&nbsp;1.1: La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après <span class="citation" data-cites="NumpyNature">(<a href="#ref-NumpyNature" role="doc-biblioref">Harris 2020</a>)</span>).
 </figcaption>
 </figure>
 </div>
@@ -463,7 +463,7 @@ Figure&nbsp;1.1: La librairie NumPy est le fondement de nombreuses librairies sc
 <h2 data-number="1.8" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.8</span> Cahier de révision (notebook)</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-NumpyNature" class="csl-entry" role="listitem">
 Harris, Millman, C. R. 2020. <span>«&nbsp;Array programming with NumPy.&nbsp;»</span> <em><span>Nature</span></em>: 357‑362. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>.
 </div>
