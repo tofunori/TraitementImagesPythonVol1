@@ -14,6 +14,11 @@
         "  warning: false\n",
         "---\n",
         "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
         "# Transformations spatiales {#sec-chap04}\n",
         "\n",
         "## :rocket: Préambule\n",
@@ -42,8 +47,9 @@
         "\n",
         "* [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)\n",
         "\n",
-        "Dans l'environnement Google Colab, seul `rioxarray` doit être installés:"
-      ]
+        "Dans l'environnement Google Colab, seul `rioxarray` doit être installés:\n"
+      ],
+      "id": "c6405961"
     },
     {
       "cell_type": "code",
@@ -52,6 +58,7 @@
         "%%capture\n",
         "!pip install -qU matplotlib rioxarray xrscipy"
       ],
+      "id": "b25ebeb7",
       "execution_count": null,
       "outputs": []
     },
@@ -59,8 +66,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Vérifier les importations:"
-      ]
+        "Vérifier les importations:\n"
+      ],
+      "id": "fb742e82"
     },
     {
       "cell_type": "code",
@@ -74,6 +82,7 @@
         "import xrscipy\n",
         "import matplotlib.pyplot as plt"
       ],
+      "id": "b93ec05f",
       "execution_count": null,
       "outputs": []
     },
@@ -83,8 +92,9 @@
       "source": [
         "### Images utilisées\n",
         "\n",
-        "Nous allons utilisez les images suivantes dans ce chapitre:"
-      ]
+        "Nous allons utilisez les images suivantes dans ce chapitre:\n"
+      ],
+      "id": "391b85f4"
     },
     {
       "cell_type": "code",
@@ -96,6 +106,7 @@
         "!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg\n",
         "!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif -O SAR.tif"
       ],
+      "id": "b878a1fe",
       "execution_count": null,
       "outputs": []
     },
@@ -103,8 +114,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Vérifiez que vous êtes capable de les lire :"
-      ]
+        "Vérifiez que vous êtes capable de les lire :\n"
+      ],
+      "id": "73c046b9"
     },
     {
       "cell_type": "code",
@@ -120,6 +132,7 @@
         "with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:\n",
         "    print(img_SAR)"
       ],
+      "id": "11b0b963",
       "execution_count": null,
       "outputs": []
     },
@@ -143,8 +156,9 @@
         "\n",
         "Le signal d'origine est donc reconstruit à partir d'une somme de sinusoïde complexe $\\exp(j2\\pi \\frac{k}{N}n))$ de fréquence $k/N$. Noter qu'à partir de $k=N/2$, les sinusoïdes se répètent à un signe près et forme un miroir des composantes, la convention est lors de mettre ces composantes dans une espace négatif $[-N/2,\\ldots,-1]$.\n",
         "\n",
-        "Dans le cas d'un simple signal périodique à une dimension avec une fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de fréquence à la position de 4 cycles observés sur $N=16$ observations. Les puissances de Fourier sont affichés dans un espace fréquentiel en cycles par unité d'espacement de l'échantillon (avec zéro au début) variant entre -1 et +1. Par exemple, si l'espacement des échantillons est en secondes, l'unité de fréquence est cycles/seconde (ou Hz). Dans le cas de N échantillons, le pic sera observé à la fréquence $+/- 4/16=0.25$ cycles/secondes. La fréquence d'échantillonnage $F_s$ du signal a aussi beaucoup d'importance aussi et doit être au moins a deux fois la plus haute fréquence observée (ici $F_s > 0.5$) sinon un phénomène de repliement appelé aliasing sera observé. "
-      ]
+        "Dans le cas d'un simple signal périodique à une dimension avec une fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de fréquence à la position de 4 cycles observés sur $N=16$ observations. Les puissances de Fourier sont affichés dans un espace fréquentiel en cycles par unité d'espacement de l'échantillon (avec zéro au début) variant entre -1 et +1. Par exemple, si l'espacement des échantillons est en secondes, l'unité de fréquence est cycles/seconde (ou Hz). Dans le cas de N échantillons, le pic sera observé à la fréquence $+/- 4/16=0.25$ cycles/secondes. La fréquence d'échantillonnage $F_s$ du signal a aussi beaucoup d'importance aussi et doit être au moins a deux fois la plus haute fréquence observée (ici $F_s > 0.5$) sinon un phénomène de repliement appelé aliasing sera observé. \n"
+      ],
+      "id": "27cf3ba8"
     },
     {
       "cell_type": "code",
@@ -172,6 +186,7 @@
         "axes[1].set_title(\"Composantes de Fourier (amplitude)\")\n",
         "plt.show()"
       ],
+      "id": "68e1c825",
       "execution_count": null,
       "outputs": []
     },
@@ -199,8 +214,9 @@
         "\n",
         "$$\n",
         "x_f = IDFT^{-1}[F]*x\n",
-        "$$ {#eq-convolve}"
-      ]
+        "$$ {#eq-convolve}\n"
+      ],
+      "id": "03fa7553"
     },
     {
       "cell_type": "code",
@@ -221,6 +237,7 @@
         "ax2.set_title('Filtrage Gaussien')\n",
         "plt.show()"
       ],
+      "id": "6ec014a8",
       "execution_count": null,
       "outputs": []
     },
@@ -230,8 +247,9 @@
       "source": [
         "### L'aliasing\n",
         "\n",
-        "L'aliasing est un problème fréquent en traitement du signal. Il résulte d'une fréquence d'échantillonnage trop faible par rapport au contenu fréquentielle du signal. Ceci peut se produire lorsque vous sous-échantillonner fortement une image avec un facteur de décimation (par exemple 1 pixel sur 2). En prenant un pixel sur 2, on réduit la fréquence d'échantillonnage d'un facteur 2 ce qui nous impose de réduire le contenu fréquentielle de l'image et donc les fréquences maximales de l'image. L'image présente alors un aspect faussement texturée avec beaucoup de haute fréquences:"
-      ]
+        "L'aliasing est un problème fréquent en traitement du signal. Il résulte d'une fréquence d'échantillonnage trop faible par rapport au contenu fréquentielle du signal. Ceci peut se produire lorsque vous sous-échantillonner fortement une image avec un facteur de décimation (par exemple 1 pixel sur 2). En prenant un pixel sur 2, on réduit la fréquence d'échantillonnage d'un facteur 2 ce qui nous impose de réduire le contenu fréquentielle de l'image et donc les fréquences maximales de l'image. L'image présente alors un aspect faussement texturée avec beaucoup de haute fréquences:\n"
+      ],
+      "id": "d1469e29"
     },
     {
       "cell_type": "code",
@@ -247,6 +265,7 @@
         "axes[1].set_title(\"Décimée par un facteur 4\")\n",
         "plt.show()"
       ],
+      "id": "6d0f779d",
       "execution_count": null,
       "outputs": []
     },
@@ -254,8 +273,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Une façon de réduire le contenu fréquentiel  est de filtrer par un filtre passe-bas pour réduire les hautes fréquences par exemple avec un filtre Gaussien:"
-      ]
+        "Une façon de réduire le contenu fréquentiel  est de filtrer par un filtre passe-bas pour réduire les hautes fréquences par exemple avec un filtre Gaussien:\n"
+      ],
+      "id": "957037f8"
     },
     {
       "cell_type": "code",
@@ -277,6 +297,7 @@
         "axes[1].set_title(\"Décimée par un facteur 4\")\n",
         "plt.show()"
       ],
+      "id": "45b784c4",
       "execution_count": null,
       "outputs": []
     },
@@ -295,6 +316,7 @@
         "dsp.decimate(img_rgb, q=4, dim='x').astype('int').plot.imshow(rgb=\"band\")\n",
         "axes[1].set_title(\"Décimée par un facteur 4\")"
       ],
+      "id": "e9881285",
       "execution_count": null,
       "outputs": []
     },
@@ -350,8 +372,9 @@
         "\\right]\n",
         "$${#eq-boxfilter}\n",
         "\n",
-        "En python, on dispose des fonctions `rolling` et `sliding_window` définis dans la librairie numpy. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l'image avec deux nouvelles  dimensions `x_win` et `y_win`:"
-      ]
+        "En python, on dispose des fonctions `rolling` et `sliding_window` définis dans la librairie numpy. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l'image avec deux nouvelles  dimensions `x_win` et `y_win`:\n"
+      ],
+      "id": "ed429771"
     },
     {
       "cell_type": "code",
@@ -363,6 +386,7 @@
         "print(rolling_win[0,0,1,...])\n",
         "print(rolling_win.shape)"
       ],
+      "id": "6e082367",
       "execution_count": null,
       "outputs": []
     },
@@ -370,8 +394,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "L'avantage de cette approche est qu'il n'y a pas d'utilisation inutile de la mémoire. Noter les `nan` sur les bords de l'image car la fenêtre déborde sur les bordures de l'image. Par la suite un opérateur moyenne peut être appliqué."
-      ]
+        "L'avantage de cette approche est qu'il n'y a pas d'utilisation inutile de la mémoire. Noter les `nan` sur les bords de l'image car la fenêtre déborde sur les bordures de l'image. Par la suite un opérateur moyenne peut être appliqué.\n"
+      ],
+      "id": "4b91fc76"
     },
     {
       "cell_type": "code",
@@ -383,6 +408,7 @@
         "filtre_moyen.astype('int').plot.imshow(rgb=\"band\")\n",
         "ax.set_title(\"Filtre moyen 5x5\")"
       ],
+      "id": "61388cab",
       "execution_count": null,
       "outputs": []
     },
@@ -409,8 +435,9 @@
         "\\right]\n",
         "$${#eq-scharr-filter}\n",
         "\n",
-        "Remarquez l'utilisation de chiffres complexes afin de passer deux filtres différents sur la partie réelle et imaginaire."
-      ]
+        "Remarquez l'utilisation de chiffres complexes afin de passer deux filtres différents sur la partie réelle et imaginaire.\n"
+      ],
+      "id": "482c1e2e"
     },
     {
       "cell_type": "code",
@@ -430,6 +457,7 @@
         "arr.plot.imshow()\n",
         "ax.set_title(\"Amplitude du filtre de Scharr\")"
       ],
+      "id": "976bb9a0",
       "execution_count": null,
       "outputs": []
     },
@@ -447,8 +475,9 @@
         "Cette section nécessite la librairie Pytorch avec un GPU et ne fonctionnera que sur Colab.\n",
         ":::\n",
         "\n",
-        "Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut ici imposer les mêmes filtres de gradient dans la couche convolutionnelle:"
-      ]
+        "Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut ici imposer les mêmes filtres de gradient dans la couche convolutionnelle:\n"
+      ],
+      "id": "e6d8c22a"
     },
     {
       "cell_type": "code",
@@ -487,6 +516,7 @@
         "    axs[i].set_title(f'Filtre {i+1}')\n",
         "plt.show()"
       ],
+      "id": "dac45b41",
       "execution_count": null,
       "outputs": []
     },
@@ -494,8 +524,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Le résultat est alors calculé sur GPU (si disponible):"
-      ]
+        "Le résultat est alors calculé sur GPU (si disponible):\n"
+      ],
+      "id": "de4f417c"
     },
     {
       "cell_type": "code",
@@ -515,6 +546,7 @@
         "    axs[i].set_title(f'Filtrage {i+1}')\n",
         "plt.show()"
       ],
+      "id": "1662ac44",
       "execution_count": null,
       "outputs": []
     },
@@ -524,8 +556,9 @@
       "source": [
         "### Filtrage adaptatif\n",
         "\n",
-        "Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d'une image. Le filtre n'est alors plus stationnaire et sa réponse peut varier en fonction du contenu local. Ce type de filtre est très utilisé pour filtrer les images SAR (Synthetic Aperture Radar) qui sont dégradées par un bruit multiplicatif que l'on appelle *speckle*. On peut voir un exemple d'une image Sentinel-1 (bande HH) sur la région de Montréal, remarquée que l'image est affichée en dB en appliquant la fonction `log10`."
-      ]
+        "Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d'une image. Le filtre n'est alors plus stationnaire et sa réponse peut varier en fonction du contenu local. Ce type de filtre est très utilisé pour filtrer les images SAR (Synthetic Aperture Radar) qui sont dégradées par un bruit multiplicatif que l'on appelle *speckle*. On peut voir un exemple d'une image Sentinel-1 (bande HH) sur la région de Montréal, remarquée que l'image est affichée en dB en appliquant la fonction `log10`.\n"
+      ],
+      "id": "a504c4b2"
     },
     {
       "cell_type": "code",
@@ -538,6 +571,7 @@
         "xr.ufuncs.log10(img_SAR.sel(band=1).drop(\"band\")).plot()\n",
         "axs.set_title(\"Image SAR Sentinel-1 (dB)\")"
       ],
+      "id": "93a6ea1f",
       "execution_count": null,
       "outputs": []
     },
@@ -545,8 +579,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Un des filtres les plus simples pour réduire le bruit est d'appliquer un filtre moyenne, par exemple un $5x5$ ci dessous:"
-      ]
+        "Un des filtres les plus simples pour réduire le bruit est d'appliquer un filtre moyenne, par exemple un $5x5$ ci dessous:\n"
+      ],
+      "id": "965cde5b"
     },
     {
       "cell_type": "code",
@@ -559,6 +594,7 @@
         "xr.ufuncs.log10(filtre_moyen).plot.imshow()\n",
         "axs.set_title(\"Filtrage moyen 5x5 (dB)\")"
       ],
+      "id": "8af45caa",
       "execution_count": null,
       "outputs": []
     },
@@ -575,8 +611,9 @@
         "\\end{aligned}\n",
         "$${#eq-lee-filter}\n",
         "\n",
-        "Ainsi si la variance locale est élevée $K$ s'approche de $1$ préservant ainsi les détails de l'image sinon l'image moyenne $I_M$ est appliquée."
-      ]
+        "Ainsi si la variance locale est élevée $K$ s'approche de $1$ préservant ainsi les détails de l'image sinon l'image moyenne $I_M$ est appliquée.\n"
+      ],
+      "id": "0ee2bec8"
     },
     {
       "cell_type": "code",
@@ -597,6 +634,7 @@
         "ponderation.plot.imshow( vmin=0, vmax=1) \n",
         "axes[1].set_title(\"Pondération\")"
       ],
+      "id": "2a295895",
       "execution_count": null,
       "outputs": []
     },
@@ -604,8 +642,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On zoomant sur l'image on peut clairement voir que les détails de l'image sont mieux préservés:"
-      ]
+        "On zoomant sur l'image on peut clairement voir que les détails de l'image sont mieux préservés:\n"
+      ],
+      "id": "fffc24a0"
     },
     {
       "cell_type": "code",
@@ -623,6 +662,7 @@
         "xr.ufuncs.log10(filtered).isel(x=slice(None, 250),y=slice(None, 250)).plot.imshow() #cmap=plt.get_cmap('hot'),\n",
         "axes[1].set_title(\"Filtre de Lee\")"
       ],
+      "id": "33fd1de9",
       "execution_count": null,
       "outputs": []
     },
@@ -651,8 +691,9 @@
         "\n",
         "3. Mettre à jour les centre $C_k$ de chaque segment $k$, retourner à l'étape 3\n",
         "\n",
-        "Les régions évoluent rapidement avec les itérations, plus le poids $m$ est élevé, plus la forme du super-pixel est contrainte et ne suivra pas vraiment le contenu de l'image:"
-      ]
+        "Les régions évoluent rapidement avec les itérations, plus le poids $m$ est élevé, plus la forme du super-pixel est contrainte et ne suivra pas vraiment le contenu de l'image:\n"
+      ],
+      "id": "23fa1555"
     },
     {
       "cell_type": "code",
@@ -695,6 +736,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+      "id": "20b7d1fb",
       "execution_count": null,
       "outputs": []
     },
@@ -716,7 +758,8 @@
         "## Quiz de révision du chapitre\n",
         "\n",
         "## Exercices de révision"
-      ]
+      ],
+      "id": "4b610bf1"
     }
   ],
   "metadata": {
@@ -727,5 +770,5 @@
     }
   },
   "nbformat": 4,
-  "nbformat_minor": 4
+  "nbformat_minor": 5
 }

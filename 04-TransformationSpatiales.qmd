@@ -438,6 +438,63 @@ axes[1].set_title("Filtre de Lee")
 La segmentation d'image consiste à séparer une image en régions homogènes spatialement connexes (segments) où les valeurs sont uniformes selon un certain critère (couleurs, texture, etc.). Une image présente généralement beaucoup de pixels redondants, l'intérêt de ce type de méthode est essentiellement de réduire la quantité de pxiels nécessaire. En télédétection, on parle souvent d'approche objet. En vision par ordinateur, on parle parfois de super-pixel. Il existe de nombreuses méthodes de segmentation, la librairie `sickit-image` rend disponible plusieurs implémentations sur des images RVB ([Comparison of segmentation and superpixel algorithms — skimage 0.25.0 documentation](https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_segmentations.html#sphx-glr-auto-examples-segmentation-plot-segmentations-py)).
 
 
+### Super-pixel
+
+Ce type de méthode cherche à former des régions homogènes et compactes dans l'image [@Achanta-2012]. Une des méthodes les plus simples est la méthode SLIC (Sup), elle combine un regroupement de type K-moyenne avec une distance hybride qui prend en compte les différences de couleur mais aussi la distance au centre du super-pixel:
+
+1. Décomposer l'image en N régions régulières de taille $S \times S$
+
+2. Initialiser les centres $C_k$ de chaque segment $k$
+
+3. Rechercher les pixels qui ont la distance la plus petite dans une région $2S \times 2S$:
+
+$$
+D_{SLIC}= d_{couleur} + \frac{m}{S}d_{xy}
+$$
+
+3. Mettre à jour les centre $C_k$ de chaque segment $k$, retourner à l'étape 3
+
+Les régions évoluent rapidement avec les itérations, plus le poids $m$ est élevé, plus la forme du super-pixel est contrainte et ne suivra pas vraiment le contenu de l'image:
+```{python}
+#| eval: true
+
+from skimage.color import rgb2gray
+
+from skimage.segmentation import slic
+from skimage.segmentation import mark_boundaries
+
+
+img = img_rgb.to_numpy().astype('uint8').transpose(1,2,0) 
+
+
+segments_slic1 = slic(img, n_segments=250, compactness=10, sigma=1, start_label=1, max_num_iter=1)
+segments_slic2 = slic(img, n_segments=250, compactness=10, sigma=1, start_label=1, max_num_iter=2)
+segments_slic100 = slic(img, n_segments=250, compactness=100, sigma=1, start_label=1, max_num_iter=10)
+segments_slic100b = slic(img, n_segments=250, compactness=10, sigma=1, start_label=1, max_num_iter=10)
+
+
+print(f'SLIC nombre de segments: {len(np.unique(segments_slic1))}')
+
+
+fig, ax = plt.subplots(2, 2, figsize=(10, 6), sharex=True, sharey=True)
+
+ax[0, 0].imshow(mark_boundaries(img, segments_slic1))
+ax[0, 0].set_title("Initialisation")
+ax[0, 1].imshow(mark_boundaries(img, segments_slic2))
+ax[0, 1].set_title('2 itérations')
+ax[1, 0].imshow(mark_boundaries(img, segments_slic100))
+ax[1, 0].set_title('10 itérations avec m=100')
+ax[1, 1].imshow(mark_boundaries(img, segments_slic100b))
+ax[1, 1].set_title('10 itérations avec m=10')
+
+for a in ax.ravel():
+    a.set_axis_off()
+
+plt.tight_layout()
+plt.show()
+```
+
+compactness=30, n_segments=400,
 ## Vectorisation et rasterisation
 
 ## Analyse de terrain
