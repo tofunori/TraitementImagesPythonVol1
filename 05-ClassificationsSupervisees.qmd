@@ -18,7 +18,7 @@ Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 ### :dart: Objectifs
 Dans ce chapitre, nous abordons quelques techniques de traitement d'images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d'un notebook Python sur Google Colab:
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb){target="_blank"} 
+[![](images/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb){target="_blank"} 
 
 ### Librairies
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
