@@ -292,7 +292,7 @@ code}
 \subtitle{Première édition}
 \author{Samuel Foucher \and Philippe Apparicio \and Yacine
 Bouroubi \and Mickaël Germain}
-\date{2025-01-14}
+\date{2025-01-15}
 
 \begin{document}
 \frontmatter
@@ -331,7 +331,7 @@ autant négliger la rigueur mathématique ou statistique. Des rappels sur
 les fondements en télédétection pourront apparaître au besoin afin
 d'éclairer les approches techniques.
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, left=2mm, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, opacitybacktitle=0.6, coltitle=black, toprule=.15mm, titlerule=0mm, toptitle=1mm, colback=white, rightrule=.15mm, opacityback=0, bottomtitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, coltitle=black, left=2mm, titlerule=0mm, breakable, opacityback=0, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, arc=.35mm, leftrule=.75mm, bottomrule=.15mm, toprule=.15mm, rightrule=.15mm, colframe=quarto-callout-important-color-frame]
 
 \textbf{Ce projet est en cours d'écriture et le contenu n'est pas
 complet}
@@ -2073,15 +2073,28 @@ dimensions alignées, contenant :
   \texttt{attrs} : Stockage des métadonnées
 \end{itemize}
 
-Les principales différences sont les suivantes : - DataArray contient un
-seul tableau avec des étiquettes - Le Dataset contient plusieurs
-DataArrays alignés.
+Les principales différences sont les suivantes :
+
+\begin{itemize}
+\item
+  \texttt{DataArray} contient un seul tableau avec des étiquettes
+\item
+  Le \texttt{Dataset} contient plusieurs DataArrays alignés.
+\end{itemize}
 
 Ces trois structures prennent en charge les opérations de type
 dictionnaire et les calculs de coordination tout en conservant les
 métadonnées.
 
-\includegraphics{index_files/mediabag/dataset-diagram.png}
+\begin{figure}[H]
+
+{\centering \includegraphics{images/xarray-dataset-diagram.png}
+
+}
+
+\caption{Organisation d'un Dataset dans xarray}
+
+\end{figure}%
 
 netcdf, xarray, GRIB.
 
@@ -2399,8 +2412,8 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.15555556 0.06666667 0.13333333 0.16666667 0.11111111 0.1
- 0.04444444 0.15555556 0.08888889 0.08888889]
+valeurs : [0.06666667 0.05555556 0.11111111 0.07777778 0.14444444 0.15555556
+ 0.11111111 0.15555556 0.1        0.13333333]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
@@ -2664,7 +2677,7 @@ installés:
 \begin{Shaded}
 \begin{Highlighting}[]
 \OperatorTok{\%\%}\NormalTok{capture}
-\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy scikit}\OperatorTok{{-}}\NormalTok{image}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2957,7 +2970,7 @@ pondération locale des valeurs des pixels dans une fenêtre glissante. La
 taille de cette fenêtre est généralement impaire (3,5, etc.) afin de
 définir une position centrale et une fenêtre symétrique.
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, left=2mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, breakable, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colframe=quarto-callout-note-color-frame, bottomrule=.15mm, opacitybacktitle=0.6, coltitle=black, toprule=.15mm, titlerule=0mm, toptitle=1mm, colback=white, rightrule=.15mm, opacityback=0, bottomtitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, coltitle=black, left=2mm, titlerule=0mm, breakable, opacityback=0, opacitybacktitle=0.6, colbacktitle=quarto-callout-note-color!10!white, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomtitle=1mm, arc=.35mm, leftrule=.75mm, bottomrule=.15mm, toprule=.15mm, rightrule=.15mm, colframe=quarto-callout-note-color-frame]
 
 Mettre une figure ici
 
@@ -3033,7 +3046,7 @@ Text(0.5, 1.0, 'Filtre moyen 5x5')
 
 \includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-12-output-2.png}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, left=2mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, breakable, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colframe=quarto-callout-note-color-frame, bottomrule=.15mm, opacitybacktitle=0.6, coltitle=black, toprule=.15mm, titlerule=0mm, toptitle=1mm, colback=white, rightrule=.15mm, opacityback=0, bottomtitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, coltitle=black, left=2mm, titlerule=0mm, breakable, opacityback=0, opacitybacktitle=0.6, colbacktitle=quarto-callout-note-color!10!white, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomtitle=1mm, arc=.35mm, leftrule=.75mm, bottomrule=.15mm, toprule=.15mm, rightrule=.15mm, colframe=quarto-callout-note-color-frame]
 
 Filtre de Sobel, filtre Prewitt
 
@@ -3117,7 +3130,7 @@ valeurs mirroirs ou constantes.
 \subsubsection{Filtrage par une couche
 convolutionnelle}\label{filtrage-par-une-couche-convolutionnelle}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, left=2mm, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, opacitybacktitle=0.6, coltitle=black, toprule=.15mm, titlerule=0mm, toptitle=1mm, colback=white, rightrule=.15mm, opacityback=0, bottomtitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, coltitle=black, left=2mm, titlerule=0mm, breakable, opacityback=0, opacitybacktitle=0.6, colbacktitle=quarto-callout-important-color!10!white, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, arc=.35mm, leftrule=.75mm, bottomrule=.15mm, toprule=.15mm, rightrule=.15mm, colframe=quarto-callout-important-color-frame]
 
 Cette section nécessite la librairie Pytorch avec un GPU et ne
 fonctionnera que sur Colab.
@@ -3313,8 +3326,88 @@ disponible plusieurs implémentations sur des images RVB
 of segmentation and superpixel algorithms --- skimage 0.25.0
 documentation}).
 
-\section{Vectorisation et
-rasterisation}\label{vectorisation-et-rasterisation}
+\subsection{Super-pixel}\label{super-pixel}
+
+Ce type de méthode cherche à former des régions homogènes et compactes
+dans l'image (Achanta et Süsstrunk 2012). Une des méthodes les plus
+simples est la méthode SLIC (Sup), elle combine un regroupement de type
+K-moyenne avec une distance hybride qui prend en compte les différences
+de couleur mais aussi la distance au centre du super-pixel:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Décomposer l'image en N régions régulières de taille \(S \times S\)
+\item
+  Initialiser les centres \(C_k\) de chaque segment \(k\)
+\item
+  Rechercher les pixels qui ont la distance la plus petite dans une
+  région \(2S \times 2S\):
+\end{enumerate}
+
+\[
+D_{SLIC}= d_{couleur} + \frac{m}{S}d_{xy}
+\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Mettre à jour les centre \(C_k\) de chaque segment \(k\), retourner à
+  l'étape 3
+\end{enumerate}
+
+Les régions évoluent rapidement avec les itérations, plus le poids \(m\)
+est élevé, plus la forme du super-pixel est contrainte et ne suivra pas
+vraiment le contenu de l'image:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ skimage.color }\ImportTok{import}\NormalTok{ rgb2gray}
+
+\ImportTok{from}\NormalTok{ skimage.segmentation }\ImportTok{import}\NormalTok{ slic}
+\ImportTok{from}\NormalTok{ skimage.segmentation }\ImportTok{import}\NormalTok{ mark\_boundaries}
+
+
+\NormalTok{img }\OperatorTok{=}\NormalTok{ img\_rgb.to\_numpy().astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{).transpose(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{) }
+
+
+\NormalTok{segments\_slic1 }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\DecValTok{250}\NormalTok{, compactness}\OperatorTok{=}\DecValTok{10}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+\NormalTok{segments\_slic2 }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\DecValTok{250}\NormalTok{, compactness}\OperatorTok{=}\DecValTok{10}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{2}\NormalTok{)}
+\NormalTok{segments\_slic100 }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\DecValTok{250}\NormalTok{, compactness}\OperatorTok{=}\DecValTok{100}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{segments\_slic100b }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\DecValTok{250}\NormalTok{, compactness}\OperatorTok{=}\DecValTok{10}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}SLIC nombre de segments: }\SpecialCharTok{\{}\BuiltInTok{len}\NormalTok{(np.unique(segments\_slic1))}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+
+
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{6}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{ax[}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{].imshow(mark\_boundaries(img, segments\_slic1))}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Initialisation"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{].imshow(mark\_boundaries(img, segments\_slic2))}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}2 itérations\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{].imshow(mark\_boundaries(img, segments\_slic100))}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}10 itérations avec m=100\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{].imshow(mark\_boundaries(img, segments\_slic100b))}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}10 itérations avec m=10\textquotesingle{}}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.ravel():}
+\NormalTok{    a.set\_axis\_off()}
+
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+SLIC nombre de segments: 240
+\end{verbatim}
+
+\includegraphics{04-TransformationSpatiales_files/figure-pdf/cell-20-output-2.png}
+
+compactness=30, n\_segments=400, \#\# Vectorisation et rasterisation
 
 \section{Analyse de terrain}\label{analyse-de-terrain}
 
@@ -3657,6 +3750,11 @@ Engine}}{Manipulation de données satellitaires avec Google Earth Engine}}\label
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-Achanta-2012}
+Achanta, Kevin Smith adhakrishna, Appu Shaji et Sabine Süsstrunk. 2012.
+{«~SLIC Superpixels Compared to State-of-the-art Superpixel Methods.~»}
+\emph{{TPAMI}}: 636‑643. \url{https://doi.org/10.1109/TPAMI.2012.120}.
+
 \bibitem[\citeproctext]{ref-Cooley-1965}
 Cooley, James W. et John W. Tukey. 1965. {«~An algorithm for the machine
 calculation of complex Fourier series.~»} \emph{{Math. Comput.}}:

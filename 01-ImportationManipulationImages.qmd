@@ -355,13 +355,15 @@ Un conteneur de type dictionnaire de `DataArrays` avec des dimensions alignées,
 - `attrs` : Stockage des métadonnées
 
 Les principales différences sont les suivantes :
-- DataArray contient un seul tableau avec des étiquettes
-- Le Dataset contient plusieurs DataArrays alignés.
+
+- `DataArray` contient un seul tableau avec des étiquettes
+
+- Le `Dataset` contient plusieurs DataArrays alignés.
 
 
 Ces trois structures prennent en charge les opérations de type dictionnaire et les calculs de coordination tout en conservant les métadonnées.
 
-![](https://docs.xarray.dev/en/latest/_images/dataset-diagram.png)
+![Organisation d'un Dataset dans xarray](images/xarray-dataset-diagram.png)
 
 netcdf, xarray, GRIB.
 
