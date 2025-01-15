@@ -79,6 +79,8 @@ bibliography: references.bib
 csl: StyleBiblio.csl
 
 format:
+  ipynb:
+    code-annotations: false
   html:
     colorlinks: true
     css: css/quizlib.min.css

@@ -3,3 +3,4 @@ scipy
 geemap
 rasterio
 rioxarray
+scikit-image

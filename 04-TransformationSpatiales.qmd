@@ -39,7 +39,7 @@ Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 Dans l'environnement Google Colab, seul `rioxarray` doit être installés:
 ```{python}
 %%capture
-!pip install -qU matplotlib rioxarray xrscipy
+!pip install -qU matplotlib rioxarray xrscipy scikit-image
 ```
 Vérifier les importations:
 ```{python}
