@@ -460,21 +460,16 @@ Les régions évoluent rapidement avec les itérations, plus le poids $m$ est é
 
 from skimage.color import rgb2gray
 
-from skimage.segmentation import slic
-from skimage.segmentation import mark_boundaries
-
+from skimage.segmentation import slic, mark_boundaries
 
 img = img_rgb.to_numpy().astype('uint8').transpose(1,2,0) 
-
 
 segments_slic1 = slic(img, n_segments=250, compactness=10, sigma=1, start_label=1, max_num_iter=1)
 segments_slic2 = slic(img, n_segments=250, compactness=10, sigma=1, start_label=1, max_num_iter=2)
 segments_slic100 = slic(img, n_segments=250, compactness=100, sigma=1, start_label=1, max_num_iter=10)
 segments_slic100b = slic(img, n_segments=250, compactness=10, sigma=1, start_label=1, max_num_iter=10)
 
-
 print(f'SLIC nombre de segments: {len(np.unique(segments_slic1))}')
-
 
 fig, ax = plt.subplots(2, 2, figsize=(10, 6), sharex=True, sharey=True)
 
@@ -494,7 +489,37 @@ plt.tight_layout()
 plt.show()
 ```
 
-compactness=30, n_segments=400,
+Le nombre de segments initial est probablement le paramètre le plus important. Une manière de l'estimer est d'évaluer l'échelle moyenne des segments homogènes dans l'image à analyser. On peut observer ci-dessous l'impact de passer d'une échelle $40 \times 40$ à $20 \times 20$. En prenant la moyenne de chaque segment, on peut voir tout de suite que $40 \times 40$ résulte en des segments trop grands mélangeant différentes classes.
+
+```{python}
+#| eval: true
+from skimage import color, segmentation
+n_regions = int((img.shape[0] * img.shape[1])/(40*40))
+print('Nb segments: ',n_regions)
+segments_slic_40 = slic(img, n_segments=n_regions, compactness=10, sigma=1, start_label=1, max_num_iter=10)
+print(f'SLIC nombre de segments: {len(np.unique(segments_slic_40))}')
+out = color.label2rgb(segments_slic_40, img, kind='avg', bg_label=0)
+out_40 = segmentation.mark_boundaries(out, segments_slic_40, (0, 0, 0))
+
+n_regions = int((img.shape[0] * img.shape[1])/(20*20))
+print('Nb segments: ',n_regions)
+segments_slic_20 = slic(img, n_segments=n_regions, compactness=10, sigma=1, start_label=1, max_num_iter=10)
+print(f'SLIC nombre de segments: {len(np.unique(segments_slic_20))}')
+out = color.label2rgb(segments_slic_20, img, kind='avg', bg_label=0)
+out_20 = segmentation.mark_boundaries(out, segments_slic_20, (0, 0, 0))
+
+fig, ax = plt.subplots(1, 2, figsize=(10, 6), sharex=True, sharey=True)
+
+ax[0].imshow(out_40)
+ax[0].set_title("Initialisation avec 631 segments")
+ax[1].imshow(out_20)
+ax[1].set_title('Initialisation avec 2526 segments')
+for a in ax.ravel():
+    a.set_axis_off()
+plt.tight_layout()
+plt.show()
+```
+
 ## Vectorisation et rasterisation
 
 ## Analyse de terrain
