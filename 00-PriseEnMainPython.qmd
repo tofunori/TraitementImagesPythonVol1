@@ -188,7 +188,6 @@ Ces caractéristiques font de Python un excellent choix pour apprendre et appliq
 :::
 :::
 
-## Quiz de révision du chapitre
 
 ## Cahier de révision (notebook) {#sec-016}
 

@@ -198,8 +198,6 @@ via [data/raster at main · opengeos/data](https://github.com/opengeos/data/tree
 drapper une image satellite sur un DEM
 
 
-## Quiz de révision du chapitre
-
 ## Exercices de révision 
 
 

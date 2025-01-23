@@ -90,8 +90,6 @@ with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
 
 ### C-Means intégrant une dimension spatiale {#sec-0622}
 
-## Quiz de révision du chapitre {#sec-063}
-
 
 ## Exercices de révision {#sec-064}
 

@@ -45,6 +45,6 @@ mv 05-ClassificationsSupervisees.ipynb ./notebooks/
 
 #quarto render 04-TransformationSpatiales.qmd --to docx  --no-execute --output-dir ./docx
 
-#git add .
-#git commit -m 'new content'
-#git push
+git add .
+git commit -m 'new content'
+git push

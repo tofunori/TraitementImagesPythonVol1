@@ -383,6 +383,4 @@ Données météos, exemple avec SWOT.
 
 ### Requêtes attributaires 
 
-## Quiz de révision du chapitre 
-
 ## Exercices de révision 

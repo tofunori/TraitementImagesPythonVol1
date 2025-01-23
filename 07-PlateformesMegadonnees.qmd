@@ -78,9 +78,6 @@ with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
 
 ## Manipulation de données satellitaires avec *Google Earth Engine* {#sec-072}
 
-## Quiz de révision du chapitre {#sec-073}
-
-
 
 ## Exercices de révision {#sec-074}
 

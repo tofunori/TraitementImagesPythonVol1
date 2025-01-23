@@ -92,7 +92,5 @@ with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
 ### Approches par arbre (BPT, etc.) {#sec-0522}
 
 
-## Quiz de révision du chapitre {#sec-053}
-
 
 ## Exercices de révision {#sec-054}
