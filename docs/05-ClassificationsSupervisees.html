@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -103,6 +103,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Recherche"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -329,12 +332,12 @@ window.Quarto = {
 <li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
 </ul>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installés:</p>
-<div id="bc00faa5" class="cell" data-execution_count="1">
+<div id="24c7fc96" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU matplotlib rioxarray xrscipy</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifier les importations:</p>
-<div id="c6499cfb" class="cell" data-execution_count="2">
+<div id="a49ec0f4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
@@ -342,13 +345,15 @@ window.Quarto = {
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xrscipy</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="images-utilisées" class="level3" data-number="6.1.3">
 <h3 data-number="6.1.3" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">6.1.3</span> Images utilisées</h3>
 <p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
-<div id="9d7bf3ed" class="cell" data-execution_count="3">
+<div id="ba73a3da" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gdown</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -359,7 +364,7 @@ window.Quarto = {
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg'</span>, output<span class="op">=</span> <span class="st">'carte.tif'</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifiez que vous êtes capable de les lire :</p>
-<div id="a83ee9ca" class="cell" data-execution_count="4">
+<div id="74a7a348" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'RGBNIR_of_S2A.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgbnir:</span>
@@ -393,14 +398,14 @@ window.Quarto = {
 <section id="construction-dun-ensemble-dentraînement" class="level3" data-number="6.4.1">
 <h3 data-number="6.4.1" class="anchored" data-anchor-id="construction-dun-ensemble-dentraînement"><span class="header-section-number">6.4.1</span> Construction d’un ensemble d’entraînement</h3>
 <p>Une façon simple de construire un ensemble d’entraînement est d’échantillonner un produit existant. Nous allons utiliser la carte d’occupation des cols suivante qui contient 12 classes différentes.</p>
-<div id="e11c1e9f" class="cell" data-execution_count="5">
+<div id="6aa21e52" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>couleurs_classes<span class="op">=</span> {<span class="st">'NoData'</span>: <span class="st">'black'</span>, <span class="st">'Commercial'</span>: <span class="st">'yellow'</span>, <span class="st">'Nuages'</span>: <span class="st">'lightgrey'</span>, </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'Foret'</span>: <span class="st">'darkgreen'</span>, <span class="st">'Faible_végétation'</span>: <span class="st">'green'</span>, <span class="st">'Sol_nu'</span>: <span class="st">'saddlebrown'</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">'Roche'</span>: <span class="st">'dimgray'</span>, <span class="st">'Route'</span>: <span class="st">'red'</span>, <span class="st">'Urbain'</span>: <span class="st">'orange'</span>, <span class="st">'Eau'</span>: <span class="st">'blue'</span>, <span class="st">'Tourbe'</span>: <span class="st">'salmon'</span>, <span class="st">'Végétation éparse'</span>: <span class="st">'darkgoldenrod'</span>, <span class="st">'Roche avec végétation'</span>: <span class="st">'darkseagreen'</span>}</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>nom_classes<span class="op">=</span> [<span class="op">*</span>couleurs_classes.keys()]</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>couleurs_classes<span class="op">=</span> [<span class="op">*</span>couleurs_classes.values()]</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f90019fe" class="cell" data-execution_count="6">
+<div id="25b4b003" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>cmap_classes <span class="op">=</span> ListedColormap(couleurs_classes)</span>
@@ -420,7 +425,7 @@ window.Quarto = {
 </div>
 </div>
 <p>On peut facilement calculer la fréquence d’occurrence des 12 classes dans l’image à l’aide de numpy:</p>
-<div id="7d5a6ded" class="cell" data-execution_count="7">
+<div id="a7999574" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>img_carte<span class="op">=</span> img_carte.squeeze() <span class="co"># nécessaire pour ignorer la dimension du canal</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>compte_classe <span class="op">=</span> np.unique(img_carte.data, return_counts<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(compte_classe)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -431,7 +436,7 @@ window.Quarto = {
 </div>
 </div>
 <p>La fréquence d’apparition de chaque classe varie grandement, on parle d’un ensemble déséquilibré. Ceci est très commun dans la plupart des ensembles d’entraînement.</p>
-<div id="b77e3ee8" class="cell" data-execution_count="8">
+<div id="d6719203" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>valeurs, comptes <span class="op">=</span> compte_classe</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the histogram</span></span>
@@ -451,7 +456,7 @@ window.Quarto = {
 </div>
 </div>
 <p>On peut échantillonner 100 points aléatoires pour chaque classe:</p>
-<div id="6cf7cef3" class="cell" data-execution_count="9">
+<div id="0641f8c3" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>img_carte<span class="op">=</span> img_carte.squeeze()</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>class_counts <span class="op">=</span> np.unique(img_carte.data, return_counts<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -491,6 +496,120 @@ window.Quarto = {
 <p><img src="05-ClassificationsSupervisees_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
+</div>
+</div>
+<p>Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d’une image satellite. Pour cela, on peut utiliser la méthodes sample de rasterio. La librairie <code>geopandas</code> permet de gérer les données d’entraînement sous la forme d’un tableau transportant aussi l’information de géoréférence:</p>
+<div id="d4f1e6dc" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> [Point(xy) <span class="cf">for</span> xy <span class="kw">in</span> <span class="bu">zip</span>(transform_sampled_points[<span class="dv">0</span>], transform_sampled_points[<span class="dv">1</span>])]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> geopandas.GeoDataFrame(<span class="bu">range</span>(<span class="dv">1</span>,<span class="bu">len</span>(points)<span class="op">+</span><span class="dv">1</span>), geometry<span class="op">=</span>points, crs<span class="op">=</span>img_carte.rio.crs)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>coord_list <span class="op">=</span> [(x, y) <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(gdf[<span class="st">"geometry"</span>].x, gdf[<span class="st">"geometry"</span>].y)]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(<span class="st">'RGBNIR_of_S2A.tif'</span>) <span class="im">as</span> src:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  gdf[<span class="st">"value"</span>] <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> src.sample(coord_list)]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#gdf.to_file('sampling_points.geojson', driver='GeoJSON')</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>gdf.to_csv(<span class="st">'sampling_points.csv'</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>gdf.head()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">0</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+<th data-quarto-table-cell-role="th">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>POINT (749009.567 5035771.5)</td>
+<td>[2404, 2664, 2796, 2983]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>POINT (737761.905 5031580.999)</td>
+<td>[1960, 2334, 2232, 3315]</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>POINT (737791.766 5030117.808)</td>
+<td>[2696, 2836, 2792, 3211]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>POINT (734138.764 5027221.286)</td>
+<td>[1856, 2096, 2108, 3878]</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>POINT (738339.219 5039404.594)</td>
+<td>[1727, 2028, 1913, 4023]</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="3806bce2" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Markdown(gdf.head().to_markdown())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 58%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;"></th>
+<th style="text-align: right;">0</th>
+<th style="text-align: left;">geometry</th>
+<th style="text-align: left;">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">POINT (749009.5672705013 5035771.499715234)</td>
+<td style="text-align: left;">[2404 2664 2796 2983]</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">POINT (737761.90516229 5031580.999053679)</td>
+<td style="text-align: left;">[1960 2334 2232 3315]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">POINT (737791.7662121349 5030117.807611284)</td>
+<td style="text-align: left;">[2696 2836 2792 3211]</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">POINT (734138.7644477866 5027221.285776338)</td>
+<td style="text-align: left;">[1856 2096 2108 3878]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">POINT (738339.218792623 5039404.594113019)</td>
+<td style="text-align: left;">[1727 2028 1913 4023]</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>

@@ -53,6 +53,8 @@ import rasterio
 import xrscipy
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+import geopandas
+from shapely.geometry import Point
 ```
 ### Images utilisées
 
@@ -195,6 +197,25 @@ ax.set_title("Carte d'occupation des sols avec les points échantillonnés")
 plt.show()
 ```
 
+Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes sample de rasterio. La librairie `geopandas` permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence:
+
+```{python}
+#| eval: true
+points = [Point(xy) for xy in zip(transform_sampled_points[0], transform_sampled_points[1])]
+gdf = geopandas.GeoDataFrame(range(1,len(points)+1), geometry=points, crs=img_carte.rio.crs)
+coord_list = [(x, y) for x, y in zip(gdf["geometry"].x, gdf["geometry"].y)]
+with rasterio.open('RGBNIR_of_S2A.tif') as src:
+  gdf["value"] = [x for x in src.sample(coord_list)]
+#gdf.to_file('sampling_points.geojson', driver='GeoJSON')
+gdf.to_csv('sampling_points.csv')
+gdf.head()
+```
+
+```{python}
+#| eval: true
+from IPython.display import Markdown
+Markdown(gdf.head().to_markdown())
+```
 ## Méthodes non paramétriques {#sec-0513}
 
 
