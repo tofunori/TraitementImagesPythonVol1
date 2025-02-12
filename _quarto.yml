@@ -69,8 +69,8 @@ book:
   - part: Partie 3. Classifications d'images
   - 05-ClassificationsSupervisees.qmd
   - 06-ClassificationsNonSupervisees.qmd
-  - part: Partie 4. Données massives
-  - 07-PlateformesMegadonnees.qmd
+#  - part: Partie 4. Données massives
+#  - 07-PlateformesMegadonnees.qmd
 #  - part: Partie 5. Exercices et bibliographie
 #  - 08-Exercices.qmd
   - references.qmd

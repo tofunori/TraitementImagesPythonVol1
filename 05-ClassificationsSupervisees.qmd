@@ -8,7 +8,7 @@ execute:
   warning: false
 ---
 
-# Classifications d'images supervisées {#sec-chap05}
+# Classifications d'images dirigées {#sec-chap05}
 
 
 ## :rocket: Préambule
@@ -49,18 +49,23 @@ import numpy as np
 import rioxarray as rxr
 from scipy import signal
 import xarray as xr
+import rasterio
 import xrscipy
 import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
 ```
 ### Images utilisées
 
 Nous allons utilisez les images suivantes dans ce chapitre:
 ```{python}
 %%capture
-!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
-!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
-!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
-!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif -O SAR.tif
+import gdown
+
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg_', output= 'RGBNIR_of_S2A.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw-Wo6', output= 'landsat7.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg', output= 'carte.tif')
 ```
 Vérifiez que vous êtes capable de les lire :
 ```{python}
@@ -73,17 +78,143 @@ with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
     print(img_rgbnir)
 with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
     print(img_SAR)
+with rxr.open_rasterio('carte.tif', mask_and_scale= True) as img_carte:
+    print(img_carte)
 ```
 
-## Classification d'images pixel par pixel {#sec-051}
+## Principes généraux
 
-### Parallélépipède {#sec-0511}
+Une classification supervisée consiste à attribuer une étiquette (une classe) de manière automatique à chaque point d'un jeu de données. Cette classification peut se faire à l'aide d'une cascade de règles pré-établies (arbre de décision) ou à l'aide de techniques d'apprentissage automatique (*machine learning*). L'utilisation de règles pré-établies atteint vite une limite car ces règles doivent être fournies manuellement par un expert. Ainsi, l'avantage de l'apprentissage automatique est que les règles de décision sont dérivées automatiquement du jeu de données via une phase dite d’entraînement. Cet ensemble de règles est souvent appelé **modèle**. On visualise souvent ces règles sous la forme de frontières de décisions dans l'espace des données. Par contre, un des défis majeur de ce type de technique est d'être capable de produire des règles qui soient généralisables au-delà du jeu d’entraînement. 
 
-### Méthodes paramétriques {#sec-0512}
+Les classifications dirigées présupposent donc que nous avons à disposition un jeu d’entraînement déjà étiqueté. Celui-ci va nous permettre de construire un modèle . Afin que ce modèle soit représentatif et robuste, il nous faut assez de données d’entraînement. Les algorithmes d'apprentissage automatique sont très nombreux et plus ou moins complexes pouvant produire des frontières de décision très complexes et non linéaires. 
 
-### Méthodes non paramétriques {#sec-0513}
+**curse of dimensionnality, capacité d'un modèle, sur-aprrentissage, sous-apprentissage**
+
+
+## Méthode des parallélépipèdes {#sec-0511}
+
+La méthode du parallélépipède est probablement la plus simple et consiste à délimiter directement le domaine des points d'une classe par une boite (un parallélépipède) à D dimensions. Les limites de ces parallélépipèdes forment alors des frontières de décision manuelles qui vont permettre décider de la classe d'appartenance d'un nouveau point. Un des avantages de cette technique est que si un point n'est dans aucun parallélépipède alors on peut le laisser comme non classifié. Par contre, la construction de ces parallélépipèdes se complexifient grandement avec le nombre de bandes. À une dimension, deux paramètres, équivalents à un seuillage d'histogramme, sont suffisants. À deux dimensions, vous devez définir 4 segments par classe. Avec 3 bandes, vous devez définir 6 plans par classes et à D dimensions, D hyperplans à D-1 dimensions par classe.
+
+### La malédiction de la haute dimension
+
+Augmenter le nombre de dimension ou de caractéristiques des données permet de résoudre des problèmes complexes comme la classification d'image. Cependant, cela amène beaucoup de contraintes sur le volume des données. Supposons que nous avons N points occupant un segment linéaire de taille d. La densité de points est $N/d$. Si nous augmentons le nombre de dimension D, la densité de points va diminuer exponentiellement en $1/d^D$. Par conséquent, pour garder une densité constante et donc une bonne estimation des parallélépipèdes, il nous faudrait augmenter le nombre de points en puissance de D. Ceci porte le nom de la malédiction de la dimensionnalité (*dimensionality curse*). En résumé, l'espace vide augmente plus rapidement que le nombre de données d'entraînement et l'espace des données devient de plus en plus parcimonieux (*sparse*). Pour contrecarrer ce problème, on peut sélectionner les meilleures caractéristiques ou appliquer une réduction de dimension. 
+
+## Méthodes paramétriques {#sec-0512}
+
+Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. On parle alors d'approche de type **maximum de vraisemblance**. 
+
+Le modèle statistique le plus employé est certainement le modèle Gaussien multivarié:
+
+
+L'ensemble d’entraînement permettra alors de calculer les paramètres de chaque Gaussienne pour chacune des classes d'intérêt. 
+
+### Construction d'un ensemble d’entraînement
+
+Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des cols suivante qui contient 12 classes différentes.
+
+```{python}
+#| eval: true
+couleurs_classes= {'NoData': 'black', 'Commercial': 'yellow', 'Nuages': 'lightgrey', 
+                    'Foret': 'darkgreen', 'Faible_végétation': 'green', 'Sol_nu': 'saddlebrown',
+                  'Roche': 'dimgray', 'Route': 'red', 'Urbain': 'orange', 'Eau': 'blue', 'Tourbe': 'salmon', 'Végétation éparse': 'darkgoldenrod', 'Roche avec végétation': 'darkseagreen'}
+nom_classes= [*couleurs_classes.keys()]
+couleurs_classes= [*couleurs_classes.values()]
+```
+
+```{python}
+#| eval: true
+import matplotlib.pyplot as plt
+import rioxarray as rxr
+cmap_classes = ListedColormap(couleurs_classes)
+
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
+img_carte.squeeze().plot.imshow(cmap=cmap_classes, vmin=0, vmax=12)
+ax.set_title("Carte d'occupation des sols")
+```
+
+On peut facilement calculer la fréquence d’occurrence des 12 classes dans l'image à l'aide de numpy:
+
+```{python}
+#| eval: true
+img_carte= img_carte.squeeze() # nécessaire pour ignorer la dimension du canal
+compte_classe = np.unique(img_carte.data, return_counts=True)
+print(compte_classe)
+```
+La fréquence d'apparition de chaque classe varie grandement, on parle d'un ensemble déséquilibré. Ceci est très commun dans la plupart des ensembles d’entraînement. 
+```{python}
+#| eval: true
+valeurs, comptes = compte_classe
+
+# Create the histogram
+plt.figure(figsize=(5, 3))
+plt.bar(values, comptes/comptes.sum()*100)
+plt.xlabel("Classes")
+plt.ylabel("Counts (%)")
+plt.title("Histogram of compte_classe")
+plt.xticks(range(len(nom_classes)), nom_classes, rotation=45, ha='right')
+plt.show()
+```
+
+On peut échantillonner 100 points aléatoires pour chaque classe:
+
+```{python}
+#| eval: true
+
+img_carte= img_carte.squeeze()
+class_counts = np.unique(img_carte.data, return_counts=True)
+
+# Liste vide des points échantillonnées
+sampled_points = []
+
+for class_label in range(1,13): # pour chacune des 12 classes
+  # On cherche tous les pixels pour cette étiquette
+  class_pixels = np.argwhere(img_carte.data == class_label)
+
+  # On se limite à 100 pixels par classe
+  n_samples = min(100, len(class_pixels))
+
+  # On les choisit les positions aléatoirement
+  np.random.seed(0) # ceci permet de répliquer le tirage aléatoire
+  sampled_indices = np.random.choice(len(class_pixels), n_samples, replace=False)
+
+  # On prends les positions en lignes, colonnes
+  sampled_pixels = class_pixels[sampled_indices]
+
+  sampled_points.extend(sampled_pixels)
+
+# Conversion en NumPy array
+sampled_points = np.array(sampled_points)
+# On peut naviguer les points à l'aide de la géoréférence
+transformer = rasterio.transform.AffineTransformer(img_carte.rio.transform())
+transform_sampled_points= transformer.xy(sampled_points[:,0], sampled_points[:,1])
+
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
+img_carte.squeeze().plot.imshow(cmap=cmap_classes, vmin=0, vmax=12)
+ax.scatter(transform_sampled_points[0], transform_sampled_points[1], c='w', s=1)  # Plot sampled points
+ax.set_title("Carte d'occupation des sols avec les points échantillonnés")
+plt.show()
+```
+
+## Méthodes non paramétriques {#sec-0513}
+
+
 
 ### SVEM, réseaux de neurones, forêts aléatoires {#sec-0514}
+
+### Méthodes par arbre de décision
+
+
+### Réseaux de neurones
+
+Les réseaux de neurones artificiels (RNA) ont connu un essor très important depuis les années 2010 avec des approches dites profondes. Ces aspects seront surtout abordés dans le tome 2 consacré à l'intelligence artificielle. On abordera ici seulement le perceptron simple et le perceptron multi-couches (MLP).
+
+Le perceptron est l'unité de base d'un RNA et consiste en N connections, une unité de calcul (le neurone) avec une fonction d'activation et une sortie. Le perceptron ne permet de construire que des frontières de décision linéaires.
+
+Le perceptron multi-couches est un réseau dense (*fully connected*) avec des couches cachées entre la couche d'entrée et la couche de sortie. qui permet de construire des frontières de décision beaucoup plus complexes via une hiérarchie de frontières de décision.
+
+Ces réseaux sont entraînés via des techniques itératives d'optimisation de type descente en gradient avec une correction des paramètres (les poids) à l'aide de la rétro-propagation de l'erreur. L'erreur est mesurée via une fonction de coût que l'on cherche à réduire.
+
+
 
 ## Segmentation d’images {#sec-052}
 
