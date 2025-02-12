@@ -147,7 +147,7 @@ valeurs, comptes = compte_classe
 
 # Create the histogram
 plt.figure(figsize=(5, 3))
-plt.bar(values, comptes/comptes.sum()*100)
+plt.bar(valeurs, comptes/comptes.sum()*100)
 plt.xlabel("Classes")
 plt.ylabel("Counts (%)")
 plt.title("Histogram of compte_classe")
