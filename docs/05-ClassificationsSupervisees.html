@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Classifications d’images dirigées – Traitement d'images satellites avec Python</title>
+<title>6&nbsp; Classifications d’images supervisées – Traitement d'images satellites avec Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -149,7 +169,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-ClassificationsSupervisees.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Classifications d’images dirigées</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-ClassificationsSupervisees.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Classifications d’images supervisées</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
@@ -234,7 +254,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-ClassificationsSupervisees.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Classifications d’images dirigées</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Classifications d’images supervisées</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -273,6 +293,7 @@ window.Quarto = {
   <li><a href="#sec-0512" id="toc-sec-0512" class="nav-link" data-scroll-target="#sec-0512"><span class="header-section-number">6.4</span> Méthodes paramétriques</a>
   <ul class="collapse">
   <li><a href="#construction-dun-ensemble-dentraînement" id="toc-construction-dun-ensemble-dentraînement" class="nav-link" data-scroll-target="#construction-dun-ensemble-dentraînement"><span class="header-section-number">6.4.1</span> Construction d’un ensemble d’entraînement</a></li>
+  <li><a href="#mélange-de-gaussiennes" id="toc-mélange-de-gaussiennes" class="nav-link" data-scroll-target="#mélange-de-gaussiennes"><span class="header-section-number">6.4.2</span> Mélange de Gaussiennes</a></li>
   </ul></li>
   <li><a href="#sec-0513" id="toc-sec-0513" class="nav-link" data-scroll-target="#sec-0513"><span class="header-section-number">6.5</span> Méthodes non paramétriques</a>
   <ul class="collapse">
@@ -294,7 +315,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-chap05" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Classifications d’images dirigées</span></span></h1>
+<h1 class="title"><span id="sec-chap05" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Classifications d’images supervisées</span></span></h1>
 </div>
 
 
@@ -316,28 +337,30 @@ window.Quarto = {
 <p>Assurez-vous de lire ce préambule avant d’exécutez le reste du notebook.</p>
 <section id="objectifs" class="level3" data-number="6.1.1">
 <h3 data-number="6.1.1" class="anchored" data-anchor-id="objectifs"><span class="header-section-number">6.1.1</span> <span class="emoji" data-emoji="dart">🎯</span> Objectifs</h3>
-<p>Dans ce chapitre, nous abordons quelques techniques de traitement d’images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d’un notebook Python sur Google Colab:</p>
-<p><a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb" target="_blank"><img src="images/colab-badge.svg" class="img-fluid"></a></p>
+<p>Dans ce chapitre, nous abordons quelques techniques d’apprentissage automatique. Ce chapitre est aussi disponible sous la forme d’un notebook Python sur Google Colab:</p>
+<p><a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/05-ClassificationsSupervisees.ipynb" target="_blank"><img src="images/colab-badge.svg" class="img-fluid"></a></p>
 </section>
 <section id="librairies" class="level3" data-number="6.1.2">
 <h3 data-number="6.1.2" class="anchored" data-anchor-id="librairies"><span class="header-section-number">6.1.2</span> Librairies</h3>
 <p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes:</p>
 <ul>
-<li><p><a href="https://scipy.org/">SciPy -</a></p></li>
-<li><p><a href="https://numpy.org/">NumPy -</a></p></li>
+<li><p><a href="https://scipy.org/">SciPy</a></p></li>
+<li><p><a href="https://numpy.org/">NumPy</a></p></li>
 <li><p><a href="https://pypi.org/project/opencv-python/">opencv-python · PyPI</a></p></li>
 <li><p><a href="https://scikit-image.org/">scikit-image</a></p></li>
 <li><p><a href="https://rasterio.readthedocs.io/en/stable/">Rasterio</a></p></li>
 <li><p><a href="https://docs.xarray.dev/en/stable/">Xarray</a></p></li>
 <li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
+<li><p><a href="https://geopandas.org">geopandas</a></p></li>
+<li><p><a href="https://scikit-learn.org/">scikit-learn</a></p></li>
 </ul>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installés:</p>
-<div id="24c7fc96" class="cell" data-execution_count="1">
+<div id="8be9b2f4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU matplotlib rioxarray xrscipy</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU matplotlib rioxarray</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifier les importations:</p>
-<div id="a49ec0f4" class="cell" data-execution_count="2">
+<div id="afbe73ff" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
@@ -353,7 +376,7 @@ window.Quarto = {
 <section id="images-utilisées" class="level3" data-number="6.1.3">
 <h3 data-number="6.1.3" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">6.1.3</span> Images utilisées</h3>
 <p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
-<div id="ba73a3da" class="cell" data-execution_count="3">
+<div id="5550786d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gdown</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -364,7 +387,7 @@ window.Quarto = {
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg'</span>, output<span class="op">=</span> <span class="st">'carte.tif'</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifiez que vous êtes capable de les lire :</p>
-<div id="74a7a348" class="cell" data-execution_count="4">
+<div id="75085793" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'RGBNIR_of_S2A.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgbnir:</span>
@@ -398,14 +421,14 @@ window.Quarto = {
 <section id="construction-dun-ensemble-dentraînement" class="level3" data-number="6.4.1">
 <h3 data-number="6.4.1" class="anchored" data-anchor-id="construction-dun-ensemble-dentraînement"><span class="header-section-number">6.4.1</span> Construction d’un ensemble d’entraînement</h3>
 <p>Une façon simple de construire un ensemble d’entraînement est d’échantillonner un produit existant. Nous allons utiliser la carte d’occupation des cols suivante qui contient 12 classes différentes.</p>
-<div id="6aa21e52" class="cell" data-execution_count="5">
+<div id="673cfabe" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>couleurs_classes<span class="op">=</span> {<span class="st">'NoData'</span>: <span class="st">'black'</span>, <span class="st">'Commercial'</span>: <span class="st">'yellow'</span>, <span class="st">'Nuages'</span>: <span class="st">'lightgrey'</span>, </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'Foret'</span>: <span class="st">'darkgreen'</span>, <span class="st">'Faible_végétation'</span>: <span class="st">'green'</span>, <span class="st">'Sol_nu'</span>: <span class="st">'saddlebrown'</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">'Roche'</span>: <span class="st">'dimgray'</span>, <span class="st">'Route'</span>: <span class="st">'red'</span>, <span class="st">'Urbain'</span>: <span class="st">'orange'</span>, <span class="st">'Eau'</span>: <span class="st">'blue'</span>, <span class="st">'Tourbe'</span>: <span class="st">'salmon'</span>, <span class="st">'Végétation éparse'</span>: <span class="st">'darkgoldenrod'</span>, <span class="st">'Roche avec végétation'</span>: <span class="st">'darkseagreen'</span>}</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>nom_classes<span class="op">=</span> [<span class="op">*</span>couleurs_classes.keys()]</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>couleurs_classes<span class="op">=</span> [<span class="op">*</span>couleurs_classes.values()]</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="25b4b003" class="cell" data-execution_count="6">
+<div id="467146bd" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>cmap_classes <span class="op">=</span> ListedColormap(couleurs_classes)</span>
@@ -425,7 +448,7 @@ window.Quarto = {
 </div>
 </div>
 <p>On peut facilement calculer la fréquence d’occurrence des 12 classes dans l’image à l’aide de numpy:</p>
-<div id="a7999574" class="cell" data-execution_count="7">
+<div id="782adc14" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>img_carte<span class="op">=</span> img_carte.squeeze() <span class="co"># nécessaire pour ignorer la dimension du canal</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>compte_classe <span class="op">=</span> np.unique(img_carte.data, return_counts<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(compte_classe)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -436,7 +459,7 @@ window.Quarto = {
 </div>
 </div>
 <p>La fréquence d’apparition de chaque classe varie grandement, on parle d’un ensemble déséquilibré. Ceci est très commun dans la plupart des ensembles d’entraînement.</p>
-<div id="d6719203" class="cell" data-execution_count="8">
+<div id="3563e0a4" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>valeurs, comptes <span class="op">=</span> compte_classe</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the histogram</span></span>
@@ -456,7 +479,7 @@ window.Quarto = {
 </div>
 </div>
 <p>On peut échantillonner 100 points aléatoires pour chaque classe:</p>
-<div id="0641f8c3" class="cell" data-execution_count="9">
+<div id="4546f54c" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>img_carte<span class="op">=</span> img_carte.squeeze()</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>class_counts <span class="op">=</span> np.unique(img_carte.data, return_counts<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -498,8 +521,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d’une image satellite. Pour cela, on peut utiliser la méthodes sample de rasterio. La librairie <code>geopandas</code> permet de gérer les données d’entraînement sous la forme d’un tableau transportant aussi l’information de géoréférence:</p>
-<div id="d4f1e6dc" class="cell" data-execution_count="10">
+<p>Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d’une image satellite. Pour cela, on peut utiliser la méthodes <code>sample()</code> de <code>rasterio</code>. La librairie <a href=""><code>geopandas</code></a> permet de gérer les données d’entraînement sous la forme d’un tableau transportant aussi l’information de géoréférence:</p>
+<div id="8e2aedf1" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> [Point(xy) <span class="cf">for</span> xy <span class="kw">in</span> <span class="bu">zip</span>(transform_sampled_points[<span class="dv">0</span>], transform_sampled_points[<span class="dv">1</span>])]</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> geopandas.GeoDataFrame(<span class="bu">range</span>(<span class="dv">1</span>,<span class="bu">len</span>(points)<span class="op">+</span><span class="dv">1</span>), geometry<span class="op">=</span>points, crs<span class="op">=</span>img_carte.rio.crs)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>coord_list <span class="op">=</span> [(x, y) <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(gdf[<span class="st">"geometry"</span>].x, gdf[<span class="st">"geometry"</span>].y)]</span>
@@ -558,7 +581,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="3806bce2" class="cell" data-execution_count="11">
+<div id="b92c93a5" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Markdown(gdf.head().to_markdown())</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
@@ -613,6 +636,15 @@ window.Quarto = {
 </div>
 </div>
 </section>
+<section id="mélange-de-gaussiennes" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="mélange-de-gaussiennes"><span class="header-section-number">6.4.2</span> Mélange de Gaussiennes</h3>
+<p>Le mélange de Gaussiennes est probablement la méthode statistique la plus simple. On suppose ici que les valeurs observées sont un mélange de distributions Gaussiennes.</p>
+<p>La méthode d’estimation classique est la méthode (EM) <code>Expectation-Maximization</code> proposée par Dempster en 1977 <span class="citation" data-cites="Dempster-1977">(<a href="references.html#ref-Dempster-1977" role="doc-biblioref">Dempster 1977</a>)</span>.</p>
+<div id="c2028a09" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.mixture <span class="im">import</span> GaussianMixture</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> StratifiedKFold</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 </section>
 <section id="sec-0513" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="sec-0513"><span class="header-section-number">6.5</span> Méthodes non paramétriques</h2>
@@ -643,6 +675,11 @@ window.Quarto = {
 <h2 data-number="6.7" class="anchored" data-anchor-id="sec-054"><span class="header-section-number">6.7</span> Exercices de révision</h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Dempster-1977" class="csl-entry" role="listitem">
+Dempster, N. M.; Rubin, A. P.; Laird. 1977. <span>«&nbsp;Maximum Likelihood from Incomplete Data via the EM Algorithm.&nbsp;»</span> <em><span>Journal of the Royal Statistical Society, Series B.</span></em> 39 (1): 1‑38. <a href="https://10.1111/j.2517-6161.1977.tb01600.x">10.1111/j.2517-6161.1977.tb01600.x</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

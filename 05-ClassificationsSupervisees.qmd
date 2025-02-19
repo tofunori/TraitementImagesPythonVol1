@@ -8,7 +8,7 @@ execute:
   warning: false
 ---
 
-# Classifications d'images dirigées {#sec-chap05}
+# Classifications d'images supervisées {#sec-chap05}
 
 
 ## :rocket: Préambule
@@ -16,16 +16,16 @@ execute:
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
 ### :dart: Objectifs
-Dans ce chapitre, nous abordons quelques techniques de traitement d'images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d'un notebook Python sur Google Colab:
+Dans ce chapitre, nous abordons quelques techniques d'apprentissage automatique. Ce chapitre est aussi disponible sous la forme d'un notebook Python sur Google Colab:
 
-[![](images/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb){target="_blank"} 
+[![](images/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/05-ClassificationsSupervisees.ipynb){target="_blank"} 
 
 ### Librairies
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 
-* [SciPy -](https://scipy.org/)
+* [SciPy](https://scipy.org/)
 
-* [NumPy -](https://numpy.org/) 
+* [NumPy](https://numpy.org/) 
 
 * [opencv-python · PyPI](https://pypi.org/project/opencv-python/)
 
@@ -37,10 +37,14 @@ Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 
 * [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
 
+* [geopandas](https://geopandas.org)
+
+* [scikit-learn](https://scikit-learn.org/)
+
 Dans l'environnement Google Colab, seul `rioxarray` doit être installés:
 ```{python}
 %%capture
-!pip install -qU matplotlib rioxarray xrscipy
+!pip install -qU matplotlib rioxarray
 ```
 Vérifier les importations:
 ```{python}
@@ -197,7 +201,7 @@ ax.set_title("Carte d'occupation des sols avec les points échantillonnés")
 plt.show()
 ```
 
-Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes sample de rasterio. La librairie `geopandas` permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence:
+Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes `sample()` de `rasterio`. La librairie [`geopandas`]() permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence:
 
 ```{python}
 #| eval: true
@@ -216,6 +220,18 @@ gdf.head()
 from IPython.display import Markdown
 Markdown(gdf.head().to_markdown())
 ```
+### Mélange de Gaussiennes
+
+Le mélange de Gaussiennes est probablement la méthode statistique la plus simple. On suppose ici que les valeurs observées sont un mélange de distributions Gaussiennes.
+
+La méthode d'estimation classique est la méthode (EM) `Expectation-Maximization` proposée par Dempster en 1977 [@Dempster-1977].
+
+```{python}
+from sklearn.mixture import GaussianMixture
+from sklearn.model_selection import StratifiedKFold
+```
+
+
 ## Méthodes non paramétriques {#sec-0513}
 
 
