@@ -59,9 +59,12 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import geopandas
 from shapely.geometry import Point
-from sklearn.mixture import GaussianMixture
-from sklearn.model_selection import train_test_split
 import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.inspection import DecisionBoundaryDisplay
 ```
 ### Images utilisées
 
