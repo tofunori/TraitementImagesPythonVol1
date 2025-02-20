@@ -14,6 +14,9 @@
         "  warning: false\n",
         "---\n",
         "\n",
+        "\n",
+        "\n",
+        "\n",
         "# Classifications d'images supervisées {#sec-chap05}\n",
         "\n",
         "\n",
@@ -47,8 +50,9 @@
         "\n",
         "* [scikit-learn](https://scikit-learn.org/)\n",
         "\n",
-        "Dans l'environnement Google Colab, seul `rioxarray` doit être installés:"
-      ]
+        "Dans l'environnement Google Colab, seul `rioxarray` doit être installés:\n"
+      ],
+      "id": "ecee22c4"
     },
     {
       "cell_type": "code",
@@ -57,6 +61,7 @@
         "%%capture\n",
         "!pip install -qU matplotlib rioxarray xrscipy"
       ],
+      "id": "5c4dca79",
       "execution_count": null,
       "outputs": []
     },
@@ -64,8 +69,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Vérifier les importations:"
-      ]
+        "Vérifier les importations:\n"
+      ],
+      "id": "648f4e0e"
     },
     {
       "cell_type": "code",
@@ -86,6 +92,7 @@
         "from sklearn.model_selection import train_test_split\n",
         "import pandas as pd"
       ],
+      "id": "b972169e",
       "execution_count": null,
       "outputs": []
     },
@@ -95,8 +102,9 @@
       "source": [
         "### Images utilisées\n",
         "\n",
-        "Nous allons utilisez les images suivantes dans ce chapitre:"
-      ]
+        "Nous allons utilisez les images suivantes dans ce chapitre:\n"
+      ],
+      "id": "708b89d9"
     },
     {
       "cell_type": "code",
@@ -111,6 +119,7 @@
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')\n",
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg', output= 'carte.tif')"
       ],
+      "id": "c49cf1ae",
       "execution_count": null,
       "outputs": []
     },
@@ -118,8 +127,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Vérifiez que vous êtes capable de les lire :"
-      ]
+        "Vérifiez que vous êtes capable de les lire :\n"
+      ],
+      "id": "0e525c44"
     },
     {
       "cell_type": "code",
@@ -137,6 +147,7 @@
         "with rxr.open_rasterio('carte.tif', mask_and_scale= True) as img_carte:\n",
         "    print(img_carte)"
       ],
+      "id": "ee374468",
       "execution_count": null,
       "outputs": []
     },
@@ -172,8 +183,9 @@
         "\n",
         "### Construction d'un ensemble d’entraînement\n",
         "\n",
-        "Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des cols suivante qui contient 12 classes différentes."
-      ]
+        "Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des cols suivante qui contient 12 classes différentes.\n"
+      ],
+      "id": "1f6bff62"
     },
     {
       "cell_type": "code",
@@ -186,6 +198,7 @@
         "nom_classes= [*couleurs_classes.keys()]\n",
         "couleurs_classes= [*couleurs_classes.values()]"
       ],
+      "id": "9034fee3",
       "execution_count": null,
       "outputs": []
     },
@@ -202,6 +215,7 @@
         "img_carte.squeeze().plot.imshow(cmap=cmap_classes, vmin=0, vmax=12)\n",
         "ax.set_title(\"Carte d'occupation des sols\")"
       ],
+      "id": "507e9cba",
       "execution_count": null,
       "outputs": []
     },
@@ -209,8 +223,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut facilement calculer la fréquence d’occurrence des 12 classes dans l'image à l'aide de numpy:"
-      ]
+        "On peut facilement calculer la fréquence d’occurrence des 12 classes dans l'image à l'aide de numpy:\n"
+      ],
+      "id": "425596bd"
     },
     {
       "cell_type": "code",
@@ -221,6 +236,7 @@
         "compte_classe = np.unique(img_carte.data, return_counts=True)\n",
         "print(compte_classe)"
       ],
+      "id": "615a9f03",
       "execution_count": null,
       "outputs": []
     },
@@ -228,8 +244,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "La fréquence d'apparition de chaque classe varie grandement, on parle d'un ensemble déséquilibré. Ceci est très commun dans la plupart des ensembles d’entraînement. "
-      ]
+        "La fréquence d'apparition de chaque classe varie grandement, on parle d'un ensemble déséquilibré. Ceci est très commun dans la plupart des ensembles d’entraînement. \n"
+      ],
+      "id": "31c67b87"
     },
     {
       "cell_type": "code",
@@ -247,6 +264,7 @@
         "plt.xticks(range(len(nom_classes)), nom_classes, rotation=45, ha='right')\n",
         "plt.show()"
       ],
+      "id": "ef6bb77b",
       "execution_count": null,
       "outputs": []
     },
@@ -254,8 +272,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut échantillonner 100 points aléatoires pour chaque classe:"
-      ]
+        "On peut échantillonner 100 points aléatoires pour chaque classe:\n"
+      ],
+      "id": "fd00e5fc"
     },
     {
       "cell_type": "code",
@@ -297,6 +316,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec les points échantillonnés\")\n",
         "plt.show()"
       ],
+      "id": "2aa86ac3",
       "execution_count": null,
       "outputs": []
     },
@@ -304,8 +324,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes `sample()` de `rasterio`. La librairie [`geopandas`]() permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence:"
-      ]
+        "Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes `sample()` de `rasterio`. La librairie [`geopandas`]() permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence:\n"
+      ],
+      "id": "66aae33f"
     },
     {
       "cell_type": "code",
@@ -321,6 +342,7 @@
         "gdf.to_csv('sampling_points.csv')\n",
         "gdf.head()"
       ],
+      "id": "8b969877",
       "execution_count": null,
       "outputs": []
     },
@@ -332,6 +354,7 @@
         "from IPython.display import Markdown\n",
         "Markdown(gdf.head().to_markdown())"
       ],
+      "id": "07de5fb4",
       "execution_count": null,
       "outputs": []
     },
@@ -343,8 +366,9 @@
         "\n",
         "La méthode des plus proches voisins (*K-Nearest-Neighbors* en Anglais) est certainement la plus simple des méthodes pour classifier. Elle consiste à comparer une nouvelle données avec ces voisins les plus proches en fonction d'une simple distance Euclidienne. Si une majorité de ces $K$ voisins appartiennent à une classe majoritaire alors cette classe est sélectionnée.\n",
         "\n",
-        "Formons un ensemble d’entraînement à partir de notre image RGBNIR:"
-      ]
+        "Formons un ensemble d’entraînement à partir de notre image RGBNIR:\n"
+      ],
+      "id": "93a92b4a"
     },
     {
       "cell_type": "code",
@@ -371,6 +395,7 @@
         "    y_new.extend([i]*sum(y==l))\n",
         "  y_new = np.array(y_new)"
       ],
+      "id": "e4269987",
       "execution_count": null,
       "outputs": []
     },
@@ -378,8 +403,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut visualiser l'espace de décision du K-NN pour différentes valeurs de K lorsque seulement deux bandes sont utilisées:"
-      ]
+        "On peut visualiser l'espace de décision du K-NN pour différentes valeurs de K lorsque seulement deux bandes sont utilisées:\n"
+      ],
+      "id": "4ef62b1f"
     },
     {
       "cell_type": "code",
@@ -414,6 +440,7 @@
         "\n",
         "plt.show()"
       ],
+      "id": "cf89c365",
       "execution_count": null,
       "outputs": []
     },
@@ -421,8 +448,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut voir clairement comment les différentes frontières de décision se forme dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes."
-      ]
+        "On peut voir clairement comment les différentes frontières de décision se forme dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes.\n"
+      ],
+      "id": "883a3c9a"
     },
     {
       "cell_type": "code",
@@ -431,6 +459,7 @@
         "#| eval: true\n",
         "clf.set_params(knn__weights='distance', knn__n_neighbors = 7).fit(X_train, y_train)"
       ],
+      "id": "365f03c2",
       "execution_count": null,
       "outputs": []
     },
@@ -438,8 +467,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec 4 colonnes:"
-      ]
+        "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec 4 colonnes:\n"
+      ],
+      "id": "1deb2907"
     },
     {
       "cell_type": "code",
@@ -450,6 +480,7 @@
         "y_classe= clf.predict(data_image)\n",
         "y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])"
       ],
+      "id": "a6e54795",
       "execution_count": null,
       "outputs": []
     },
@@ -463,6 +494,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec K-NN\")\n",
         "plt.show()"
       ],
+      "id": "42c2ccf9",
       "execution_count": null,
       "outputs": []
     },
@@ -500,7 +532,8 @@
         "\n",
         "\n",
         "## Exercices de révision {#sec-054}"
-      ]
+      ],
+      "id": "5e54f78d"
     }
   ],
   "metadata": {
@@ -511,5 +544,5 @@
     }
   },
   "nbformat": 4,
-  "nbformat_minor": 4
+  "nbformat_minor": 5
 }

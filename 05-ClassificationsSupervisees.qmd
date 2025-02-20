@@ -44,7 +44,7 @@ Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 Dans l'environnement Google Colab, seul `rioxarray` doit être installés:
 ```{python}
 %%capture
-!pip install -qU matplotlib rioxarray
+!pip install -qU matplotlib rioxarray xrscipy
 ```
 Vérifier les importations:
 ```{python}
@@ -59,6 +59,9 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import geopandas
 from shapely.geometry import Point
+from sklearn.mixture import GaussianMixture
+from sklearn.model_selection import train_test_split
+import pandas as pd
 ```
 ### Images utilisées
 
@@ -155,8 +158,8 @@ valeurs, comptes = compte_classe
 plt.figure(figsize=(5, 3))
 plt.bar(valeurs, comptes/comptes.sum()*100)
 plt.xlabel("Classes")
-plt.ylabel("Counts (%)")
-plt.title("Histogram of compte_classe")
+plt.ylabel("%")
+plt.title("Fréquences des classes")
 plt.xticks(range(len(nom_classes)), nom_classes, rotation=45, ha='right')
 plt.show()
 ```
@@ -220,17 +223,90 @@ gdf.head()
 from IPython.display import Markdown
 Markdown(gdf.head().to_markdown())
 ```
-### Mélange de Gaussiennes
+### Plus proches voisins
 
-Le mélange de Gaussiennes est probablement la méthode statistique la plus simple. On suppose ici que les valeurs observées sont un mélange de distributions Gaussiennes.
+La méthode des plus proches voisins (*K-Nearest-Neighbors* en Anglais) est certainement la plus simple des méthodes pour classifier. Elle consiste à comparer une nouvelle données avec ces voisins les plus proches en fonction d'une simple distance Euclidienne. Si une majorité de ces $K$ voisins appartiennent à une classe majoritaire alors cette classe est sélectionnée.
 
-La méthode d'estimation classique est la méthode (EM) `Expectation-Maximization` proposée par Dempster en 1977 [@Dempster-1977].
+Formons un ensemble d’entraînement à partir de notre image RGBNIR:
 
 ```{python}
-from sklearn.mixture import GaussianMixture
-from sklearn.model_selection import StratifiedKFold
+#| eval: true
+df= pd.read_csv('sampling_points.csv')
+# Extraire la colonne 'value'.
+# 'value' est une chaîne de caractères comme représentation d'une liste de valeurs.
+# Nous devons la convertir en données numériques réelles.
+X = df['value'].apply(lambda x: np.fromstring(x[1:-1], dtype=float, sep=' ')).to_list()
+
+# on obtient une liste de numpy array  qu'il faut convertir en un numpy array 2D
+X= np.array([row.tolist() for row in X])
+idx= X.sum(axis=-1)>0 # il se peut qu'il y ait des valeurs erronées
+X= X[idx,...]
+y = df['class'].to_numpy()
+y= y[idx]
+class_labels = np.unique(y).tolist() # on cherche à savoir combien de classes uniques
+n_classes = len(class_labels)
+if max(class_labels) > n_classes: # il se peut que certaines classes soit absentes
+  y_new= []
+  for i,l in enumerate(class_labels):
+    y_new.extend([i]*sum(y==l))
+  y_new = np.array(y_new)
 ```
 
+On peut visualiser l'espace de décision du K-NN pour différentes valeurs de K lorsque seulement deux bandes sont utilisées:
+
+```{python}
+#| eval: true
+#| echo: false
+#| warning: false
+
+_, axs = plt.subplots(nrows=2,ncols=2, figsize=(12, 12))
+couleurs_classes2= [couleurs_classes[c] for c in np.unique(y).tolist()]
+cmap_classes2 = ListedColormap(couleurs_classes2)
+for ax, K in zip(axs.flatten(), [1,3,5,7]):
+    clf.set_params(knn__weights='distance', knn__n_neighbors = K).fit(X_train[:,2:4], y_train)
+    disp = DecisionBoundaryDisplay.from_estimator(
+        clf,
+        X[:,2:4],
+        response_method="predict",
+        plot_method="contourf",
+        shading="auto",
+        alpha=0.5,
+        ax=ax,
+        cmap= cmap_classes2,
+    )
+    
+    scatter = disp.ax_.scatter(X_test[:, 2], X_test[:, 3], c=y_test, edgecolors="k", cmap=cmap_classes2)
+    disp.ax_.set_xlabel('R')
+    disp.ax_.set_ylabel('NIR')
+    _ = disp.ax_.set_title(
+        f"K-NN avec K={clf[-1].n_neighbors}"
+    )
+
+plt.show()
+```
+On peut voir clairement comment les différentes frontières de décision se forme dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes.
+
+```{python}
+#| eval: true
+clf.set_params(knn__weights='distance', knn__n_neighbors = 7).fit(X_train, y_train)
+```
+
+L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec 4 colonnes:
+
+```{python}
+#| eval: true
+data_image= img_rgbnir.to_numpy().transpose(1,2,0).reshape(img_rgbnir.shape[1]*img_rgbnir.shape[2],4)
+y_classe= clf.predict(data_image)
+y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])
+```
+
+```{python}
+#| eval: true
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
+plt.imshow(y_image, cmap=cmap_classes2)
+ax.set_title("Carte d'occupation des sols avec K-NN")
+plt.show()
+```
 
 ## Méthodes non paramétriques {#sec-0513}
 
