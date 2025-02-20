@@ -308,7 +308,7 @@ y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])
 
 ```{python}
 fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
-plt.imshow(y_image, cmap=cmap_classes2)
+plt.imshow(y_classe, cmap=cmap_classes2)
 ax.set_title("Carte d'occupation des sols avec K-NN")
 plt.show()
 ```
