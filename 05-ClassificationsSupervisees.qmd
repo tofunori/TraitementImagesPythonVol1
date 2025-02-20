@@ -65,6 +65,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.inspection import DecisionBoundaryDisplay
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
 ```
 ### Images utilisées
 
@@ -111,7 +112,7 @@ La méthode du parallélépipède est probablement la plus simple et consiste à
 
 Augmenter le nombre de dimension ou de caractéristiques des données permet de résoudre des problèmes complexes comme la classification d'image. Cependant, cela amène beaucoup de contraintes sur le volume des données. Supposons que nous avons N points occupant un segment linéaire de taille d. La densité de points est $N/d$. Si nous augmentons le nombre de dimension D, la densité de points va diminuer exponentiellement en $1/d^D$. Par conséquent, pour garder une densité constante et donc une bonne estimation des parallélépipèdes, il nous faudrait augmenter le nombre de points en puissance de D. Ceci porte le nom de la malédiction de la dimensionnalité (*dimensionality curse*). En résumé, l'espace vide augmente plus rapidement que le nombre de données d'entraînement et l'espace des données devient de plus en plus parcimonieux (*sparse*). Pour contrecarrer ce problème, on peut sélectionner les meilleures caractéristiques ou appliquer une réduction de dimension. 
 
-## Méthodes paramétriques
+## Méthodes non paramétriques
 
 Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. On parle alors d'approche de type **maximum de vraisemblance**. 
 
@@ -218,8 +219,6 @@ gdf.to_csv('sampling_points.csv')
 gdf.head()
 ```
 
-## Méthodes non paramétriques
-
 ### Plus proches voisins
 
 La méthode des plus proches voisins (*K-Nearest-Neighbors* en Anglais) est certainement la plus simple des méthodes pour classifier. Elle consiste à comparer une nouvelle données avec ces voisins les plus proches en fonction d'une simple distance Euclidienne. Si une majorité de ces $K$ voisins appartiennent à une classe majoritaire alors cette classe est sélectionnée.
@@ -267,11 +266,14 @@ On peut visualiser l'espace de décision du K-NN pour différentes valeurs de $K
 #| echo: false
 #| warning: false
 
-_, axs = plt.subplots(nrows=2,ncols=2, figsize=(12, 12))
+_, axs = plt.subplots(nrows=2,ncols=2, figsize=(9,9))
 couleurs_classes2= [couleurs_classes[c] for c in np.unique(y).tolist()]
 cmap_classes2 = ListedColormap(couleurs_classes2)
-for ax, K in zip(axs.flatten(), [1,3,5,7]):
+for ax, K in zip(axs.flatten(), [1,3,7,15]):
     clf.set_params(knn__weights='distance', knn__n_neighbors = K).fit(X_train[:,2:4], y_train)
+    y_pred = clf.predict(X_test[:,2:4])
+    print("Number of mislabeled points out of a total %d points : %d"
+      % (X_test.shape[0], (y_test != y_pred).sum()))
     disp = DecisionBoundaryDisplay.from_estimator(
         clf,
         X[:,2:4],
@@ -282,20 +284,22 @@ for ax, K in zip(axs.flatten(), [1,3,5,7]):
         ax=ax,
         cmap= cmap_classes2,
     )
-    
     scatter = disp.ax_.scatter(X_test[:, 2], X_test[:, 3], c=y_test, edgecolors="k", cmap=cmap_classes2)
     disp.ax_.set_xlabel('R')
     disp.ax_.set_ylabel('NIR')
     _ = disp.ax_.set_title(
-        f"K-NN avec K={clf[-1].n_neighbors}"
+        f"K={clf[-1].n_neighbors} erreur={(y_test != y_pred).sum()/X_test.shape[0]*100:3.1f}%"
     )
 
 plt.show()
 ```
-On peut voir comment les différentes frontières de décision se forme dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes.
+On peut voir comment les différentes frontières de décision se forment dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes et le calcul plus long.
 
 ```{python}
 clf.set_params(knn__weights='distance', knn__n_neighbors = 7).fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+print("Nombre de points misclassifiés sur %d points : %d"
+  % (X_test.shape[0], (y_test != y_pred).sum()))
 ```
 
 L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec 4 colonnes:
@@ -313,11 +317,149 @@ ax.set_title("Carte d'occupation des sols avec K-NN")
 plt.show()
 ```
 
+### Méthodes par arbre de décision
 
+## Méthodes paramétriques
+
+Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. On parle alors d'approche de type **maximum de vraisemblance**. 
+
+Le modèle statistique le plus employé est certainement le modèle Gaussien multivarié:
+
+
+L'ensemble d’entraînement permettra alors de calculer les paramètres de chaque Gaussienne pour chacune des classes d'intérêt. 
+
+### Méthode Bayésienne
+
+```{python}
+from sklearn.naive_bayes import GaussianNB
+gnb = GaussianNB()
+y_pred = gnb.fit(X_train, y_train).predict(X_test)
+print("Number of mislabeled points out of a total %d points : %d"
+      % (X_test.shape[0], (y_test != y_pred).sum()))
+```
+
+```{python}
+#| echo: false
+#| warning: false
+_, axs = plt.subplots(nrows=1,ncols=1, figsize=(4, 4))
+couleurs_classes2= [couleurs_classes[c] for c in np.unique(y).tolist()]
+cmap_classes2 = ListedColormap(couleurs_classes2)
+
+#clf.set_params(knn__weights='distance', knn__n_neighbors = K).fit(X_train[:,2:4], y_train)
+gnb= gnb.fit(X_train[:,2:4], y_train)
+disp = DecisionBoundaryDisplay.from_estimator(
+    gnb,
+    X[:,2:4],
+    response_method="predict",
+    plot_method="contourf",
+    shading="auto",
+    alpha=0.5,
+    ax=axs,
+    cmap= cmap_classes2,
+)
+scatter = disp.ax_.scatter(X_test[:, 2], X_test[:, 3], c=y_test, edgecolors="k", cmap=cmap_classes2)
+disp.ax_.set_xlabel('R')
+disp.ax_.set_ylabel('NIR')
+_ = disp.ax_.set_title(
+    f"Bayésien naif"
+)
+
+plt.show()
+```
+On peut observer que les frontières de décision sont sous forme d'ellipses.
+
+
+```{python}
+gnb.fit(X_train, y_train)
+y_pred = gnb.predict(X_test)
+print("Nombre de points misclassifiés sur %d points : %d"
+  % (X_test.shape[0], (y_test != y_pred).sum()))
+```
+
+De la même manière, la prédiction peut s'appliquer sur toute l'image:
+
+```{python}
+#| echo: false
+#| warning: false
+data_image= img_rgbnir.to_numpy().transpose(1,2,0).reshape(img_rgbnir.shape[1]*img_rgbnir.shape[2],4)
+y_classe= gnb.predict(data_image)
+y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
+plt.imshow(y_classe, cmap=cmap_classes2)
+ax.set_title("Carte d'occupation des sols la méthode Bayésienne naive")
+plt.show()
+```
+### Analyse Discriminante Quadratique (ADQ)
+
+L'analyse discriminante quadratique peut-être vue comme une généralisation de l'approche Bayésienne naive.
+```{python}
+qda = QuadraticDiscriminantAnalysis(store_covariance=True)
+qda.fit(X_train, y_train)
+y_pred = qda.predict(X_test)
+print("Number of mislabeled points out of a total %d points : %d"
+      % (X_test.shape[0], (y_test != y_pred).sum()))
+```
+
+
+Les Gaussiennes multivariées peuvent être visualiser sous forme d'éllipses:
+```{python}
+#| echo: false
+#| warning: false
+
+import matplotlib as mpl
+colors= [couleurs_classes[c] for c in np.unique(y).tolist()]
+def make_ellipses(gmm, bands, ax):
+    for n, color in enumerate(colors):
+        
+        covariances = gmm.covariance_[n][np.ix_(bands, bands)]
+        
+        v, w = np.linalg.eigh(covariances)
+        u = w[0] / np.linalg.norm(w[0])
+        angle = np.arctan2(u[1], u[0])
+        angle = 180 * angle / np.pi  # convert to degrees
+        v = 2.0 * np.sqrt(2.0) * np.sqrt(v)
+        #print(v)
+        ell = mpl.patches.Ellipse(
+            gmm.means_[n, :2], v[0], v[1], angle=180 + angle, color=color
+        )
+        ell.set_clip_box(ax.bbox)
+        ell.set_alpha(0.5)
+        ax.add_artist(ell)
+        ax.set_aspect("equal", "datalim")
+        
+plt.figure(figsize=(9, 3))
+#plt.subplots_adjust(
+#    bottom=0.01, top=0.95, hspace=0.15, wspace=0.05, left=0.01, right=0.99
+#)
+noms_bandes= ['B','G','R','NIR']
+for index, b in enumerate([0,1,3]):
+  h = plt.subplot(1, 3, index+1)
+  bands= [2,b]
+  make_ellipses(qda, bands, h)
+  for n, color in enumerate(colors):
+          data = X[y_new == n,...]
+          plt.scatter(
+              data[:, bands[0]], data[:, bands[1]], s=0.8, color=color
+          )
+  h.set_xlabel(noms_bandes[2])
+  h.set_ylabel(noms_bandes[b])
+```
+
+De la même manière, la prédiction peut s'appliquer sur toute l'image:
+
+```{python}
+#| echo: false
+#| warning: false
+data_image= img_rgbnir.to_numpy().transpose(1,2,0).reshape(img_rgbnir.shape[1]*img_rgbnir.shape[2],4)
+y_classe= qda.predict(data_image)
+y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
+plt.imshow(y_classe, cmap=cmap_classes2)
+ax.set_title("Carte d'occupation des sols la méthode Bayésienne naive")
+plt.show()
+```
 
 ### SVEM, réseaux de neurones, forêts aléatoires {#sec-0514}
-
-### Méthodes par arbre de décision
 
 
 ### Réseaux de neurones
