@@ -108,7 +108,7 @@ La méthode du parallélépipède est probablement la plus simple et consiste à
 
 Augmenter le nombre de dimension ou de caractéristiques des données permet de résoudre des problèmes complexes comme la classification d'image. Cependant, cela amène beaucoup de contraintes sur le volume des données. Supposons que nous avons N points occupant un segment linéaire de taille d. La densité de points est $N/d$. Si nous augmentons le nombre de dimension D, la densité de points va diminuer exponentiellement en $1/d^D$. Par conséquent, pour garder une densité constante et donc une bonne estimation des parallélépipèdes, il nous faudrait augmenter le nombre de points en puissance de D. Ceci porte le nom de la malédiction de la dimensionnalité (*dimensionality curse*). En résumé, l'espace vide augmente plus rapidement que le nombre de données d'entraînement et l'espace des données devient de plus en plus parcimonieux (*sparse*). Pour contrecarrer ce problème, on peut sélectionner les meilleures caractéristiques ou appliquer une réduction de dimension. 
 
-## Méthodes paramétriques {#sec-0512}
+## Méthodes paramétriques
 
 Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. On parle alors d'approche de type **maximum de vraisemblance**. 
 
@@ -218,6 +218,8 @@ gdf.to_csv('sampling_points.csv')
 gdf.head()
 ```
 
+## Méthodes non paramétriques
+
 ```{python}
 #| eval: true
 from IPython.display import Markdown
@@ -307,8 +309,6 @@ plt.imshow(y_image, cmap=cmap_classes2)
 ax.set_title("Carte d'occupation des sols avec K-NN")
 plt.show()
 ```
-
-## Méthodes non paramétriques {#sec-0513}
 
 
 

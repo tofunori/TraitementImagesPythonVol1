@@ -52,7 +52,7 @@
         "\n",
         "Dans l'environnement Google Colab, seul `rioxarray` doit être installés:\n"
       ],
-      "id": "ecee22c4"
+      "id": "dbf0a0dd"
     },
     {
       "cell_type": "code",
@@ -61,7 +61,7 @@
         "%%capture\n",
         "!pip install -qU matplotlib rioxarray xrscipy"
       ],
-      "id": "5c4dca79",
+      "id": "779c8911",
       "execution_count": null,
       "outputs": []
     },
@@ -71,7 +71,7 @@
       "source": [
         "Vérifier les importations:\n"
       ],
-      "id": "648f4e0e"
+      "id": "7730af47"
     },
     {
       "cell_type": "code",
@@ -92,7 +92,7 @@
         "from sklearn.model_selection import train_test_split\n",
         "import pandas as pd"
       ],
-      "id": "b972169e",
+      "id": "f1e11886",
       "execution_count": null,
       "outputs": []
     },
@@ -104,7 +104,7 @@
         "\n",
         "Nous allons utilisez les images suivantes dans ce chapitre:\n"
       ],
-      "id": "708b89d9"
+      "id": "19fcfae2"
     },
     {
       "cell_type": "code",
@@ -119,7 +119,7 @@
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')\n",
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg', output= 'carte.tif')"
       ],
-      "id": "c49cf1ae",
+      "id": "36cdbce1",
       "execution_count": null,
       "outputs": []
     },
@@ -129,7 +129,7 @@
       "source": [
         "Vérifiez que vous êtes capable de les lire :\n"
       ],
-      "id": "0e525c44"
+      "id": "8bb9ca72"
     },
     {
       "cell_type": "code",
@@ -147,7 +147,7 @@
         "with rxr.open_rasterio('carte.tif', mask_and_scale= True) as img_carte:\n",
         "    print(img_carte)"
       ],
-      "id": "ee374468",
+      "id": "4b8ecc8e",
       "execution_count": null,
       "outputs": []
     },
@@ -172,7 +172,7 @@
         "\n",
         "Augmenter le nombre de dimension ou de caractéristiques des données permet de résoudre des problèmes complexes comme la classification d'image. Cependant, cela amène beaucoup de contraintes sur le volume des données. Supposons que nous avons N points occupant un segment linéaire de taille d. La densité de points est $N/d$. Si nous augmentons le nombre de dimension D, la densité de points va diminuer exponentiellement en $1/d^D$. Par conséquent, pour garder une densité constante et donc une bonne estimation des parallélépipèdes, il nous faudrait augmenter le nombre de points en puissance de D. Ceci porte le nom de la malédiction de la dimensionnalité (*dimensionality curse*). En résumé, l'espace vide augmente plus rapidement que le nombre de données d'entraînement et l'espace des données devient de plus en plus parcimonieux (*sparse*). Pour contrecarrer ce problème, on peut sélectionner les meilleures caractéristiques ou appliquer une réduction de dimension. \n",
         "\n",
-        "## Méthodes paramétriques {#sec-0512}\n",
+        "## Méthodes paramétriques\n",
         "\n",
         "Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. On parle alors d'approche de type **maximum de vraisemblance**. \n",
         "\n",
@@ -185,7 +185,7 @@
         "\n",
         "Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des cols suivante qui contient 12 classes différentes.\n"
       ],
-      "id": "1f6bff62"
+      "id": "294023ac"
     },
     {
       "cell_type": "code",
@@ -198,7 +198,7 @@
         "nom_classes= [*couleurs_classes.keys()]\n",
         "couleurs_classes= [*couleurs_classes.values()]"
       ],
-      "id": "9034fee3",
+      "id": "f5c94a28",
       "execution_count": null,
       "outputs": []
     },
@@ -215,7 +215,7 @@
         "img_carte.squeeze().plot.imshow(cmap=cmap_classes, vmin=0, vmax=12)\n",
         "ax.set_title(\"Carte d'occupation des sols\")"
       ],
-      "id": "507e9cba",
+      "id": "f544ab55",
       "execution_count": null,
       "outputs": []
     },
@@ -225,7 +225,7 @@
       "source": [
         "On peut facilement calculer la fréquence d’occurrence des 12 classes dans l'image à l'aide de numpy:\n"
       ],
-      "id": "425596bd"
+      "id": "889f3e72"
     },
     {
       "cell_type": "code",
@@ -236,7 +236,7 @@
         "compte_classe = np.unique(img_carte.data, return_counts=True)\n",
         "print(compte_classe)"
       ],
-      "id": "615a9f03",
+      "id": "b59751e3",
       "execution_count": null,
       "outputs": []
     },
@@ -246,7 +246,7 @@
       "source": [
         "La fréquence d'apparition de chaque classe varie grandement, on parle d'un ensemble déséquilibré. Ceci est très commun dans la plupart des ensembles d’entraînement. \n"
       ],
-      "id": "31c67b87"
+      "id": "cea9e954"
     },
     {
       "cell_type": "code",
@@ -264,7 +264,7 @@
         "plt.xticks(range(len(nom_classes)), nom_classes, rotation=45, ha='right')\n",
         "plt.show()"
       ],
-      "id": "ef6bb77b",
+      "id": "fab2e404",
       "execution_count": null,
       "outputs": []
     },
@@ -274,7 +274,7 @@
       "source": [
         "On peut échantillonner 100 points aléatoires pour chaque classe:\n"
       ],
-      "id": "fd00e5fc"
+      "id": "ccf67d88"
     },
     {
       "cell_type": "code",
@@ -316,7 +316,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec les points échantillonnés\")\n",
         "plt.show()"
       ],
-      "id": "2aa86ac3",
+      "id": "5b2aa785",
       "execution_count": null,
       "outputs": []
     },
@@ -326,7 +326,7 @@
       "source": [
         "Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes `sample()` de `rasterio`. La librairie [`geopandas`]() permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence:\n"
       ],
-      "id": "66aae33f"
+      "id": "3e9443df"
     },
     {
       "cell_type": "code",
@@ -342,9 +342,17 @@
         "gdf.to_csv('sampling_points.csv')\n",
         "gdf.head()"
       ],
-      "id": "8b969877",
+      "id": "33365687",
       "execution_count": null,
       "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Méthodes non paramétriques\n"
+      ],
+      "id": "8100af8f"
     },
     {
       "cell_type": "code",
@@ -354,7 +362,7 @@
         "from IPython.display import Markdown\n",
         "Markdown(gdf.head().to_markdown())"
       ],
-      "id": "07de5fb4",
+      "id": "91ef39af",
       "execution_count": null,
       "outputs": []
     },
@@ -368,7 +376,7 @@
         "\n",
         "Formons un ensemble d’entraînement à partir de notre image RGBNIR:\n"
       ],
-      "id": "93a92b4a"
+      "id": "c70fba12"
     },
     {
       "cell_type": "code",
@@ -395,7 +403,7 @@
         "    y_new.extend([i]*sum(y==l))\n",
         "  y_new = np.array(y_new)"
       ],
-      "id": "e4269987",
+      "id": "0bc58ce5",
       "execution_count": null,
       "outputs": []
     },
@@ -405,7 +413,7 @@
       "source": [
         "On peut visualiser l'espace de décision du K-NN pour différentes valeurs de K lorsque seulement deux bandes sont utilisées:\n"
       ],
-      "id": "4ef62b1f"
+      "id": "9ec8a80f"
     },
     {
       "cell_type": "code",
@@ -440,7 +448,7 @@
         "\n",
         "plt.show()"
       ],
-      "id": "cf89c365",
+      "id": "7fb2bf10",
       "execution_count": null,
       "outputs": []
     },
@@ -450,7 +458,7 @@
       "source": [
         "On peut voir clairement comment les différentes frontières de décision se forme dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes.\n"
       ],
-      "id": "883a3c9a"
+      "id": "c0c91be9"
     },
     {
       "cell_type": "code",
@@ -459,7 +467,7 @@
         "#| eval: true\n",
         "clf.set_params(knn__weights='distance', knn__n_neighbors = 7).fit(X_train, y_train)"
       ],
-      "id": "365f03c2",
+      "id": "0eb277a1",
       "execution_count": null,
       "outputs": []
     },
@@ -469,7 +477,7 @@
       "source": [
         "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec 4 colonnes:\n"
       ],
-      "id": "1deb2907"
+      "id": "042fc0f5"
     },
     {
       "cell_type": "code",
@@ -480,7 +488,7 @@
         "y_classe= clf.predict(data_image)\n",
         "y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])"
       ],
-      "id": "a6e54795",
+      "id": "e717de16",
       "execution_count": null,
       "outputs": []
     },
@@ -494,7 +502,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec K-NN\")\n",
         "plt.show()"
       ],
-      "id": "42c2ccf9",
+      "id": "cfe14b95",
       "execution_count": null,
       "outputs": []
     },
@@ -502,10 +510,6 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "## Méthodes non paramétriques {#sec-0513}\n",
-        "\n",
-        "\n",
-        "\n",
         "### SVEM, réseaux de neurones, forêts aléatoires {#sec-0514}\n",
         "\n",
         "### Méthodes par arbre de décision\n",
@@ -533,7 +537,7 @@
         "\n",
         "## Exercices de révision {#sec-054}"
       ],
-      "id": "5e54f78d"
+      "id": "11c4d2ea"
     }
   ],
   "metadata": {
