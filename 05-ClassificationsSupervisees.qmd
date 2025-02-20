@@ -223,16 +223,11 @@ gdf.head()
 
 ## Méthodes non paramétriques
 
-```{python}
-#| eval: true
-from IPython.display import Markdown
-Markdown(gdf.head().to_markdown())
-```
 ### Plus proches voisins
 
 La méthode des plus proches voisins (*K-Nearest-Neighbors* en Anglais) est certainement la plus simple des méthodes pour classifier. Elle consiste à comparer une nouvelle données avec ces voisins les plus proches en fonction d'une simple distance Euclidienne. Si une majorité de ces $K$ voisins appartiennent à une classe majoritaire alors cette classe est sélectionnée.
 
-Formons un ensemble d’entraînement à partir de notre image RGBNIR:
+Formons un ensemble d’entraînement à partir de notre image RGBNIR précédente:
 
 ```{python}
 #| eval: true
@@ -257,7 +252,20 @@ if max(class_labels) > n_classes: # il se peut que certaines classes soit absent
   y_new = np.array(y_new)
 ```
 
-On peut visualiser l'espace de décision du K-NN pour différentes valeurs de K lorsque seulement deux bandes sont utilisées:
+Il est important de faire précéder la méthode K-NN par une normalisation des données de façon à ce que chaque caractéristique soit de moyenne 0 et d'écart-type égale à 1 (on dit que l'on blanchit les données). Cette normalisation permet à ce que chaque dimension ait le même poids dans le calcul des distance entre points. Cette opération porte le nom de `StandardScaler` dans `scikit-learn`:
+
+```{python}
+clf = Pipeline(
+    steps=[("scaler", StandardScaler()), ("knn", KNeighborsClassifier(n_neighbors=1))]
+)
+```
+
+Avant d'effectuer un entraînement, on met généralement une portion des données pour valider les performances:
+
+```{python}
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+```
+On peut visualiser l'espace de décision du K-NN pour différentes valeurs de $K$ lorsque seulement deux bandes sont utilisées:
 
 ```{python}
 #| eval: true
@@ -289,7 +297,7 @@ for ax, K in zip(axs.flatten(), [1,3,5,7]):
 
 plt.show()
 ```
-On peut voir clairement comment les différentes frontières de décision se forme dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes.
+On peut voir comment les différentes frontières de décision se forme dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes.
 
 ```{python}
 #| eval: true
