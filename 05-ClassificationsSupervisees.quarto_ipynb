@@ -52,7 +52,7 @@
         "\n",
         "Dans l'environnement Google Colab, seul `rioxarray` doit être installés:\n"
       ],
-      "id": "dbf0a0dd"
+      "id": "a0ceeafe"
     },
     {
       "cell_type": "code",
@@ -61,7 +61,7 @@
         "%%capture\n",
         "!pip install -qU matplotlib rioxarray xrscipy"
       ],
-      "id": "779c8911",
+      "id": "6dc6edb4",
       "execution_count": null,
       "outputs": []
     },
@@ -71,7 +71,7 @@
       "source": [
         "Vérifier les importations:\n"
       ],
-      "id": "7730af47"
+      "id": "7603df5f"
     },
     {
       "cell_type": "code",
@@ -92,7 +92,7 @@
         "from sklearn.model_selection import train_test_split\n",
         "import pandas as pd"
       ],
-      "id": "f1e11886",
+      "id": "5dba0226",
       "execution_count": null,
       "outputs": []
     },
@@ -104,7 +104,7 @@
         "\n",
         "Nous allons utilisez les images suivantes dans ce chapitre:\n"
       ],
-      "id": "19fcfae2"
+      "id": "2cc3b4d6"
     },
     {
       "cell_type": "code",
@@ -119,7 +119,7 @@
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')\n",
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg', output= 'carte.tif')"
       ],
-      "id": "36cdbce1",
+      "id": "a4b863da",
       "execution_count": null,
       "outputs": []
     },
@@ -129,7 +129,7 @@
       "source": [
         "Vérifiez que vous êtes capable de les lire :\n"
       ],
-      "id": "8bb9ca72"
+      "id": "b15bbf68"
     },
     {
       "cell_type": "code",
@@ -147,7 +147,7 @@
         "with rxr.open_rasterio('carte.tif', mask_and_scale= True) as img_carte:\n",
         "    print(img_carte)"
       ],
-      "id": "4b8ecc8e",
+      "id": "ab55f45c",
       "execution_count": null,
       "outputs": []
     },
@@ -185,7 +185,7 @@
         "\n",
         "Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des cols suivante qui contient 12 classes différentes.\n"
       ],
-      "id": "294023ac"
+      "id": "52f8d78f"
     },
     {
       "cell_type": "code",
@@ -198,7 +198,7 @@
         "nom_classes= [*couleurs_classes.keys()]\n",
         "couleurs_classes= [*couleurs_classes.values()]"
       ],
-      "id": "f5c94a28",
+      "id": "09819dd4",
       "execution_count": null,
       "outputs": []
     },
@@ -215,7 +215,7 @@
         "img_carte.squeeze().plot.imshow(cmap=cmap_classes, vmin=0, vmax=12)\n",
         "ax.set_title(\"Carte d'occupation des sols\")"
       ],
-      "id": "f544ab55",
+      "id": "0b0a437b",
       "execution_count": null,
       "outputs": []
     },
@@ -225,7 +225,7 @@
       "source": [
         "On peut facilement calculer la fréquence d’occurrence des 12 classes dans l'image à l'aide de numpy:\n"
       ],
-      "id": "889f3e72"
+      "id": "5aa81d77"
     },
     {
       "cell_type": "code",
@@ -236,7 +236,7 @@
         "compte_classe = np.unique(img_carte.data, return_counts=True)\n",
         "print(compte_classe)"
       ],
-      "id": "b59751e3",
+      "id": "4e82d356",
       "execution_count": null,
       "outputs": []
     },
@@ -246,7 +246,7 @@
       "source": [
         "La fréquence d'apparition de chaque classe varie grandement, on parle d'un ensemble déséquilibré. Ceci est très commun dans la plupart des ensembles d’entraînement. \n"
       ],
-      "id": "cea9e954"
+      "id": "123d8d56"
     },
     {
       "cell_type": "code",
@@ -264,7 +264,7 @@
         "plt.xticks(range(len(nom_classes)), nom_classes, rotation=45, ha='right')\n",
         "plt.show()"
       ],
-      "id": "fab2e404",
+      "id": "9a51c7eb",
       "execution_count": null,
       "outputs": []
     },
@@ -274,7 +274,7 @@
       "source": [
         "On peut échantillonner 100 points aléatoires pour chaque classe:\n"
       ],
-      "id": "ccf67d88"
+      "id": "5db5a0e5"
     },
     {
       "cell_type": "code",
@@ -287,7 +287,7 @@
         "\n",
         "# Liste vide des points échantillonnées\n",
         "sampled_points = []\n",
-        "\n",
+        "class_labels= []\n",
         "for class_label in range(1,13): # pour chacune des 12 classes\n",
         "  # On cherche tous les pixels pour cette étiquette\n",
         "  class_pixels = np.argwhere(img_carte.data == class_label)\n",
@@ -302,10 +302,13 @@
         "  # On prends les positions en lignes, colonnes\n",
         "  sampled_pixels = class_pixels[sampled_indices]\n",
         "\n",
+        "  # On ajoute les points à la liste\n",
         "  sampled_points.extend(sampled_pixels)\n",
+        "  class_labels.extend(np.array([class_label]*n_samples)[:,np.newaxis])\n",
         "\n",
         "# Conversion en NumPy array\n",
         "sampled_points = np.array(sampled_points)\n",
+        "class_labels = np.array(class_labels)\n",
         "# On peut naviguer les points à l'aide de la géoréférence\n",
         "transformer = rasterio.transform.AffineTransformer(img_carte.rio.transform())\n",
         "transform_sampled_points= transformer.xy(sampled_points[:,0], sampled_points[:,1])\n",
@@ -316,7 +319,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec les points échantillonnés\")\n",
         "plt.show()"
       ],
-      "id": "5b2aa785",
+      "id": "969c6d2b",
       "execution_count": null,
       "outputs": []
     },
@@ -326,7 +329,7 @@
       "source": [
         "Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes `sample()` de `rasterio`. La librairie [`geopandas`]() permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence:\n"
       ],
-      "id": "3e9443df"
+      "id": "1b35557f"
     },
     {
       "cell_type": "code",
@@ -338,11 +341,11 @@
         "coord_list = [(x, y) for x, y in zip(gdf[\"geometry\"].x, gdf[\"geometry\"].y)]\n",
         "with rasterio.open('RGBNIR_of_S2A.tif') as src:\n",
         "  gdf[\"value\"] = [x for x in src.sample(coord_list)]\n",
-        "#gdf.to_file('sampling_points.geojson', driver='GeoJSON')\n",
+        "gdf['class']= class_labels\n",
         "gdf.to_csv('sampling_points.csv')\n",
         "gdf.head()"
       ],
-      "id": "33365687",
+      "id": "76660ea1",
       "execution_count": null,
       "outputs": []
     },
@@ -352,7 +355,7 @@
       "source": [
         "## Méthodes non paramétriques\n"
       ],
-      "id": "8100af8f"
+      "id": "a2200190"
     },
     {
       "cell_type": "code",
@@ -362,7 +365,7 @@
         "from IPython.display import Markdown\n",
         "Markdown(gdf.head().to_markdown())"
       ],
-      "id": "91ef39af",
+      "id": "d17bfe00",
       "execution_count": null,
       "outputs": []
     },
@@ -376,7 +379,7 @@
         "\n",
         "Formons un ensemble d’entraînement à partir de notre image RGBNIR:\n"
       ],
-      "id": "c70fba12"
+      "id": "23df9bc2"
     },
     {
       "cell_type": "code",
@@ -403,7 +406,7 @@
         "    y_new.extend([i]*sum(y==l))\n",
         "  y_new = np.array(y_new)"
       ],
-      "id": "0bc58ce5",
+      "id": "48900a62",
       "execution_count": null,
       "outputs": []
     },
@@ -413,7 +416,7 @@
       "source": [
         "On peut visualiser l'espace de décision du K-NN pour différentes valeurs de K lorsque seulement deux bandes sont utilisées:\n"
       ],
-      "id": "9ec8a80f"
+      "id": "8a2977c2"
     },
     {
       "cell_type": "code",
@@ -448,7 +451,7 @@
         "\n",
         "plt.show()"
       ],
-      "id": "7fb2bf10",
+      "id": "7e527079",
       "execution_count": null,
       "outputs": []
     },
@@ -458,7 +461,7 @@
       "source": [
         "On peut voir clairement comment les différentes frontières de décision se forme dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes.\n"
       ],
-      "id": "c0c91be9"
+      "id": "e82b81ba"
     },
     {
       "cell_type": "code",
@@ -467,7 +470,7 @@
         "#| eval: true\n",
         "clf.set_params(knn__weights='distance', knn__n_neighbors = 7).fit(X_train, y_train)"
       ],
-      "id": "0eb277a1",
+      "id": "6b3a7baf",
       "execution_count": null,
       "outputs": []
     },
@@ -477,7 +480,7 @@
       "source": [
         "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec 4 colonnes:\n"
       ],
-      "id": "042fc0f5"
+      "id": "6e15d8a0"
     },
     {
       "cell_type": "code",
@@ -488,7 +491,7 @@
         "y_classe= clf.predict(data_image)\n",
         "y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])"
       ],
-      "id": "e717de16",
+      "id": "f477d6a7",
       "execution_count": null,
       "outputs": []
     },
@@ -502,7 +505,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec K-NN\")\n",
         "plt.show()"
       ],
-      "id": "cfe14b95",
+      "id": "a1ba6049",
       "execution_count": null,
       "outputs": []
     },
@@ -537,7 +540,7 @@
         "\n",
         "## Exercices de révision {#sec-054}"
       ],
-      "id": "11c4d2ea"
+      "id": "32a2fda3"
     }
   ],
   "metadata": {

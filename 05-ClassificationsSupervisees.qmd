@@ -174,7 +174,7 @@ class_counts = np.unique(img_carte.data, return_counts=True)
 
 # Liste vide des points échantillonnées
 sampled_points = []
-
+class_labels= []
 for class_label in range(1,13): # pour chacune des 12 classes
   # On cherche tous les pixels pour cette étiquette
   class_pixels = np.argwhere(img_carte.data == class_label)
@@ -189,10 +189,13 @@ for class_label in range(1,13): # pour chacune des 12 classes
   # On prends les positions en lignes, colonnes
   sampled_pixels = class_pixels[sampled_indices]
 
+  # On ajoute les points à la liste
   sampled_points.extend(sampled_pixels)
+  class_labels.extend(np.array([class_label]*n_samples)[:,np.newaxis])
 
 # Conversion en NumPy array
 sampled_points = np.array(sampled_points)
+class_labels = np.array(class_labels)
 # On peut naviguer les points à l'aide de la géoréférence
 transformer = rasterio.transform.AffineTransformer(img_carte.rio.transform())
 transform_sampled_points= transformer.xy(sampled_points[:,0], sampled_points[:,1])
@@ -213,7 +216,7 @@ gdf = geopandas.GeoDataFrame(range(1,len(points)+1), geometry=points, crs=img_ca
 coord_list = [(x, y) for x, y in zip(gdf["geometry"].x, gdf["geometry"].y)]
 with rasterio.open('RGBNIR_of_S2A.tif') as src:
   gdf["value"] = [x for x in src.sample(coord_list)]
-#gdf.to_file('sampling_points.geojson', driver='GeoJSON')
+gdf['class']= class_labels
 gdf.to_csv('sampling_points.csv')
 gdf.head()
 ```
