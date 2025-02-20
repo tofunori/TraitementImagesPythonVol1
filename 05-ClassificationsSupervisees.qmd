@@ -3,7 +3,7 @@ jupyter: python3
 from: markdown+emoji
 execute:
   echo: true
-  eval: false
+  eval: true
   message: false
   warning: false
 ---
@@ -43,12 +43,12 @@ Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 
 Dans l'environnement Google Colab, seul `rioxarray` doit être installés:
 ```{python}
+#| eval: false
 %%capture
 !pip install -qU matplotlib rioxarray xrscipy
 ```
 Vérifier les importations:
 ```{python}
-#| eval: true
 import numpy as np
 import rioxarray as rxr
 from scipy import signal
@@ -67,6 +67,7 @@ import pandas as pd
 
 Nous allons utilisez les images suivantes dans ce chapitre:
 ```{python}
+#| eval: false
 %%capture
 import gdown
 
@@ -78,7 +79,6 @@ gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1aAq
 ```
 Vérifiez que vous êtes capable de les lire :
 ```{python}
-#| eval: true
 #| output: false
 
 with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
@@ -122,7 +122,6 @@ L'ensemble d’entraînement permettra alors de calculer les paramètres de chaq
 Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des cols suivante qui contient 12 classes différentes.
 
 ```{python}
-#| eval: true
 couleurs_classes= {'NoData': 'black', 'Commercial': 'yellow', 'Nuages': 'lightgrey', 
                     'Foret': 'darkgreen', 'Faible_végétation': 'green', 'Sol_nu': 'saddlebrown',
                   'Roche': 'dimgray', 'Route': 'red', 'Urbain': 'orange', 'Eau': 'blue', 'Tourbe': 'salmon', 'Végétation éparse': 'darkgoldenrod', 'Roche avec végétation': 'darkseagreen'}
@@ -131,7 +130,6 @@ couleurs_classes= [*couleurs_classes.values()]
 ```
 
 ```{python}
-#| eval: true
 import matplotlib.pyplot as plt
 import rioxarray as rxr
 cmap_classes = ListedColormap(couleurs_classes)
@@ -144,14 +142,12 @@ ax.set_title("Carte d'occupation des sols")
 On peut facilement calculer la fréquence d’occurrence des 12 classes dans l'image à l'aide de numpy:
 
 ```{python}
-#| eval: true
 img_carte= img_carte.squeeze() # nécessaire pour ignorer la dimension du canal
 compte_classe = np.unique(img_carte.data, return_counts=True)
 print(compte_classe)
 ```
 La fréquence d'apparition de chaque classe varie grandement, on parle d'un ensemble déséquilibré. Ceci est très commun dans la plupart des ensembles d’entraînement. 
 ```{python}
-#| eval: true
 valeurs, comptes = compte_classe
 
 # Create the histogram
@@ -167,7 +163,6 @@ plt.show()
 On peut échantillonner 100 points aléatoires pour chaque classe:
 
 ```{python}
-#| eval: true
 
 img_carte= img_carte.squeeze()
 class_counts = np.unique(img_carte.data, return_counts=True)
@@ -210,7 +205,6 @@ plt.show()
 Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes `sample()` de `rasterio`. La librairie [`geopandas`]() permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence:
 
 ```{python}
-#| eval: true
 points = [Point(xy) for xy in zip(transform_sampled_points[0], transform_sampled_points[1])]
 gdf = geopandas.GeoDataFrame(range(1,len(points)+1), geometry=points, crs=img_carte.rio.crs)
 coord_list = [(x, y) for x, y in zip(gdf["geometry"].x, gdf["geometry"].y)]
@@ -230,7 +224,6 @@ La méthode des plus proches voisins (*K-Nearest-Neighbors* en Anglais) est cert
 Formons un ensemble d’entraînement à partir de notre image RGBNIR précédente:
 
 ```{python}
-#| eval: true
 df= pd.read_csv('sampling_points.csv')
 # Extraire la colonne 'value'.
 # 'value' est une chaîne de caractères comme représentation d'une liste de valeurs.
@@ -268,7 +261,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 On peut visualiser l'espace de décision du K-NN pour différentes valeurs de $K$ lorsque seulement deux bandes sont utilisées:
 
 ```{python}
-#| eval: true
 #| echo: false
 #| warning: false
 
@@ -300,21 +292,18 @@ plt.show()
 On peut voir comment les différentes frontières de décision se forme dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes.
 
 ```{python}
-#| eval: true
 clf.set_params(knn__weights='distance', knn__n_neighbors = 7).fit(X_train, y_train)
 ```
 
 L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec 4 colonnes:
 
 ```{python}
-#| eval: true
 data_image= img_rgbnir.to_numpy().transpose(1,2,0).reshape(img_rgbnir.shape[1]*img_rgbnir.shape[2],4)
 y_classe= clf.predict(data_image)
 y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])
 ```
 
 ```{python}
-#| eval: true
 fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
 plt.imshow(y_image, cmap=cmap_classes2)
 ax.set_title("Carte d'occupation des sols avec K-NN")
