@@ -104,6 +104,33 @@ Les classifications supervisées ou dirigées présupposent donc que nous avons 
 
 **curse of dimensionnality, capacité d'un modèle, sur-aprrentissage, sous-apprentissage**
 
+### Pipeline
+
+La construction d'un modèle implique généralement toujours les mêmes étapes illustrées sur la figure [@fig-pipeline]:
+
+1. La préparation des données implique parfois un pré-traitement afin de normaliser les données.
+
+2. Partage des données en trois groupes: entraînement, validation et test
+
+3. L'apprentissage du modèle sur l'ensemble d'entraînement. Cet apprentissage nécessite de déterminer les valeurs des hyper-paramètres du modèle par l'usager.
+
+4. La validation du modèle sur l'ensemble de validation. Cette étape vise à vérifier que les hyper-paramètres du modèle sont adéquate.
+
+5. Enfin le test du modèle sur un ensemble de donnée indépendant
+
+```{mermaid}
+%%| echo: false
+%%| label: fig-pipeline
+%%| fig-cap: "Étapes standards dans un entraînement."
+flowchart TD
+    A[fa:fa-database Données] --> B(fa:fa-gear Prétraitement)
+    B --> C(fa:fa-folder-tree Partage des données) -.-> D(fa:fa-gears Entraînement)
+    H[[Hyper-paramètres]] --> D
+    D --> |Modèle| E>Validation]
+    E --> |Modèle| G>Test]
+    C -.-> E
+    C -.-> G
+```
 
 ## Méthode des parallélépipèdes {#sec-0511}
 
@@ -458,20 +485,16 @@ plt.show()
 
 ## Méthodes paramétriques
 
-Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. Contraitement au méthodes non paramétriques, elles ont un nombre fixe de paramètres qui n dépend pas de la taille du jeu de données. Par contre, des hypothèses sont faites sur le comportement statistique des données. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. On parle parfois d'approche de type **maximum de vraisemblance**. 
+Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. Contraitement au méthodes non paramétriques, elles ont un nombre fixe de paramètres qui ne dépend pas de la taille du jeu de données. Par contre, des hypothèses sont faites sur le comportement statistique des données. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. L'ensemble d’entraînement permettra alors de calculer les paramètres de chaque Gaussienne pour chacune des classes d'intérêt. 
 
-Le modèle statistique le plus employé est certainement le modèle Gaussien multivarié:
+### Méthode Bayésienne naïve
 
-
-L'ensemble d’entraînement permettra alors de calculer les paramètres de chaque Gaussienne pour chacune des classes d'intérêt. 
-
-### Méthode Bayésienne
-
+La méthode Bayésienne naïve Gaussienne consiste faire des hypothèses simplificatrices sur les données, en particulier l'indépendance des données et des dimensions. Ceci permet un calcul plus simple.
 ```{python}
 from sklearn.naive_bayes import GaussianNB
 gnb = GaussianNB()
 y_pred = gnb.fit(X_train, y_train).predict(X_test)
-print("Number of mislabeled points out of a total %d points : %d"
+print("Nombre de points erronés sur %d points : %d"
       % (X_test.shape[0], (y_test != y_pred).sum()))
 ```
 
@@ -539,7 +562,7 @@ print("Nombre de points misclassifiés sur %d points : %d"
 ```
 
 
-Les Gaussiennes multivariées peuvent être visualiser sous forme d'éllipses:
+Les Gaussiennes multivariées peuvent être visualiser sous forme d'éllipses décrivant le domaine des valeurs de chaque classe:
 ```{python}
 #| echo: false
 #| warning: false
@@ -593,12 +616,9 @@ y_classe= qda.predict(data_image)
 y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])
 fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
 plt.imshow(y_classe, cmap=cmap_classes2)
-ax.set_title("Carte d'occupation des sols la méthode ADQ", fontsize="small")
+ax.set_title("Carte d'occupation des sols avec la méthode ADQ", fontsize="small")
 plt.show()
 ```
-
-### SVEM, réseaux de neurones, forêts aléatoires {#sec-0514}
-
 
 ### Réseaux de neurones
 
@@ -610,14 +630,3 @@ Le perceptron multi-couches est un réseau dense (*fully connected*) avec des co
 
 Ces réseaux sont entraînés via des techniques itératives d'optimisation de type descente en gradient avec une correction des paramètres (les poids) à l'aide de la rétro-propagation de l'erreur. L'erreur est mesurée via une fonction de coût que l'on cherche à réduire.
 
-
-
-## Segmentation d’images {#sec-052}
-
-### Classification objet {#sec-0521}
-
-### Approches par arbre (BPT, etc.) {#sec-0522}
-
-
-
-## Exercices de révision {#sec-054}

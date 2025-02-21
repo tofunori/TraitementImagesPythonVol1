@@ -107,8 +107,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -326,7 +340,7 @@ window.Quarto = {
 <li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
 </ul>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et GDAL doivent être installés:</p>
-<div id="202ec960" class="cell" data-execution_count="1">
+<div id="70197c03" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get update</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get install gdal<span class="op">-</span><span class="bu">bin</span> libgdal<span class="op">-</span>dev</span>
@@ -334,7 +348,7 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU <span class="st">"geemap[workshop]"</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifier les importations:</p>
-<div id="35cf75a8" class="cell" data-execution_count="2">
+<div id="fac97057" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
@@ -346,7 +360,7 @@ window.Quarto = {
 <section id="données" class="level3" data-number="3.1.3">
 <h3 data-number="3.1.3" class="anchored" data-anchor-id="données"><span class="header-section-number">3.1.3</span> Données</h3>
 <p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
-<div id="3c29a693" class="cell" data-execution_count="3">
+<div id="41296d9a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif <span class="op">-</span>O RGBNIR_of_S2A.tif</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>opengeos<span class="op">-</span>data<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>raster<span class="op">/</span>landsat7.tif <span class="op">-</span>O landsat7.tif</span>
@@ -354,7 +368,7 @@ window.Quarto = {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>github.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>raw<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>data<span class="op">/</span>chapitre01<span class="op">/</span>subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif <span class="op">-</span>O SAR.tif</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifiez que vous êtes capable de les lire :</p>
-<div id="0558c5af" class="cell" data-execution_count="4">
+<div id="ceb22f4f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'RGBNIR_of_S2A.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgbnir:</span>
@@ -371,7 +385,7 @@ window.Quarto = {
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="statistiques-dune-image"><span class="header-section-number">3.2.1</span> Statistiques d’une image</h3>
 <p>On peut considérer un ensemble de statistique globales pour chacune des bandes d’une image: - valeurs minimales et maximales - valeurs moyennes, médianes et quantiles - écart-types, skewness et kurtosis Ces statistiques doivent être calculées pour chaque bande d’une image multispectrale.</p>
 <p>En ligne de commande, <code>gdalinfo</code> permet d’interroger rapidement un fichier image pour connaitre les statistiques de base:</p>
-<div id="0d0accca" class="cell" data-execution_count="5">
+<div id="f49abf36" class="cell" data-execution_count="5">
 <div id="lst-gdalstats" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-lst figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-gdalstats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -460,7 +474,7 @@ Band 3 Block=512x512 Type=Byte, ColorInterp=Blue
 </div>
 </div>
 <p>Les librairies de base comme <code>xarray</code> et <code>numpy</code> peuvent facilement produire des statistiques comme avec la fonction <a href="https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.stats">stats</a>:</p>
-<div id="6c825ff1" class="cell" data-execution_count="6">
+<div id="8bc810cc" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio <span class="im">as</span> rio</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rio.<span class="bu">open</span>(<span class="st">'landsat7.tif'</span>) <span class="im">as</span> src:</span>
@@ -468,7 +482,7 @@ Band 3 Block=512x512 Type=Byte, ColorInterp=Blue
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(stats)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La librairie <code>xarray</code> donne accès à des fonctionnalités plus sophistiquées comme le calcul des quantiles:</p>
-<div id="5c503e8f" class="cell" data-execution_count="7">
+<div id="d7887306" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> riox</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> riox.open_rasterio(<span class="st">'landsat7.tif'</span>, masked<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> src:</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(src)</span>
@@ -874,25 +888,25 @@ array([[ 54.,  19.,  19.],
        [140., 102.,  89.]])
 Coordinates:
   * band      (band) int64 24B 1 2 3
-  * quantile  (quantile) float64 40B 0.025 0.25 0.5 0.75 0.975</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name"></div><ul class="xr-dim-list"><li><span class="xr-has-index">quantile</span>: 5</li><li><span class="xr-has-index">band</span>: 3</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-ae17fd4d-005e-4eac-a66f-7440bc005cf8" class="xr-array-in" type="checkbox" checked=""><label for="section-ae17fd4d-005e-4eac-a66f-7440bc005cf8" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>54.0 19.0 19.0 85.0 38.0 27.0 ... 111.0 69.0 57.0 140.0 102.0 89.0</span></div><div class="xr-array-data"><pre>array([[ 54.,  19.,  19.],
+  * quantile  (quantile) float64 40B 0.025 0.25 0.5 0.75 0.975</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name"></div><ul class="xr-dim-list"><li><span class="xr-has-index">quantile</span>: 5</li><li><span class="xr-has-index">band</span>: 3</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-ad1a80a5-bab5-4a5b-8b67-175107991061" class="xr-array-in" type="checkbox" checked=""><label for="section-ad1a80a5-bab5-4a5b-8b67-175107991061" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>54.0 19.0 19.0 85.0 38.0 27.0 ... 111.0 69.0 57.0 140.0 102.0 89.0</span></div><div class="xr-array-data"><pre>array([[ 54.,  19.,  19.],
        [ 85.,  38.,  27.],
        [ 99.,  54.,  38.],
        [111.,  69.,  57.],
-       [140., 102.,  89.]])</pre></div></div></li><li class="xr-section-item"><input id="section-9b9a9c1c-91d7-4c30-8f89-af443acb9939" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-9b9a9c1c-91d7-4c30-8f89-af443acb9939" class="xr-section-summary">Coordinates: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">band</span></div><div class="xr-var-dims">(band)</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">1 2 3</div><input id="attrs-43288942-ed94-4644-9da5-fea1fdc60c18" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-43288942-ed94-4644-9da5-fea1fdc60c18" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-486ab58f-d88b-4ab9-a7fa-db5544ff0968" class="xr-var-data-in" type="checkbox"><label for="data-486ab58f-d88b-4ab9-a7fa-db5544ff0968" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([1, 2, 3])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">quantile</span></div><div class="xr-var-dims">(quantile)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.025 0.25 0.5 0.75 0.975</div><input id="attrs-9e548d7a-f7f3-4f8c-8c47-35852483379f" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-9e548d7a-f7f3-4f8c-8c47-35852483379f" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-af7ff2f6-1830-4a4f-ba8f-90b950256366" class="xr-var-data-in" type="checkbox"><label for="data-af7ff2f6-1830-4a4f-ba8f-90b950256366" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.025, 0.25 , 0.5  , 0.75 , 0.975])</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-c5ccbc09-6c07-4edb-aecb-f9f99b53dfff" class="xr-section-summary-in" type="checkbox"><label for="section-c5ccbc09-6c07-4edb-aecb-f9f99b53dfff" class="xr-section-summary">Indexes: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>band</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-e4a21fed-8e51-4690-ad9e-277fa682ab57" class="xr-index-data-in" type="checkbox"><label for="index-e4a21fed-8e51-4690-ad9e-277fa682ab57" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([1, 2, 3], dtype='int64', name='band'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>quantile</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-23c44949-56fd-45ea-a7f4-85def0834d0f" class="xr-index-data-in" type="checkbox"><label for="index-23c44949-56fd-45ea-a7f4-85def0834d0f" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([0.025, 0.25, 0.5, 0.75, 0.975], dtype='float64', name='quantile'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-a9dcf63c-875c-467e-91a5-e434ac549ea5" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-a9dcf63c-875c-467e-91a5-e434ac549ea5" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
+       [140., 102.,  89.]])</pre></div></div></li><li class="xr-section-item"><input id="section-79c3f97e-7826-4e21-b224-cedb3f441fc6" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-79c3f97e-7826-4e21-b224-cedb3f441fc6" class="xr-section-summary">Coordinates: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">band</span></div><div class="xr-var-dims">(band)</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">1 2 3</div><input id="attrs-7b391ed6-af58-436c-b6ec-e5d217d04ae3" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-7b391ed6-af58-436c-b6ec-e5d217d04ae3" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-f7f90e28-82af-4840-a737-3d98998585cb" class="xr-var-data-in" type="checkbox"><label for="data-f7f90e28-82af-4840-a737-3d98998585cb" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([1, 2, 3])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">quantile</span></div><div class="xr-var-dims">(quantile)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.025 0.25 0.5 0.75 0.975</div><input id="attrs-ea04e937-ef98-4ece-9128-9880d201ef69" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-ea04e937-ef98-4ece-9128-9880d201ef69" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-f62f9995-46bc-4476-aba0-a655f58429d5" class="xr-var-data-in" type="checkbox"><label for="data-f62f9995-46bc-4476-aba0-a655f58429d5" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.025, 0.25 , 0.5  , 0.75 , 0.975])</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-7d7b3be1-d901-40a5-a796-09c55a00fd3a" class="xr-section-summary-in" type="checkbox"><label for="section-7d7b3be1-d901-40a5-a796-09c55a00fd3a" class="xr-section-summary">Indexes: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>band</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-f8eda394-64f7-4374-b6fb-f7817dcfe98b" class="xr-index-data-in" type="checkbox"><label for="index-f8eda394-64f7-4374-b6fb-f7817dcfe98b" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([1, 2, 3], dtype='int64', name='band'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>quantile</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-a64faf66-6a36-4795-93df-33f6e67a9b76" class="xr-index-data-in" type="checkbox"><label for="index-a64faf66-6a36-4795-93df-33f6e67a9b76" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([0.025, 0.25, 0.5, 0.75, 0.975], dtype='float64', name='quantile'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-a3726ccb-75bf-4d9e-9e97-48ede708e818" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-a3726ccb-75bf-4d9e-9e97-48ede708e818" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
 </div>
 </div>
 <section id="calcul-de-lhistogramme" class="level4" data-number="3.2.1.1">
 <h4 data-number="3.2.1.1" class="anchored" data-anchor-id="calcul-de-lhistogramme"><span class="header-section-number">3.2.1.1</span> Calcul de l’histogramme</h4>
 <p>Le calcul d’un histogramme pour une image (une bande) permet d’avoir une vue plus détaillée de la répartition des valeurs radiométriques. Le calcul d’un histogramme nécessite minimalement de faire le choix d’une valeur du nombre de <em>bins</em> (ou de la largeur). Un <em>bin</em> est un intervalle de valeurs pour lequel on peut calculer le nombre de valeurs observées dans l’image. La fonction de base pour ce type de calcul est la fonction <code>numpy.histogram()</code>:</p>
-<div id="732f5949" class="cell" data-execution_count="8">
+<div id="03e3b7fd" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>array <span class="op">=</span> np.random.randint(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">100</span>) <span class="co"># 100 valeurs aléatoires entre 0 et 10</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>hist, bin_limites <span class="op">=</span> np.histogram(array, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'valeurs :'</span>,hist)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">';imites :'</span>,bin_limites)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>valeurs : [0.06666667 0.16666667 0.08888889 0.1        0.07777778 0.11111111
- 0.04444444 0.11111111 0.23333333 0.11111111]
+<pre><code>valeurs : [0.08888889 0.11111111 0.2        0.13333333 0.14444444 0.07777778
+ 0.11111111 0.06666667 0.14444444 0.03333333]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]</code></pre>
 </div>
 </div>
@@ -901,7 +915,7 @@ Coordinates:
 <section id="visualisation-des-histogrammes" class="level5" data-number="3.2.1.1.1">
 <h5 data-number="3.2.1.1.1" class="anchored" data-anchor-id="visualisation-des-histogrammes"><span class="header-section-number">3.2.1.1.1</span> Visualisation des histogrammes</h5>
 <p>La librarie <code>rasterio</code> est probablement l’outil le plus simples pour visualiser rapidement des histogrammes sur une image multi-spectrale:</p>
-<div id="ec6ac41d" class="cell" data-execution_count="9">
+<div id="cd0b5555" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio <span class="im">as</span> rio</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.plot <span class="im">import</span> show_hist</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rio.<span class="bu">open</span>(<span class="st">'RGBNIR_of_S2A.tif'</span>) <span class="im">as</span> src:</span>
@@ -920,8 +934,8 @@ Coordinates:
 <section id="réhaussements-linéaires" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="réhaussements-linéaires"><span class="header-section-number">3.2.2</span> Réhaussements linéaires</h3>
 <p>Le réhaussement linéaire d’une image est la forme la plus simple de réhaussement, elle consiste 1) à optimiser les valeurs des pixels d’une image afin de maximiser la dynamique disponibles à l’affichage, ou 2) changer le format de stockage des valeurs (e.g.&nbsp;de 8 bit à 16 bit):</p>
-<p><span id="eq-rehauss-lin"><span class="math display">\[ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1 \tag{3.1}\]</span></span></p>
-<p>Par cette opération, on passe de la dynamique de départ (<span class="math inline">\(max_0 - min_0\)</span>) vers la dynamique cible (<span class="math inline">\(max_1 - min_1\)</span>). Bien que cette opération semble triviale, il est important d’être conscient des trois contraintes suivantes: 1. <strong>Faire attention à la dynamique cible</strong>, ainsi, pour sauvegarder une image en format 8 bit, on utilisera alors <span class="math inline">\(max_1=255\)</span> et <span class="math inline">\(min_1=0\)</span>. 2. <strong>Préservation de la valeur de no data</strong> : il faut faire attention à la valeur <span class="math inline">\(min_1\)</span> dans le cas d’une valeur présente pour <em>no_data</em>. Par exemple, si <em>no_data=0</em> alors il faut s’assurer que <span class="math inline">\(min_1&gt;0\)</span>. 3. <strong>Précision du calcul</strong> : si possible réaliser la division ci-dessus en format <em>float</em></p>
+<p><span id="eq-rehauss-lin"><span class="math display"> \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1 \tag{3.1}</span></span></p>
+<p>Par cette opération, on passe de la dynamique de départ (<span class="math inline">max_0 - min_0</span>) vers la dynamique cible (<span class="math inline">max_1 - min_1</span>). Bien que cette opération semble triviale, il est important d’être conscient des trois contraintes suivantes: 1. <strong>Faire attention à la dynamique cible</strong>, ainsi, pour sauvegarder une image en format 8 bit, on utilisera alors <span class="math inline">max_1=255</span> et <span class="math inline">min_1=0</span>. 2. <strong>Préservation de la valeur de no data</strong> : il faut faire attention à la valeur <span class="math inline">min_1</span> dans le cas d’une valeur présente pour <em>no_data</em>. Par exemple, si <em>no_data=0</em> alors il faut s’assurer que <span class="math inline">min_1&gt;0</span>. 3. <strong>Précision du calcul</strong> : si possible réaliser la division ci-dessus en format <em>float</em></p>
 </section>
 <section id="réhaussements-non-linéaires" class="level3" data-number="3.2.3">
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="réhaussements-non-linéaires"><span class="header-section-number">3.2.3</span> Réhaussements non linéaires</h3>
