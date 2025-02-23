@@ -105,6 +105,79 @@ Les classifications supervisées ou dirigées présupposent donc que nous avons 
 
 **curse of dimensionnality, capacité d'un modèle, sur-aprrentissage, sous-apprentissage**
 
+### Comportement d'un modèle
+
+Cet exemple tiré de [`sickit-learn`](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py) illustre les problèmes d'ajustement insuffisant ou **sous-apprentissage** (*underfitting*) et d'ajustement excessif ou **sur-apprentissage** (*overfitting*) et montre comment nous pouvons utiliser la régression linéaire avec des caractéristiques polynomiales pour approximer des fonctions non linéaires. Le graphique @fig-overfitting montre la fonction que nous voulons approximer, qui est une partie de la fonction cosinus (couleur orange). En outre, les échantillons de la fonction réelle et les approximations de différents modèles sont affichés en bleu. Les modèles ont des caractéristiques polynomiales de différents degrés. Nous pouvons constater qu'une fonction linéaire (polynôme de degré 1) n'est pas suffisante pour s'adapter aux échantillons d'apprentissage. C'est ce qu'on appelle un sous-ajustement (underfitting) qui produit un biais systématique quelque soit les points d’entraînement. Un polynôme de degré 4 se rapproche presque parfaitement de la fonction réelle. Cependant, pour des degrés plus élevés, le modèle s'adaptera trop aux données d'apprentissage, c'est-à-dire qu'il apprendra le bruit des données d'apprentissage. Nous évaluons quantitativement le sur-apprentissage et le sous-apprentissage à l'aide de la validation croisée. Nous calculons l'erreur quadratique moyenne (EQM) sur l'ensemble de validation. Plus elle est élevée, moins le modèle est susceptible de se généraliser correctement à partir des données d'apprentissage.
+
+On constate aussi que sans les échantillons de validation, nous serions incapable de déterminer la situation de sur-apprentissage. L'erreur sur les points d’entraînement seul étant excellente pour un degré 15.
+
+```{python}
+#| echo: false
+#| label: fig-overfitting
+#| fig-cap: "Exemples de sur et sous-apprentissage."
+import matplotlib.pyplot as plt
+import numpy as np
+
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score, cross_validate
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import PolynomialFeatures
+
+
+def true_fun(X):
+    return np.cos(1.5 * np.pi * X+np.pi/2)
+
+
+np.random.seed(0)
+noise_level= 0.1
+n_samples = 30
+degrees = [1,4, 15]
+#degrees= range(1,16)
+X = np.sort(np.random.rand(n_samples))
+y = true_fun(X) + np.random.randn(n_samples) * noise_level
+
+X_test = np.sort(np.random.rand(10))
+y_test = true_fun(X_test) + np.random.randn(int(10)) * noise_level
+
+plt.figure(figsize=(14, 5))
+results= []
+for i in range(len(degrees)):
+    ax = plt.subplot(1, len(degrees), i + 1)
+    plt.setp(ax, xticks=(), yticks=())
+
+    polynomial_features = PolynomialFeatures(degree=degrees[i], include_bias=False)
+    linear_regression = LinearRegression()
+    pipeline = Pipeline(
+        [
+            ("polynomial_features", polynomial_features),
+            ("linear_regression", linear_regression),
+        ]
+    )
+    pipeline.fit(X[:, np.newaxis], y)
+
+    # Evaluate the models using crossvalidation
+    scores = cross_validate(
+        pipeline, X[:, np.newaxis], y, scoring="neg_mean_squared_error", cv=10, return_train_score=True
+    )
+
+    X_true = np.linspace(0, 1, 100)
+    plt.plot(X_true, pipeline.predict(X_true[:, np.newaxis]), label="Modèle")
+    plt.plot(X_true, true_fun(X_true), label="Vraie fonction")
+    plt.scatter(X, y, edgecolor="b", s=20, label="Entr.")
+    plt.scatter(X_test, y_test, edgecolor="g", s=20, label="Test")
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.xlim((0, 1))
+    plt.ylim((-2, 2))
+    plt.legend(loc="best")
+    plt.title(
+        "Degré {}\nErreur = {:.1e}(+/- {:.1e})".format(
+            degrees[i], -scores['test_score'].mean(), scores['test_score'].std()
+        ), fontsize='small'
+    )
+    results.append([degrees[i], -scores['train_score'].mean(), -scores['test_score'].mean(),scores['train_score'].std(),scores['test_score'].std()])
+plt.show()
+```
 ### Pipeline
 
 La construction d'un modèle implique généralement toujours les mêmes étapes illustrées sur la figure [@fig-pipeline]:
