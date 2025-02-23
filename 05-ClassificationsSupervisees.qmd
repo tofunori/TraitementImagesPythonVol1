@@ -60,6 +60,7 @@ from matplotlib.colors import ListedColormap
 import geopandas
 from shapely.geometry import Point
 import pandas as pd
+from numba import jit
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -132,15 +133,7 @@ flowchart TD
     C -.-> G
 ```
 
-## Méthode des parallélépipèdes {#sec-0511}
-
-La méthode du parallélépipède est probablement la plus simple et consiste à délimiter directement le domaine des points d'une classe par une boite (un parallélépipède) à D dimensions. Les limites de ces parallélépipèdes forment alors des frontières de décision manuelles qui vont permettre décider de la classe d'appartenance d'un nouveau point. Un des avantages de cette technique est que si un point n'est dans aucun parallélépipède alors on peut le laisser comme non classifié. Par contre, la construction de ces parallélépipèdes se complexifient grandement avec le nombre de bandes. À une dimension, deux paramètres, équivalents à un seuillage d'histogramme, sont suffisants. À deux dimensions, vous devez définir 4 segments par classe. Avec 3 bandes, vous devez définir 6 plans par classes et à D dimensions, D hyperplans à D-1 dimensions par classe.
-
-### La malédiction de la haute dimension
-
-Augmenter le nombre de dimension ou de caractéristiques des données permet de résoudre des problèmes complexes comme la classification d'image. Cependant, cela amène beaucoup de contraintes sur le volume des données. Supposons que nous avons N points occupant un segment linéaire de taille d. La densité de points est $N/d$. Si nous augmentons le nombre de dimension D, la densité de points va diminuer exponentiellement en $1/d^D$. Par conséquent, pour garder une densité constante et donc une bonne estimation des parallélépipèdes, il nous faudrait augmenter le nombre de points en puissance de D. Ceci porte le nom de la malédiction de la dimensionnalité (*dimensionality curse*). En résumé, l'espace vide augmente plus rapidement que le nombre de données d'entraînement et l'espace des données devient de plus en plus parcimonieux (*sparse*). Pour contrecarrer ce problème, on peut sélectionner les meilleures caractéristiques ou appliquer une réduction de dimension. 
-
-### Construction d'un ensemble d’entraînement
+### Construction d'un ensemble d’entraînement {#sec-05.02.02}
 
 Les données d’entraînement vont permettre de construire un modèle. Ces données peuvent prendre des formes très variées mais on peut voir cela sous la forme d'un tableau $N \times D$:
 
@@ -378,10 +371,105 @@ plt.scatter(X1[:, 0], X1[:, 1], marker="o", c=Y1, s=25, edgecolor="k", cmap=cmap
 plt.show()
 ```
 
+On forme notre ensemble d'entrainement à partir du fichier `csv` de la section @sec-05.02.02. 
+
+```{python}
+df= pd.read_csv('sampling_points.csv')
+# Extraire la colonne 'value'.
+# 'value' est une chaîne de caractères représentation d'une liste de nombres.
+# Nous devons la convertir en données numériques réelles.
+X = df['value'].apply(lambda x: np.fromstring(x[1:-1], dtype=float, sep=' ')).to_list()
+
+# on obtient une liste de numpy array  qu'il faut convertir en un numpy array 2D
+X= np.array([row.tolist() for row in X])
+idx= X.sum(axis=-1)>0 # on exclut certains points sans valeurs
+X= X[idx,...]
+y = df['class'].to_numpy()
+y= y[idx]
+class_labels = np.unique(y).tolist() # on cherche à savoir combien de classes uniques
+n_classes = len(class_labels)
+if max(class_labels) > n_classes: # il se peut que certaines classes soit absentes
+  y_new= []
+  for i,l in enumerate(class_labels):
+    y_new.extend([i]*sum(y==l))
+  y_new = np.array(y_new)
+
+couleurs_classes2= [couleurs_classes[c] for c in np.unique(y).tolist()] # couleurs des classes
+cmap_classes2 = ListedColormap(couleurs_classes2)
+```
+
+On peut faire une analyse de séparabilité sur notre ensemble d'entrainement de 10 classes. On obtient un tableau symmétrique de 10x10 valeurs. On peut observer des valeurs inférieures à 1 ce qui indique des séparabilités faibles entre ces classes sous l'hypothèse du modèle Gaussien:
+
+```{python}
+qda= QuadraticDiscriminantAnalysis(store_covariance=True)
+qda.fit(X, y_new) # calcul des paramètres des distributions Gaussiennes
+JM= []
+classes= np.unique(y_new).tolist() # étiquettes uniques des classes
+for cl1 in classes:
+  for cl2 in classes:
+    JM.append(jeffries_matusita_distance(qda.means_[cl1], qda.covariance_[cl1], qda.means_[cl2], qda.covariance_[cl2]))
+
+JM= np.array(JM).reshape(len(classes),len(classes))
+JM= pd.DataFrame(JM, index=classes, columns=classes)
+JM.head(10)
+```
 
 ## Méthodes non paramétriques
 
 Les méthodes non paramétriques ne font pas d'hypothèses particulières sur les données. Un des inconvénients de ces modèles est que le nombre de paramètres du modèles augmente avec la taille des données.
+
+
+### Méthode des parallélépipèdes {#sec-0511}
+
+La méthode du parallélépipède est probablement la plus simple et consiste à délimiter directement le domaine des points d'une classe par une boite (un parallélépipède) à $D$ dimensions. Les limites de ces parallélépipèdes forment alors des frontières de décision manuelles qui vont permettre décider de la classe d'appartenance d'un nouveau point. Un des avantages de cette technique est que si un point n'est dans aucun parallélépipède alors on peut le laisser comme non classifié. Par contre, la construction de ces parallélépipèdes se complexifient grandement avec le nombre de bandes. À une dimension, deux paramètres, équivalents à un seuillage d'histogramme, sont suffisants. À deux dimensions, vous devez définir 4 segments par classe. Avec 3 bandes, vous devez définir 6 plans par classes et à D dimensions, D hyperplans à D-1 dimensions par classe. Le modèle ici est donc une suite de valeurs `min` et `max` pour chacune des bandes et des classes: 
+
+```{python}
+def parrallepiped_train(X_train, y_train):
+  classes= np.unique(y_train).tolist()
+  clf= []
+  for cl in classes:
+      data_cl= X_train[y_train == cl,...] # on cherche les données pour la classe courante
+      
+      limits=[]
+      for b in range(data_cl.shape[1]):
+        limits.append([data_cl[:,b].min(), data_cl[:,b].max()]) # on calcul le min et max pour chaque bande
+      clf.append(np.array(limits))
+  return clf
+clf= parrallepiped_train(X, y_new)
+```
+La prédiction consiste à trouver pour chaque point la première limite qui est satisfaite. Notez qu'il n'y a pas de moyen de décider quelle est la meilleure classe si le point appartient à plusieurs classes.
+
+```{python}
+@jit(nopython=True)
+def parrallepiped_predict(clf, X_test):
+  y_pred= []
+  for data in X_test:
+    y_pred.append(np.nan)
+    for cl, limits in enumerate(clf):
+      inside= True
+      for b,limit in enumerate(limits):
+        inside = inside and (data[b] >= limit[0]) & (data[b] <= limit[1])
+        if ~inside:
+          break
+      if inside:
+        y_pred[-1]=cl
+  return np.array(y_pred)
+```
+On peut appliquer ensuite le modèle sur l'image au complet. Les résultats sont assez mauvais, seule la classe eau en bleu semble être bien classifiée.
+```{python}
+data_image= img_rgbnir.to_numpy().transpose(1,2,0).reshape(img_rgbnir.shape[1]*img_rgbnir.shape[2],4)
+y_image= parrallepiped_predict(clf, data_image)
+y_image= y_image.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])
+
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
+plt.imshow(y_image, cmap=cmap_classes2)
+ax.set_title("Carte d'occupation des sols avec K-NN")
+plt.show()
+```
+
+#### La malédiction de la haute dimension
+
+Augmenter le nombre de dimension ou de caractéristiques des données permet de résoudre des problèmes complexes comme la classification d'image. Cependant, cela amène beaucoup de contraintes sur le volume des données. Supposons que nous avons N points occupant un segment linéaire de taille d. La densité de points est $N/d$. Si nous augmentons le nombre de dimension D, la densité de points va diminuer exponentiellement en $1/d^D$. Par conséquent, pour garder une densité constante et donc une bonne estimation des parallélépipèdes, il nous faudrait augmenter le nombre de points en puissance de D. Ceci porte le nom de la malédiction de la dimensionnalité (*dimensionality curse*). En résumé, l'espace vide augmente plus rapidement que le nombre de données d'entraînement et l'espace des données devient de plus en plus parcimonieux (*sparse*). Pour contrecarrer ce problème, on peut sélectionner les meilleures caractéristiques ou appliquer une réduction de dimension. 
 
 ### Plus proches voisins
 

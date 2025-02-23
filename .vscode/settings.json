@@ -3,5 +3,9 @@
     "cSpell.enableFiletypes": [
         "quarto"
     ],
-    "editor.minimap.enabled": false
+    "editor.minimap.enabled": false,
+    "cSpell.words": [
+        "jupyter",
+        "opencv"
+    ]
 }

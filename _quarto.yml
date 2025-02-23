@@ -1,6 +1,7 @@
 project:
   type: book
   output-dir: docs
+#  execute: /home/sfoucher/miniconda3/bin/python
 #  execute-dir: file
 license: CC BY-SA
 latex-auto-install: true
