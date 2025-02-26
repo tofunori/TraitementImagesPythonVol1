@@ -3,7 +3,7 @@ jupyter: python3
 from: markdown+emoji
 execute:
   echo: true
-  eval: false
+  eval: true
   message: false
   warning: false
 ---
@@ -43,23 +43,27 @@ Dans l'environnement Google Colab, seul `rioxarray` doit être installés:
 ```
 Vérifier les importations:
 ```{python}
-#| eval: true
 import numpy as np
 import rioxarray as rxr
 from scipy import signal
 import xarray as xr
 import xrscipy
 import matplotlib.pyplot as plt
+from skimage import data, graph, segmentation, color
 ```
 ### Images utilisées
 
 Nous allons utilisez les images suivantes dans ce chapitre:
+
 ```{python}
+#| eval: false
 %%capture
-!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
-!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
-!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
-!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif -O SAR.tif
+import gdown
+
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg_', output= 'RGBNIR_of_S2A.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw-Wo6', output= 'landsat7.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')
 ```
 Vérifiez que vous êtes capable de les lire :
 ```{python}
@@ -93,8 +97,6 @@ Le signal d'origine est donc reconstruit à partir d'une somme de sinusoïde com
 Dans le cas d'un simple signal périodique à une dimension avec une fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de fréquence à la position de 4 cycles observés sur $N=16$ observations. Les puissances de Fourier sont affichés dans un espace fréquentiel en cycles par unité d'espacement de l'échantillon (avec zéro au début) variant entre -1 et +1. Par exemple, si l'espacement des échantillons est en secondes, l'unité de fréquence est cycles/seconde (ou Hz). Dans le cas de N échantillons, le pic sera observé à la fréquence $+/- 4/16=0.25$ cycles/secondes. La fréquence d'échantillonnage $F_s$ du signal a aussi beaucoup d'importance aussi et doit être au moins a deux fois la plus haute fréquence observée (ici $F_s > 0.5$) sinon un phénomène de repliement appelé aliasing sera observé. 
 
 ```{python}
-#| eval: true
-
 import math
 Fs= 2.0
 Ts= 1/Fs
@@ -140,8 +142,6 @@ x_f = IDFT^{-1}[F]*x
 $$ {#eq-convolve}
 
 ```{python}
-#| eval: true
-
 from scipy import ndimage
 import numpy.fft
 
@@ -161,7 +161,6 @@ plt.show()
 L'aliasing est un problème fréquent en traitement du signal. Il résulte d'une fréquence d'échantillonnage trop faible par rapport au contenu fréquentielle du signal. Ceci peut se produire lorsque vous sous-échantillonner fortement une image avec un facteur de décimation (par exemple 1 pixel sur 2). En prenant un pixel sur 2, on réduit la fréquence d'échantillonnage d'un facteur 2 ce qui nous impose de réduire le contenu fréquentielle de l'image et donc les fréquences maximales de l'image. L'image présente alors un aspect faussement texturée avec beaucoup de haute fréquences:
 
 ```{python}
-#| eval: true
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
 plt.subplot(1, 2, 1)
 img_rgb.astype('int').plot.imshow(rgb="band")
@@ -174,7 +173,6 @@ plt.show()
 
 Une façon de réduire le contenu fréquentiel  est de filtrer par un filtre passe-bas pour réduire les hautes fréquences par exemple avec un filtre Gaussien:
 ```{python}
-#| eval: true
 from scipy.ndimage import gaussian_filter
 
 q= 4
@@ -192,7 +190,6 @@ plt.show()
 ```
 
 ```{python}
-#| eval: true
 import xrscipy.signal as dsp
 
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
@@ -255,7 +252,6 @@ $${#eq-boxfilter}
 En python, on dispose des fonctions `rolling` et `sliding_window` définis dans la librairie numpy. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l'image avec deux nouvelles  dimensions `x_win` et `y_win`:
 
 ```{python}
-#| eval: true
 import rioxarray as rxr
 rolling_win = img_rgb.rolling(x=5, y=5,  min_periods= 3, center= True).construct(x="x_win", y="y_win", keep_attrs= True)
 print(rolling_win[0,0,1,...])
@@ -263,7 +259,6 @@ print(rolling_win.shape)
 ```
 L'avantage de cette approche est qu'il n'y a pas d'utilisation inutile de la mémoire. Noter les `nan` sur les bords de l'image car la fenêtre déborde sur les bordures de l'image. Par la suite un opérateur moyenne peut être appliqué.
 ```{python}
-#| eval: true
 filtre_moyen= rolling_win.mean(dim= ['x_win', 'y_win'], skipna= True)
 fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 4))
 filtre_moyen.astype('int').plot.imshow(rgb="band")
@@ -292,7 +287,6 @@ $${#eq-scharr-filter}
 Remarquez l'utilisation de chiffres complexes afin de passer deux filtres différents sur la partie réelle et imaginaire.
 
 ```{python}
-#| eval: true
 
 scharr = np.array([[ -3-3j, 0-10j,  +3 -3j],
                    [-10+0j, 0+ 0j, +10 +0j],
@@ -320,7 +314,6 @@ Cette section nécessite la librairie Pytorch avec un GPU et ne fonctionnera que
 Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut ici imposer les mêmes filtres de gradient dans la couche convolutionnelle:
 
 ```{python}
-#| eval: true
 import torch
 import torch.nn as nn
 import numpy as np
@@ -356,7 +349,6 @@ plt.show()
 
 Le résultat est alors calculé sur GPU (si disponible):
 ```{python}
-#| eval: true
 import torch
 import matplotlib.pyplot as plt
 
@@ -376,7 +368,6 @@ plt.show()
 Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d'une image. Le filtre n'est alors plus stationnaire et sa réponse peut varier en fonction du contenu local. Ce type de filtre est très utilisé pour filtrer les images SAR (Synthetic Aperture Radar) qui sont dégradées par un bruit multiplicatif que l'on appelle *speckle*. On peut voir un exemple d'une image Sentinel-1 (bande HH) sur la région de Montréal, remarquée que l'image est affichée en dB en appliquant la fonction `log10`.
 
 ```{python}
-#| eval: true
 print(img_SAR.rio.resolution())
 print(img_SAR.rio.crs)
 fig, axs = plt.subplots(1, 1, figsize=(6, 4))
@@ -403,34 +394,34 @@ $${#eq-lee-filter}
 
 Ainsi si la variance locale est élevée $K$ s'approche de $1$ préservant ainsi les détails de l'image sinon l'image moyenne $I_M$ est appliquée.
 ```{python}
-#| eval: true
 rolling_win = img_SAR.sel(band=2).rolling(x=5, y=5,  min_periods= 3, center= True).construct(x="x_win", y="y_win", keep_attrs= True)
 filtre_moyen= rolling_win.mean(dim= ['x_win', 'y_win'], skipna= True)
 ecart_type= rolling_win.std(dim= ['x_win', 'y_win'], skipna= True)
 cv= ecart_type/filtre_moyen
 ponderation = (cv - 0.25) / cv
 
-fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12, 4))
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4), sharex=True, sharey=True)
 plt.subplot(1, 2, 1)
 cv.plot.imshow( vmin=0, vmax=2)
 axes[0].set_title("CV")
 plt.subplot(1, 2, 2)
 ponderation.plot.imshow( vmin=0, vmax=1) 
 axes[1].set_title("Pondération")
+plt.tight_layout()
 ```
 On zoomant sur l'image on peut clairement voir que les détails de l'image sont mieux préservés:
 ```{python}
-#| eval: true
 #| echo: false
 
 filtered= filtre_moyen + ponderation * (img_SAR.sel(band=1).drop("band") - filtre_moyen)
-fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4), sharex=True, sharey=True)
 plt.subplot(1, 2, 1)
 xr.ufuncs.log10(filtre_moyen).isel(x=slice(None, 250),y=slice(None, 250)).plot.imshow()
 axes[0].set_title("Filtre moyen")
 plt.subplot(1, 2, 2)
 xr.ufuncs.log10(filtered).isel(x=slice(None, 250),y=slice(None, 250)).plot.imshow() #cmap=plt.get_cmap('hot'),
 axes[1].set_title("Filtre de Lee")
+plt.tight_layout()
 ```
 
 ## Segmentation
@@ -456,7 +447,6 @@ $$
 
 Les régions évoluent rapidement avec les itérations, plus le poids $m$ est élevé, plus la forme du super-pixel est contrainte et ne suivra pas vraiment le contenu de l'image:
 ```{python}
-#| eval: true
 
 from skimage.color import rgb2gray
 
@@ -492,7 +482,6 @@ plt.show()
 Le nombre de segments initial est probablement le paramètre le plus important. Une manière de l'estimer est d'évaluer l'échelle moyenne des segments homogènes dans l'image à analyser. On peut observer ci-dessous l'impact de passer d'une échelle $40 \times 40$ à $20 \times 20$. En prenant la moyenne de chaque segment, on peut voir tout de suite que $40 \times 40$ résulte en des segments trop grands mélangeant différentes classes.
 
 ```{python}
-#| eval: true
 from skimage import color, segmentation
 n_regions = int((img.shape[0] * img.shape[1])/(40*40))
 print('Nb segments: ',n_regions)
@@ -508,7 +497,7 @@ print(f'SLIC nombre de segments: {len(np.unique(segments_slic_20))}')
 out = color.label2rgb(segments_slic_20, img, kind='avg', bg_label=0)
 out_20 = segmentation.mark_boundaries(out, segments_slic_20, (0, 0, 0))
 
-fig, ax = plt.subplots(1, 2, figsize=(10, 6), sharex=True, sharey=True)
+fig, ax = plt.subplots(2, 1, figsize=(6, 8), sharex=True, sharey=True)
 
 ax[0].imshow(out_40)
 ax[0].set_title("Initialisation avec 631 segments")
@@ -519,15 +508,62 @@ for a in ax.ravel():
 plt.tight_layout()
 plt.show()
 ```
+### Fusion des segments par graphe
 
+Une segmentation peut produire beaucoup trop de segments. Un post-traitement possible est de fusionner les segments similaires. Un graphe d'adjacence de régions (voir @fig-rag) est formé à partir des segments connectés où chaque noeud représente un segment et un lien une proximité (@Jaworek-2018). À partir de ce graphe, on peut fusionner les noeuds similaires à partir de leur distance radiométrique.
+
+![Graphe d'adjacence de régions (@Jaworek-2018)](images/Region-adjacency-graph.png "Graphe d'adjacence de régions"){#fig-rag}
+
+```{python}
+
+def _weight_mean_color(graph, src, dst, n):
+    """Fonction pour gérer la fusion des nœuds en recalculant la couleur moyenne.
+    La méthode suppose que la couleur moyenne de `dst` est déjà calculée.
+    """
+    diff = graph.nodes[dst]['mean color'] - graph.nodes[n]['mean color']
+    diff = np.linalg.norm(diff)
+    #print(diff)
+    return {'weight': diff}
+
+
+def merge_mean_color(graph, src, dst):
+    """Fonction appelée avant la fusion de deux nœuds d'un graphe de distance de couleur moyenne.
+      Cette méthode calcule la couleur moyenne de `dst`.
+    """
+    graph.nodes[dst]['total color'] += graph.nodes[src]['total color']
+    graph.nodes[dst]['pixel count'] += graph.nodes[src]['pixel count']
+    graph.nodes[dst]['mean color'] = (
+        graph.nodes[dst]['total color'] / graph.nodes[dst]['pixel count']
+    )
+g = graph.rag_mean_color(img, segments_slic_20)
+print('Nombre de segments:',len(g))
+labels2 = graph.merge_hierarchical(
+    segments_slic_20,
+    g,
+    thresh=20,
+    rag_copy=False,
+    in_place_merge=True,
+    merge_func=merge_mean_color,
+    weight_func=_weight_mean_color,
+)
+print('Nombdre de segments:',len(g))
+
+out1 = color.label2rgb(segments_slic_20, img, kind='avg', bg_label=0)
+out1 = segmentation.mark_boundaries(out1, segments_slic_20, (0, 0, 0))
+out2 = color.label2rgb(labels2, img, kind='avg', bg_label=0)
+out2 = segmentation.mark_boundaries(out2, labels2, (0, 0, 0))
+
+fig, ax = plt.subplots(nrows=2, sharex=True, sharey=True, figsize=(6, 8))
+
+ax[0].imshow(out1)
+ax[0].set_title("Avant fusion")
+ax[1].imshow(out2)
+ax[1].set_title("Après fusion")
+for a in ax:
+    a.axis('off')
+
+plt.tight_layout()
+
+```
 ## Vectorisation et rasterisation
 
-## Analyse de terrain
-
-### Élévation
-### Pente
-### Ombrage
-### Visibilité
-
-
-## Exercices de révision
