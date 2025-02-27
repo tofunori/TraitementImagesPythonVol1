@@ -85,8 +85,10 @@ format:
   html:
     colorlinks: true
     css: css/quizlib.min.css
-    html-math-method: katex
+#    html-math-method: katex
     fig-width: 8
+#    header-includes:
+#      - \usepackage{annotate-equations}
     mermaid: 
       theme: default
     theme:

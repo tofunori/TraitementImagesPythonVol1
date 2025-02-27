@@ -49,7 +49,8 @@ from scipy import signal
 import xarray as xr
 import xrscipy
 import matplotlib.pyplot as plt
-from skimage import data, graph, segmentation, color
+from skimage import data, measure, graph, segmentation, color
+import pandas as pd
 ```
 ### Images utilisées
 
@@ -508,11 +509,11 @@ for a in ax.ravel():
 plt.tight_layout()
 plt.show()
 ```
-### Fusion des segments par graphe
+### Fusion des segments par graphe de proximité
 
-Une segmentation peut produire beaucoup trop de segments. Un post-traitement possible est de fusionner les segments similaires. Un graphe d'adjacence de régions (voir @fig-rag) est formé à partir des segments connectés où chaque noeud représente un segment et un lien une proximité (@Jaworek-2018). À partir de ce graphe, on peut fusionner les noeuds similaires à partir de leur distance radiométrique.
+Une segmentation peut produire beaucoup trop de segments. On parle alors de sur-segmentation. Ceci est recherché dans certains cas pour permettre de bien capturer les détails fins de l'image. Cependant, afin de réduire le nombre de segments, un post-traitement possible est de fusionner les segments similaires selon certaines règles ou distances. Un graphe d'adjacence de régions (voir @fig-rag) est formé à partir des segments connectés où chaque noeud représente un segment et un lien une proximité (@Jaworek-2018). À partir de ce graphe, on peut fusionner les noeuds similaires à partir de leur distance radiométrique.
 
-![Graphe d'adjacence de régions (@Jaworek-2018)](images/Region-adjacency-graph.png "Graphe d'adjacence de régions"){#fig-rag}
+![Graphe d'adjacence de régions, d'après (@Jaworek-2018). Chaque noeud est un segment, un lien est formé uniquement si les segments se touchent (par exemple le segment 6 ne touche que la région 5).](images/Region-adjacency-graph.png "Graphe d'adjacence de régions"){#fig-rag}
 
 ```{python}
 
@@ -565,5 +566,17 @@ for a in ax:
 plt.tight_layout()
 
 ```
-## Vectorisation et rasterisation
+### Approche objet
 
+L'approche objet consiste à traiter chaque segment comme un objet avec un ensemble de propriétés. La librairie `skimage` offre la possibilité d'enrichir chaque segment avec des [propriétés](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops) et de former un tableau:
+
+
+```{python}
+properties = ['label', 'area', 'centroid', 'num_pixels', 'intensity_mean', 'intensity_std']
+
+table=   measure.regionprops_table(labels2, intensity_image= img_rgb.to_numpy().transpose(1,2,0), properties=properties)
+
+table = pd.DataFrame(table)
+table.head(10)
+```
+Ce tableau pourra être exploiter pour une tâche de classification par la suite (on parle alors de classification objet).
