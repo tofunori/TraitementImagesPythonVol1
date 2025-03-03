@@ -64,7 +64,7 @@ from numba import jit
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
 from sklearn.preprocessing import StandardScaler
 from sklearn.inspection import DecisionBoundaryDisplay
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
@@ -470,6 +470,7 @@ if max(class_labels) > n_classes: # il se peut que certaines classes soit absent
   y_new = np.array(y_new)
 
 couleurs_classes2= [couleurs_classes[c] for c in np.unique(y).tolist()] # couleurs des classes
+nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]
 cmap_classes2 = ListedColormap(couleurs_classes2)
 ```
 
@@ -488,6 +489,18 @@ JM= np.array(JM).reshape(len(classes),len(classes))
 JM= pd.DataFrame(JM, index=classes, columns=classes)
 JM.head(10)
 ```
+Afin d'évaluer chaque classe, on peut calculer la séparabilité minimale, on peut observer que la classe eau a le maximum de séparabilité avec les autres classes.
+```{python}
+#| echo: false
+#| warning: false
+plt.figure(figsize=(5, 3))
+plt.bar(range(JM.shape[0]), np.min(JM[JM>0],axis=1))
+plt.xlabel("Classes")
+plt.ylabel("JM")
+plt.title("Séparabilité minimale", fontsize="small")
+plt.xticks(range(len(nom_classes2)), nom_classes2, rotation=45, ha='right')
+plt.show()
+```
 ## Mesures de performance d'une méthode de classification
 
 Lorsque que l'on cherche à établir la performance d'un modèle, il faut être capable de mesurer la performance de ce classificateur. Il existe de nombreuses mesures de performance qui sont toutes dérivées de la matrice de confusion. Cette matrice compare les étiquettes provenant de l'annotation (la vérité terrain) et les étiquettes prédites par un modèle. On peut définir $C(i,j)$ est le nombre de prédictions dont la vérité terrain indique la classe $i$ et qui sont prédites dans la classe $j$. La fonction [confusion_matrix](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html) permet de faire ce calcul, voici un exemple très simple:
@@ -503,9 +516,23 @@ y_true = ["cat", "ant", "cat", "cat", "ant", "bird", "bird"]
 y_pred = ["ant", "ant", "cat", "cat", "ant", "cat", "bird"]
 print(classification_report(y_true, y_pred, target_names=["ant", "bird", "cat"]))
 ```
-La précision pour une classe donnée est la proportion des prédictions qui sont de bonnes prédictions et est sensible aux fausses alarmes alors que le `recall` (le rappel) est la portion des vrais prédictions qui ont été bien classifiées et est sensible aux confusions entre classes.
+Le rappel (*recall*) pour une classe donnée est la proportion de la vérité terrain qui a été correctement identifiée et est sensible aux confusions entre classes (erreurs d'omission). Les valeurs de rappels correspondent à une normalization de la matrice de confusion par rapport aux lignes. 
 
-La précision est la proportion d’éléments réellement positifs parmi les éléments proposés comme positifs.
+$$
+Recall_i= C_{ii} / \sum_j C_{ij}
+$$
+Une faible valeur de rappel signifie que le classificateur confond facilement la classe concernée avec d'autres classes.
+
+La précision est la portion des prédictions qui ont été bien classifiées et est sensible aux fausses alarmes (erreurs de commission). Les valeurs de précision correspondent à une normalization de la matrice de confusion par rapport aux colonnes.
+$$
+Precision_i= C_{ii} / \sum_i C_{ij}
+$$
+Une faible valeur de précision signifie que le classificateur trouve facilement la classe concernée dans d'autres classes.
+
+Le `f1-score` calcul une moyenne des deux métriques précédentes:
+$$
+\text{f1-score}_i=2\frac{Recall_i \times Precision_i}{Recall_i + Precision_i}
+$$
 
 ## Méthodes non paramétriques
 
@@ -558,6 +585,12 @@ fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
 plt.imshow(y_image, cmap=cmap_classes2)
 ax.set_title("Méthode des parrallélépipèdes", fontsize="small")
 plt.show()
+```
+On peut calculer quelques mesures de performance sur l'ensemble d'entrainement:
+```{python}
+y_pred= parrallepiped_predict(clf, X)
+nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]
+print(classification_report(y_new, y_pred, target_names=nom_classes2, zero_division=np.nan))
 ```
 
 #### La malédiction de la haute dimension
@@ -646,7 +679,15 @@ y_pred = clf.predict(X_test)
 print("Nombre de points misclassifiés sur %d points : %d"
   % (X_test.shape[0], (y_test != y_pred).sum()))
 ```
-
+Le rapport de performance est le suivant:
+```{python}
+nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]
+print(classification_report(y_test, y_pred, target_names=nom_classes2, zero_division=np.nan))
+```
+La matrice de confusion peut-être affichée de manière graphique:
+```{python}
+disp= ConfusionMatrixDisplay.from_predictions(y_test, y_pred, display_labels=nom_classes2, xticks_rotation='vertical')
+```
 L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec Largeur x Hauteur lignes et 4 colonnes:
 
 ```{python}
