@@ -5,7 +5,6 @@
 tex-hacks/*
 lua/*
 /.quarto/
-*.tex
 *.tif
 *.tif.aux.xml
 *.tif:Zone.Identifier
