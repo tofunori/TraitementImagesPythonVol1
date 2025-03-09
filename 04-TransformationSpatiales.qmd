@@ -24,9 +24,9 @@ Dans ce chapitre, nous abordons quelques techniques de traitement d'images dans 
 
 Les librairies utilisées dans ce chapitre sont les suivantes:
 
--   [SciPy -](https://scipy.org/)
+-   [SciPy](https://scipy.org/)
 
--   [NumPy -](https://numpy.org/)
+-   [NumPy](https://numpy.org/)
 
 -   [opencv-python · PyPI](https://pypi.org/project/opencv-python/)
 

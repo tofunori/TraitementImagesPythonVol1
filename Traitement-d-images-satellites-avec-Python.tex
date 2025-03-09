@@ -1973,9 +1973,9 @@ métadonnées.
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\section{:rocket: Préambule}\label{rocket-pruxe9ambule}
+\section{Préambule}\label{pruxe9ambule-1}
 
-\subsection{:dart: Objectifs}\label{dart-objectifs}
+\subsection{Objectifs}\label{objectifs}
 
 Dans ce chapitre, nous abordons quelques techniques de réhaussement et
 de visualisation d'images. Ce chapitre est aussi disponible sous la
@@ -1990,9 +1990,9 @@ suivantes:
 
 \begin{itemize}
 \item
-  \href{https://scipy.org/}{SciPy -}
+  \href{https://scipy.org/}{SciPy}
 \item
-  \href{https://numpy.org/}{NumPy -}
+  \href{https://numpy.org/}{NumPy}
 \item
   \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
 \item
@@ -2018,6 +2018,16 @@ doivent être installés:
 \end{Highlighting}
 \end{Shaded}
 
+Dans l'environnement Google Colab, on peut s'assurer que les librairies
+sont installées:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy scikit}\OperatorTok{{-}}\NormalTok{image}
+\end{Highlighting}
+\end{Shaded}
+
 Vérifier les importations:
 
 \begin{Shaded}
@@ -2038,10 +2048,12 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 \begin{Shaded}
 \begin{Highlighting}[]
 \OperatorTok{\%\%}\NormalTok{capture}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif }\OperatorTok{{-}}\NormalTok{O SAR.tif}
+\ImportTok{import}\NormalTok{ gdown}
+
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg\_\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw{-}Wo6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}landsat7.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1\_zwCLN{-}x7XJcNHJCH6Z8upEdUXtVtvs1\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2078,21 +2090,11 @@ multispectrale.
 En ligne de commande, \texttt{gdalinfo} permet d'interroger rapidement
 un fichier image pour connaitre les statistiques de base:
 
-\begin{codelisting}
-
-\caption{\label{lst-gdalstats}Statistiques d'une image avec gdal}
-
-\centering{
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \OperatorTok{!}\NormalTok{gdalinfo }\OperatorTok{{-}}\NormalTok{stats landsat7.tif}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\end{codelisting}%
 
 \begin{verbatim}
 Driver: GTiff/GeoTIFF
@@ -2253,12 +2255,21 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.15555556 0.11111111 0.05555556 0.03333333 0.13333333 0.1
- 0.08888889 0.1        0.21111111 0.12222222]
+valeurs : [0.08888889 0.06666667 0.11111111 0.08888889 0.16666667 0.08888889
+ 0.13333333 0.1        0.15555556 0.11111111]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
 Le calcul se fait avec 10 intervalles par défaut.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.bar(bin\_limites[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{],hist)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-11-output-1.pdf}}
 
 Pour des besoins de visualisation, le calcul des valeurs extrêmes de
 l'histogramme peut aussi se faire via les quantiles comme discutés
@@ -2280,15 +2291,16 @@ multi-spectrale:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-10-output-1.png}}
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-12-output-1.pdf}}
 
 \subsection{Réhaussements
 linéaires}\label{ruxe9haussements-linuxe9aires}
 
-Le réhaussement linéaire d'une image est la forme la plus simple de
-réhaussement, elle consiste 1) à optimiser les valeurs des pixels d'une
-image afin de maximiser la dynamique disponibles à l'affichage, ou 2)
-changer le format de stockage des valeurs (e.g.~de 8 bit à 16 bit):
+Le réhaussement linéaire (\emph{linear stretch}) d'une image est la
+forme la plus simple de réhaussement, elle consiste 1) à optimiser les
+valeurs des pixels d'une image afin de maximiser la dynamique
+disponibles à l'affichage, ou 2) changer le format de stockage des
+valeurs (e.g.~de 8 bit à 16 bit):
 
 \begin{equation}\phantomsection\label{eq-rehauss-lin}{ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1}\end{equation}
 
@@ -2334,34 +2346,13 @@ images avec la librairie Matplotlib.
 Il existe plusieurs outils gratuits de visualisation d'une image
 satellite, on peut mentionner les deux principaux: - QGIS - ESA Snap
 
-\subsection{Visualisation sur le Web}\label{visualisation-sur-le-web}
-
-Une des meilleures pratiques pour visualiser une image de grande taille
-est d'utiliser un service de type Web Mapping Service (WMS). Cependant,
-type de service nécessite une architecture client-serveur qui est plus
-complexe à mettre en place.
-
-Google Earth Engine offre des moyens de visualiser de la donnée locale:
-\emph{Working with Local Geospatial Data} --- via
-\href{https://geog-312.gishub.org/book/geospatial/geemap.html\#working-with-local-geospatial-data}{17.
-Geemap --- Introduction to GIS Programming}
-
-via \href{https://github.com/opengeos/data/tree/main/raster}{data/raster
-at main · opengeos/data}
-
-\subsection{Visualisation 3D}\label{visualisation-3d}
-
-drapper une image satellite sur un DEM
-
-\section{Exercices de révision}\label{exercices-de-ruxe9vision}
-
 \part{Partie 2. Transformations des données satellitaires}
 
 \bookmarksetup{startatroot}
 
 \chapter{Transformations spectrales}\label{sec-chap03}
 
-\section{:rocket: Préambule}\label{rocket-pruxe9ambule-1}
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule}
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 \#\#\# :dart: Objectifs Dans ce chapitre, nous abordons quelques
@@ -2495,17 +2486,17 @@ présente le maximum de variation. L'ACP est une décomposition linéaire,
 c'est à dire que les composantes principales sont des sommes pondérées
 des valeurs originales.
 
-\section{Exercices de révision}\label{exercices-de-ruxe9vision-1}
+\section{Exercices de révision}\label{exercices-de-ruxe9vision}
 
 \bookmarksetup{startatroot}
 
 \chapter{Transformations spatiales}\label{sec-chap04}
 
-\section{:rocket: Préambule}\label{rocket-pruxe9ambule-2}
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-1}
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\subsection{:dart: Objectifs}\label{dart-objectifs-1}
+\subsection{:dart: Objectifs}\label{dart-objectifs}
 
 Dans ce chapitre, nous abordons quelques techniques de traitement
 d'images dans le domaine spatial uniquement. Ce chapitre est aussi
@@ -2519,9 +2510,9 @@ Les librairies utilisées dans ce chapitre sont les suivantes:
 
 \begin{itemize}
 \item
-  \href{https://scipy.org/}{SciPy -}
+  \href{https://scipy.org/}{SciPy}
 \item
-  \href{https://numpy.org/}{NumPy -}
+  \href{https://numpy.org/}{NumPy}
 \item
   \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
 \item
@@ -3462,11 +3453,11 @@ suite (on parle alors de classification objet).
 
 \chapter{Classifications d'images supervisées}\label{sec-chap05}
 
-\section{:rocket: Préambule}\label{rocket-pruxe9ambule-3}
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-2}
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\subsection{:dart: Objectifs}\label{dart-objectifs-2}
+\subsection{:dart: Objectifs}\label{dart-objectifs-1}
 
 Dans ce chapitre, nous ferons une introduction générale à
 l'apprentissage automatique et abordons quelques techniques
