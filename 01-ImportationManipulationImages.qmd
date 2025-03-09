@@ -3,15 +3,15 @@ jupyter: python3
 from: markdown+emoji
 execute:
   echo: true
-  eval: false
+  eval: true
   message: false
   warning: false
 ---
 # Importation et manipulation de données spatiales {#sec-chap01}
 
-## :rocket: Préambule
+## Préambule
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
-### :dart: Objectifs
+### Objectifs
 Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
 
 [![](images/colab-badge.svg)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb){target="_blank"}  
@@ -19,9 +19,9 @@ Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture
 ### Librairies
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 
-* [SciPy -](https://scipy.org/)
+* [SciPy](https://scipy.org/)
 
-* [NumPy -](https://numpy.org/) 
+* [NumPy](https://numpy.org/) 
 
 * [opencv-python · PyPI](https://pypi.org/project/opencv-python/)
 
@@ -36,13 +36,13 @@ Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 
 Dans l'environnement Google Colab, seul `rioxarray` et gdal doivent être installé:
 ```{python}
+#| eval: false
 !apt-get update
 !apt-get install gdal-bin libgdal-dev
 !pip install -q rioxarray
 ```
 Vérifier les importations:
 ```{python}
-#| eval: true
 import numpy as np
 import rioxarray as rxr
 from scipy import signal
@@ -54,14 +54,16 @@ import matplotlib.pyplot as plt
 
 Nous allons utilisés ces images dans ce chapitre:
 ```{python}
-!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
-!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
-!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
+#| eval: false
+import gdown
+
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg_', output= 'RGBNIR_of_S2A.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw-Wo6', output= 'landsat7.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')
 !wget https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/modis-aqua.PNG -O modis-aqua.PNG
 ```
 Vérifiez que vous êtes capable de les lire :
 ```{python}
-#| eval: true
 #| output: false
 
 with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
@@ -71,12 +73,13 @@ with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
 ```
 ## Importation d'images
 
-La première étape avant tout traitement est d'accéder à la donnée image pour qu'elle soit manipulée par le programme Python. L'imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines librairies, comme [Xarray](https://docs.xarray.dev/en/stable/), qui on cherchées à optimiser la lecture et l'écriture de grandes images. Il est donc conseiller de toujours garder un oeil sur l'espace mémoire occupé par les variables Python reliées aux images. La librairie principale en géomatique qui va nous permettre d'importer (et d'exporter) de l'imagerie est la librairie [GDAL](https://gdal.org) qui rassemble la plupart des formats sous forme de *driver* (ou pilote en français). 
+La première étape avant tout traitement est d'accéder à la donnée image pour qu'elle soit manipulée par le langage Python. L'imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines librairies, comme [Xarray](https://docs.xarray.dev/en/stable/), qui on cherchées à optimiser la lecture et l'écriture de grandes images. Il est donc conseiller de toujours garder un oeil sur l'espace mémoire occupé par les variables Python représentant les images. La librairie principale en géomatique qui va nous permettre d'importer (et d'exporter) de l'imagerie est la librairie [GDAL](https://gdal.org) qui rassemble la plupart des formats sous forme de *driver* (ou pilote en français). 
 
 Dans le domaine de la géomatique, il faut prêter attention à trois caractéristiques principales des images:
 1. **La matrice des données** elle-même qui contient les valeurs brutes des pixels. Cette matrice sera souvent un cube à trois dimensions. En Python, ce cube sera le plus souvent un objet de la librairie [NumPy](https://numpy.org/) (voir section).
 2. **La dynamique des images** c.à.d le format de stockage des valeurs individuelles (octet, entier, double, etc.). Ce format décide principalement de la résolution radiométrique et des valeurs minimales et maximales supportées. 
-3. **La métadonnée** qui va transporter l'information auxiliaire de l'image comme les dimensions et la position de l'image, la date, etc. Cette donnée auxiliaire prendra souvent la forme d'un dictionnaire Python. 
+3. **Le nombre de bandes** spectrales de l'image qui est souvent supérieur à 3 et peut atteindre plusieurs centaines de bandes pour certains capteurs.
+4. **La métadonnée** qui va transporter l'information auxiliaire de l'image comme les dimensions et la position de l'image, la date, etc. Cette donnée auxiliaire prendra souvent la forme d'un dictionnaire Python. Elle contiendra aussi l'information de géoréférence.
 
 Les différents formats se distinguent principalement sur la manière dont ces trois caractéristiques sont gérées.
 
@@ -85,8 +88,8 @@ Les différents formats se distinguent principalement sur la manière dont ces t
 Il existe maintenant de nombreux formats numériques pour la donnée de type image parfois appelé donnée matricielle ou donnée *raster*. La librairie GDAL rassemble la plupart des formats matriciels rencontrés en géomatique (voir [Raster drivers — GDAL documentation](https://gdal.org/en/latest/drivers/raster/index.html) pour une liste complète).
 
 On peut distinguer deux grandes familles de format:
-1. Les formats de type **RVB** issus de l'imagerie numérique grand publique comme [JPEG](https://gdal.org/en/latest/drivers/raster/jpeg.html#raster-jpeg), [png](https://gdal.org/en/latest/drivers/raster/png.html#raster-png), etc. Ces formats ne supportent généralement que trois bandes au maximum (rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255 (format dit 8 bit).
-2. **Les géo-formats** issus des domaines scientifiques ou techniques comme GeoTIFF, HDF5, etc. qui peuvent inclure plus que trois bandes et des dynamiques plus élevées (16 bit ou même float).
+1. Les formats de type **RVB** issus de l'imagerie numérique grand publique comme [JPEG](https://gdal.org/en/latest/drivers/raster/jpeg.html#raster-jpeg), [png](https://gdal.org/en/latest/drivers/raster/png.html#raster-png), etc. Ces formats ne supportent généralement que trois bandes au maximum (rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255 (format dit 8 bit ou `uint8`).
+2. **Les géo-formats** issus des domaines scientifiques ou techniques comme GeoTIFF, HDF5, NetCDF, etc. qui peuvent inclure plus que trois bandes et des dynamiques plus élevées (16 bit ou même float).
 
 Les formats RVB restent très utilisés en Python notamment par les librairies dites de vision par ordinateur (*Computer Vision*) comme OpenCV et sickit-image ainsi que les grandes librairies en apprentissage profond (PyTorch, Tensorflow).  
 
@@ -118,7 +121,6 @@ La librairie PIL retourne un objet de type `PngImageFile`, l'affichage de l'imag
 ```{python}
 #| lst-label: lst-lecture-PIL-PNG
 #| lst-cap: Lecture d'une image en format PNG avec PIL
-#| eval: true
 
 from PIL import Image
 img = Image.open('modis-aqua.PNG')
@@ -171,7 +173,6 @@ La manière la plus directe d'accéder à la métadonnée d'une image est d'util
 ```{python}
 #| lst-label: lst-gdalinfo
 #| lst-cap: Collecte d'information sur une image avec gdal
-#| eval: true
 
 !gdalinfo RGBNIR_of_S2A.tif
 ```
@@ -180,8 +181,7 @@ Le plus simple est d'utiliser la fonction `rio info`:
 ```{python}
 #| lst-label: lst-rioinfo
 #| lst-cap: Collecte d'information sur une image avec rasterio
-#| eval: true
-
+#| eval: false
 !rio info RGBNIR_of_S2A.tif --indent 2 --verbose
 ```
 
@@ -189,9 +189,9 @@ Le plus simple est d'utiliser la fonction `rio info`:
 
 ### Manipulation de la matrice de pixels 
 
-La donnée brute de l'image est généralement contenue dans un cube matricielle à trois dimensions (deux dimensions spatiales et une dimension spectrale). Comme exposé précédemment, la librairie dite *"fondationnelle"* pour la manipulation de matrices en Python est [NumPy](https://numpy.org/). Cette librairie contient un nombre très important de fonctionnalités couvrant l'algèbre linéaires, les statistiques, etc. et constitue la fondation de nombreuses librairies (voir (@fig-naturenumpy1))
+La donnée brute de l'image est généralement contenue dans un cube matricielle à trois dimensions (deux dimensions spatiales et une dimension spectrale). Comme exposé précédemment, la librairie dite *"fondationnelle"* pour la manipulation de matrices en Python est [NumPy](https://numpy.org/). Cette librairie contient un nombre très important de fonctionnalités couvrant l'algèbre linéaires, les statistiques, etc. et constitue la fondation de nombreuses librairies en traitement numérique (voir (@fig-naturenumpy1))
 
-![La librairie NumPy est le fondement de nombreuses librairies scientifiques (d'après [@NumpyNature]).](https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/41586_2020_2649_Fig2_HTML.png){#fig-naturenumpy1 width="100%" fig-align="center"}
+![La librairie NumPy est le fondement de nombreuses librairies scientifiques (d'après [@NumpyNature]).](images/41586_2020_2649_Fig2_HTML.png){#fig-naturenumpy1 width="100%" fig-align="center"}
 
 ### Information de base
 
@@ -201,7 +201,6 @@ Les deux informations de base à afficher sur une matrice sont 1) les dimensions
 ```{python}
 #| lst-label: lst-numpyshape
 #| lst-cap: Lecture d'une image en format PNG avec OpenCV
-#| eval: true
 
 import cv2
 img = cv2.imread('modis-aqua.PNG')
@@ -213,7 +212,7 @@ print('Type de la donnée: ',img.dtype)
 ```{python}
 #| label: tbl-numpytype
 #| tbl-cap: "Type de données de NumPy"
-#| eval: true
+#| echo: false
 
 from IPython.display import Markdown
 from tabulate import tabulate
@@ -224,24 +223,13 @@ table = [["uint8", "char", 8, 0, 255],
 Markdown(tabulate(table, headers=["dtype", "Nom", "Taille (bits)", "Min", "Max"], tablefmt="pipe"))
 ```
 
-::: bloc_aller_loin
-::: bloc_aller_loin-header
-::: bloc_aller_loin-icon
-:::
 
-**Les différents types de données en dans NumPy**
-:::
-
-::: bloc_aller_loin-body
-Il comprend des références ou des extensions d'une méthode abordée dans une section.
-:::
-:::
 
 ### Découpage et indexation de la matrice
 
-L'indexation et le découpage des matrices dans NumPy sont des techniques essentielles pour manipuler efficacement les données multidimensionnelles en Python, offrant une syntaxe puissante et flexible pour accéder et modifier des sous-ensembles spécifiques d'éléments dans les tableaux (voir @fig-naturenumpy2). Indexer une matrice consiste à accéder à une valeur dans la matrice pour une position particulière, la syntaxe générale est `matrice[ligne, colonne, bande]` et est similaire à la manipulation des [listes](https://docs.python.org/fr/3/tutorial/introduction.html#lists) en Python. Les indices commencent à `0` et se termine à la `taille-1` de l'axe considéré. 
+L'indexation et le découpage (*slicing*) des matrices dans NumPy sont des techniques essentielles pour manipuler efficacement les données multidimensionnelles en Python, offrant une syntaxe puissante et flexible pour accéder et modifier des sous-ensembles spécifiques d'éléments dans les tableaux (voir @fig-naturenumpy2). Indexer une matrice consiste à accéder à une valeur dans la matrice pour une position particulière, la syntaxe générale est `matrice[ligne, colonne, bande]` et est similaire à la manipulation des [listes](https://docs.python.org/fr/3/tutorial/introduction.html#lists) en Python. Les indices commencent à `0` et se termine à la `taille-1` de l'axe considéré. 
 
-![Vue d'ensemble des opérations de base des matrices avec NumPy](https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/41586_2020_2649_Fig1_HTML.png){#fig-naturenumpy2 width="100%" fig-align="center"}
+![Vue d'ensemble des opérations de base des matrices avec NumPy](images/41586_2020_2649_Fig1_HTML.png){#fig-naturenumpy2 width="100%" fig-align="center"}
 
 Le découpage (ou *slicing* en anglais) consiste à produire une nouvelle matrice qui est un sous-ensemble de la matrice d'origine. Un découpage se fait avec le symbole ':', la syntaxe générale pour définir un découpage est `[début:fin:pas]`. Si on ne spécifie pas `début` ou `fin` alors les valeurs 0 ou `dimension-1` sont considérées implicitement. Quelques exemples:
 * choisir un pixel en particulier avec toutes les bandes: `matrice[1,1,:]`
@@ -256,8 +244,6 @@ La structure générale du découpage est `matrice[start:stop:step]`, où :
 Si l'un de ces paramètres est omis, NumPy utilise des valeurs par défaut : 0 pour `start`, la taille du tableau pour `stop`, et 1 pour `step`. Par exemple, pour un tableau unidimensionnel `array`, on peut extraire les éléments du deuxième au quatrième avec `array[1:4]`. Pour sélectionner tous les éléments à partir du troisième, on utiliserait `array[2:]`. Cette syntaxe s'applique également aux tableaux multidimensionnels, où chaque dimension est séparée par une virgule. Ainsi, pour une matrice 2D m, `m[0:2, 1:3]` sélectionnerait une sous-matrice 2x2 composée des deux premières lignes et des deuxième et troisième colonnes. L'indexation négative est également supportée, permettant de compter à partir de la fin du tableau. Par exemple, `a[-3:]` sélectionnerait les trois derniers éléments d'un tableau.
 
 ```{python}
-#| eval: true
-
 import cv2
 img = cv2.imread('modis-aqua.PNG')
 img_col = img[:,1,:]
@@ -283,18 +269,25 @@ On peut vérifier si l'espace mémoire est partagé avec `np.shares_memory(arr, 
 On peut toujours forcer une copie avec la méthode `copy()`
 :::
 :::
+
+<!--
 #### Exemple 1: calcul d'un rapport de bande
 
 #### Exemple 2: application d'un filtrage spatial
 
 ### Mosaïquage, masquage et découpage 
+-->
 
 #### Masquage
 
 L'utilisation d'un masque est un outil important en traitement d'image car la plupart des images de télédétection contiennent des pixels non valides qu'il faut exclure des traitements (ce que l'on appelle le *no data* en Anglais). Il y a plusieurs raison possibles pour la présence de pixels non valides:
+
 1. L'image est projetée dans une grille cartographique et certaines zones, généralement situées en dehors de l'empreinte au sol du capteur, sont à exclure.
+
 2. La présence de nuages que l'on veut exclure.
+
 3. La présence de pixels erronés dûs à des problèmes de capteurs.
+
 4. La présence de valeurs non numériques (*not a number* ou `nan`)
  
 
@@ -302,7 +295,9 @@ La librairie NumPy fournit des mécanismes pour exclure automatiquement certaine
 
 ### Changement de projection cartographique 
 
+<!--
 ### Recalage d'images et co-registration 
+-->
 
 ## Données en géoscience
 
@@ -363,12 +358,15 @@ Les principales différences sont les suivantes :
 
 Ces trois structures prennent en charge les opérations de type dictionnaire et les calculs de coordination tout en conservant les métadonnées.
 
-![Organisation d'un Dataset dans xarray](images/xarray-dataset-diagram.png)
+![Organisation d'un Dataset dans xarray](images/xarray-dataset-diagram.png){#fig-xarray width="80%" fig-align="center"}
 
+<!--
 netcdf, xarray, GRIB.
 
 Données météos, exemple avec SWOT.
+-->
 
+<!--
 ## Importation de données vectorielles
 
 ### Importation d'un fichier *shapefile*
@@ -384,3 +382,4 @@ Données météos, exemple avec SWOT.
 ### Requêtes attributaires 
 
 ## Exercices de révision 
+-->
