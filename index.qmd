@@ -4,7 +4,7 @@ jupyter: python3
 ```{=tex}
 \renewcommand{\partname}{} % Réinitialiser partie
 ```
-**Résumé :** Ce livre vise à décrire une panoplie de méthodes de traitement d’images satellites avec le langage Python. Celles et ceux souhaitant migrer progressivement d’un autre logiciel d’imagerie et de télédétection vers Python trouveront dans cet ouvrage les éléments pour une transition en douceur. La philosophie de ce livre est de donner toutes les clefs de compréhension et de mise en œuvre des méthodes abordées dans Python. La présentation des méthodes est basée sur une approche compréhensive et intuitive plutôt que mathématique, sans pour autant négliger la rigueur mathématique ou statistique. Des rappels sur les fondements en télédétection pourront apparaître au besoin afin d'éclairer les approches techniques.
+**Résumé :** Ce livre vise à décrire une panoplie de méthodes de traitement d’images satellites avec le langage Python. Celles et ceux souhaitant migrer progressivement d’un autre logiciel d’imagerie et de télédétection vers Python trouveront dans cet ouvrage les éléments pour une transition en douceur. La philosophie de ce livre est de donner toutes les clefs de compréhension et de mise en œuvre des méthodes abordées dans Python. La présentation des méthodes est basée sur une approche compréhensive et intuitive plutôt que mathématique, sans pour autant négliger la rigueur mathématique ou statistique. Des rappels sur les fondements en télédétection pourront apparaître au besoin afin d'éclairer les approches techniques. Plusieurs éditions régulières sont prévues sachant que ce domaine évoluent constamment.
 
 
 **Ce projet est en cours d'écriture et le contenu n'est pas complet**
@@ -14,15 +14,13 @@ jupyter: python3
 
 **Remerciements :** Ce manuel a été réalisé avec le soutien de la fabriqueREL. Fondée en 2019, la fabriqueREL est portée par divers établissements d'enseignement supérieur du Québec et agit en collaboration avec les services de soutien pédagogique et les bibliothèques. Son but est de faire des ressources éducatives libres (REL) le matériel privilégié en enseignement supérieur au Québec.
 
-**Maquette de la page couverture et identité graphique du livre :** .
 
 **Mise en page :** Samuel Foucher, Philippe Apparicio et Marie-Hélène Gadbois Del Carpio.
 
-**Révision linguistique :** Denise Latreille.
 
 © Samuel Foucher, Philippe Apparicio, Yacine Bouroubi et Mickaël Germain.
 
-**Pour citer cet ouvrage :** Foucher S., Apparicio P., Bouroubi, Y. et M. Germain (2024). *Traitement d’images satellites avec Python*. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA. <br /> <br />
+**Pour citer cet ouvrage :** Foucher S., Apparicio P., Bouroubi Y., Germain M. et Clabaut, E. (2025). *Traitement d’images satellites avec Python*. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC BY-SA. <br /> <br />
 
 ![](images/introduction/CouvertureP2.png){width="80%" fig-align="left"}
 
@@ -201,7 +199,7 @@ Le livre est organisé autour de quatre grandes parties.
 
 **Partie 3. Classifications d'images** Cette troisième partie comprend deux chapitres : les classifications supervisées ([chapitre @sec-chap05]) et non supervisées ([chapitre @sec-chap06]).
 
-**Partie 4. Données massives**. Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes [chapitre @sec-chap07], notammment Google Earth Engine.
+**Partie 4. Données massives** (à venir dans une édition future). Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes [chapitre @sec-chap07], notammment Google Earth Engine.
 
 ## Remerciements {#sect005 .unnumbered}
 
@@ -218,7 +216,7 @@ Ce projet a bénéficié du soutien pédagogique et financier de la [***fabrique
 -   Claude Potvin, conseiller en formation, Service de soutien à l'enseignement, Université Laval.
 
 Nous remercions chaleureusement les personnes étudiantes des cours **à modifier plus tard** du [Baccalauréat en géomatique appliquée à l'environnement](https://www.usherbrooke.ca/admission/programme/271/baccalaureat-en-geomatiqueappliquee-a-lenvironnement/) et du [Microprogramme de 1er cycle en géomatique appliquée](https://www.usherbrooke.ca/admission/programme/429/microprogramme-de-1er-cycleen-geomatique-appliquee/) du [Département de géomatique appliquée](https://www.usherbrooke.ca/geomatique/) de l'[Université de Sherbrooke](https://www.usherbrooke.ca/) de la session d'été 2023 : à modifier plus tard.
-
+<!--
 Nous remercions aussi les membres du comité de révision pour leurs commentaires et suggestions très constructifs. Ce comité est composé de quatre personnes étudiantes du [Département de géomatique appliquée](https://www.usherbrooke.ca/geomatique/) de l'[Université de Sherbrooke](https://www.usherbrooke.ca/) :
 
 -   À compléter plus tard.
@@ -226,7 +224,7 @@ Nous remercions aussi les membres du comité de révision pour leurs commentaire
 -   À compléter plus tard.
 
 Finalement, nous remercions Denise Latreille, réviseure linguistique et chargée de cours à l'Université Sherbrooke, pour la révision du manuel.
-
+-->
 
 ## Introduction aux images de télédétection {#sect006 .unnumbered}
 

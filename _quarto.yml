@@ -40,6 +40,10 @@ book:
     - name: Mickaël Germain
       url: https://www.usherbrooke.ca/recherche/fr/specialistes/details/mickael-germain
       affiliation: Département de géomatique appliquée<br>Université de Sherbrooke
+      affiliation-url: https://www.usherbrooke.ca/geomatique/
+    - name: Étienne Clabaut
+      url: 
+      affiliation: Département de géomatique appliquée<br>Université de Sherbrooke
       affiliation-url: https://www.usherbrooke.ca/geomatique/      
   date: today
   date-format: YYYY-MM-DD
