@@ -1,4 +1,4 @@
-quarto render --no-cache
+quarto render --to html --output-dir ./docs
 
 quarto convert 00-PriseEnMainPython.qmd
 #jupyter nbconvert 00-PriseEnMainPython.ipynb  --to pdf --output-dir pdfs

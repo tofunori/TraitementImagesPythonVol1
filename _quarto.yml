@@ -5,7 +5,8 @@ project:
 #  execute-dir: file
 license: CC BY-SA
 latex-auto-install: true
-
+execute:
+  cache: true
 lang: fr
 language:
   title-block-author-plural: "Auteurs"

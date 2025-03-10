@@ -331,12 +331,12 @@ window.Quarto = {
 <li><p><a href="https://scikit-learn.org/">scikit-learn</a></p></li>
 </ul>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et <code>xrscipy</code> doit être installés:</p>
-<div id="c89c9769" class="cell" data-execution_count="1">
+<div id="1af41648" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU matplotlib rioxarray xrscipy</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifier les importations nécessaires en premier:</p>
-<div id="b3c384b0" class="cell" data-execution_count="2">
+<div id="cab6dd9f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
@@ -362,7 +362,7 @@ window.Quarto = {
 <section id="images-utilisées" class="level3" data-number="6.1.3">
 <h3 data-number="6.1.3" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">6.1.3</span> Images utilisées</h3>
 <p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
-<div id="b78484e4" class="cell" data-execution_count="3">
+<div id="129c3c57" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gdown</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -373,7 +373,7 @@ window.Quarto = {
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg'</span>, output<span class="op">=</span> <span class="st">'carte.tif'</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifiez que vous êtes capable de les lire :</p>
-<div id="84c4a66b" class="cell" data-execution_count="4">
+<div id="216aa081" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'RGBNIR_of_S2A.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgbnir:</span>
@@ -453,7 +453,7 @@ Figure&nbsp;6.2: Étapes standards dans un entraînement.
 <li><p>Chaque échantillon est décrit par <span class="math inline">\(D\)</span> dimensions ou caractéristiques (<em>features</em>).</p></li>
 </ol>
 <p>Une façon simple de construire un ensemble d’entraînement est d’échantillonner un produit existant. Nous allons utiliser la carte d’occupation des sols suivante qui contient 12 classes différentes.</p>
-<div id="9aab9082" class="cell" data-execution_count="6">
+<div id="08ab4105" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>couleurs_classes<span class="op">=</span> {<span class="st">'NoData'</span>: <span class="st">'black'</span>, <span class="st">'Commercial'</span>: <span class="st">'yellow'</span>, <span class="st">'Nuages'</span>: <span class="st">'lightgrey'</span>, </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'Foret'</span>: <span class="st">'darkgreen'</span>, <span class="st">'Faible_végétation'</span>: <span class="st">'green'</span>, <span class="st">'Sol_nu'</span>: <span class="st">'saddlebrown'</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">'Roche'</span>: <span class="st">'dimgray'</span>, <span class="st">'Route'</span>: <span class="st">'red'</span>, <span class="st">'Urbain'</span>: <span class="st">'orange'</span>, <span class="st">'Eau'</span>: <span class="st">'blue'</span>, <span class="st">'Tourbe'</span>: <span class="st">'salmon'</span>, <span class="st">'Végétation éparse'</span>: <span class="st">'darkgoldenrod'</span>, <span class="st">'Roche avec végétation'</span>: <span class="st">'darkseagreen'</span>}</span>
@@ -461,7 +461,7 @@ Figure&nbsp;6.2: Étapes standards dans un entraînement.
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>couleurs_classes<span class="op">=</span> [<span class="op">*</span>couleurs_classes.values()]</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>On peut visualiser la carte de la façon suivante:</p>
-<div id="e8aa105a" class="cell" data-execution_count="7">
+<div id="227b8ba7" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>cmap_classes <span class="op">=</span> ListedColormap(couleurs_classes)</span>
@@ -481,7 +481,7 @@ Figure&nbsp;6.2: Étapes standards dans un entraînement.
 </div>
 </div>
 <p>On peut facilement calculer la fréquence d’occurrence des 12 classes dans l’image à l’aide de <code>numpy</code>:</p>
-<div id="8aa61a3b" class="cell" data-execution_count="8">
+<div id="e2b40950" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>img_carte<span class="op">=</span> img_carte.squeeze() <span class="co"># nécessaire pour ignorer la dimension du canal</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>compte_classe <span class="op">=</span> np.unique(img_carte.data, return_counts<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(compte_classe)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -492,7 +492,7 @@ Figure&nbsp;6.2: Étapes standards dans un entraînement.
 </div>
 </div>
 <p>La fréquence d’apparition de chaque classe varie grandement, on parle alors d’un <strong>ensemble déséquilibré</strong>. Ceci est très commun dans la plupart des ensembles d’entraînement, les classes n’apparaissent pas avec la même fréquence.</p>
-<div id="33886a7c" class="cell" data-execution_count="9">
+<div id="8393a6cf" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>valeurs, comptes <span class="op">=</span> compte_classe</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the histogram</span></span>
@@ -512,7 +512,7 @@ Figure&nbsp;6.2: Étapes standards dans un entraînement.
 </div>
 </div>
 <p>On peut échantillonner 100 points aléatoires pour chaque classe:</p>
-<div id="be8dec16" class="cell" data-execution_count="10">
+<div id="826039b2" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>img_carte<span class="op">=</span> img_carte.squeeze()</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>class_counts <span class="op">=</span> np.unique(img_carte.data, return_counts<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -558,7 +558,7 @@ Figure&nbsp;6.2: Étapes standards dans un entraînement.
 </div>
 </div>
 <p>Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d’une image satellite. Pour cela, on peut utiliser la méthodes <code>sample()</code> de <code>rasterio</code>. Éventuellement, la librairie <a href="https://geopandas.org"><code>geopandas</code></a> permet de gérer les données d’entraînement sous la forme d’un tableau transportant aussi l’information de géoréférence. Afin de pouvoir classifier ces points, nous allons ajouter les valeurs radiométriques provenant de l’image Sentinel-2 à 4 bandes <code>RGBNIR_of_S2A.tif</code>. Ces valeurs seront stockées dans la colonne <code>value</code> sous la forme d’un vecteur en format <code>string</code>:</p>
-<div id="116077ef" class="cell" data-execution_count="11">
+<div id="1878c385" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> [Point(xy) <span class="cf">for</span> xy <span class="kw">in</span> <span class="bu">zip</span>(transform_sampled_points[<span class="dv">0</span>], transform_sampled_points[<span class="dv">1</span>])]</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> geopandas.GeoDataFrame(<span class="bu">range</span>(<span class="dv">1</span>,<span class="bu">len</span>(points)<span class="op">+</span><span class="dv">1</span>), geometry<span class="op">=</span>points, crs<span class="op">=</span>img_carte.rio.crs)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>coord_list <span class="op">=</span> [(x, y) <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(gdf[<span class="st">"geometry"</span>].x, gdf[<span class="st">"geometry"</span>].y)]</span>
@@ -648,7 +648,7 @@ JM_{ij}= 2(1-e^{-B})\\
 B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln { \frac{|(\Sigma_i+\Sigma_j)/2|}{|\Sigma_i|^{1/2}|\Sigma_j|^{1/2}}}
 \]</span></p>
 <p>Cette distance présuppose que chaque classe <span class="math inline">\(i\)</span> est décrite par son centre <span class="math inline">\(m_i\)</span> et de sa dispersion dans l’espace à <span class="math inline">\(D\)</span> dimensions mesurée par la matrice de covariance <span class="math inline">\(\Sigma_i\)</span>. On peut en faire facilement une fonction Python à l’aide de <code>numpy</code>:</p>
-<div id="4f317406" class="cell" data-execution_count="12">
+<div id="8ee09bcc" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bhattacharyya_distance(m1, s1, m2, s2):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcul de la covariance moyenne</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> (s1 <span class="op">+</span> s2) <span class="op">/</span> <span class="dv">2</span></span>
@@ -667,7 +667,7 @@ B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln 
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> np.exp(<span class="op">-</span>B))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La figure ci-dessous illustre différentes situations avec des données artificielles:</p>
-<div id="95220be5" class="cell" data-execution_count="13">
+<div id="fd27655e" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -677,7 +677,7 @@ B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln 
 </div>
 </div>
 <p>On forme notre ensemble d’entrainement à partir du fichier <code>csv</code> de la section <a href="#sec-05.02.02" class="quarto-xref"><span>Section 6.2.3</span></a>.</p>
-<div id="b2a4228f" class="cell" data-execution_count="14">
+<div id="6a295854" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span> pd.read_csv(<span class="st">'sampling_points.csv'</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire la colonne 'value'.</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 'value' est une chaîne de caractères représentation d'une liste de nombres.</span></span>
@@ -703,7 +703,7 @@ B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln 
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>cmap_classes2 <span class="op">=</span> ListedColormap(couleurs_classes2)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>On peut faire une analyse de séparabilité sur notre ensemble d’entrainement de 10 classes. On obtient un tableau symmétrique de 10x10 valeurs. On peut observer des valeurs inférieures à 1 ce qui indique des séparabilités faibles entre ces classes sous l’hypothèse du modèle Gaussien:</p>
-<div id="d69e8bfd" class="cell" data-execution_count="15">
+<div id="7974c748" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>qda<span class="op">=</span> QuadraticDiscriminantAnalysis(store_covariance<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>qda.fit(X, y_new) <span class="co"># calcul des paramètres des distributions Gaussiennes</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>JM<span class="op">=</span> []</span>
@@ -873,7 +873,7 @@ B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln 
 </div>
 </div>
 <p>Afin d’évaluer chaque classe, on peut calculer la séparabilité minimale, on peut observer que la classe eau a le maximum de séparabilité avec les autres classes.</p>
-<div id="4fff94c6" class="cell" data-execution_count="16">
+<div id="edcf5c9d" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -886,7 +886,7 @@ B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln 
 <section id="mesures-de-performance-dune-méthode-de-classification" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="mesures-de-performance-dune-méthode-de-classification"><span class="header-section-number">6.4</span> Mesures de performance d’une méthode de classification</h2>
 <p>Lorsque que l’on cherche à établir la performance d’un modèle, il faut être capable de mesurer la performance de ce classificateur. Il existe de nombreuses mesures de performance qui sont toutes dérivées de la matrice de confusion. Cette matrice compare les étiquettes provenant de l’annotation (la vérité terrain) et les étiquettes prédites par un modèle. On peut définir <span class="math inline">\(C(i,j)\)</span> est le nombre de prédictions dont la vérité terrain indique la classe <span class="math inline">\(i\)</span> et qui sont prédites dans la classe <span class="math inline">\(j\)</span>. La fonction <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html">confusion_matrix</a> permet de faire ce calcul, voici un exemple très simple:</p>
-<div id="dfd4be47" class="cell" data-execution_count="17">
+<div id="60400d1f" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>y_true <span class="op">=</span> [<span class="st">"cat"</span>, <span class="st">"ant"</span>, <span class="st">"cat"</span>, <span class="st">"cat"</span>, <span class="st">"ant"</span>, <span class="st">"bird"</span>, <span class="st">"bird"</span>]</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> [<span class="st">"ant"</span>, <span class="st">"ant"</span>, <span class="st">"cat"</span>, <span class="st">"cat"</span>, <span class="st">"ant"</span>, <span class="st">"cat"</span>, <span class="st">"bird"</span>]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>confusion_matrix(y_true, y_pred, labels<span class="op">=</span>[<span class="st">"ant"</span>, <span class="st">"bird"</span>, <span class="st">"cat"</span>])</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -897,7 +897,7 @@ B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln 
 </div>
 </div>
 <p>La fonction <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html#sklearn.metrics.classification_report">classification_report</a> permet de générer quelques métriques:</p>
-<div id="19a5dd07" class="cell" data-execution_count="18">
+<div id="99d254c8" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>y_true <span class="op">=</span> [<span class="st">"cat"</span>, <span class="st">"ant"</span>, <span class="st">"cat"</span>, <span class="st">"cat"</span>, <span class="st">"ant"</span>, <span class="st">"bird"</span>, <span class="st">"bird"</span>]</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> [<span class="st">"ant"</span>, <span class="st">"ant"</span>, <span class="st">"cat"</span>, <span class="st">"cat"</span>, <span class="st">"ant"</span>, <span class="st">"cat"</span>, <span class="st">"bird"</span>]</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_true, y_pred, target_names<span class="op">=</span>[<span class="st">"ant"</span>, <span class="st">"bird"</span>, <span class="st">"cat"</span>]))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -931,7 +931,7 @@ Precision_i= C_{ii} / \sum_i C_{ij}
 <section id="sec-0511" class="level3" data-number="6.5.1">
 <h3 data-number="6.5.1" class="anchored" data-anchor-id="sec-0511"><span class="header-section-number">6.5.1</span> Méthode des parallélépipèdes</h3>
 <p>La méthode du parallélépipède est probablement la plus simple et consiste à délimiter directement le domaine des points d’une classe par une boite (un parallélépipède) à <span class="math inline">\(D\)</span> dimensions. Les limites de ces parallélépipèdes forment alors des frontières de décision manuelles qui vont permettre décider de la classe d’appartenance d’un nouveau point. Un des avantages de cette technique est que si un point n’est dans aucun parallélépipède alors on peut le laisser comme non classifié. Par contre, la construction de ces parallélépipèdes se complexifient grandement avec le nombre de bandes. À une dimension, deux paramètres, équivalents à un seuillage d’histogramme, sont suffisants. À deux dimensions, vous devez définir 4 segments par classe. Avec 3 bandes, vous devez définir 6 plans par classes et à D dimensions, D hyperplans à D-1 dimensions par classe. Le modèle ici est donc une suite de valeurs <code>min</code> et <code>max</code> pour chacune des bandes et des classes:</p>
-<div id="859aa058" class="cell" data-execution_count="19">
+<div id="4bac392a" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parrallepiped_train(X_train, y_train):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  classes<span class="op">=</span> np.unique(y_train).tolist()</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  clf<span class="op">=</span> []</span>
@@ -946,7 +946,7 @@ Precision_i= C_{ii} / \sum_i C_{ij}
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>clf<span class="op">=</span> parrallepiped_train(X, y_new)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La prédiction consiste à trouver pour chaque point la première limite qui est satisfaite. Notez qu’il n’y a pas de moyen de décider quelle est la meilleure classe si le point appartient à plusieurs classes.</p>
-<div id="cf06364a" class="cell" data-execution_count="20">
+<div id="8d4daca8" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="at">@jit</span>(nopython<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parrallepiped_predict(clf, X_test):</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  y_pred<span class="op">=</span> []</span>
@@ -963,7 +963,7 @@ Precision_i= C_{ii} / \sum_i C_{ij}
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.array(y_pred)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>On peut appliquer ensuite le modèle sur l’image au complet. Les résultats sont assez mauvais, seule la classe eau en bleu semble être bien classifiée.</p>
-<div id="f2dbf363" class="cell" data-execution_count="21">
+<div id="376a6261" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data_image<span class="op">=</span> img_rgbnir.to_numpy().transpose(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>).reshape(img_rgbnir.shape[<span class="dv">1</span>]<span class="op">*</span>img_rgbnir.shape[<span class="dv">2</span>],<span class="dv">4</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>y_image<span class="op">=</span> parrallepiped_predict(clf, data_image)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>y_image<span class="op">=</span> y_image.reshape(img_rgbnir.shape[<span class="dv">1</span>],img_rgbnir.shape[<span class="dv">2</span>])</span>
@@ -981,7 +981,7 @@ Precision_i= C_{ii} / \sum_i C_{ij}
 </div>
 </div>
 <p>On peut calculer quelques mesures de performance sur l’ensemble d’entrainement:</p>
-<div id="533e20a0" class="cell" data-execution_count="22">
+<div id="559bf399" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>y_pred<span class="op">=</span> parrallepiped_predict(clf, X)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>nom_classes2<span class="op">=</span> [nom_classes[c] <span class="cf">for</span> c <span class="kw">in</span> np.unique(y).tolist()]</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_new, y_pred, target_names<span class="op">=</span>nom_classes2, zero_division<span class="op">=</span>np.nan))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1014,7 +1014,7 @@ Roche avec végétation       0.13      1.00      0.23       100
 <h3 data-number="6.5.2" class="anchored" data-anchor-id="plus-proches-voisins"><span class="header-section-number">6.5.2</span> Plus proches voisins</h3>
 <p>La méthode des plus proches voisins (<em>K-Nearest-Neighbors</em> en Anglais) est certainement la plus simple des méthodes pour classifier des données. Elle consiste à comparer une nouvelle données avec ces voisins les plus proches en fonction d’une simple distance Euclidienne. Si une majorité de ces <span class="math inline">\(K\)</span> voisins appartiennent à une classe majoritaire alors cette classe est sélectionnée. Afin de permettre un vote majoritaire, on choisira un nombre impair pour la valeur de <span class="math inline">\(K\)</span>. Mallgré sa simplicité, cette technique peut devenir assez demandante en terme de calcul pour un nombre important de points avec un nombre élevé de dimensions.</p>
 <p>Reprensons l’ensemble d’entraînement formé à partir de notre image RGBNIR précédente:</p>
-<div id="f00b4bb1" class="cell" data-execution_count="23">
+<div id="2c440af7" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span> pd.read_csv(<span class="st">'sampling_points.csv'</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire la colonne 'value'.</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 'value' est une chaîne de caractères comme représentation d'une liste de valeurs.</span></span>
@@ -1037,17 +1037,17 @@ Roche avec végétation       0.13      1.00      0.23       100
 <span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>nom_classes2<span class="op">=</span> [nom_classes[c] <span class="cf">for</span> c <span class="kw">in</span> np.unique(y).tolist()]</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Il est important de faire précéder la méthode K-NN par une normalisation des données de façon à ce que chaque caractéristique soit de moyenne 0 et d’écart-type égale à 1 (on dit parfois que l’on blanchit les données). Cette normalisation permet à ce que chaque dimension ait le même poids dans le calcul des distances entre points. Cette opération porte le nom de <code>StandardScaler</code> dans <code>scikit-learn</code>. On peut alors former un pipeline de traitement combinant les deux opérations:</p>
-<div id="1f775b25" class="cell" data-execution_count="24">
+<div id="cc892739" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> Pipeline(</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    steps<span class="op">=</span>[(<span class="st">"scaler"</span>, StandardScaler()), (<span class="st">"knn"</span>, KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">1</span>))]</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Avant d’effectuer un entraînement, on met généralement une portion des données pour valider les performances:</p>
-<div id="7aa1987b" class="cell" data-execution_count="25">
+<div id="09588234" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y_new, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>On peut visualiser les frontières de décision du K-NN pour différentes valeurs de <span class="math inline">\(K\)</span> lorsque seulement deux bandes sont utilisées (Rouge et proche infra-rouge ici):</p>
-<div id="056b7f30" class="cell" data-execution_count="26">
+<div id="840d9c8b" class="cell" data-execution_count="26">
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of mislabeled points out of a total 200 points : 143
 Number of mislabeled points out of a total 200 points : 141
@@ -1063,7 +1063,7 @@ Number of mislabeled points out of a total 200 points : 130</code></pre>
 </div>
 </div>
 <p>On peut voir comment les différentes frontières de décision se forment dans l’espace des bandes Rouge-NIR. L’augmentation de K rend ces frontières plus complexes et le calcul plus long.</p>
-<div id="4e38348e" class="cell" data-execution_count="27">
+<div id="dfd15e1e" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>clf.set_params(knn__weights<span class="op">=</span><span class="st">'distance'</span>, knn__n_neighbors <span class="op">=</span> <span class="dv">7</span>).fit(X_train, y_train)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> clf.predict(X_test)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Nombre de points misclassifiés sur </span><span class="sc">%d</span><span class="st"> points : </span><span class="sc">%d</span><span class="st">"</span></span>
@@ -1073,7 +1073,7 @@ Number of mislabeled points out of a total 200 points : 130</code></pre>
 </div>
 </div>
 <p>Le rapport de performance est le suivant:</p>
-<div id="e5300ccb" class="cell" data-execution_count="28">
+<div id="86c5646c" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>nom_classes2<span class="op">=</span> [nom_classes[c] <span class="cf">for</span> c <span class="kw">in</span> np.unique(y).tolist()]</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred, target_names<span class="op">=</span>nom_classes2, zero_division<span class="op">=</span>np.nan))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1097,7 +1097,7 @@ Roche avec végétation       0.40      0.40      0.40        25
 </div>
 </div>
 <p>La matrice de confusion peut-être affichée de manière graphique:</p>
-<div id="a4945245" class="cell" data-execution_count="29">
+<div id="1e2047cd" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>disp<span class="op">=</span> ConfusionMatrixDisplay.from_predictions(y_test, y_pred, display_labels<span class="op">=</span>nom_classes2, xticks_rotation<span class="op">=</span><span class="st">'vertical'</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1108,12 +1108,12 @@ Roche avec végétation       0.40      0.40      0.40        25
 </div>
 </div>
 <p>L’application du modèle (la prédiction) peut se faire sur toute l’image en transposant l’image sous forme d’une matrice avec Largeur x Hauteur lignes et 4 colonnes:</p>
-<div id="51093d41" class="cell" data-execution_count="30">
+<div id="32606caf" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>data_image<span class="op">=</span> img_rgbnir.to_numpy().transpose(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>).reshape(img_rgbnir.shape[<span class="dv">1</span>]<span class="op">*</span>img_rgbnir.shape[<span class="dv">2</span>],<span class="dv">4</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>y_classe<span class="op">=</span> clf.predict(data_image)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>y_classe<span class="op">=</span> y_classe.reshape(img_rgbnir.shape[<span class="dv">1</span>],img_rgbnir.shape[<span class="dv">2</span>])</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="9c341147" class="cell" data-execution_count="31">
+<div id="938c154a" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(y_classe, cmap<span class="op">=</span>cmap_classes2)</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Carte d'occupation des sols avec K-NN"</span>, fontsize<span class="op">=</span><span class="st">"small"</span>)</span>
@@ -1130,10 +1130,10 @@ Roche avec végétation       0.40      0.40      0.40        25
 <section id="méthodes-par-arbre-de-décision" class="level3" data-number="6.5.3">
 <h3 data-number="6.5.3" class="anchored" data-anchor-id="méthodes-par-arbre-de-décision"><span class="header-section-number">6.5.3</span> Méthodes par arbre de décision</h3>
 <p>La méthode par arbre de décision consiste à contruire une cascade de règles de décision sur chaque caractéristique du jeu de donnée. On pourra trouver plus de détails dans la documentation de <code>scikit-learn</code> (<a href="https://scikit-learn.org/stable/modules/tree.html">Decision Trees</a>). Les arbres de décision on tendance à sur-apprendre surtout si le nombre de dimensions est élevé. Il est donc conseillé d’avoir un bon ratio entre le nombre d’échantillons et le nombre de dimensions.</p>
-<div id="c0d2c85a" class="cell" data-execution_count="32">
+<div id="6965bd95" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="42561b80" class="cell" data-execution_count="33">
+<div id="84be2f9b" class="cell" data-execution_count="33">
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of mislabeled points out of a total 200 points : 167
 Number of mislabeled points out of a total 200 points : 154
@@ -1149,7 +1149,7 @@ Number of mislabeled points out of a total 200 points : 128</code></pre>
 </div>
 </div>
 <p>On peut observer que les frontières de décision sont formées d’un ensemble de plans simple. Chaque plan étant issu d’une règle de décison formé d’un seuil sur chacune des dimensions. On entraine un arbre de décision avec une profondeur maximale de 5:</p>
-<div id="70f74aa4" class="cell" data-execution_count="34">
+<div id="560055ef" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> tree.DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>clf.fit(X_train, y_train)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> clf.predict(X_test)</span>
@@ -1160,7 +1160,7 @@ Number of mislabeled points out of a total 200 points : 128</code></pre>
 </div>
 </div>
 <p>Le rapport de performance et la matrice de confusion:</p>
-<div id="1fd87e71" class="cell" data-execution_count="35">
+<div id="bcf38b87" class="cell" data-execution_count="35">
 <div class="cell-output cell-output-stdout">
 <pre><code>                       precision    recall  f1-score   support
 
@@ -1181,7 +1181,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 </code></pre>
 </div>
 </div>
-<div id="fd3e8f06" class="cell" data-execution_count="36">
+<div id="e6a036d9" class="cell" data-execution_count="36">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1191,7 +1191,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 </div>
 </div>
 <p>L’application du modèle (la prédiction) peut se faire sur toute l’image en transposant l’image sous forme d’une matrice avec Largeur x Hauteur lignes et 4 colonnes:</p>
-<div id="aaee6265" class="cell" data-execution_count="38">
+<div id="be37edf4" class="cell" data-execution_count="38">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1201,7 +1201,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 </div>
 </div>
 <p>Il est possible de visualiser l’arbre mais cela contient beaucoup d’information</p>
-<div id="9539892b" class="cell" data-execution_count="39">
+<div id="fcda39e4" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>tree.plot_tree(clf, max_depth<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="37">
@@ -1231,7 +1231,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 <section id="méthode-bayésienne-naïve" class="level3" data-number="6.6.1">
 <h3 data-number="6.6.1" class="anchored" data-anchor-id="méthode-bayésienne-naïve"><span class="header-section-number">6.6.1</span> Méthode Bayésienne naïve</h3>
 <p>La méthode Bayésienne naïve Gaussienne consiste faire des hypothèses simplificatrices sur les données, en particulier l’indépendance des données et des dimensions. Ceci permet un calcul plus simple.</p>
-<div id="73360de0" class="cell" data-execution_count="40">
+<div id="95d2146b" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> GaussianNB</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>gnb <span class="op">=</span> GaussianNB()</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> gnb.fit(X_train, y_train).predict(X_test)</span>
@@ -1241,7 +1241,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 <pre><code>Nombre de points erronés sur 200 points : 131</code></pre>
 </div>
 </div>
-<div id="0e742ccc" class="cell" data-execution_count="41">
+<div id="d7305421" class="cell" data-execution_count="41">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1251,7 +1251,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 </div>
 </div>
 <p>On peut observer que les frontières de décision sont beaucoup plus régulières que pour K-NN.</p>
-<div id="221945a2" class="cell" data-execution_count="42">
+<div id="be27caf0" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>gnb.fit(X_train, y_train)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> gnb.predict(X_test)</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Nombre de points misclassifiés sur </span><span class="sc">%d</span><span class="st"> points : </span><span class="sc">%d</span><span class="st">"</span></span>
@@ -1261,7 +1261,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 </div>
 </div>
 <p>De la même manière, la prédiction peut s’appliquer sur toute l’image:</p>
-<div id="1106e277" class="cell" data-execution_count="43">
+<div id="29a04062" class="cell" data-execution_count="43">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1274,7 +1274,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 <section id="analyse-discriminante-quadratique-adq" class="level3" data-number="6.6.2">
 <h3 data-number="6.6.2" class="anchored" data-anchor-id="analyse-discriminante-quadratique-adq"><span class="header-section-number">6.6.2</span> Analyse Discriminante Quadratique (ADQ)</h3>
 <p>L’analyse discriminante quadratique peut-être vue comme une généralisation de l’approche Bayésienne naive qui suppose des modèles Gaussiens indépendants pour chaque dimension et chaque point. Ici, on va considérer un modèle Gaussien multivarié.</p>
-<div id="352028f4" class="cell" data-execution_count="44">
+<div id="e8aa27e4" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>qda <span class="op">=</span> QuadraticDiscriminantAnalysis(store_covariance<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>qda.fit(X_train, y_train)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> qda.predict(X_test)</span>
@@ -1285,7 +1285,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 </div>
 </div>
 <p>Les Gaussiennes multivariées peuvent être visualiser sous forme d’éllipses décrivant le domaine des valeurs de chaque classe:</p>
-<div id="c7336b65" class="cell" data-execution_count="45">
+<div id="6cddff6a" class="cell" data-execution_count="45">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1295,7 +1295,7 @@ Roche avec végétation       0.20      0.68      0.31        25
 </div>
 </div>
 <p>De la même manière, la prédiction peut s’appliquer sur toute l’image:</p>
-<div id="b5c6962c" class="cell" data-execution_count="46">
+<div id="141e92d2" class="cell" data-execution_count="46">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
