@@ -1,4 +1,4 @@
-quarto render --to html --output-dir ./docs
+quarto render --cache --to html --output-dir ./docs
 
 quarto convert 00-PriseEnMainPython.qmd
 #jupyter nbconvert 00-PriseEnMainPython.ipynb  --to pdf --output-dir pdfs
@@ -46,8 +46,7 @@ mv 05-ClassificationsSupervisees.ipynb ./notebooks/
 # #quarto render 04-TransformationSpatiales.qmd --to docx  --no-execute --output-dir ./docx
 
  
- #quarto render --to pdf --output-dir ./pdf
- #quarto render --to html --output-dir ./docs
+ #quarto render --cache --to pdf --output-dir ./pdf
  #mv ./pdf/Traitement-d-images-satellites-avec-Python.pdf .
 
 

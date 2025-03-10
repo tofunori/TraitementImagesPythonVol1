@@ -6,15 +6,16 @@ execute:
   eval: true
   message: false
   warning: false
+  code-overflow: wrap
 ---
 
 # Transformations spatiales {#sec-chap04}
 
-## :rocket: Préambule
+## Préambule
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-### :dart: Objectifs
+### Objectifs
 
 Dans ce chapitre, nous abordons quelques techniques de traitement d'images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d'un notebook Python sur Google Colab:
 
@@ -60,7 +61,15 @@ from skimage.color import rgb2gray
 from skimage.segmentation import slic, mark_boundaries
 import pandas as pd
 ```
-
+```{python}
+#| echo: false
+#| output: false
+plt.rcParams['axes.titlesize'] = 10
+plt.rcParams['axes.labelsize'] = 10
+plt.rcParams['xtick.labelsize'] = 10
+plt.rcParams['ytick.labelsize'] = 10
+plt.rcParams['legend.fontsize'] = 10
+```
 ### Images utilisées
 
 Nous allons utilisez les images suivantes dans ce chapitre:

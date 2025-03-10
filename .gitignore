@@ -2,7 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-.jupyter_cache
+.jupyter_cache/
 tex-hacks/*
 lua/*
 /.quarto/

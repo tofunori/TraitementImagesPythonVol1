@@ -62,6 +62,16 @@ import xarray as xr
 import xrscipy
 import matplotlib.pyplot as plt
 ```
+
+```{python}
+#| echo: false
+#| output: false
+plt.rcParams['axes.titlesize'] = 10
+plt.rcParams['axes.labelsize'] = 10
+plt.rcParams['xtick.labelsize'] = 10
+plt.rcParams['ytick.labelsize'] = 10
+plt.rcParams['legend.fontsize'] = 10
+```
 ### Données
 Nous allons utilisez les images suivantes dans ce chapitre:
 ```{python}
@@ -182,7 +192,7 @@ values = values[~np.isnan(values)]
 values = values[values!=NO_DATA_FLOAT]
 # calcul des percentiles
 percentiles_position= (0,0.1,1,2,50,98,99,99.9,100)
-percentiles= np.percentile(values, percentiles_position)
+percentiles= dict(zip(percentiles_position, np.percentile(values, percentiles_position)))
 print(percentiles)
 ```
 La première observation que l'on peut faire est que la valeur médiane (`0.012`) est très faible, 50% des valeurs sont inférieures cette valeur alors que valeur maximale (`483`) est 10,000 fois plus élevée! Une façon de visualiser cette distribution de valeurs est d'utiliser [`boxplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html) et [`violinplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html) de la librairie `matplotlib`:
@@ -200,11 +210,11 @@ bplot = ax[1].boxplot(values, notch = True, orientation  ='horizontal')
 plt.tight_layout()
 plt.show()
 ```
-Afin de visualiser correctement l'histogramme, il faut se limiter à un interval de valeurs plus petit. Dans le code ci-dessous, on impose à la fonction histogramme de compter les valeurs de pixels dans des intervalles de valeurs fixés par la fonction `np.linspace(percentiles[1],percentiles[-2], 50)` où percentiles[1] et percentiles[-2] sont les $2\%$ et $98\%$ percentiles respectivement:
+Afin de visualiser correctement l'histogramme, il faut se limiter à un interval de valeurs plus petit. Dans le code ci-dessous, on impose à la fonction histogramme de compter les valeurs de pixels dans des intervalles de valeurs fixés par la fonction `np.linspace(percentiles[0.1],percentiles[99.9], 50)` où `percentiles[0.1]` et `percentiles[99.9]` sont les $0.1\%$ et $99.9\%$ percentiles respectivement:
 ```{python}
 hist, bin_edges = np.histogram(values, 
-                                bins=np.linspace(percentiles[1], 
-                                percentiles[-2], 50), 
+                                bins=np.linspace(percentiles[0.1], 
+                                percentiles[99.9], 50), 
                                 density=True)
 
 fig, ax = plt.subplots(nrows=2,ncols=1,figsize=(6, 5), sharex=True)
@@ -225,11 +235,70 @@ ax[1].grid(True)
 plt.tight_layout()
 plt.show()                              
 ```
+Au niveau de l'affichage avec `matplotlib`, la dynamique peut être contrôlée directement via les paramètres `vmin` et `vmax` comme ceci: 
+```{python}
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(6, 5), sharex=True, sharey=True)
+[a.axis('off') for a in ax.flatten()]
+ax[0,0].imshow(img_SAR[0].values, vmin=percentiles[0], vmax=percentiles[100])
+ax[0,0].set_title(f"0% - 100%={percentiles[0]:2.1f} - {percentiles[100]:2.1f}")
+ax[0,1].imshow(img_SAR[0].values, vmin=percentiles[0.1], vmax=percentiles[99.9]) 
+ax[0,1].set_title(f"0.1% - 99.9%={percentiles[0.1]:2.1f} - {percentiles[99.9]:2.1f}")
+ax[1,0].imshow(img_SAR[0].values, vmin=percentiles[1], vmax=percentiles[99]) 
+ax[1,0].set_title(f"1% - 99%={percentiles[1]:2.1f} - {percentiles[99]:2.1f}")
+ax[1,1].imshow(img_SAR[0].values, vmin=percentiles[2], vmax=percentiles[98]) 
+ax[1,1].set_title(f"2% - 98%={percentiles[2]:2.1f} - {percentiles[98]:2.1f}")
+plt.tight_layout()
+```
+
 ### Réhaussements non linéaires
 
+
+#### Réhaussement par fonctions
 <!--
 Calcul d'histogrammes, étirement, égalisation, styling
 -->
+Le réhaussenent par fonction consiste à appliquer une fonction non linéaire afin de modifier la dynamique de l'image. Par exemple, pour une image radar, une transformation populaire est dd'afficher les valeurs de rétrodiffusion en décibel (`dB`) via la fonction `log10()`.
+```{python}
+percentiles_position= (0,0.1,1,2,50,98,99,99.9,100)
+values= np.log10(img_SAR[0]).data
+percentiles_db= dict(zip(percentiles_position, np.percentile(values, percentiles_position)))
+print(percentiles_db)
+```
+Les boxplots on une bien meilleure distribution:
+```{python}
+#| echo: false
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(6, 4), sharex=True)
+ax[0].set_title('Distribution de la bande 0 de img_SAR en dB', fontsize='small')
+ax[0].grid(True)
+ax[0].violinplot(values.flatten(), orientation  ='horizontal', 
+                 quantiles =(0.01,0.02,0.50,0.98,0.99),
+                  showmeans=False,
+                  showmedians=True,
+                 showextrema = True)
+ax[1].set_xlabel('Valeur des pixels')
+ax[1].grid(True)
+bplot = ax[1].boxplot(values.flatten(), notch = True, orientation  ='horizontal')
+plt.tight_layout()
+plt.show()
+```
+Ainsi que les images:
+```{python}
+#| echo: false
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(6, 5), sharex=True, sharey=True)
+[a.axis('off') for a in ax.flatten()]
+ax[0,0].imshow(values, vmin=percentiles_db[0], vmax=percentiles_db[100])
+ax[0,0].set_title(f"0% - 100%={percentiles_db[0]:2.1f} - {percentiles_db[100]:2.1f}")
+ax[0,1].imshow(values, vmin=percentiles_db[0.1], vmax=percentiles_db[99.9]) 
+ax[0,1].set_title(f"0.1% - 99.9%={percentiles_db[0.1]:2.1f} - {percentiles_db[99.9]:2.1f}")
+ax[1,0].imshow(values, vmin=percentiles_db[1], vmax=percentiles_db[99]) 
+ax[1,0].set_title(f"1% - 99%={percentiles_db[1]:2.1f} - {percentiles_db[99]:2.1f}")
+ax[1,1].imshow(values, vmin=percentiles_db[2], vmax=percentiles_db[98]) 
+ax[1,1].set_title(f"2% - 98%={percentiles_db[2]:2.1f} - {percentiles_db[98]:2.1f}")
+plt.tight_layout()
+```
+#### Égalisation d'histogramme
+
+#### Palettes de couleur
 
 ### Composés couleurs
 
