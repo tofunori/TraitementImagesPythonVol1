@@ -254,7 +254,7 @@ code}
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={Traitement d'images satellites avec Python},
-  pdfauthor={Samuel Foucher; Philippe Apparicio; Yacine Bouroubi; Mickaël Germain},
+  pdfauthor={Samuel Foucher; Philippe Apparicio; Yacine Bouroubi; Mickaël Germain; Étienne Clabaut},
   pdflang={fr},
   colorlinks=true,
   linkcolor={violet},
@@ -273,8 +273,8 @@ code}
 \makeatother
 \subtitle{Première édition}
 \author{Samuel Foucher \and Philippe Apparicio \and Yacine
-Bouroubi \and Mickaël Germain}
-\date{2025-03-09}
+Bouroubi \and Mickaël Germain \and Étienne Clabaut}
+\date{2025-03-10}
 
 \begin{document}
 \frontmatter
@@ -309,7 +309,8 @@ abordées dans Python. La présentation des méthodes est basée sur une
 approche compréhensive et intuitive plutôt que mathématique, sans pour
 autant négliger la rigueur mathématique ou statistique. Des rappels sur
 les fondements en télédétection pourront apparaître au besoin afin
-d'éclairer les approches techniques.
+d'éclairer les approches techniques. Plusieurs éditions régulières sont
+prévues sachant que ce domaine évoluent constamment.
 
 \textbf{Ce projet est en cours d'écriture et le contenu n'est pas
 complet}
@@ -323,21 +324,16 @@ collaboration avec les services de soutien pédagogique et les
 bibliothèques. Son but est de faire des ressources éducatives libres
 (REL) le matériel privilégié en enseignement supérieur au Québec.
 
-\textbf{Maquette de la page couverture et identité graphique du livre~:}
-.
-
 \textbf{Mise en page~:} Samuel Foucher, Philippe Apparicio et
 Marie-Hélène Gadbois Del Carpio.
-
-\textbf{Révision linguistique~:} Denise Latreille.
 
 © Samuel Foucher, Philippe Apparicio, Yacine Bouroubi et Mickaël
 Germain.
 
-\textbf{Pour citer cet ouvrage~:} Foucher S., Apparicio P., Bouroubi, Y.
-et M. Germain (2024). \emph{Traitement d'images satellites avec Python}.
-Université de Sherbrooke, Département de géomatique appliquée.
-fabriqueREL. Licence CC~BY-SA.
+\textbf{Pour citer cet ouvrage~:} Foucher S., Apparicio P., Bouroubi Y.,
+Germain M. et Clabaut, E. (2025). \emph{Traitement d'images satellites
+avec Python}. Université de Sherbrooke, Département de géomatique
+appliquée. fabriqueREL. Licence CC~BY-SA.
 
 \includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{images/introduction/CouvertureP2.png}\hfill
 
@@ -614,9 +610,10 @@ partie comprend deux chapitres~: les transformations spectrales
 comprend deux chapitres~: les classifications supervisées
 (chapitre~\ref{sec-chap05}) et non supervisées (\textbf{?@sec-chap06}).
 
-\textbf{Partie 4. Données massives}. Cette quatrième et dernière partie
-comprend un seul chapitre qui est dédié aux plateformes de mégadonnes
-\textbf{?@sec-chap07}, notammment Google Earth Engine.
+\textbf{Partie 4. Données massives} (à venir dans une édition future).
+Cette quatrième et dernière partie comprend un seul chapitre qui est
+dédié aux plateformes de mégadonnes \textbf{?@sec-chap07}, notammment
+Google Earth Engine.
 
 \section*{Remerciements}\label{sect005}
 \addcontentsline{toc}{section}{Remerciements}
@@ -658,23 +655,6 @@ de 1er cycle en géomatique appliquée} du
 \href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
 appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
 Sherbrooke} de la session d'été 2023~: à modifier plus tard.
-
-Nous remercions aussi les membres du comité de révision pour leurs
-commentaires et suggestions très constructifs. Ce comité est composé de
-quatre personnes étudiantes du
-\href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
-appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
-Sherbrooke}~:
-
-\begin{itemize}
-\item
-  À compléter plus tard.
-\item
-  À compléter plus tard.
-\end{itemize}
-
-Finalement, nous remercions Denise Latreille, réviseure linguistique et
-chargée de cours à l'Université Sherbrooke, pour la révision du manuel.
 
 \section*{Introduction aux images de télédétection}\label{sect006}
 \addcontentsline{toc}{section}{Introduction aux images de télédétection}
@@ -1022,7 +1002,7 @@ de gauche vous pouvez accéder aux notebooks dans le répertoire
 
 \centering{
 
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{index_files/mediabag/jupyter-accueil.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images/jupyter-accueil.png}
 
 }
 
@@ -2255,8 +2235,8 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.08888889 0.06666667 0.11111111 0.08888889 0.16666667 0.08888889
- 0.13333333 0.1        0.15555556 0.11111111]
+valeurs : [0.05555556 0.14444444 0.15555556 0.08888889 0.17777778 0.07777778
+ 0.11111111 0.1        0.07777778 0.12222222]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
@@ -2316,10 +2296,108 @@ dans le cas d'une valeur présente pour \emph{no\_data}. Par exemple, si
 \textbf{Précision du calcul} : si possible réaliser la division
 ci-dessus en format \emph{float}
 
+\subsubsection{Cas des histogrammes
+asymétriques}\label{cas-des-histogrammes-asymuxe9triques}
+
+Dans certains cas, la distribution de valeurs est très asymétrique et
+présente une longue queue avec des valeurs extrêmes élevées. Le cas des
+images SAR est particulièrement représentatif de ce type de données. En
+effet, celles-ci peuvent présenter une distribution de valeurs de type
+exponentiel. Il est alors préférable d'utiliser des
+\href{https://fr.wikipedia.org/wiki/Centile}{percentiles} au préalable
+afin d'explorer la forme de l'histogramme et la distribution des
+valeurs:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{NO\_DATA\_FLOAT}\OperatorTok{=} \OperatorTok{{-}}\FloatTok{999.0}
+\CommentTok{\# on prend tous les pixels de la première bande}
+\NormalTok{values }\OperatorTok{=}\NormalTok{ img\_SAR[}\DecValTok{0}\NormalTok{].values.flatten().astype(}\BuiltInTok{float}\NormalTok{)}
+\CommentTok{\# on exclut les valeurs invalides}
+\NormalTok{values }\OperatorTok{=}\NormalTok{ values[}\OperatorTok{\textasciitilde{}}\NormalTok{np.isnan(values)]}
+\CommentTok{\# on exclut le no data}
+\NormalTok{values }\OperatorTok{=}\NormalTok{ values[values}\OperatorTok{!=}\NormalTok{NO\_DATA\_FLOAT]}
+\CommentTok{\# calcul des percentiles}
+\NormalTok{percentiles\_position}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{98}\NormalTok{,}\DecValTok{99}\NormalTok{,}\FloatTok{99.9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{percentiles}\OperatorTok{=}\NormalTok{ np.percentile(values, percentiles\_position)}
+\BuiltInTok{print}\NormalTok{(percentiles)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[8.17258024e-06 1.58873989e-05 8.65775685e-05 1.88460666e-04
+ 1.23728202e-02 1.71947071e-01 2.79631515e-01 1.52358051e+00
+ 4.83223877e+02]
+\end{verbatim}
+
+La première observation que l'on peut faire est que la valeur médiane
+(\texttt{0.012}) est très faible, 50\% des valeurs sont inférieures
+cette valeur alors que valeur maximale (\texttt{483}) est 10,000 fois
+plus élevée! Une façon de visualiser cette distribution de valeurs est
+d'utiliser
+\href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html}{\texttt{boxplot}}
+et
+\href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html}{\texttt{violinplot}}
+de la librairie \texttt{matplotlib}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{4}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}Distribution de la bande 0 de img\_SAR\textquotesingle{}}\NormalTok{, fontsize}\OperatorTok{=}\StringTok{\textquotesingle{}small\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].violinplot(values, orientation  }\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{, }
+\NormalTok{                 quantiles }\OperatorTok{=}\NormalTok{(}\FloatTok{0.01}\NormalTok{,}\FloatTok{0.02}\NormalTok{,}\FloatTok{0.50}\NormalTok{,}\FloatTok{0.98}\NormalTok{,}\FloatTok{0.99}\NormalTok{),}
+\NormalTok{                  showmeans}\OperatorTok{=}\VariableTok{False}\NormalTok{,}
+\NormalTok{                  showmedians}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_xlabel(}\StringTok{\textquotesingle{}Valeur des pixels\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{bplot }\OperatorTok{=}\NormalTok{ ax[}\DecValTok{1}\NormalTok{].boxplot(values, notch }\OperatorTok{=} \VariableTok{True}\NormalTok{, orientation  }\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-14-output-1.pdf}}
+
+Afin de visualiser correctement l'histogramme, il faut se limiter à un
+interval de valeurs plus petit. Dans le code ci-dessous, on impose à la
+fonction histogramme de compter les valeurs de pixels dans des
+intervalles de valeurs fixés par la fonction
+\texttt{np.linspace(percentiles{[}1{]},percentiles{[}-2{]},\ 50)} où
+percentiles{[}1{]} et percentiles{[}-2{]} sont les \(2\%\) et \(98\%\)
+percentiles respectivement:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hist, bin\_edges }\OperatorTok{=}\NormalTok{ np.histogram(values, }
+\NormalTok{                                bins}\OperatorTok{=}\NormalTok{np.linspace(percentiles[}\DecValTok{1}\NormalTok{], }
+\NormalTok{                                percentiles[}\OperatorTok{{-}}\DecValTok{2}\NormalTok{], }\DecValTok{50}\NormalTok{), }
+\NormalTok{                                density}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{,ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{,figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].bar(bin\_edges[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }
+\NormalTok{                hist}\OperatorTok{*}\NormalTok{(bin\_edges[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{bin\_edges[}\DecValTok{0}\NormalTok{]), }
+\NormalTok{                width}\OperatorTok{=}\NormalTok{ (bin\_edges[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{bin\_edges[}\DecValTok{0}\NormalTok{]), }
+\NormalTok{                edgecolor}\OperatorTok{=} \StringTok{\textquotesingle{}w\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Distribution de probabilité (PDF)"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_ylabel(}\StringTok{"Densité de probabilité"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].plot(bin\_edges[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }
+\NormalTok{            hist.cumsum()}\OperatorTok{*}\NormalTok{(bin\_edges[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{bin\_edges[}\DecValTok{0}\NormalTok{]))}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Distribution de probabilité cumulée (CDF)"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_xlabel(}\StringTok{"Valeur du pixel"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_ylabel(}\StringTok{"Probabilité cumulée"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()                              }
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-15-output-1.pdf}}
+
 \subsection{Réhaussements non
 linéaires}\label{ruxe9haussements-non-linuxe9aires}
-
-Calcul d'histogrammes, étirement, égalisation, styling
 
 \subsection{Composés couleurs}\label{composuxe9s-couleurs}
 

@@ -101,7 +101,7 @@ Les notebooks Python fonctionnent par défaut dans l'environnement [Google Colab
 `jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''`
 Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu de gauche vous pouvez accéder aux notebooks dans le répertoire `notebooks`:
 
-![La librairie NumPy est le fondement de nombreuses librairies scientifiques (d'après [@NumpyNature]).](https://raw.githubusercontent.com/sfoucher/TraitementImagesPythonVol1/refs/heads/main/images/jupyter-accueil.png){#fig-jupyterlab fig-scap='Client Jupyter Lab' width="100%" fig-align="center"}
+![La librairie NumPy est le fondement de nombreuses librairies scientifiques (d'après [@NumpyNature]).](images/jupyter-accueil.png){#fig-jupyterlab fig-scap='Client Jupyter Lab' width="100%" fig-align="center"}
 
 ## Les structures de base en Python
 
