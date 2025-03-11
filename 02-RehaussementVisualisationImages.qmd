@@ -95,7 +95,7 @@ Vérifiez que vous êtes capable de les lire :
 with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
     print(img_rgb)
 with rxr.open_rasterio('sentinel2.tif', mask_and_scale= True) as img_s2:
-    print(img_rgbnir)
+    print(img_s2)
 with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
     print(img_rgbnir)
 with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
