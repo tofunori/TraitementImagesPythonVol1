@@ -2241,8 +2241,8 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.18888889 0.11111111 0.06666667 0.12222222 0.07777778 0.07777778
- 0.17777778 0.05555556 0.13333333 0.1       ]
+valeurs : [0.11111111 0.11111111 0.08888889 0.12222222 0.16666667 0.06666667
+ 0.12222222 0.05555556 0.12222222 0.14444444]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
@@ -2255,7 +2255,7 @@ Le calcul se fait avec 10 intervalles par défaut.
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-11-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-12-output-1.pdf}}
 
 Pour des besoins de visualisation, le calcul des valeurs extrêmes de
 l'histogramme peut aussi se faire via les quantiles comme discutés
@@ -2277,7 +2277,7 @@ multi-spectrale:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-12-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-13-output-1.pdf}}
 
 \subsection{Réhaussements
 linéaires}\label{ruxe9haussements-linuxe9aires}
@@ -2325,15 +2325,13 @@ valeurs:
 \NormalTok{values }\OperatorTok{=}\NormalTok{ values[values}\OperatorTok{!=}\NormalTok{NO\_DATA\_FLOAT]}
 \CommentTok{\# calcul des percentiles}
 \NormalTok{percentiles\_position}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{98}\NormalTok{,}\DecValTok{99}\NormalTok{,}\FloatTok{99.9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
-\NormalTok{percentiles}\OperatorTok{=}\NormalTok{ np.percentile(values, percentiles\_position)}
+\NormalTok{percentiles}\OperatorTok{=} \BuiltInTok{dict}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(percentiles\_position, np.percentile(values, percentiles\_position)))}
 \BuiltInTok{print}\NormalTok{(percentiles)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-[8.17258024e-06 1.58873989e-05 8.65775685e-05 1.88460666e-04
- 1.23728202e-02 1.71947071e-01 2.79631515e-01 1.52358051e+00
- 4.83223877e+02]
+{0: np.float64(8.172580237442162e-06), 0.1: np.float64(1.588739885482937e-05), 1: np.float64(8.657756850880105e-05), 2: np.float64(0.00018846066552214325), 50: np.float64(0.012372820172458887), 98: np.float64(0.1719470709562302), 99: np.float64(0.27963151514529694), 99.9: np.float64(1.5235805057287233), 100: np.float64(483.223876953125)}
 \end{verbatim}
 
 La première observation que l'on peut faire est que la valeur médiane
@@ -2363,21 +2361,21 @@ de la librairie \texttt{matplotlib}:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-14-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-15-output-1.pdf}}
 
 Afin de visualiser correctement l'histogramme, il faut se limiter à un
 interval de valeurs plus petit. Dans le code ci-dessous, on impose à la
 fonction histogramme de compter les valeurs de pixels dans des
 intervalles de valeurs fixés par la fonction
-\texttt{np.linspace(percentiles{[}1{]},percentiles{[}-2{]},\ 50)} où
-percentiles{[}1{]} et percentiles{[}-2{]} sont les \(2\%\) et \(98\%\)
-percentiles respectivement:
+\texttt{np.linspace(percentiles{[}0.1{]},percentiles{[}99.9{]},\ 50)} où
+\texttt{percentiles{[}0.1{]}} et \texttt{percentiles{[}99.9{]}} sont les
+\(0.1\%\) et \(99.9\%\) percentiles respectivement:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{hist, bin\_edges }\OperatorTok{=}\NormalTok{ np.histogram(values, }
-\NormalTok{                                bins}\OperatorTok{=}\NormalTok{np.linspace(percentiles[}\DecValTok{1}\NormalTok{], }
-\NormalTok{                                percentiles[}\OperatorTok{{-}}\DecValTok{2}\NormalTok{], }\DecValTok{50}\NormalTok{), }
+\NormalTok{                                bins}\OperatorTok{=}\NormalTok{np.linspace(percentiles[}\FloatTok{0.1}\NormalTok{], }
+\NormalTok{                                percentiles[}\FloatTok{99.9}\NormalTok{], }\DecValTok{50}\NormalTok{), }
 \NormalTok{                                density}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
 
 \NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{,ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{,figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
@@ -2400,10 +2398,341 @@ percentiles respectivement:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-15-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-16-output-1.pdf}}
+
+Au niveau de l'affichage avec \texttt{matplotlib}, la dynamique peut
+être contrôlée directement via les paramètres \texttt{vmin} et
+\texttt{vmax} comme ceci:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{[a.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.flatten()]}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{0}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{100}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"0\% {-} 100\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{0}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{100}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\FloatTok{0.1}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\FloatTok{99.9}\NormalTok{]) }
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"0.1\% {-} 99.9\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\FloatTok{0.1}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\FloatTok{99.9}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{1}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{99}\NormalTok{]) }
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"1\% {-} 99\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{99}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{]) }
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"2\% {-} 98\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-17-output-1.pdf}}
 
 \subsection{Réhaussements non
 linéaires}\label{ruxe9haussements-non-linuxe9aires}
+
+\subsubsection{Réhaussement par
+fonctions}\label{ruxe9haussement-par-fonctions}
+
+Le réhaussenent par fonction consiste à appliquer une fonction non
+linéaire afin de modifier la dynamique de l'image. Par exemple, pour une
+image radar, une transformation populaire est dd'afficher les valeurs de
+rétrodiffusion en décibel (\texttt{dB}) via la fonction
+\texttt{log10()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{percentiles\_position}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{98}\NormalTok{,}\DecValTok{99}\NormalTok{,}\FloatTok{99.9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{values}\OperatorTok{=}\NormalTok{ np.log10(img\_SAR[}\DecValTok{0}\NormalTok{]).data}
+\NormalTok{percentiles\_db}\OperatorTok{=} \BuiltInTok{dict}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(percentiles\_position, np.percentile(values, percentiles\_position)))}
+\BuiltInTok{print}\NormalTok{(percentiles\_db)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+{0: np.float64(-5.08764123916626), 0.1: np.float64(-4.7989475197792055), 1: np.float64(-4.062595067024231), 2: np.float64(-3.7247793674468994), 50: np.float64(-1.9075313806533813), 98: np.float64(-0.7646052074432372), 99: np.float64(-0.5534139317274169), 99.9: np.float64(0.182865420415998), 100: np.float64(2.6841483116149902)}
+\end{verbatim}
+
+Les boxplots on une bien meilleure distribution proche d'une
+distribution Gaussienne:
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-19-output-1.pdf}}
+
+Ainsi que les images:
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-20-output-1.pdf}}
+
+\subsubsection{Égalisation
+d'histogramme}\label{uxe9galisation-dhistogramme}
+
+L'égalisation d'histogramme consiste à modifier les valeurs des pixels
+d'une image cible de façon à ce que la distribution cumulée des valeurs
+(CDF) deviennent similaire à celle d'une image cible. La CDF
+(\emph{Cumulative Distribution Function}) est simplement la somme
+cumulée des valeurs de l'histogramme:
+
+\[
+CDF_{source}(i)= \frac{1}{K}\sum_{j=0}^{j \leq i} hist_{source}(j)
+\] avec \(K\) choisit de façon à ce que la dernière valeur soit égale à
+1 (\(CDF_{source}(i_{max})=1\)). De la même manière, \(CDF_{cible}\) est
+la CDF d'une image cible. La formule générale pour l'égalisation
+d'histogramme est la suivante: \[
+j = CDF_{cible}^{-1}(CDF_{source}(i))
+\]
+
+On peut choisir \(CDF_{cible}\) comme correspondant à une image où
+chaque valeur de pixel est équiprobable, ce qui veut dire \$
+hist\_\{cible\}(j)=1/L\$ avec \(L\) est le nombre de valeurs possibles
+dans l'image (par exemple \(L=256\)). \[
+j = L \times CDF_{source}(i)
+\] On peut appliquer cette procédure sur l'image SAR de la façon
+suivante:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{values}\OperatorTok{=}\NormalTok{ np.sort(np.log10(img\_SAR[}\DecValTok{0}\NormalTok{].data.flatten()))}
+\NormalTok{cdf\_x}\OperatorTok{=}\NormalTok{ np.linspace(values[}\DecValTok{0}\NormalTok{], values[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }\DecValTok{1000}\NormalTok{)}
+\NormalTok{cdf\_source}\OperatorTok{=}\NormalTok{ np.interp(cdf\_x, values, np.arange(}\BuiltInTok{len}\NormalTok{(values))}\OperatorTok{/}\BuiltInTok{len}\NormalTok{(values)}\OperatorTok{*}\DecValTok{255}\NormalTok{)}
+\NormalTok{values\_eq}\OperatorTok{=}\NormalTok{np.interp(np.log10(img\_SAR[}\DecValTok{0}\NormalTok{].data), cdf\_x, cdf\_source).astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.imshow(values\_eq)}
+\NormalTok{plt.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-21-output-1.pdf}}
+
+\subsubsection{Palettes de couleur}\label{palettes-de-couleur}
+
+Les palettes de couleurs sont appliquées dynamiquement à l'affichage sur
+une image à une seule bande. La librairie \texttt{matplotlib} contient
+un nombre important de
+\href{https://matplotlib.org/stable/users/explain/colors/colormaps.html}{palettes}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ matplotlib }\ImportTok{import}\NormalTok{ colormaps}
+\BuiltInTok{list}\NormalTok{(colormaps)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+['magma',
+ 'inferno',
+ 'plasma',
+ 'viridis',
+ 'cividis',
+ 'twilight',
+ 'twilight_shifted',
+ 'turbo',
+ 'berlin',
+ 'managua',
+ 'vanimo',
+ 'Blues',
+ 'BrBG',
+ 'BuGn',
+ 'BuPu',
+ 'CMRmap',
+ 'GnBu',
+ 'Greens',
+ 'Greys',
+ 'OrRd',
+ 'Oranges',
+ 'PRGn',
+ 'PiYG',
+ 'PuBu',
+ 'PuBuGn',
+ 'PuOr',
+ 'PuRd',
+ 'Purples',
+ 'RdBu',
+ 'RdGy',
+ 'RdPu',
+ 'RdYlBu',
+ 'RdYlGn',
+ 'Reds',
+ 'Spectral',
+ 'Wistia',
+ 'YlGn',
+ 'YlGnBu',
+ 'YlOrBr',
+ 'YlOrRd',
+ 'afmhot',
+ 'autumn',
+ 'binary',
+ 'bone',
+ 'brg',
+ 'bwr',
+ 'cool',
+ 'coolwarm',
+ 'copper',
+ 'cubehelix',
+ 'flag',
+ 'gist_earth',
+ 'gist_gray',
+ 'gist_heat',
+ 'gist_ncar',
+ 'gist_rainbow',
+ 'gist_stern',
+ 'gist_yarg',
+ 'gnuplot',
+ 'gnuplot2',
+ 'gray',
+ 'hot',
+ 'hsv',
+ 'jet',
+ 'nipy_spectral',
+ 'ocean',
+ 'pink',
+ 'prism',
+ 'rainbow',
+ 'seismic',
+ 'spring',
+ 'summer',
+ 'terrain',
+ 'winter',
+ 'Accent',
+ 'Dark2',
+ 'Paired',
+ 'Pastel1',
+ 'Pastel2',
+ 'Set1',
+ 'Set2',
+ 'Set3',
+ 'tab10',
+ 'tab20',
+ 'tab20b',
+ 'tab20c',
+ 'grey',
+ 'gist_grey',
+ 'gist_yerg',
+ 'Grays',
+ 'magma_r',
+ 'inferno_r',
+ 'plasma_r',
+ 'viridis_r',
+ 'cividis_r',
+ 'twilight_r',
+ 'twilight_shifted_r',
+ 'turbo_r',
+ 'berlin_r',
+ 'managua_r',
+ 'vanimo_r',
+ 'Blues_r',
+ 'BrBG_r',
+ 'BuGn_r',
+ 'BuPu_r',
+ 'CMRmap_r',
+ 'GnBu_r',
+ 'Greens_r',
+ 'Greys_r',
+ 'OrRd_r',
+ 'Oranges_r',
+ 'PRGn_r',
+ 'PiYG_r',
+ 'PuBu_r',
+ 'PuBuGn_r',
+ 'PuOr_r',
+ 'PuRd_r',
+ 'Purples_r',
+ 'RdBu_r',
+ 'RdGy_r',
+ 'RdPu_r',
+ 'RdYlBu_r',
+ 'RdYlGn_r',
+ 'Reds_r',
+ 'Spectral_r',
+ 'Wistia_r',
+ 'YlGn_r',
+ 'YlGnBu_r',
+ 'YlOrBr_r',
+ 'YlOrRd_r',
+ 'afmhot_r',
+ 'autumn_r',
+ 'binary_r',
+ 'bone_r',
+ 'brg_r',
+ 'bwr_r',
+ 'cool_r',
+ 'coolwarm_r',
+ 'copper_r',
+ 'cubehelix_r',
+ 'flag_r',
+ 'gist_earth_r',
+ 'gist_gray_r',
+ 'gist_heat_r',
+ 'gist_ncar_r',
+ 'gist_rainbow_r',
+ 'gist_stern_r',
+ 'gist_yarg_r',
+ 'gnuplot_r',
+ 'gnuplot2_r',
+ 'gray_r',
+ 'hot_r',
+ 'hsv_r',
+ 'jet_r',
+ 'nipy_spectral_r',
+ 'ocean_r',
+ 'pink_r',
+ 'prism_r',
+ 'rainbow_r',
+ 'seismic_r',
+ 'spring_r',
+ 'summer_r',
+ 'terrain_r',
+ 'winter_r',
+ 'Accent_r',
+ 'Dark2_r',
+ 'Paired_r',
+ 'Pastel1_r',
+ 'Pastel2_r',
+ 'Set1_r',
+ 'Set2_r',
+ 'Set3_r',
+ 'tab10_r',
+ 'tab20_r',
+ 'tab20b_r',
+ 'tab20c_r',
+ 'grey_r',
+ 'gist_grey_r',
+ 'gist_yerg_r',
+ 'Grays_r']
+\end{verbatim}
+
+Voici quelques exemples ci-dessous, les valeurs de l'image doivent être
+normalisées entre 0 et 1 ou entre 0 et 255 sinon les paramètres
+\texttt{vmin} et \texttt{vmax} doivent être spécifiés. On peut observer
+comment ces palettes révèlent les détails de l'image malgré une image
+originalement très sombre.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{[a.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.flatten()]}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}jet\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"jet"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}hot\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"hot"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}hsv\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"hsv"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}terrain\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"terrain"}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-23-output-1.pdf}}
+
+Il peut être utile d'ajouter une barre de couleurs afin d'indiquer la
+correspondance entre les couleurs et les valeurs numériques:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib }\ImportTok{as}\NormalTok{ mpl}
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{6}\NormalTok{))}
+\CommentTok{\#.with\_extremes(over=\textquotesingle{}red\textquotesingle{}, under=\textquotesingle{}blue\textquotesingle{})}
+\NormalTok{cmap}\OperatorTok{=}\NormalTok{ mpl.colormaps.get\_cmap(}\StringTok{\textquotesingle{}jet\textquotesingle{}}\NormalTok{).with\_extremes(under}\OperatorTok{=}\StringTok{\textquotesingle{}white\textquotesingle{}}\NormalTok{, over}\OperatorTok{=}\StringTok{\textquotesingle{}magenta\textquotesingle{}}\NormalTok{)}
+\NormalTok{h}\OperatorTok{=}\NormalTok{plt.imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, norm}\OperatorTok{=}\NormalTok{mpl.colors.LogNorm(vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{]),}
+\NormalTok{                   cmap}\OperatorTok{=}\NormalTok{cmap)}
+\NormalTok{fig.colorbar(h, ax}\OperatorTok{=}\NormalTok{ax,  orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{, label}\OperatorTok{=}\StringTok{"Intensité"}\NormalTok{, extend}\OperatorTok{=}\StringTok{\textquotesingle{}both\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-24-output-1.pdf}}
 
 \subsection{Composés couleurs}\label{composuxe9s-couleurs}
 
@@ -2576,11 +2905,11 @@ des valeurs originales.
 
 \chapter{Transformations spatiales}\label{sec-chap04}
 
-\section{:rocket: Préambule}\label{rocket-pruxe9ambule-1}
+\section{Préambule}\label{pruxe9ambule-2}
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\subsection{:dart: Objectifs}\label{dart-objectifs}
+\subsection{Objectifs}\label{objectifs-1}
 
 Dans ce chapitre, nous abordons quelques techniques de traitement
 d'images dans le domaine spatial uniquement. Ce chapitre est aussi
@@ -2738,7 +3067,7 @@ sinon un phénomène de repliement appelé aliasing sera observé.
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-6-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-7-output-1.pdf}}
 
 \subsection{Filtrage fréquentielle}\label{filtrage-fruxe9quentielle}
 
@@ -2790,7 +3119,7 @@ x_f = IDFT^{-1}[F]*x
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-7-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-8-output-1.pdf}}
 
 \subsection{L'aliasing}\label{laliasing}
 
@@ -2817,7 +3146,7 @@ beaucoup de haute fréquences:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-8-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-9-output-1.pdf}}
 
 Une façon de réduire le contenu fréquentiel est de filtrer par un filtre
 passe-bas pour réduire les hautes fréquences par exemple avec un filtre
@@ -2841,7 +3170,7 @@ Gaussien:
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-9-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-10-output-1.pdf}}
 
 La fonction
 \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.decimate.html\#scipy.signal.decimate}{\texttt{decimate}}
@@ -2866,7 +3195,7 @@ dans \texttt{scipy.signal} réalise l'opération de décimation
 Text(0.5, 1.0, 'Décimée par un facteur 4')
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-10-output-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-11-output-2.pdf}}
 
 \section{Filtrage d'image}\label{filtrage-dimage}
 
@@ -2987,7 +3316,7 @@ moyenne peut être appliqué sur les axes \texttt{x\_win} et
 Text(0.5, 1.0, 'Filtre moyen 5x5')
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-12-output-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-13-output-2.pdf}}
 
 Lorsque la taille \(W\) de la fenêtre devient trop grande, il est
 préférable d'utiliser une convolution dans le domaine fréquentielle. La
@@ -3065,7 +3394,7 @@ Coordinates:
 Text(0.5, 1.0, 'Amplitude du filtre de Scharr')
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-14-output-3.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-15-output-3.pdf}}
 
 \section{Gestion des bordures}\label{gestion-des-bordures}
 
@@ -3133,7 +3462,7 @@ convolutionnelle:
 torch.Size([1, 3, 771, 1311])
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-15-output-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-16-output-2.pdf}}
 
 Le résultat est alors calculé sur GPU (si disponible):
 
@@ -3159,7 +3488,7 @@ Image (BxCxHxW): torch.Size([1, 3, 771, 1311])
 Sortie (BxFxHxW): torch.Size([1, 2, 771, 1311])
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-16-output-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-17-output-2.pdf}}
 
 \subsection{Filtrage adaptatif}\label{filtrage-adaptatif}
 
@@ -3191,7 +3520,7 @@ EPSG:4326
 Text(0.5, 1.0, 'Image SAR Sentinel-1 (dB)')
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-17-output-3.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-18-output-3.pdf}}
 
 Un des filtres les plus simples pour réduire le bruit est d'appliquer un
 filtre moyenne, par exemple un \(5 \times 5\) ci dessous:
@@ -3210,7 +3539,7 @@ filtre moyenne, par exemple un \(5 \times 5\) ci dessous:
 Text(0.5, 1.0, 'Filtrage moyen 5x5 (dB)')
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-18-output-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-19-output-2.pdf}}
 
 Au lieu d'appliquer un filtre moyen de manière indiscriminée, le filtre
 de Lee (Lee 1986) applique une pondération en fonction du contenu local
@@ -3246,12 +3575,12 @@ préservant ainsi les détails de l'image \(I\) sinon l'image moyenne
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-19-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-20-output-1.pdf}}
 
 On zoomant sur l'image on peut clairement voir que les détails de
 l'image sont mieux préservés:
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-20-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-21-output-1.pdf}}
 
 \section{Segmentation}\label{segmentation}
 
@@ -3339,7 +3668,7 @@ vraiment le contenu de l'image:
 SLIC nombre de segments: 240
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-21-output-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-22-output-2.pdf}}
 
 Le nombre de segments initial est probablement le paramètre le plus
 important. Une manière de l'estimer est d'évaluer l'échelle moyenne des
@@ -3385,7 +3714,7 @@ Nb segments:  2526
 SLIC nombre de segments: 2201
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-22-output-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-23-output-2.pdf}}
 
 \subsection{Fusion des segments par graphe de
 proximité}\label{fusion-des-segments-par-graphe-de-proximituxe9}
@@ -3476,7 +3805,7 @@ Nombre de segments: 2201
 Nombre de segments: 1187
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-23-output-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-24-output-2.pdf}}
 
 \subsection{Approche objet}\label{approche-objet}
 
@@ -3537,11 +3866,11 @@ suite (on parle alors de classification objet).
 
 \chapter{Classifications d'images supervisées}\label{sec-chap05}
 
-\section{:rocket: Préambule}\label{rocket-pruxe9ambule-2}
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-1}
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\subsection{:dart: Objectifs}\label{dart-objectifs-1}
+\subsection{:dart: Objectifs}\label{dart-objectifs}
 
 Dans ce chapitre, nous ferons une introduction générale à
 l'apprentissage automatique et abordons quelques techniques
