@@ -92,6 +92,7 @@ format:
     css: css/quizlib.min.css
 #    html-math-method: katex
     fig-width: 8
+    fig-dpi: 300
 #    header-includes:
 #      - \usepackage{annotate-equations}
     mermaid: 
@@ -109,6 +110,7 @@ format:
       - lua/callout_custom_pdf.lua
     pdf-engine: pdflatex
     keep-tex: true
+    fig-dpi: 300
     documentclass: scrbook
     papersize: letter
     classoption:

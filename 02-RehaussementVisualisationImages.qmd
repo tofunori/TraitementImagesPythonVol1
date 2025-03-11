@@ -8,6 +8,19 @@ execute:
   warning: false
 ---
 
+```{python}
+#| echo: false
+#| output: false
+import matplotlib.pyplot as plt
+plt.rcParams['axes.titlesize'] = 10
+plt.rcParams['axes.labelsize'] = 10
+plt.rcParams['xtick.labelsize'] = 10
+plt.rcParams['ytick.labelsize'] = 10
+plt.rcParams['legend.fontsize'] = 10
+plt.rcParams['image.cmap'] = 'gray'
+plt.rcParams['savefig.dpi'] = 300
+```
+
 # Réhaussement et visualisation d'images {#sec-chap02}
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
@@ -63,16 +76,6 @@ import xrscipy
 import matplotlib.pyplot as plt
 ```
 
-```{python}
-#| echo: false
-#| output: false
-plt.rcParams['axes.titlesize'] = 10
-plt.rcParams['axes.labelsize'] = 10
-plt.rcParams['xtick.labelsize'] = 10
-plt.rcParams['ytick.labelsize'] = 10
-plt.rcParams['legend.fontsize'] = 10
-plt.rcParams['image.cmap'] = 'gray'
-```
 ### Données
 Nous allons utilisez les images suivantes dans ce chapitre:
 ```{python}
@@ -96,6 +99,58 @@ with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
 with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
     print(img_SAR)
 ```
+## Visualisation en Python
+
+Il faut d'entrée mentionner que Python n'est pas vraiment fait pour visualiser de la donnée de grande taille, le niveau d'interactivité est aussi assez limité. Pour une visualisation interactives, il est plutôt conseillé d'utiliser un outil comme [QGIS](https://qgis.org/). Néanmoins, il est possible de visualiser de petites images avec la librairie [`matplotlib`](https://matplotlib.org/stable/) qui est la librairie principale de visualisation en Python. Cette librairie est extrêmement riche et versatile, nous ne présenterons que les bases nécessaires pour démarrer. Le lecteur désirant aller plus loin pourra consulter les nombreux tutoriels disponibles comme [celui-ci](https://matplotlib.org/stable/tutorials/index.html).
+
+La fonction de base pour créer une figure est `subplots`, la largeur et hauteur en pouces de la figure peuvent être contrôlées via le paramètre `figsize`:
+```{python}
+import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(6, 5))
+plt.show()
+```
+Pour l'affichage des images, la fonction `imshow` permet d'afficher une matrice 2D à une dimension en format float ou une matrice RVB avec 3 bandes. Il est important que les dimensions de la matrice soient dans l'ordre hauteur, largeur et bande.
+```{python}
+import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(6, 5))
+plt.imshow(img_rgbnir[0].data)
+plt.show()
+```
+Pour un affichage à 3 bandes, les valeurs seront clippées entre 0 et 1, il est donc nécessaire de normaliser les valeurs avant l'affichage:
+```{python}
+import matplotlib.pyplot as plt
+fig, ax= plt.subplots(figsize=(6, 5))
+plt.imshow(img_rgbnir.data.transpose(1,2,0)/2500.0)
+plt.show()
+```
+On remarquera les valeurs des axes `x` et `y` avec une origine en haut à gauche. Ceci est un référentiel purement matricielle (lignes et colonnes), il n'y a pas de géoréférence ici. Pour pallier à cette limitation, les librairies `rasterio` et `xarray` proposent une extension de la fonction `imshow` permettant d'afficher les coordonnées cartographiques ainsi qu'un contrôle la dynamique de l'image:
+```{python}
+import rioxarray as rxr
+fig, ax= plt.subplots(figsize=(6, 5))
+img_rgbnir.sel(band=[1,2,3]).plot.imshow(vmin=86, vmax=5000)
+ax.set_title('Imshow avec rioxarray')
+plt.show()
+```
+<!--
+### Visualisation sur le Web
+
+Une des meilleures pratiques pour visualiser une image de grande taille est d'utiliser un service de type Web Mapping Service (WMS). Cependant, type de service nécessite une architecture client-serveur qui est plus complexe à mettre en place.
+
+Google Earth Engine offre des moyens de visualiser de la donnée locale:
+_Working with Local Geospatial Data_ — via [17. Geemap — Introduction to GIS Programming](https://geog-312.gishub.org/book/geospatial/geemap.html#working-with-local-geospatial-data)
+
+via [data/raster at main · opengeos/data](https://github.com/opengeos/data/tree/main/raster)
+
+
+
+### Visualisation 3D
+
+drapper une image satellite sur un DEM
+
+
+## Exercices de révision 
+-->
+
 ## Réhaussements visuels
 
 Le but du réhaussement visuel d'une image vise principalement à améliorer la qualité visuelle d'une image en améliorant le contraste, la dynamique ou la texture d'une image. De manière générale, ce réhaussement ne modifie pas la donnée d'origine mais est plutôt appliquée dynamiquement à l'affichage pour des fins d'inspection visuelle.
@@ -304,7 +359,7 @@ Exercise: trouver une autre transformation possible pour l'image SAR.
 -->
 #### Égalisation d'histogramme
 
-L'égalisation d'histogramme consiste à modifier les valeurs des pixels d'une image cible de façon à ce que la distribution cumulée des valeurs (CDF) deviennent similaire à celle d'une image cible. La CDF (*Cumulative Distribution Function*) est simplement la somme cumulée des valeurs de l'histogramme:
+L'égalisation d'histogramme consiste à modifier les valeurs des pixels d'une image source de façon à ce que la distribution cumulée des valeurs (CDF) deviennent similaire à celle d'une image cible. La CDF (*Cumulative Distribution Function*) est simplement la somme cumulée des valeurs de l'histogramme:
 
 $$
 CDF_{source}(i)= \frac{1}{K}\sum_{j=0}^{j \leq i} hist_{source}(j)
@@ -314,11 +369,11 @@ $$
 j = CDF_{cible}^{-1}(CDF_{source}(i))
 $$
 
-On peut choisir $CDF_{cible}$ comme correspondant à une image où chaque valeur de pixel est équiprobable, ce qui veut dire $ hist_{cible}(j)=1/L$ avec $L$ est le nombre de valeurs possibles dans l'image (par exemple $L=256$).
+On peut choisir $CDF_{cible}$ comme correspondant à une image où chaque valeur de pixel est équiprobable (d'où le terme *égalisation*), ce qui veut dire $hist_{cible}(j)=1/L$ avec $L$ égale au nombre de valeurs possibles dans l'image (par exemple $L=256$).
 $$
 j = L \times CDF_{source}(i)
 $$
-On peut appliquer cette procédure sur l'image SAR de la façon suivante:
+On peut appliquer cette procédure sur l'image SAR en dB de la façon suivante:
 ```{python}
 values= np.sort(np.log10(img_SAR[0].data.flatten()))
 cdf_x= np.linspace(values[0], values[-1], 1000)
@@ -335,6 +390,7 @@ Exercise: changer la CDF cible pour une Gaussienne
 
 Les palettes de couleurs sont appliquées dynamiquement à l'affichage sur une image à une seule bande. La librairie `matplotlib` contient un nombre important de [palettes](https://matplotlib.org/stable/users/explain/colors/colormaps.html).
 ```{python}
+# | output: false
 from matplotlib import colormaps
 list(colormaps)
 ```
@@ -357,7 +413,6 @@ Il peut être utile d'ajouter une barre de couleurs afin d'indiquer la correspon
 ```{python}
 import matplotlib as mpl
 fig, ax = plt.subplots(figsize=(6, 6))
-#.with_extremes(over='red', under='blue')
 cmap= mpl.colormaps.get_cmap('jet').with_extremes(under='white', over='magenta')
 h=plt.imshow(img_SAR[0].data, norm=mpl.colors.LogNorm(vmin=percentiles[2], vmax=percentiles[98]),
                    cmap=cmap)
@@ -368,35 +423,5 @@ ax.axis('off')
 
 Le système visuel humain est sensible seulement à la partie visible du spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du bleu au rouge. L'ensemble des couleurs du spectre visible peut être obtenu à partir du mélange de trois couleurs primaires (rouge, vert et bleu). Ce système de décomposition à trois couleurs est à la base de la plupart des systèmes de visualisation ou de représentation de l'information de couleur. On peut trouver des variantes comme le système HSV (*Hue-Saturation-Value*) utilisé en encodage de données vidéos.
 
-## Visualisation
 
-### Visualisation en Python
-
-Il faut d'entrée mentionner que Python n'est pas vraiment fait pour visualiser de la donnée de grande taille, le niveau d'interactivité est aussi plus limité. Néanmoins, il est possible de visualiser de petites images avec la librairie Matplotlib. 
-
-### Outils de visualisation
-
-Il existe plusieurs outils gratuits de visualisation d'une image satellite, on peut mentionner les deux principaux:
-- QGIS
-- ESA Snap
-
-<!--
-### Visualisation sur le Web
-
-Une des meilleures pratiques pour visualiser une image de grande taille est d'utiliser un service de type Web Mapping Service (WMS). Cependant, type de service nécessite une architecture client-serveur qui est plus complexe à mettre en place.
-
-Google Earth Engine offre des moyens de visualiser de la donnée locale:
-_Working with Local Geospatial Data_ — via [17. Geemap — Introduction to GIS Programming](https://geog-312.gishub.org/book/geospatial/geemap.html#working-with-local-geospatial-data)
-
-via [data/raster at main · opengeos/data](https://github.com/opengeos/data/tree/main/raster)
-
-
-
-### Visualisation 3D
-
-drapper une image satellite sur un DEM
-
-
-## Exercices de révision 
--->
 
