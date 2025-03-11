@@ -18,7 +18,6 @@ plt.rcParams['xtick.labelsize'] = 10
 plt.rcParams['ytick.labelsize'] = 10
 plt.rcParams['legend.fontsize'] = 10
 plt.rcParams['image.cmap'] = 'gray'
-plt.rcParams['savefig.dpi'] = 300
 ```
 
 # Réhaussement et visualisation d'images {#sec-chap02}

@@ -68,10 +68,10 @@ book:
   - part: Partie 1. Importation, manipulation et visualisation de données spatiales
   - 00-PriseEnMainPython.qmd
   - 01-ImportationManipulationImages.qmd
-  - 02-RehaussementVisualisationImages.qmd
+#  - 02-RehaussementVisualisationImages.qmd
   - part: Partie 2. Transformations des données satellitaires
   - 03-TransformationSpectrales.qmd
-  - 04-TransformationSpatiales.qmd
+#  - 04-TransformationSpatiales.qmd
   - part: Partie 3. Classifications d'images
   - 05-ClassificationsSupervisees.qmd
 #  - 06-ClassificationsNonSupervisees.qmd
@@ -92,7 +92,7 @@ format:
     css: css/quizlib.min.css
 #    html-math-method: katex
     fig-width: 8
-    fig-dpi: 300
+    fig-dpi: 100
 #    header-includes:
 #      - \usepackage{annotate-equations}
     mermaid: 
@@ -110,7 +110,7 @@ format:
       - lua/callout_custom_pdf.lua
     pdf-engine: pdflatex
     keep-tex: true
-    fig-dpi: 300
+    fig-dpi: 100
     documentclass: scrbook
     papersize: letter
     classoption:
