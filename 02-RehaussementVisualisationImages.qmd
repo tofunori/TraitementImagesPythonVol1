@@ -17,6 +17,7 @@ plt.rcParams['axes.labelsize'] = 10
 plt.rcParams['xtick.labelsize'] = 10
 plt.rcParams['ytick.labelsize'] = 10
 plt.rcParams['legend.fontsize'] = 10
+plt.rcParams['image.aspect'] = 'equal'
 plt.rcParams['image.cmap'] = 'gray'
 ```
 
@@ -83,7 +84,7 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 import gdown
 
 gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg_', output= 'RGBNIR_of_S2A.tif')
-gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw-Wo6', output= 'landsat7.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a6O3L_abOfU7h94K22At8qtBuLMGErwo', output= 'sentinel2.tif')
 gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')
 gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')
 ```
@@ -93,6 +94,8 @@ Vérifiez que vous êtes capable de les lire :
 
 with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
     print(img_rgb)
+with rxr.open_rasterio('sentinel2.tif', mask_and_scale= True) as img_s2:
+    print(img_rgbnir)
 with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
     print(img_rgbnir)
 with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
@@ -420,7 +423,20 @@ ax.axis('off')
 ```
 ### Composés couleurs
 
-Le système visuel humain est sensible seulement à la partie visible du spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du bleu au rouge. L'ensemble des couleurs du spectre visible peut être obtenu à partir du mélange de trois couleurs primaires (rouge, vert et bleu). Ce système de décomposition à trois couleurs est à la base de la plupart des systèmes de visualisation ou de représentation de l'information de couleur. On peut trouver des variantes comme le système HSV (*Hue-Saturation-Value*) utilisé en encodage de données vidéos.
+Le système visuel humain est sensible seulement à la partie visible du spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du bleu au rouge. L'ensemble des couleurs du spectre visible peut être obtenu à partir du mélange de trois couleurs primaires (rouge, vert et bleu). Ce système de décomposition à trois couleurs est à la base de la plupart des systèmes de visualisation ou de représentation de l'information de couleur. Si on prend le cas des images Sentinel-2, 12 bandes sont disponibles, plusieurs composés couleurs sont donc possibles (voir le site de [Copernicus](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/)). Voici quelques exemples possibles, chaque composé mettant en valeur des propriétés différentes de la surface.
 
-
+```{python}
+import rioxarray as rxr
+fig, ax= plt.subplots(nrows=2, ncols= 2, figsize=(8, 6), sharex=True, sharey=True)
+img_s2.sel(band=[4,3,2]).plot.imshow(vmin=86, vmax=4000, ax=ax[0,0])
+ax[0,0].set_title('RVB')
+img_s2.sel(band=[8,3,2]).plot.imshow(vmin=86, vmax=4000, ax=ax[0,1])
+ax[0,1].set_title('NIR,V,B')
+img_s2.sel(band=[12,8,4]).plot.imshow(vmin=86, vmax=4000, ax=ax[1,0])
+ax[1,0].set_title('SWIR2,NIR,R')
+img_s2.sel(band=[12,11,4]).plot.imshow(vmin=86, vmax=4000, ax=ax[1,1])
+ax[1,1].set_title('SWIR2,SWIR1,NIR')
+plt.tight_layout()
+plt.show()
+```
 

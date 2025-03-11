@@ -13,7 +13,8 @@
         "  message: false\n",
         "  warning: false\n",
         "---"
-      ]
+      ],
+      "id": "fd5a8b27"
     },
     {
       "cell_type": "code",
@@ -30,6 +31,7 @@
         "plt.rcParams['image.aspect'] = 'equal'\n",
         "plt.rcParams['image.cmap'] = 'gray'"
       ],
+      "id": "e7d60c36",
       "execution_count": null,
       "outputs": []
     },
@@ -66,8 +68,9 @@
         "\n",
         "\n",
         "\n",
-        "Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être installés:"
-      ]
+        "Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être installés:\n"
+      ],
+      "id": "150d5307"
     },
     {
       "cell_type": "code",
@@ -80,6 +83,7 @@
         "!pip install -q rioxarray\n",
         "!pip install -qU \"geemap[workshop]\""
       ],
+      "id": "70dc80ff",
       "execution_count": null,
       "outputs": []
     },
@@ -87,8 +91,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Dans l'environnement Google Colab, on peut s'assurer que les librairies  sont installées:"
-      ]
+        "Dans l'environnement Google Colab, on peut s'assurer que les librairies  sont installées:\n"
+      ],
+      "id": "cf87eda0"
     },
     {
       "cell_type": "code",
@@ -97,6 +102,7 @@
         "%%capture\n",
         "!pip install -qU matplotlib rioxarray xrscipy scikit-image"
       ],
+      "id": "3fb7b9a9",
       "execution_count": null,
       "outputs": []
     },
@@ -104,8 +110,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Vérifier les importations:"
-      ]
+        "Vérifier les importations:\n"
+      ],
+      "id": "0e92998d"
     },
     {
       "cell_type": "code",
@@ -118,6 +125,7 @@
         "import xrscipy\n",
         "import matplotlib.pyplot as plt"
       ],
+      "id": "7573e400",
       "execution_count": null,
       "outputs": []
     },
@@ -126,8 +134,9 @@
       "metadata": {},
       "source": [
         "### Données\n",
-        "Nous allons utilisez les images suivantes dans ce chapitre:"
-      ]
+        "Nous allons utilisez les images suivantes dans ce chapitre:\n"
+      ],
+      "id": "2796c8d6"
     },
     {
       "cell_type": "code",
@@ -142,6 +151,7 @@
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')\n",
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')"
       ],
+      "id": "0b3fede6",
       "execution_count": null,
       "outputs": []
     },
@@ -149,8 +159,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Vérifiez que vous êtes capable de les lire :"
-      ]
+        "Vérifiez que vous êtes capable de les lire :\n"
+      ],
+      "id": "5c1d820a"
     },
     {
       "cell_type": "code",
@@ -167,6 +178,7 @@
         "with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:\n",
         "    print(img_SAR)"
       ],
+      "id": "1d242f20",
       "execution_count": null,
       "outputs": []
     },
@@ -178,8 +190,9 @@
         "\n",
         "Il faut d'entrée mentionner que Python n'est pas vraiment fait pour visualiser de la donnée de grande taille, le niveau d'interactivité est aussi assez limité. Pour une visualisation interactives, il est plutôt conseillé d'utiliser un outil comme [QGIS](https://qgis.org/). Néanmoins, il est possible de visualiser de petites images avec la librairie [`matplotlib`](https://matplotlib.org/stable/) qui est la librairie principale de visualisation en Python. Cette librairie est extrêmement riche et versatile, nous ne présenterons que les bases nécessaires pour démarrer. Le lecteur désirant aller plus loin pourra consulter les nombreux tutoriels disponibles comme [celui-ci](https://matplotlib.org/stable/tutorials/index.html).\n",
         "\n",
-        "La fonction de base pour créer une figure est `subplots`, la largeur et hauteur en pouces de la figure peuvent être contrôlées via le paramètre `figsize`:"
-      ]
+        "La fonction de base pour créer une figure est `subplots`, la largeur et hauteur en pouces de la figure peuvent être contrôlées via le paramètre `figsize`:\n"
+      ],
+      "id": "d4dd3ed1"
     },
     {
       "cell_type": "code",
@@ -189,6 +202,7 @@
         "fig, ax= plt.subplots(figsize=(6, 5))\n",
         "plt.show()"
       ],
+      "id": "342c158a",
       "execution_count": null,
       "outputs": []
     },
@@ -196,8 +210,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Pour l'affichage des images, la fonction `imshow` permet d'afficher une matrice 2D à une dimension en format float ou une matrice RVB avec 3 bandes. Il est important que les dimensions de la matrice soient dans l'ordre hauteur, largeur et bande."
-      ]
+        "Pour l'affichage des images, la fonction `imshow` permet d'afficher une matrice 2D à une dimension en format float ou une matrice RVB avec 3 bandes. Il est important que les dimensions de la matrice soient dans l'ordre hauteur, largeur et bande.\n"
+      ],
+      "id": "2902a284"
     },
     {
       "cell_type": "code",
@@ -208,6 +223,7 @@
         "plt.imshow(img_rgbnir[0].data)\n",
         "plt.show()"
       ],
+      "id": "4ee32b89",
       "execution_count": null,
       "outputs": []
     },
@@ -215,8 +231,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Pour un affichage à 3 bandes, les valeurs seront clippées entre 0 et 1, il est donc nécessaire de normaliser les valeurs avant l'affichage:"
-      ]
+        "Pour un affichage à 3 bandes, les valeurs seront clippées entre 0 et 1, il est donc nécessaire de normaliser les valeurs avant l'affichage:\n"
+      ],
+      "id": "d19aac18"
     },
     {
       "cell_type": "code",
@@ -227,6 +244,7 @@
         "plt.imshow(img_rgbnir.data.transpose(1,2,0)/2500.0)\n",
         "plt.show()"
       ],
+      "id": "b3f7cd85",
       "execution_count": null,
       "outputs": []
     },
@@ -234,8 +252,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On remarquera les valeurs des axes `x` et `y` avec une origine en haut à gauche. Ceci est un référentiel purement matricielle (lignes et colonnes), il n'y a pas de géoréférence ici. Pour pallier à cette limitation, les librairies `rasterio` et `xarray` proposent une extension de la fonction `imshow` permettant d'afficher les coordonnées cartographiques ainsi qu'un contrôle la dynamique de l'image:"
-      ]
+        "On remarquera les valeurs des axes `x` et `y` avec une origine en haut à gauche. Ceci est un référentiel purement matricielle (lignes et colonnes), il n'y a pas de géoréférence ici. Pour pallier à cette limitation, les librairies `rasterio` et `xarray` proposent une extension de la fonction `imshow` permettant d'afficher les coordonnées cartographiques ainsi qu'un contrôle la dynamique de l'image:\n"
+      ],
+      "id": "c47072a0"
     },
     {
       "cell_type": "code",
@@ -247,6 +266,7 @@
         "ax.set_title('Imshow avec rioxarray')\n",
         "plt.show()"
       ],
+      "id": "83c36329",
       "execution_count": null,
       "outputs": []
     },
@@ -286,8 +306,9 @@
         "- écart-types, skewness et kurtosis \n",
         "Ces statistiques doivent être calculées pour chaque bande d'une image multispectrale.\n",
         "\n",
-        "En ligne de commande, `gdalinfo` permet d'interroger rapidement un fichier image pour connaitre les statistiques de base:"
-      ]
+        "En ligne de commande, `gdalinfo` permet d'interroger rapidement un fichier image pour connaitre les statistiques de base:\n"
+      ],
+      "id": "d562086f"
     },
     {
       "cell_type": "code",
@@ -295,6 +316,7 @@
       "source": [
         "!gdalinfo -stats landsat7.tif"
       ],
+      "id": "ac064f93",
       "execution_count": null,
       "outputs": []
     },
@@ -302,8 +324,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Les librairies de base comme `xarray` et `numpy` peuvent facilement produire des statistiques comme avec la fonction [stats](https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.stats):"
-      ]
+        "Les librairies de base comme `xarray` et `numpy` peuvent facilement produire des statistiques comme avec la fonction [stats](https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.stats):\n"
+      ],
+      "id": "9a5cd68b"
     },
     {
       "cell_type": "code",
@@ -317,6 +340,7 @@
         "    stats= src.stats()\n",
         "    print(stats)"
       ],
+      "id": "8e82e3e5",
       "execution_count": null,
       "outputs": []
     },
@@ -324,8 +348,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "La librairie `xarray` donne accès à des fonctionnalités plus sophistiquées comme le calcul des quantiles:"
-      ]
+        "La librairie `xarray` donne accès à des fonctionnalités plus sophistiquées comme le calcul des quantiles:\n"
+      ],
+      "id": "74243635"
     },
     {
       "cell_type": "code",
@@ -337,6 +362,7 @@
         "quantiles = src.quantile(dim=['x','y'], q=[.025,.25,.5,.75,.975])\n",
         "quantiles"
       ],
+      "id": "427705e6",
       "execution_count": null,
       "outputs": []
     },
@@ -346,8 +372,9 @@
       "source": [
         "#### Calcul de l'histogramme\n",
         "\n",
-        "Le calcul d'un histogramme pour une image (une bande) permet d'avoir une vue plus détaillée de la répartition des valeurs radiométriques. Le calcul d'un histogramme nécessite minimalement de faire le choix d'une valeur du nombre de *bins* (ou de la largeur). Un *bin* est un intervalle de valeurs pour lequel on peut calculer le nombre de valeurs observées dans l'image. La fonction de base pour ce type de calcul est la fonction `numpy.histogram()`:"
-      ]
+        "Le calcul d'un histogramme pour une image (une bande) permet d'avoir une vue plus détaillée de la répartition des valeurs radiométriques. Le calcul d'un histogramme nécessite minimalement de faire le choix d'une valeur du nombre de *bins* (ou de la largeur). Un *bin* est un intervalle de valeurs pour lequel on peut calculer le nombre de valeurs observées dans l'image. La fonction de base pour ce type de calcul est la fonction `numpy.histogram()`:\n"
+      ],
+      "id": "c5739628"
     },
     {
       "cell_type": "code",
@@ -359,6 +386,7 @@
         "print('valeurs :',hist)\n",
         "print(';imites :',bin_limites)"
       ],
+      "id": "938780f0",
       "execution_count": null,
       "outputs": []
     },
@@ -366,8 +394,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Le calcul se fait avec 10 intervalles par défaut."
-      ]
+        "Le calcul se fait avec 10 intervalles par défaut.\n"
+      ],
+      "id": "e87edd45"
     },
     {
       "cell_type": "code",
@@ -376,6 +405,7 @@
         "plt.bar(bin_limites[:-1],hist)\n",
         "plt.show()"
       ],
+      "id": "a26d3c5b",
       "execution_count": null,
       "outputs": []
     },
@@ -387,8 +417,9 @@
         "\n",
         "##### Visualisation des histogrammes\n",
         "\n",
-        "La librarie `rasterio` est probablement l'outil le plus simples pour visualiser rapidement des histogrammes sur une image multi-spectrale:"
-      ]
+        "La librarie `rasterio` est probablement l'outil le plus simples pour visualiser rapidement des histogrammes sur une image multi-spectrale:\n"
+      ],
+      "id": "0eed2005"
     },
     {
       "cell_type": "code",
@@ -399,6 +430,7 @@
         "with rio.open('RGBNIR_of_S2A.tif') as src:\n",
         "  show_hist(src, bins=50, lw=0.0, stacked=False, alpha=0.3,histtype='stepfilled', title=\"Histogram\")"
       ],
+      "id": "849ce36b",
       "execution_count": null,
       "outputs": []
     },
@@ -419,8 +451,9 @@
         "\n",
         "#### Cas des histogrammes asymétriques\n",
         "\n",
-        "Dans certains cas, la distribution de valeurs est très asymétrique et présente une longue queue avec des valeurs extrêmes élevées. Le cas des images SAR est particulièrement représentatif de ce type de données. En effet, celles-ci peuvent présenter une distribution de valeurs de type exponentiel. Il est alors préférable d'utiliser des [percentiles](https://fr.wikipedia.org/wiki/Centile) au préalable afin d'explorer la forme de l'histogramme et la distribution des valeurs:"
-      ]
+        "Dans certains cas, la distribution de valeurs est très asymétrique et présente une longue queue avec des valeurs extrêmes élevées. Le cas des images SAR est particulièrement représentatif de ce type de données. En effet, celles-ci peuvent présenter une distribution de valeurs de type exponentiel. Il est alors préférable d'utiliser des [percentiles](https://fr.wikipedia.org/wiki/Centile) au préalable afin d'explorer la forme de l'histogramme et la distribution des valeurs:\n"
+      ],
+      "id": "3c959645"
     },
     {
       "cell_type": "code",
@@ -438,6 +471,7 @@
         "percentiles= dict(zip(percentiles_position, np.percentile(values, percentiles_position)))\n",
         "print(percentiles)"
       ],
+      "id": "15175d1f",
       "execution_count": null,
       "outputs": []
     },
@@ -445,8 +479,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "La première observation que l'on peut faire est que la valeur médiane (`0.012`) est très faible, 50% des valeurs sont inférieures cette valeur alors que valeur maximale (`483`) est 10,000 fois plus élevée! Une façon de visualiser cette distribution de valeurs est d'utiliser [`boxplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html) et [`violinplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html) de la librairie `matplotlib`:"
-      ]
+        "La première observation que l'on peut faire est que la valeur médiane (`0.012`) est très faible, 50% des valeurs sont inférieures cette valeur alors que valeur maximale (`483`) est 10,000 fois plus élevée! Une façon de visualiser cette distribution de valeurs est d'utiliser [`boxplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html) et [`violinplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html) de la librairie `matplotlib`:\n"
+      ],
+      "id": "59e1377e"
     },
     {
       "cell_type": "code",
@@ -465,6 +500,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+      "id": "418df5f6",
       "execution_count": null,
       "outputs": []
     },
@@ -472,8 +508,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Afin de visualiser correctement l'histogramme, il faut se limiter à un interval de valeurs plus petit. Dans le code ci-dessous, on impose à la fonction histogramme de compter les valeurs de pixels dans des intervalles de valeurs fixés par la fonction `np.linspace(percentiles[0.1],percentiles[99.9], 50)` où `percentiles[0.1]` et `percentiles[99.9]` sont les $0.1\\%$ et $99.9\\%$ percentiles respectivement:"
-      ]
+        "Afin de visualiser correctement l'histogramme, il faut se limiter à un interval de valeurs plus petit. Dans le code ci-dessous, on impose à la fonction histogramme de compter les valeurs de pixels dans des intervalles de valeurs fixés par la fonction `np.linspace(percentiles[0.1],percentiles[99.9], 50)` où `percentiles[0.1]` et `percentiles[99.9]` sont les $0.1\\%$ et $99.9\\%$ percentiles respectivement:\n"
+      ],
+      "id": "0b79a823"
     },
     {
       "cell_type": "code",
@@ -502,6 +539,7 @@
         "plt.tight_layout()\n",
         "plt.show()                              "
       ],
+      "id": "2fa60f00",
       "execution_count": null,
       "outputs": []
     },
@@ -509,8 +547,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Au niveau de l'affichage avec `matplotlib`, la dynamique peut être contrôlée directement via les paramètres `vmin` et `vmax` comme ceci: "
-      ]
+        "Au niveau de l'affichage avec `matplotlib`, la dynamique peut être contrôlée directement via les paramètres `vmin` et `vmax` comme ceci: \n"
+      ],
+      "id": "9958fbde"
     },
     {
       "cell_type": "code",
@@ -528,6 +567,7 @@
         "ax[1,1].set_title(f\"2% - 98%={percentiles[2]:2.1f} - {percentiles[98]:2.1f}\")\n",
         "plt.tight_layout()"
       ],
+      "id": "73a074d9",
       "execution_count": null,
       "outputs": []
     },
@@ -542,8 +582,9 @@
         "<!--\n",
         "Calcul d'histogrammes, étirement, égalisation, styling\n",
         "-->\n",
-        "Le réhaussenent par fonction consiste à appliquer une fonction non linéaire afin de modifier la dynamique de l'image. Par exemple, pour une image radar, une transformation populaire est dd'afficher les valeurs de rétrodiffusion en décibel (`dB`) via la fonction `log10()`."
-      ]
+        "Le réhaussenent par fonction consiste à appliquer une fonction non linéaire afin de modifier la dynamique de l'image. Par exemple, pour une image radar, une transformation populaire est dd'afficher les valeurs de rétrodiffusion en décibel (`dB`) via la fonction `log10()`.\n"
+      ],
+      "id": "8154d8a0"
     },
     {
       "cell_type": "code",
@@ -554,6 +595,7 @@
         "percentiles_db= dict(zip(percentiles_position, np.percentile(values, percentiles_position)))\n",
         "print(percentiles_db)"
       ],
+      "id": "d4c2ff7b",
       "execution_count": null,
       "outputs": []
     },
@@ -561,8 +603,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Les boxplots on une bien meilleure distribution proche d'une distribution Gaussienne:"
-      ]
+        "Les boxplots on une bien meilleure distribution proche d'une distribution Gaussienne:\n"
+      ],
+      "id": "81f43910"
     },
     {
       "cell_type": "code",
@@ -583,6 +626,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+      "id": "384a4e0b",
       "execution_count": null,
       "outputs": []
     },
@@ -590,8 +634,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Ainsi que les images:"
-      ]
+        "Ainsi que les images:\n"
+      ],
+      "id": "3eb15c2d"
     },
     {
       "cell_type": "code",
@@ -610,6 +655,7 @@
         "ax[1,1].set_title(f\"2% - 98%={percentiles_db[2]:2.1f} - {percentiles_db[98]:2.1f}\")\n",
         "plt.tight_layout()"
       ],
+      "id": "51432a27",
       "execution_count": null,
       "outputs": []
     },
@@ -636,8 +682,9 @@
         "$$\n",
         "j = L \\times CDF_{source}(i)\n",
         "$$\n",
-        "On peut appliquer cette procédure sur l'image SAR en dB de la façon suivante:"
-      ]
+        "On peut appliquer cette procédure sur l'image SAR en dB de la façon suivante:\n"
+      ],
+      "id": "2b9bcffe"
     },
     {
       "cell_type": "code",
@@ -650,6 +697,7 @@
         "plt.imshow(values_eq)\n",
         "plt.axis('off')"
       ],
+      "id": "03ad3504",
       "execution_count": null,
       "outputs": []
     },
@@ -663,8 +711,9 @@
         "\n",
         "#### Palettes de couleur\n",
         "\n",
-        "Les palettes de couleurs sont appliquées dynamiquement à l'affichage sur une image à une seule bande. La librairie `matplotlib` contient un nombre important de [palettes](https://matplotlib.org/stable/users/explain/colors/colormaps.html)."
-      ]
+        "Les palettes de couleurs sont appliquées dynamiquement à l'affichage sur une image à une seule bande. La librairie `matplotlib` contient un nombre important de [palettes](https://matplotlib.org/stable/users/explain/colors/colormaps.html).\n"
+      ],
+      "id": "3e3d22e9"
     },
     {
       "cell_type": "code",
@@ -674,6 +723,7 @@
         "from matplotlib import colormaps\n",
         "list(colormaps)"
       ],
+      "id": "d6ca00f8",
       "execution_count": null,
       "outputs": []
     },
@@ -681,8 +731,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Voici quelques exemples ci-dessous, les valeurs de l'image doivent être normalisées entre 0 et 1 ou entre 0 et 255 sinon les paramètres `vmin` et `vmax` doivent être spécifiés. On peut observer comment ces palettes révèlent les détails de l'image malgré une image originalement très sombre."
-      ]
+        "Voici quelques exemples ci-dessous, les valeurs de l'image doivent être normalisées entre 0 et 1 ou entre 0 et 255 sinon les paramètres `vmin` et `vmax` doivent être spécifiés. On peut observer comment ces palettes révèlent les détails de l'image malgré une image originalement très sombre.\n"
+      ],
+      "id": "cd7d9fc8"
     },
     {
       "cell_type": "code",
@@ -700,6 +751,7 @@
         "ax[1,1].set_title(f\"terrain\")\n",
         "plt.tight_layout()"
       ],
+      "id": "610d3a53",
       "execution_count": null,
       "outputs": []
     },
@@ -707,8 +759,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Il peut être utile d'ajouter une barre de couleurs afin d'indiquer la correspondance entre les couleurs et les valeurs numériques:"
-      ]
+        "Il peut être utile d'ajouter une barre de couleurs afin d'indiquer la correspondance entre les couleurs et les valeurs numériques:\n"
+      ],
+      "id": "485c63df"
     },
     {
       "cell_type": "code",
@@ -722,6 +775,7 @@
         "fig.colorbar(h, ax=ax,  orientation='horizontal', label=\"Intensité\", extend='both')\n",
         "ax.axis('off') "
       ],
+      "id": "8984fb3d",
       "execution_count": null,
       "outputs": []
     },
@@ -731,8 +785,9 @@
       "source": [
         "### Composés couleurs\n",
         "\n",
-        "Le système visuel humain est sensible seulement à la partie visible du spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du bleu au rouge. L'ensemble des couleurs du spectre visible peut être obtenu à partir du mélange de trois couleurs primaires (rouge, vert et bleu). Ce système de décomposition à trois couleurs est à la base de la plupart des systèmes de visualisation ou de représentation de l'information de couleur. Si on prend le cas des images Sentinel-2, 12 bandes sont disponibles, plusieurs composés couleurs sont donc possibles (voir le site de [Copernicus](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/)). Voici quelques exemples possibles, chaque composé mettant en valeur des propriétés différentes de la surface."
-      ]
+        "Le système visuel humain est sensible seulement à la partie visible du spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du bleu au rouge. L'ensemble des couleurs du spectre visible peut être obtenu à partir du mélange de trois couleurs primaires (rouge, vert et bleu). Ce système de décomposition à trois couleurs est à la base de la plupart des systèmes de visualisation ou de représentation de l'information de couleur. Si on prend le cas des images Sentinel-2, 12 bandes sont disponibles, plusieurs composés couleurs sont donc possibles (voir le site de [Copernicus](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/)). Voici quelques exemples possibles, chaque composé mettant en valeur des propriétés différentes de la surface.\n"
+      ],
+      "id": "d75fec1d"
     },
     {
       "cell_type": "code",
@@ -751,6 +806,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
+      "id": "9a69baca",
       "execution_count": null,
       "outputs": []
     }
@@ -763,5 +819,5 @@
     }
   },
   "nbformat": 4,
-  "nbformat_minor": 4
+  "nbformat_minor": 5
 }
