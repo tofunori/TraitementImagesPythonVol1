@@ -44,7 +44,7 @@
     "href": "index.html#sect004",
     "title": "Traitement d’images satellites avec Python",
     "section": "Structure du livre",
-    "text": "Structure du livre\nLe livre est organisé autour de quatre grandes parties.\nPartie 1. Importation et manipulation de données spatiales. Dans cette première partie, nous voyons comment importer, manipuler, visualiser et exporter des données spatiales de type image (ou de type matriciel) avec Python, principalement avec les packages rasterio, xarray et numpy (chapitre 2  Importation et manipulation de données spatiales). Ce chapitre vous permettra de maîtriser la manipulation à bas niveau de différents types d’imagerie. Différents exemples et exercises sont disponibles avec différents capteurs satellites (multi-spectral, RGB-NIR, SAR, etc.)\nPartie 2. Transformations des données spatiales. Cette deuxième partie comprend deux chapitres : les transformations spectrales (chapitre 4  Transformations spectrales) et les transformations spatiales (chapitre 5  Transformations spatiales).\nPartie 3. Classifications d’images Cette troisième partie comprend deux chapitres : les classifications supervisées (chapitre 6  Classifications d’images supervisées) et non supervisées (?sec-chap06).\nPartie 4. Données massives (à venir dans une édition future). Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes ?sec-chap07, notammment Google Earth Engine.",
+    "text": "Structure du livre\nLe livre est organisé autour de quatre grandes parties.\nPartie 1. Importation et manipulation de données spatiales. Dans cette première partie, nous voyons comment importer, manipuler, visualiser et exporter des données spatiales de type image (ou de type matriciel) avec Python, principalement avec les packages rasterio, xarray et numpy (chapitre 2  Importation et manipulation de données spatiales). Ce chapitre vous permettra de maîtriser la manipulation à bas niveau de différents types d’imagerie. Différents exemples et exercises sont disponibles avec différents capteurs satellites (multi-spectral, RGB-NIR, SAR, etc.)\nPartie 2. Transformations des données spatiales. Cette deuxième partie comprend deux chapitres : les transformations spectrales (chapitre 4  Transformations spectrales) et les transformations spatiales (chapitre 5  Transformations spatiales).\nPartie 3. Classifications d’images Cette troisième partie comprend deux chapitres : les classifications supervisées (chapitre 6  Classifications d’images supervisées) et non supervisées (chapitre 7  Classifications d’images non supervisées).\nPartie 4. Données massives (à venir dans une édition future). Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes ?sec-chap07, notammment Google Earth Engine.",
     "crumbs": [
       "Préface"
     ]
@@ -437,6 +437,66 @@
     "text": "6.6 Méthodes paramétriques\nLes méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. Contraitement au méthodes non paramétriques, elles ont un nombre fixe de paramètres qui ne dépend pas de la taille du jeu de données. Par contre, des hypothèses sont faites sur le comportement statistique des données. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. L’ensemble d’entraînement permettra alors de calculer les paramètres de chaque Gaussienne pour chacune des classes d’intérêt.\n\n6.6.1 Méthode Bayésienne naïve\nLa méthode Bayésienne naïve Gaussienne consiste faire des hypothèses simplificatrices sur les données, en particulier l’indépendance des données et des dimensions. Ceci permet un calcul plus simple.\n\nfrom sklearn.naive_bayes import GaussianNB\ngnb = GaussianNB()\ny_pred = gnb.fit(X_train, y_train).predict(X_test)\nprint(\"Nombre de points erronés sur %d points : %d\"\n      % (X_test.shape[0], (y_test != y_pred).sum()))\n\nNombre de points erronés sur 200 points : 131\n\n\n\n\n\n\n\n\n\n\n\nOn peut observer que les frontières de décision sont beaucoup plus régulières que pour K-NN.\n\ngnb.fit(X_train, y_train)\ny_pred = gnb.predict(X_test)\nprint(\"Nombre de points misclassifiés sur %d points : %d\"\n  % (X_test.shape[0], (y_test != y_pred).sum()))\n\nNombre de points misclassifiés sur 200 points : 131\n\n\nDe la même manière, la prédiction peut s’appliquer sur toute l’image:\n\n\n\n\n\n\n\n\n\n\n\n6.6.2 Analyse Discriminante Quadratique (ADQ)\nL’analyse discriminante quadratique peut-être vue comme une généralisation de l’approche Bayésienne naive qui suppose des modèles Gaussiens indépendants pour chaque dimension et chaque point. Ici, on va considérer un modèle Gaussien multivarié.\n\nqda = QuadraticDiscriminantAnalysis(store_covariance=True)\nqda.fit(X_train, y_train)\ny_pred = qda.predict(X_test)\nprint(\"Nombre de points misclassifiés sur %d points : %d\"\n  % (X_test.shape[0], (y_test != y_pred).sum()))\n\nNombre de points misclassifiés sur 200 points : 124\n\n\nLes Gaussiennes multivariées peuvent être visualiser sous forme d’éllipses décrivant le domaine des valeurs de chaque classe:\n\n\n\n\n\n\n\n\n\nDe la même manière, la prédiction peut s’appliquer sur toute l’image:",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Classifications d'images supervisées</span>"
+    ]
+  },
+  {
+    "objectID": "06-ClassificationsNonSupervisees.html",
+    "href": "06-ClassificationsNonSupervisees.html",
+    "title": "7  Classifications d’images non supervisées",
+    "section": "",
+    "text": "7.1 🚀 Préambule\nAssurez-vous de lire ce préambule avant d’exécutez le reste du notebook.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Classifications d'images non supervisées</span>"
+    ]
+  },
+  {
+    "objectID": "06-ClassificationsNonSupervisees.html#préambule",
+    "href": "06-ClassificationsNonSupervisees.html#préambule",
+    "title": "7  Classifications d’images non supervisées",
+    "section": "",
+    "text": "7.1.1 🎯 Objectifs\nDans ce chapitre, nous abordons quelques techniques de traitement d’images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d’un notebook Python sur Google Colab:\n\n\n\n7.1.2 Librairies\nLes librairies qui vont être explorées dans ce chapitre sont les suivantes:\n\nSciPy -\nNumPy -\nopencv-python · PyPI\nscikit-image\nRasterio\nXarray\nrioxarray\n\nDans l’environnement Google Colab, seul rioxarray doit être installés:\n\n%%capture\n!pip install -qU matplotlib rioxarray xrscipy\n\nVérifier les importations:\n\nimport numpy as np\nimport rioxarray as rxr\nfrom scipy import signal\nimport xarray as xr\nimport xrscipy\nimport matplotlib.pyplot as plt\n\n\n\n7.1.3 Images utilisées\nNous allons utilisez les images suivantes dans ce chapitre:\n\n%%capture\n!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif\n!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif\n!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg\n!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_0_of_S1A_split_NR_Cal_Deb_ML_Spk_SRGR.tif -O SAR.tif\n\nVérifiez que vous êtes capable de les lire :\n\nwith rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:\n    print(img_rgb)\nwith rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:\n    print(img_rgbnir)\nwith rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:\n    print(img_SAR)",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Classifications d'images non supervisées</span>"
+    ]
+  },
+  {
+    "objectID": "06-ClassificationsNonSupervisees.html#sec-061",
+    "href": "06-ClassificationsNonSupervisees.html#sec-061",
+    "title": "7  Classifications d’images non supervisées",
+    "section": "7.2 Classifications strictes",
+    "text": "7.2 Classifications strictes\n\n7.2.1 K-means\n\n\n7.2.2 K-mediodes\n\n\n7.2.3 Isodata",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Classifications d'images non supervisées</span>"
+    ]
+  },
+  {
+    "objectID": "06-ClassificationsNonSupervisees.html#sec-062",
+    "href": "06-ClassificationsNonSupervisees.html#sec-062",
+    "title": "7  Classifications d’images non supervisées",
+    "section": "7.3 Classifications floues",
+    "text": "7.3 Classifications floues",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Classifications d'images non supervisées</span>"
+    ]
+  },
+  {
+    "objectID": "06-ClassificationsNonSupervisees.html#sec-0621",
+    "href": "06-ClassificationsNonSupervisees.html#sec-0621",
+    "title": "7  Classifications d’images non supervisées",
+    "section": "7.4 C-Means",
+    "text": "7.4 C-Means\n\n7.4.1 C-Means intégrant une dimension spatiale",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Classifications d'images non supervisées</span>"
+    ]
+  },
+  {
+    "objectID": "06-ClassificationsNonSupervisees.html#sec-064",
+    "href": "06-ClassificationsNonSupervisees.html#sec-064",
+    "title": "7  Classifications d’images non supervisées",
+    "section": "7.5 Exercices de révision",
+    "text": "7.5 Exercices de révision",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Classifications d'images non supervisées</span>"
     ]
   },
   {

@@ -68,13 +68,13 @@ book:
   - part: Partie 1. Importation, manipulation et visualisation de données spatiales
   - 00-PriseEnMainPython.qmd
   - 01-ImportationManipulationImages.qmd
-#  - 02-RehaussementVisualisationImages.qmd
+  - 02-RehaussementVisualisationImages.qmd
   - part: Partie 2. Transformations des données satellitaires
   - 03-TransformationSpectrales.qmd
-#  - 04-TransformationSpatiales.qmd
+  - 04-TransformationSpatiales.qmd
   - part: Partie 3. Classifications d'images
   - 05-ClassificationsSupervisees.qmd
-#  - 06-ClassificationsNonSupervisees.qmd
+  - 06-ClassificationsNonSupervisees.qmd
 #  - part: Partie 4. Données massives
 #  - 07-PlateformesMegadonnees.qmd
 #  - part: Partie 5. Exercices et bibliographie

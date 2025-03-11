@@ -193,6 +193,9 @@
 \definecolor{attention_color}{HTML}{fef4ec}
 \definecolor{exercise_color}{HTML}{fbe8f2}
 \definecolor{background_color}{HTML}{FAF9FF}
+\pdfminorversion=5
+\pdfcompresslevel=9
+\pdfobjcompresslevel=9
 \usepackage{xparse}
 \renewcommand{\thepart}{} % Enlever numérotation des parties
 \setcounter{secnumdepth}{3} % Activer la numérotation des sections jusqu'au niveau des sous-sections
@@ -610,11 +613,12 @@ satellites (multi-spectral, RGB-NIR, SAR, etc.)
 \textbf{Partie 2. Transformations des données spatiales}. Cette deuxième
 partie comprend deux chapitres~: les transformations spectrales
 (chapitre~\ref{sec-chap03}) et les transformations spatiales
-(\textbf{?@sec-chap04}).
+(chapitre~\ref{sec-chap04}).
 
 \textbf{Partie 3. Classifications d'images} Cette troisième partie
 comprend deux chapitres~: les classifications supervisées
-(chapitre~\ref{sec-chap05}) et non supervisées (\textbf{?@sec-chap06}).
+(chapitre~\ref{sec-chap05}) et non supervisées
+(chapitre~\ref{sec-chap06}).
 
 \textbf{Partie 4. Données massives} (à venir dans une édition future).
 Cette quatrième et dernière partie comprend un seul chapitre qui est
@@ -1953,6 +1957,693 @@ métadonnées.
 
 \end{figure}%
 
+\bookmarksetup{startatroot}
+
+\chapter{Réhaussement et visualisation d'images}\label{sec-chap02}
+
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+
+\section{Préambule}\label{pruxe9ambule-1}
+
+\subsection{Objectifs}\label{objectifs}
+
+Dans ce chapitre, nous abordons quelques techniques de réhaussement et
+de visualisation d'images. Ce chapitre est aussi disponible sous la
+forme d'un notebook Python:
+
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
+
+\subsection{Librairies}\label{librairies-1}
+
+Les librairies qui vont être explorées dans ce chapitre sont les
+suivantes:
+
+\begin{itemize}
+\item
+  \href{https://scipy.org/}{SciPy}
+\item
+  \href{https://numpy.org/}{NumPy}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
+\end{itemize}
+
+Dans l'environnement Google Colab, seul \texttt{rioxarray} et GDAL
+doivent être installés:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get update}
+\OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get install gdal}\OperatorTok{{-}}\BuiltInTok{bin}\NormalTok{ libgdal}\OperatorTok{{-}}\NormalTok{dev}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{q rioxarray}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU }\StringTok{"geemap[workshop]"}
+\end{Highlighting}
+\end{Shaded}
+
+Dans l'environnement Google Colab, on peut s'assurer que les librairies
+sont installées:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy scikit}\OperatorTok{{-}}\NormalTok{image}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifier les importations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Données}\label{donnuxe9es-1}
+
+Nous allons utilisez les images suivantes dans ce chapitre:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\ImportTok{import}\NormalTok{ gdown}
+
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg\_\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw{-}Wo6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}landsat7.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1\_zwCLN{-}x7XJcNHJCH6Z8upEdUXtVtvs1\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
+    \BuiltInTok{print}\NormalTok{(img\_SAR)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Visualisation en Python}\label{visualisation-en-python}
+
+Il faut d'entrée mentionner que Python n'est pas vraiment fait pour
+visualiser de la donnée de grande taille, le niveau d'interactivité est
+aussi assez limité. Pour une visualisation interactives, il est plutôt
+conseillé d'utiliser un outil comme \href{https://qgis.org/}{QGIS}.
+Néanmoins, il est possible de visualiser de petites images avec la
+librairie \href{https://matplotlib.org/stable/}{\texttt{matplotlib}} qui
+est la librairie principale de visualisation en Python. Cette librairie
+est extrêmement riche et versatile, nous ne présenterons que les bases
+nécessaires pour démarrer. Le lecteur désirant aller plus loin pourra
+consulter les nombreux tutoriels disponibles comme
+\href{https://matplotlib.org/stable/tutorials/index.html}{celui-ci}.
+
+La fonction de base pour créer une figure est \texttt{subplots}, la
+largeur et hauteur en pouces de la figure peuvent être contrôlées via le
+paramètre \texttt{figsize}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-8-output-1.pdf}}
+
+Pour l'affichage des images, la fonction \texttt{imshow} permet
+d'afficher une matrice 2D à une dimension en format float ou une matrice
+RVB avec 3 bandes. Il est important que les dimensions de la matrice
+soient dans l'ordre hauteur, largeur et bande.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{plt.imshow(img\_rgbnir[}\DecValTok{0}\NormalTok{].data)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-9-output-1.pdf}}
+
+Pour un affichage à 3 bandes, les valeurs seront clippées entre 0 et 1,
+il est donc nécessaire de normaliser les valeurs avant l'affichage:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{plt.imshow(img\_rgbnir.data.transpose(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{)}\OperatorTok{/}\FloatTok{2500.0}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-10-output-1.pdf}}
+
+On remarquera les valeurs des axes \texttt{x} et \texttt{y} avec une
+origine en haut à gauche. Ceci est un référentiel purement matricielle
+(lignes et colonnes), il n'y a pas de géoréférence ici. Pour pallier à
+cette limitation, les librairies \texttt{rasterio} et \texttt{xarray}
+proposent une extension de la fonction \texttt{imshow} permettant
+d'afficher les coordonnées cartographiques ainsi qu'un contrôle la
+dynamique de l'image:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{img\_rgbnir.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{5000}\NormalTok{)}
+\NormalTok{ax.set\_title(}\StringTok{\textquotesingle{}Imshow avec rioxarray\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-11-output-1.pdf}}
+
+\section{Réhaussements visuels}\label{ruxe9haussements-visuels}
+
+Le but du réhaussement visuel d'une image vise principalement à
+améliorer la qualité visuelle d'une image en améliorant le contraste, la
+dynamique ou la texture d'une image. De manière générale, ce
+réhaussement ne modifie pas la donnée d'origine mais est plutôt
+appliquée dynamiquement à l'affichage pour des fins d'inspection
+visuelle.
+
+\subsection{Statistiques d'une image}\label{statistiques-dune-image}
+
+On peut considérer un ensemble de statistique globales pour chacune des
+bandes d'une image: - valeurs minimales et maximales - valeurs moyennes,
+médianes et quantiles - écart-types, skewness et kurtosis Ces
+statistiques doivent être calculées pour chaque bande d'une image
+multispectrale.
+
+En ligne de commande, \texttt{gdalinfo} permet d'interroger rapidement
+un fichier image pour connaitre les statistiques de base:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{!}\NormalTok{gdalinfo }\OperatorTok{{-}}\NormalTok{stats landsat7.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Driver: GTiff/GeoTIFF
+Files: landsat7.tif
+       landsat7.tif.aux.xml
+Size is 2181, 1917
+Coordinate System is:
+PROJCS["WGS 84 / Pseudo-Mercator",
+    GEOGCS["WGS 84",
+        DATUM["WGS_1984",
+            SPHEROID["WGS 84",6378137,298.257223563,
+                AUTHORITY["EPSG","7030"]],
+            AUTHORITY["EPSG","6326"]],
+        PRIMEM["Greenwich",0,
+            AUTHORITY["EPSG","8901"]],
+        UNIT["degree",0.0174532925199433,
+            AUTHORITY["EPSG","9122"]],
+        AUTHORITY["EPSG","4326"]],
+    PROJECTION["Mercator_1SP"],
+    PARAMETER["central_meridian",0],
+    PARAMETER["scale_factor",1],
+    PARAMETER["false_easting",0],
+    PARAMETER["false_northing",0],
+    UNIT["metre",1,
+        AUTHORITY["EPSG","9001"]],
+    AXIS["X",EAST],
+    AXIS["Y",NORTH],
+    EXTENSION["PROJ4","+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs"],
+    AUTHORITY["EPSG","3857"]]
+Origin = (-13651650.000000000000000,4576290.000000000000000)
+Pixel Size = (30.000000000000000,-30.000000000000000)
+Metadata:
+  AREA_OR_POINT=Area
+  OVR_RESAMPLING_ALG=NEAREST
+  TIFFTAG_RESOLUTIONUNIT=1 (unitless)
+  TIFFTAG_XRESOLUTION=1
+  TIFFTAG_YRESOLUTION=1
+Image Structure Metadata:
+  COMPRESSION=DEFLATE
+  INTERLEAVE=PIXEL
+Corner Coordinates:
+Upper Left  (-13651650.000, 4576290.000) (122d38' 5.49"W, 37d58'40.08"N)
+Lower Left  (-13651650.000, 4518780.000) (122d38' 5.49"W, 37d34'10.00"N)
+Upper Right (-13586220.000, 4576290.000) (122d 2'49.53"W, 37d58'40.08"N)
+Lower Right (-13586220.000, 4518780.000) (122d 2'49.53"W, 37d34'10.00"N)
+Center      (-13618935.000, 4547535.000) (122d20'27.51"W, 37d46'26.05"N)
+Band 1 Block=512x512 Type=Byte, ColorInterp=Red
+  Min=19.000 Max=233.000 
+  Minimum=19.000, Maximum=233.000, Mean=98.433, StdDev=21.164
+  NoData Value=0
+  Overviews: 1091x959, 546x480
+  Metadata:
+    STATISTICS_MAXIMUM=233
+    STATISTICS_MEAN=98.433096940153
+    STATISTICS_MINIMUM=19
+    STATISTICS_STDDEV=21.164021026458
+Band 2 Block=512x512 Type=Byte, ColorInterp=Green
+  Min=19.000 Max=178.000 
+  Minimum=19.000, Maximum=178.000, Mean=55.068, StdDev=22.204
+  NoData Value=0
+  Overviews: 1091x959, 546x480
+  Metadata:
+    STATISTICS_MAXIMUM=178
+    STATISTICS_MEAN=55.067787534804
+    STATISTICS_MINIMUM=19
+    STATISTICS_STDDEV=22.203571974581
+Band 3 Block=512x512 Type=Byte, ColorInterp=Blue
+  Min=19.000 Max=187.000 
+  Minimum=19.000, Maximum=187.000, Mean=43.341, StdDev=20.330
+  NoData Value=0
+  Overviews: 1091x959, 546x480
+  Metadata:
+    STATISTICS_MAXIMUM=187
+    STATISTICS_MEAN=43.340507443056
+    STATISTICS_MINIMUM=19
+    STATISTICS_STDDEV=20.32987736339
+\end{verbatim}
+
+Les librairies de base comme \texttt{xarray} et \texttt{numpy} peuvent
+facilement produire des statistiques comme avec la fonction
+\href{https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html\#rasterio.io.BufferedDatasetWriter.stats}{stats}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rasterio }\ImportTok{as}\NormalTok{ rio}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ControlFlowTok{with}\NormalTok{ rio.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}landsat7.tif\textquotesingle{}}\NormalTok{) }\ImportTok{as}\NormalTok{ src:}
+\NormalTok{    stats}\OperatorTok{=}\NormalTok{ src.stats()}
+    \BuiltInTok{print}\NormalTok{(stats)}
+\end{Highlighting}
+\end{Shaded}
+
+La librairie \texttt{xarray} donne accès à des fonctionnalités plus
+sophistiquées comme le calcul des quantiles:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ riox}
+\ControlFlowTok{with}\NormalTok{ riox.open\_rasterio(}\StringTok{\textquotesingle{}landsat7.tif\textquotesingle{}}\NormalTok{, masked}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ src:}
+    \BuiltInTok{print}\NormalTok{(src)}
+\NormalTok{quantiles }\OperatorTok{=}\NormalTok{ src.quantile(dim}\OperatorTok{=}\NormalTok{[}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{], q}\OperatorTok{=}\NormalTok{[}\FloatTok{.025}\NormalTok{,}\FloatTok{.25}\NormalTok{,}\FloatTok{.5}\NormalTok{,}\FloatTok{.75}\NormalTok{,}\FloatTok{.975}\NormalTok{])}
+\NormalTok{quantiles}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+<xarray.DataArray (band: 3, y: 1917, x: 2181)> Size: 50MB
+[12542931 values with dtype=float32]
+Coordinates:
+  * band         (band) int64 24B 1 2 3
+  * x            (x) float64 17kB -1.365e+07 -1.365e+07 ... -1.359e+07
+  * y            (y) float64 15kB 4.576e+06 4.576e+06 ... 4.519e+06 4.519e+06
+    spatial_ref  int64 8B 0
+Attributes:
+    AREA_OR_POINT:           Area
+    OVR_RESAMPLING_ALG:      NEAREST
+    TIFFTAG_RESOLUTIONUNIT:  1 (unitless)
+    TIFFTAG_XRESOLUTION:     1
+    TIFFTAG_YRESOLUTION:     1
+    STATISTICS_MAXIMUM:      233
+    STATISTICS_MEAN:         98.433096940153
+    STATISTICS_MINIMUM:      19
+    STATISTICS_STDDEV:       21.164021026458
+    scale_factor:            1.0
+    add_offset:              0.0
+\end{verbatim}
+
+\begin{verbatim}
+<xarray.DataArray (quantile: 5, band: 3)> Size: 120B
+array([[ 54.,  19.,  19.],
+       [ 85.,  38.,  27.],
+       [ 99.,  54.,  38.],
+       [111.,  69.,  57.],
+       [140., 102.,  89.]])
+Coordinates:
+  * band      (band) int64 24B 1 2 3
+  * quantile  (quantile) float64 40B 0.025 0.25 0.5 0.75 0.975
+\end{verbatim}
+
+\subsubsection{Calcul de l'histogramme}\label{calcul-de-lhistogramme}
+
+Le calcul d'un histogramme pour une image (une bande) permet d'avoir une
+vue plus détaillée de la répartition des valeurs radiométriques. Le
+calcul d'un histogramme nécessite minimalement de faire le choix d'une
+valeur du nombre de \emph{bins} (ou de la largeur). Un \emph{bin} est un
+intervalle de valeurs pour lequel on peut calculer le nombre de valeurs
+observées dans l'image. La fonction de base pour ce type de calcul est
+la fonction \texttt{numpy.histogram()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\NormalTok{array }\OperatorTok{=}\NormalTok{ np.random.randint(}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{100}\NormalTok{) }\CommentTok{\# 100 valeurs aléatoires entre 0 et 10}
+\NormalTok{hist, bin\_limites }\OperatorTok{=}\NormalTok{ np.histogram(array, density}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}valeurs :\textquotesingle{}}\NormalTok{,hist)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{};imites :\textquotesingle{}}\NormalTok{,bin\_limites)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+valeurs : [0.12222222 0.08888889 0.1        0.12222222 0.15555556 0.08888889
+ 0.14444444 0.13333333 0.07777778 0.07777778]
+;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
+\end{verbatim}
+
+Le calcul se fait avec 10 intervalles par défaut.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.bar(bin\_limites[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{],hist)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-16-output-1.pdf}}
+
+Pour des besoins de visualisation, le calcul des valeurs extrêmes de
+l'histogramme peut aussi se faire via les quantiles comme discutés
+auparavant.
+
+\paragraph{Visualisation des
+histogrammes}\label{visualisation-des-histogrammes}
+
+La librarie \texttt{rasterio} est probablement l'outil le plus simples
+pour visualiser rapidement des histogrammes sur une image
+multi-spectrale:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rasterio }\ImportTok{as}\NormalTok{ rio}
+\ImportTok{from}\NormalTok{ rasterio.plot }\ImportTok{import}\NormalTok{ show\_hist}
+\ControlFlowTok{with}\NormalTok{ rio.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{) }\ImportTok{as}\NormalTok{ src:}
+\NormalTok{  show\_hist(src, bins}\OperatorTok{=}\DecValTok{50}\NormalTok{, lw}\OperatorTok{=}\FloatTok{0.0}\NormalTok{, stacked}\OperatorTok{=}\VariableTok{False}\NormalTok{, alpha}\OperatorTok{=}\FloatTok{0.3}\NormalTok{,histtype}\OperatorTok{=}\StringTok{\textquotesingle{}stepfilled\textquotesingle{}}\NormalTok{, title}\OperatorTok{=}\StringTok{"Histogram"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-17-output-1.pdf}}
+
+\subsection{Réhaussements
+linéaires}\label{ruxe9haussements-linuxe9aires}
+
+Le réhaussement linéaire (\emph{linear stretch}) d'une image est la
+forme la plus simple de réhaussement, elle consiste 1) à optimiser les
+valeurs des pixels d'une image afin de maximiser la dynamique
+disponibles à l'affichage, ou 2) changer le format de stockage des
+valeurs (e.g.~de 8 bit à 16 bit):
+
+\begin{equation}\phantomsection\label{eq-rehauss-lin}{ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1}\end{equation}
+
+Par cette opération, on passe de la dynamique de départ
+(\(max_0 - min_0\)) vers la dynamique cible (\(max_1 - min_1\)). Bien
+que cette opération semble triviale, il est important d'être conscient
+des trois contraintes suivantes: 1. \textbf{Faire attention à la
+dynamique cible}, ainsi, pour sauvegarder une image en format 8 bit, on
+utilisera alors \(max_1=255\) et \(min_1=0\). 2. \textbf{Préservation de
+la valeur de no data} : il faut faire attention à la valeur \(min_1\)
+dans le cas d'une valeur présente pour \emph{no\_data}. Par exemple, si
+\emph{no\_data=0} alors il faut s'assurer que \(min_1>0\). 3.
+\textbf{Précision du calcul} : si possible réaliser la division
+ci-dessus en format \emph{float}
+
+\subsubsection{Cas des histogrammes
+asymétriques}\label{cas-des-histogrammes-asymuxe9triques}
+
+Dans certains cas, la distribution de valeurs est très asymétrique et
+présente une longue queue avec des valeurs extrêmes élevées. Le cas des
+images SAR est particulièrement représentatif de ce type de données. En
+effet, celles-ci peuvent présenter une distribution de valeurs de type
+exponentiel. Il est alors préférable d'utiliser des
+\href{https://fr.wikipedia.org/wiki/Centile}{percentiles} au préalable
+afin d'explorer la forme de l'histogramme et la distribution des
+valeurs:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{NO\_DATA\_FLOAT}\OperatorTok{=} \OperatorTok{{-}}\FloatTok{999.0}
+\CommentTok{\# on prend tous les pixels de la première bande}
+\NormalTok{values }\OperatorTok{=}\NormalTok{ img\_SAR[}\DecValTok{0}\NormalTok{].values.flatten().astype(}\BuiltInTok{float}\NormalTok{)}
+\CommentTok{\# on exclut les valeurs invalides}
+\NormalTok{values }\OperatorTok{=}\NormalTok{ values[}\OperatorTok{\textasciitilde{}}\NormalTok{np.isnan(values)]}
+\CommentTok{\# on exclut le no data}
+\NormalTok{values }\OperatorTok{=}\NormalTok{ values[values}\OperatorTok{!=}\NormalTok{NO\_DATA\_FLOAT]}
+\CommentTok{\# calcul des percentiles}
+\NormalTok{percentiles\_position}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{98}\NormalTok{,}\DecValTok{99}\NormalTok{,}\FloatTok{99.9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{percentiles}\OperatorTok{=} \BuiltInTok{dict}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(percentiles\_position, np.percentile(values, percentiles\_position)))}
+\BuiltInTok{print}\NormalTok{(percentiles)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+{0: np.float64(8.172580237442162e-06), 0.1: np.float64(1.588739885482937e-05), 1: np.float64(8.657756850880105e-05), 2: np.float64(0.00018846066552214325), 50: np.float64(0.012372820172458887), 98: np.float64(0.1719470709562302), 99: np.float64(0.27963151514529694), 99.9: np.float64(1.5235805057287233), 100: np.float64(483.223876953125)}
+\end{verbatim}
+
+La première observation que l'on peut faire est que la valeur médiane
+(\texttt{0.012}) est très faible, 50\% des valeurs sont inférieures
+cette valeur alors que valeur maximale (\texttt{483}) est 10,000 fois
+plus élevée! Une façon de visualiser cette distribution de valeurs est
+d'utiliser
+\href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html}{\texttt{boxplot}}
+et
+\href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html}{\texttt{violinplot}}
+de la librairie \texttt{matplotlib}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{4}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}Distribution de la bande 0 de img\_SAR\textquotesingle{}}\NormalTok{, fontsize}\OperatorTok{=}\StringTok{\textquotesingle{}small\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].violinplot(values, orientation  }\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{, }
+\NormalTok{                 quantiles }\OperatorTok{=}\NormalTok{(}\FloatTok{0.01}\NormalTok{,}\FloatTok{0.02}\NormalTok{,}\FloatTok{0.50}\NormalTok{,}\FloatTok{0.98}\NormalTok{,}\FloatTok{0.99}\NormalTok{),}
+\NormalTok{                  showmeans}\OperatorTok{=}\VariableTok{False}\NormalTok{,}
+\NormalTok{                  showmedians}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_xlabel(}\StringTok{\textquotesingle{}Valeur des pixels\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{bplot }\OperatorTok{=}\NormalTok{ ax[}\DecValTok{1}\NormalTok{].boxplot(values, notch }\OperatorTok{=} \VariableTok{True}\NormalTok{, orientation  }\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-19-output-1.pdf}}
+
+Afin de visualiser correctement l'histogramme, il faut se limiter à un
+interval de valeurs plus petit. Dans le code ci-dessous, on impose à la
+fonction histogramme de compter les valeurs de pixels dans des
+intervalles de valeurs fixés par la fonction
+\texttt{np.linspace(percentiles{[}0.1{]},percentiles{[}99.9{]},\ 50)} où
+\texttt{percentiles{[}0.1{]}} et \texttt{percentiles{[}99.9{]}} sont les
+\(0.1\%\) et \(99.9\%\) percentiles respectivement:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hist, bin\_edges }\OperatorTok{=}\NormalTok{ np.histogram(values, }
+\NormalTok{                                bins}\OperatorTok{=}\NormalTok{np.linspace(percentiles[}\FloatTok{0.1}\NormalTok{], }
+\NormalTok{                                percentiles[}\FloatTok{99.9}\NormalTok{], }\DecValTok{50}\NormalTok{), }
+\NormalTok{                                density}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{,ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{,figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].bar(bin\_edges[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }
+\NormalTok{                hist}\OperatorTok{*}\NormalTok{(bin\_edges[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{bin\_edges[}\DecValTok{0}\NormalTok{]), }
+\NormalTok{                width}\OperatorTok{=}\NormalTok{ (bin\_edges[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{bin\_edges[}\DecValTok{0}\NormalTok{]), }
+\NormalTok{                edgecolor}\OperatorTok{=} \StringTok{\textquotesingle{}w\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Distribution de probabilité (PDF)"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_ylabel(}\StringTok{"Densité de probabilité"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].plot(bin\_edges[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }
+\NormalTok{            hist.cumsum()}\OperatorTok{*}\NormalTok{(bin\_edges[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{bin\_edges[}\DecValTok{0}\NormalTok{]))}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Distribution de probabilité cumulée (CDF)"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_xlabel(}\StringTok{"Valeur du pixel"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_ylabel(}\StringTok{"Probabilité cumulée"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()                              }
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-20-output-1.pdf}}
+
+Au niveau de l'affichage avec \texttt{matplotlib}, la dynamique peut
+être contrôlée directement via les paramètres \texttt{vmin} et
+\texttt{vmax} comme ceci:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{[a.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.flatten()]}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{0}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{100}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"0\% {-} 100\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{0}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{100}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\FloatTok{0.1}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\FloatTok{99.9}\NormalTok{]) }
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"0.1\% {-} 99.9\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\FloatTok{0.1}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\FloatTok{99.9}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{1}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{99}\NormalTok{]) }
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"1\% {-} 99\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{99}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{]) }
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"2\% {-} 98\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-21-output-1.pdf}}
+
+\subsection{Réhaussements non
+linéaires}\label{ruxe9haussements-non-linuxe9aires}
+
+\subsubsection{Réhaussement par
+fonctions}\label{ruxe9haussement-par-fonctions}
+
+Le réhaussenent par fonction consiste à appliquer une fonction non
+linéaire afin de modifier la dynamique de l'image. Par exemple, pour une
+image radar, une transformation populaire est dd'afficher les valeurs de
+rétrodiffusion en décibel (\texttt{dB}) via la fonction
+\texttt{log10()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{percentiles\_position}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{98}\NormalTok{,}\DecValTok{99}\NormalTok{,}\FloatTok{99.9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{values}\OperatorTok{=}\NormalTok{ np.log10(img\_SAR[}\DecValTok{0}\NormalTok{]).data}
+\NormalTok{percentiles\_db}\OperatorTok{=} \BuiltInTok{dict}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(percentiles\_position, np.percentile(values, percentiles\_position)))}
+\BuiltInTok{print}\NormalTok{(percentiles\_db)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+{0: np.float64(-5.08764123916626), 0.1: np.float64(-4.7989475197792055), 1: np.float64(-4.062595067024231), 2: np.float64(-3.7247793674468994), 50: np.float64(-1.9075313806533813), 98: np.float64(-0.7646052074432372), 99: np.float64(-0.5534139317274169), 99.9: np.float64(0.182865420415998), 100: np.float64(2.6841483116149902)}
+\end{verbatim}
+
+Les boxplots on une bien meilleure distribution proche d'une
+distribution Gaussienne:
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-23-output-1.pdf}}
+
+Ainsi que les images:
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-24-output-1.pdf}}
+
+\subsubsection{Égalisation
+d'histogramme}\label{uxe9galisation-dhistogramme}
+
+L'égalisation d'histogramme consiste à modifier les valeurs des pixels
+d'une image source de façon à ce que la distribution cumulée des valeurs
+(CDF) deviennent similaire à celle d'une image cible. La CDF
+(\emph{Cumulative Distribution Function}) est simplement la somme
+cumulée des valeurs de l'histogramme:
+
+\[
+CDF_{source}(i)= \frac{1}{K}\sum_{j=0}^{j \leq i} hist_{source}(j)
+\] avec \(K\) choisit de façon à ce que la dernière valeur soit égale à
+1 (\(CDF_{source}(i_{max})=1\)). De la même manière, \(CDF_{cible}\) est
+la CDF d'une image cible. La formule générale pour l'égalisation
+d'histogramme est la suivante: \[
+j = CDF_{cible}^{-1}(CDF_{source}(i))
+\]
+
+On peut choisir \(CDF_{cible}\) comme correspondant à une image où
+chaque valeur de pixel est équiprobable (d'où le terme
+\emph{égalisation}), ce qui veut dire \(hist_{cible}(j)=1/L\) avec \(L\)
+égale au nombre de valeurs possibles dans l'image (par exemple
+\(L=256\)). \[
+j = L \times CDF_{source}(i)
+\] On peut appliquer cette procédure sur l'image SAR en dB de la façon
+suivante:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{values}\OperatorTok{=}\NormalTok{ np.sort(np.log10(img\_SAR[}\DecValTok{0}\NormalTok{].data.flatten()))}
+\NormalTok{cdf\_x}\OperatorTok{=}\NormalTok{ np.linspace(values[}\DecValTok{0}\NormalTok{], values[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }\DecValTok{1000}\NormalTok{)}
+\NormalTok{cdf\_source}\OperatorTok{=}\NormalTok{ np.interp(cdf\_x, values, np.arange(}\BuiltInTok{len}\NormalTok{(values))}\OperatorTok{/}\BuiltInTok{len}\NormalTok{(values)}\OperatorTok{*}\DecValTok{255}\NormalTok{)}
+\NormalTok{values\_eq}\OperatorTok{=}\NormalTok{np.interp(np.log10(img\_SAR[}\DecValTok{0}\NormalTok{].data), cdf\_x, cdf\_source).astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.imshow(values\_eq)}
+\NormalTok{plt.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-25-output-1.pdf}}
+
+\subsubsection{Palettes de couleur}\label{palettes-de-couleur}
+
+Les palettes de couleurs sont appliquées dynamiquement à l'affichage sur
+une image à une seule bande. La librairie \texttt{matplotlib} contient
+un nombre important de
+\href{https://matplotlib.org/stable/users/explain/colors/colormaps.html}{palettes}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ matplotlib }\ImportTok{import}\NormalTok{ colormaps}
+\BuiltInTok{list}\NormalTok{(colormaps)}
+\end{Highlighting}
+\end{Shaded}
+
+Voici quelques exemples ci-dessous, les valeurs de l'image doivent être
+normalisées entre 0 et 1 ou entre 0 et 255 sinon les paramètres
+\texttt{vmin} et \texttt{vmax} doivent être spécifiés. On peut observer
+comment ces palettes révèlent les détails de l'image malgré une image
+originalement très sombre.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{[a.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.flatten()]}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}jet\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"jet"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}hot\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"hot"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}hsv\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"hsv"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}terrain\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"terrain"}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-27-output-1.pdf}}
+
+Il peut être utile d'ajouter une barre de couleurs afin d'indiquer la
+correspondance entre les couleurs et les valeurs numériques:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib }\ImportTok{as}\NormalTok{ mpl}
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{6}\NormalTok{))}
+\NormalTok{cmap}\OperatorTok{=}\NormalTok{ mpl.colormaps.get\_cmap(}\StringTok{\textquotesingle{}jet\textquotesingle{}}\NormalTok{).with\_extremes(under}\OperatorTok{=}\StringTok{\textquotesingle{}white\textquotesingle{}}\NormalTok{, over}\OperatorTok{=}\StringTok{\textquotesingle{}magenta\textquotesingle{}}\NormalTok{)}
+\NormalTok{h}\OperatorTok{=}\NormalTok{plt.imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, norm}\OperatorTok{=}\NormalTok{mpl.colors.LogNorm(vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{]),}
+\NormalTok{                   cmap}\OperatorTok{=}\NormalTok{cmap)}
+\NormalTok{fig.colorbar(h, ax}\OperatorTok{=}\NormalTok{ax,  orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{, label}\OperatorTok{=}\StringTok{"Intensité"}\NormalTok{, extend}\OperatorTok{=}\StringTok{\textquotesingle{}both\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-28-output-1.pdf}}
+
+\subsection{Composés couleurs}\label{composuxe9s-couleurs}
+
+Le système visuel humain est sensible seulement à la partie visible du
+spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du
+bleu au rouge. L'ensemble des couleurs du spectre visible peut être
+obtenu à partir du mélange de trois couleurs primaires (rouge, vert et
+bleu). Ce système de décomposition à trois couleurs est à la base de la
+plupart des systèmes de visualisation ou de représentation de
+l'information de couleur. On peut trouver des variantes comme le système
+HSV (\emph{Hue-Saturation-Value}) utilisé en encodage de données vidéos.
+
 \part{Partie 2. Transformations des données satellitaires}
 
 \bookmarksetup{startatroot}
@@ -1967,7 +2658,7 @@ techniques de réhaussement et de visualisation d'images. Ce chapitre est
 aussi disponible sous la forme d'un notebook Python:
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
-\subsection{Librairies}\label{librairies-1}
+\subsection{Librairies}\label{librairies-2}
 
 Les librairies qui vont être explorées dans ce chapitre sont les
 suivantes:
@@ -2095,6 +2786,965 @@ des valeurs originales.
 
 \section{Exercices de révision}\label{exercices-de-ruxe9vision}
 
+\bookmarksetup{startatroot}
+
+\chapter{Transformations spatiales}\label{sec-chap04}
+
+\section{Préambule}\label{pruxe9ambule-2}
+
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+
+\subsection{Objectifs}\label{objectifs-1}
+
+Dans ce chapitre, nous abordons quelques techniques de traitement
+d'images dans le domaine spatial uniquement. Ce chapitre est aussi
+disponible sous la forme d'un notebook Python sur Google Colab:
+
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
+
+\subsection{Librairies}\label{librairies-3}
+
+Les librairies utilisées dans ce chapitre sont les suivantes:
+
+\begin{itemize}
+\item
+  \href{https://scipy.org/}{SciPy}
+\item
+  \href{https://numpy.org/}{NumPy}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
+\end{itemize}
+
+Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
+installés:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy scikit}\OperatorTok{{-}}\NormalTok{image}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifier les importations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ numpy.fft}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal, ndimage}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\ImportTok{from}\NormalTok{ skimage }\ImportTok{import}\NormalTok{ data, measure, graph, segmentation, color}
+\ImportTok{from}\NormalTok{ skimage.color }\ImportTok{import}\NormalTok{ rgb2gray}
+\ImportTok{from}\NormalTok{ skimage.segmentation }\ImportTok{import}\NormalTok{ slic, mark\_boundaries}
+\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Images utilisées}\label{images-utilisuxe9es-1}
+
+Nous allons utilisez les images suivantes dans ce chapitre:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\ImportTok{import}\NormalTok{ gdown}
+
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg\_\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw{-}Wo6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}landsat7.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1\_zwCLN{-}x7XJcNHJCH6Z8upEdUXtVtvs1\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
+    \BuiltInTok{print}\NormalTok{(img\_SAR)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Analyse fréquentielle}\label{analyse-fruxe9quentielle}
+
+L'analyse fréquentielle, issue du traitement du signal, permet d'avoir
+un autre point de vue sur les données à partir de ses composantes
+harmoniques. La modifications de ces composantes de Fourier modifie
+l'ensemble de l'image et permet de corriger des problèmes systématiques
+comme des artefacts ou du bruit de capteur. Bien que ce domaine soit un
+peu éloigné de la télédétection, les images issues des capteurs sont
+toutes sujettes à des étapes de traitement du signal et il faut donc en
+connaître les grands principes afin de pouvoir comprendre certains
+enjeux lors des traitements.
+
+\subsection{La transformée de
+Fourier}\label{la-transformuxe9e-de-fourier}
+
+La transformée de Fourier permet de transformer une image dans un espace
+fréquentielle. Cette transformée est complètement reversible. Dans le
+cas des images numériques, on parle de \texttt{2D-DFT}
+(\emph{2D-Discrete Fourier Transform}) qui est un algorithme optimisé
+pour le calcul fréquentiel (Cooley et Tukey 1965). La \emph{1D-DFT} peu
+s'écrire simplement comme une projection sur une série d'exponentielles
+complexes:
+
+\begin{equation}\phantomsection\label{eq-dft}{X[k] = \sum_{n=0 \ldots N-1} x[n] \times \exp(-j \times 2\pi \times k \times n/N))}\end{equation}
+
+La transformée inverse prend une forme similaire:
+
+\begin{equation}\phantomsection\label{eq-idft}{x[k] = \frac{1}{N}\sum_{n=0 \ldots N-1} X[n] \times \exp(j \times 2\pi \times k \times n/N))}\end{equation}
+
+Le signal d'origine est donc reconstruit à partir d'une somme de
+sinusoïdes complexes \(\exp(j2\pi \frac{k}{N}n))\) de fréquence \(k/N\).
+Noter qu'à partir de \(k=N/2\), les sinusoïdes se répètent à un signe
+près et forme un miroir des composantes, la convention est alors de
+mettre ces composantes dans une espace négatif \([-N/2,\ldots,-1]\).
+
+Dans le cas d'un simple signal périodique à une dimension avec une
+fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de
+fréquence à la position de 4 cycles observés sur \(N=16\) observations.
+Les puissances de Fourier sont affichés dans un espace fréquentiel en
+cycles par unité d'espacement de l'échantillon (avec zéro au début)
+variant entre -1 et +1. Par exemple, si l'espacement des échantillons
+est en secondes, l'unité de fréquence est cycles/seconde (ou Hz). Dans
+le cas de N échantillons, le pic sera observé à la fréquence
+\(+/- 4/16=0.25\) cycles/secondes. La fréquence d'échantillonnage
+\(F_s\) du signal a aussi beaucoup d'importance aussi et doit être au
+moins a deux fois la plus haute fréquence observée (ici \(F_s > 0.5\))
+sinon un phénomène de repliement appelé aliasing sera observé.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ math}
+\NormalTok{Fs}\OperatorTok{=} \FloatTok{2.0}
+\NormalTok{Ts}\OperatorTok{=} \DecValTok{1}\OperatorTok{/}\NormalTok{Fs}
+\NormalTok{N}\OperatorTok{=} \DecValTok{16}
+\NormalTok{arr }\OperatorTok{=}\NormalTok{ xr.DataArray(np.sin(}\DecValTok{2}\OperatorTok{*}\NormalTok{math.pi}\OperatorTok{*}\NormalTok{np.arange(}\DecValTok{0}\NormalTok{,N,Ts)}\OperatorTok{*}\DecValTok{4}\OperatorTok{/}\DecValTok{16}\NormalTok{),}
+\NormalTok{                   dims}\OperatorTok{=}\NormalTok{(}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{), coords}\OperatorTok{=}\NormalTok{\{}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{: np.arange(}\DecValTok{0}\NormalTok{,N,Ts)\})}
+\NormalTok{fourier }\OperatorTok{=}\NormalTok{ np.fft.fft(arr)}
+\NormalTok{freq }\OperatorTok{=}\NormalTok{ np.fft.fftfreq(fourier.size, d}\OperatorTok{=}\NormalTok{Ts)}
+\NormalTok{fourier }\OperatorTok{=}\NormalTok{ xr.DataArray(fourier,}
+\NormalTok{                   dims}\OperatorTok{=}\NormalTok{(}\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{), coords}\OperatorTok{=}\NormalTok{\{}\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{: freq\})}
+
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{arr.plot.line(color}\OperatorTok{=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, linestyle}\OperatorTok{=}\StringTok{\textquotesingle{}dashed\textquotesingle{}}\NormalTok{, marker}\OperatorTok{=}\StringTok{\textquotesingle{}o\textquotesingle{}}\NormalTok{, markerfacecolor}\OperatorTok{=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Signal périodique"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{np.}\BuiltInTok{abs}\NormalTok{(fourier).plot.line(color}\OperatorTok{=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, linestyle}\OperatorTok{=}\StringTok{\textquotesingle{}dashed\textquotesingle{}}\NormalTok{, marker}\OperatorTok{=}\StringTok{\textquotesingle{}o\textquotesingle{}}\NormalTok{, markerfacecolor}\OperatorTok{=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Composantes de Fourier (amplitude)"}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-7-output-1.pdf}}
+
+\subsection{Filtrage fréquentielle}\label{filtrage-fruxe9quentielle}
+
+Un filtrage fréquentiel consiste à modifier le spectre de Fourier afin
+d'éliminer ou de réduire certaines composantes fréquentielles. On peut
+distinguer trois grandes catégories de filtres fréquentiels:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Les filtres passe-bas qui ne préservent que les basses fréquences
+  pour, par exemple, lisser une image.
+\item
+  Les filtres passe-hauts qui ne préservent que les hautes fréquences
+  pour ne préserver que les détails.
+\item
+  Les filtres passe-bandes qui vont préserver les fréquences dans une
+  bande de fréquence particulière.
+\end{enumerate}
+
+La librairie \texttt{Scipy} contient différents filtres fréquentielles.
+Notez, qu'un filtrage fréquentielle est une simple multiplication de la
+réponse du filtre \(F[k]\) par les composantes fréquentielles du signal
+à filtrer \(X[k]\):
+
+\begin{equation}\phantomsection\label{eq-fourier-filter}{
+X_f[k] = F[k] \times X[k]
+}\end{equation}
+
+À noter que cette multiplication dans l'espace de Fourier est
+équivalente à une opération de convolution dans l'espace originale du
+signal \(x\):
+
+\begin{equation}\phantomsection\label{eq-convolve}{
+x_f = IDFT^{-1}[F]*x
+}\end{equation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, (ax1, ax2) }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{input\_ }\OperatorTok{=}\NormalTok{ numpy.fft.fft2(img\_rgb.to\_numpy()) }
+\NormalTok{result }\OperatorTok{=}\NormalTok{ [ndimage.fourier\_gaussian(input\_[b], sigma}\OperatorTok{=}\DecValTok{4}\NormalTok{) }\ControlFlowTok{for}\NormalTok{ b }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{3}\NormalTok{)] }\CommentTok{\# on filtre chaque bande avec un filtre Gaussien}
+\NormalTok{result }\OperatorTok{=}\NormalTok{ numpy.fft.ifft2(result)}
+\NormalTok{ax1.imshow(img\_rgb.to\_numpy().transpose(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{).astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{))}
+\NormalTok{ax1.set\_title(}\StringTok{\textquotesingle{}Originale\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax2.imshow(result.real.transpose(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{).astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{))  }\CommentTok{\# La partie imaginaire n\textquotesingle{}est pas utile ici}
+\NormalTok{ax2.set\_title(}\StringTok{\textquotesingle{}Filtrage Gaussien\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-8-output-1.pdf}}
+
+\subsection{L'aliasing}\label{laliasing}
+
+L'aliasing est un problème fréquent en traitement du signal. Il résulte
+d'une fréquence d'échantillonnage trop faible par rapport au contenu
+fréquentielle du signal. Ceci peut se produire lorsque vous
+sous-échantillonner fortement une image avec un facteur de décimation
+(par exemple 1 pixel sur 2). En prenant un pixel sur 2, on réduit la
+fréquence d'échantillonnage d'un facteur 2 ce qui nous impose de réduire
+le contenu fréquentielle de l'image et donc les fréquences maximales de
+l'image. L'image présente alors un aspect faussement texturée avec
+beaucoup de haute fréquences:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{img\_rgb.astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Originale"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{img\_rgb[:,::}\DecValTok{4}\NormalTok{,::}\DecValTok{4}\NormalTok{].astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Décimée par un facteur 4"}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-9-output-1.pdf}}
+
+Une façon de réduire le contenu fréquentiel est de filtrer par un filtre
+passe-bas pour réduire les hautes fréquences par exemple avec un filtre
+Gaussien:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ scipy.ndimage }\ImportTok{import}\NormalTok{ gaussian\_filter}
+\NormalTok{q}\OperatorTok{=} \DecValTok{4}
+\NormalTok{sigma}\OperatorTok{=}\NormalTok{ q}\OperatorTok{*}\FloatTok{1.1774}\OperatorTok{/}\NormalTok{math.pi}
+\NormalTok{arr }\OperatorTok{=}\NormalTok{ xr.DataArray(gaussian\_filter(img\_rgb.to\_numpy(), sigma}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,sigma,sigma)), dims}\OperatorTok{=}\NormalTok{(}\StringTok{\textquotesingle{}band\textquotesingle{}}\NormalTok{,}\StringTok{"y"}\NormalTok{, }\StringTok{"x"}\NormalTok{), coords}\OperatorTok{=}\NormalTok{ \{}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{: img\_rgb.coords[}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{], }\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{: img\_rgb.coords[}\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{], }\StringTok{\textquotesingle{}spatial\_ref\textquotesingle{}}\NormalTok{: }\DecValTok{0}\NormalTok{\})}
+
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{img\_rgb.astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Originale"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{arr[:,::q,::q].astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Décimée par un facteur 4"}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-10-output-1.pdf}}
+
+La fonction
+\href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.decimate.html\#scipy.signal.decimate}{\texttt{decimate}}
+dans \texttt{scipy.signal} réalise l'opération de décimation
+(\emph{downsampling}) en une seule étape:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ xrscipy.signal }\ImportTok{as}\NormalTok{ dsp}
+
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{img\_rgb.astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Originale"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{dsp.decimate(img\_rgb, q}\OperatorTok{=}\DecValTok{4}\NormalTok{, dim}\OperatorTok{=}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{).astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Décimée par un facteur 4"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Décimée par un facteur 4')
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-11-output-2.pdf}}
+
+\section{Filtrage d'image}\label{filtrage-dimage}
+
+Le filtrage d'image a plusieurs objectifs en télédétection:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  La réduction du bruit afin d'améliorer la résolution radiométrique et
+  améliorer la lisibilité de l'image.
+\item
+  Le réhaussement de l'image afin d'améliorer le contraste ou faire
+  ressortir les contours.
+\item
+  La production de nouvelles caractéristiques: c.à.d dériver de
+  nouvelles images mettant en valeur certaines informations dans l'image
+  comme la texture, les contours, etc.
+\end{enumerate}
+
+Il existe de nombreuses méthodes de filtrage dans la littérature, on
+peut rassembler ces filtres en quatre grandes catégories:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Le filtrage peut-être global ou local, c.à.d prendre en compte toute
+  l'image pour filtrer (ex: filtrage par Fourier) ou seulement
+  localement avec une fenêtre ou un voisinage local.
+\item
+  La fonction de filtrage peut-être linéaire ou non linéaire.
+\item
+  La fonction de filtrage peut être stationnaire ou adaptative
+\item
+  Le filtrage peut-être mono-échelle ou multi-échelles
+\end{enumerate}
+
+La librairie \texttt{Scipy}
+(\href{https://docs.scipy.org/doc/scipy/reference/ndimage.html}{Multidimensional
+image processing (scipy.ndimage)}) contient une panoplie complète de
+filtres.
+
+\subsection{Filtrage linéaire
+stationnaire}\label{filtrage-linuxe9aire-stationnaire}
+
+Un filtrage linéaire stationnaire consiste à appliquer une même
+pondération locale des valeurs des pixels dans une fenêtre glissante. La
+taille de cette fenêtre est généralement un chiffre impaire (3,5, etc.)
+afin de définir une position centrale et une fenêtre symétrique. La
+valeur calculée à partir de tous les pixels dans la fenêtre est alors
+attribuée au pixel central.
+
+Le filtre le plus simple est certainement le filtre moyen qui consiste à
+appliquer le même poids uniforme dans la fenêtre glissante. Par exemple
+pour un filtre 5x5:
+
+\begin{equation}\phantomsection\label{eq-boxfilter}{
+F= \frac{1}{25}\left[
+\begin{array}{c|c|c|c|c}
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1
+\end{array}
+\right]
+}\end{equation}
+
+En python, on dispose des fonctions \texttt{rolling} et
+\texttt{sliding\_window} définis dans la librairie \texttt{numpy}. Par
+exemple pour le cas du filtre moyen on peut construire une nouvelle vue
+de l'image avec deux nouvelles dimensions \texttt{x\_win} et
+\texttt{y\_win}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rolling\_win }\OperatorTok{=}\NormalTok{ img\_rgb.rolling(x}\OperatorTok{=}\DecValTok{5}\NormalTok{, y}\OperatorTok{=}\DecValTok{5}\NormalTok{,  min\_periods}\OperatorTok{=} \DecValTok{3}\NormalTok{, center}\OperatorTok{=} \VariableTok{True}\NormalTok{).construct(x}\OperatorTok{=}\StringTok{"x\_win"}\NormalTok{, y}\OperatorTok{=}\StringTok{"y\_win"}\NormalTok{, keep\_attrs}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(rolling\_win[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,...])}
+\BuiltInTok{print}\NormalTok{(rolling\_win.shape)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+<xarray.DataArray (x_win: 5, y_win: 5)> Size: 100B
+array([[ nan,  nan,  nan,  nan,  nan],
+       [ nan,  nan, 209., 210., 209.],
+       [ nan,  nan, 213., 214., 212.],
+       [ nan,  nan, 213., 212., 210.],
+       [ nan,  nan, 210., 209., 206.]], dtype=float32)
+Coordinates:
+    band         int64 8B 1
+    x            float64 8B 1.5
+    y            float64 8B 0.5
+    spatial_ref  int64 8B 0
+Dimensions without coordinates: x_win, y_win
+(3, 771, 1311, 5, 5)
+\end{verbatim}
+
+L'avantage de cette approche est qu'il n'y a pas d'utilisation inutile
+de la mémoire. Noter les \texttt{nan} sur les bords de l'image car la
+fenêtre déborde sur les bordures de l'image. Par la suite un opérateur
+moyenne peut être appliqué sur les axes \texttt{x\_win} et
+\texttt{y\_win} correspondant aux fenêtres glissantes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{filtre\_moyen}\OperatorTok{=}\NormalTok{ rolling\_win.mean(dim}\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}x\_win\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\_win\textquotesingle{}}\NormalTok{], skipna}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{filtre\_moyen.astype(}\StringTok{\textquotesingle{}int\textquotesingle{}}\NormalTok{).plot.imshow(rgb}\OperatorTok{=}\StringTok{"band"}\NormalTok{)}
+\NormalTok{ax.set\_title(}\StringTok{"Filtre moyen 5x5"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Filtre moyen 5x5')
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-13-output-2.pdf}}
+
+Lorsque la taille \(W\) de la fenêtre devient trop grande, il est
+préférable d'utiliser une convolution dans le domaine fréquentielle. La
+fonction \texttt{fftconvolve} de la librairie \texttt{scipy.signal}
+permet de faire cela:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ np.outer(signal.windows.gaussian(}\DecValTok{70}\NormalTok{, }\DecValTok{8}\NormalTok{),}
+\NormalTok{                  signal.windows.gaussian(}\DecValTok{70}\NormalTok{, }\DecValTok{8}\NormalTok{))}
+\NormalTok{blurred }\OperatorTok{=}\NormalTok{ signal.fftconvolve(img\_rgb, kernel, mode}\OperatorTok{=}\StringTok{\textquotesingle{}same\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Filtrage par convolution}\label{filtrage-par-convolution}
+
+La façon la plus efficace d'appliquer un filtre linéaire est d'appliquer
+une convolution. La convolution est généralement très efficace car elle
+est peut être calculée dans le domaine fréquentielle. Prenons l'exemple
+du filtre de Scharr (Jahne et S. 1999), ce filtre permet de détecter les
+contours horizontaux et verticaux:
+
+\begin{equation}\phantomsection\label{eq-scharr-filter}{
+F= \left[
+\begin{array}{ccc}
+-3-3j & 0-10j & +3-3j \\
+-10+0j & 0+0j & +10+0j \\
+-3+3j & 0+10j & +3+3j
+\end{array}
+\right]
+}\end{equation}
+
+Remarquez l'utilisation de chiffres complexes afin de passer deux
+filtres différents sur la partie réelle et imaginaire.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{scharr }\OperatorTok{=}\NormalTok{ np.array([[ }\OperatorTok{{-}}\DecValTok{3}\OperatorTok{{-}}\OtherTok{3j}\NormalTok{, }\DecValTok{0}\OperatorTok{{-}}\OtherTok{10j}\NormalTok{,  }\OperatorTok{+}\DecValTok{3} \OperatorTok{{-}}\OtherTok{3j}\NormalTok{],}
+\NormalTok{                   [}\OperatorTok{{-}}\DecValTok{10}\OperatorTok{+}\OtherTok{0j}\NormalTok{, }\DecValTok{0}\OperatorTok{+} \OtherTok{0j}\NormalTok{, }\OperatorTok{+}\DecValTok{10} \OperatorTok{+}\OtherTok{0j}\NormalTok{],}
+\NormalTok{                   [ }\OperatorTok{{-}}\DecValTok{3}\OperatorTok{+}\OtherTok{3j}\NormalTok{, }\DecValTok{0}\OperatorTok{+}\OtherTok{10j}\NormalTok{,  }\OperatorTok{+}\DecValTok{3} \OperatorTok{+}\OtherTok{3j}\NormalTok{]]) }\CommentTok{\# Gx + j*Gy}
+\BuiltInTok{print}\NormalTok{(img\_rgb.isel(band}\OperatorTok{=}\DecValTok{0}\NormalTok{).shape)}
+\NormalTok{grad }\OperatorTok{=}\NormalTok{ signal.convolve2d(img\_rgb.isel(band}\OperatorTok{=}\DecValTok{0}\NormalTok{), scharr, boundary}\OperatorTok{=}\StringTok{\textquotesingle{}symm\textquotesingle{}}\NormalTok{, mode}\OperatorTok{=}\StringTok{\textquotesingle{}same\textquotesingle{}}\NormalTok{)}
+\CommentTok{\# on reconstruit un xarray à partir du résultat:}
+\NormalTok{arr }\OperatorTok{=}\NormalTok{ xr.DataArray(np.}\BuiltInTok{abs}\NormalTok{(grad), dims}\OperatorTok{=}\NormalTok{(}\StringTok{"y"}\NormalTok{, }\StringTok{"x"}\NormalTok{), coords}\OperatorTok{=}\NormalTok{ \{}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{: img\_rgb.coords[}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{], }\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{: img\_rgb.coords[}\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{], }\StringTok{\textquotesingle{}spatial\_ref\textquotesingle{}}\NormalTok{: }\DecValTok{0}\NormalTok{\})}
+\BuiltInTok{print}\NormalTok{(arr)}
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{arr.plot.imshow()}
+\NormalTok{ax.set\_title(}\StringTok{"Amplitude du filtre de Scharr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(771, 1311)
+<xarray.DataArray (y: 771, x: 1311)> Size: 8MB
+array([[  65.96969001,   58.85575588,   54.91812087, ..., 1474.        ,
+        1037.01205393,  389.99487176],
+       [  61.07372594,   39.8246155 ,   89.18520057, ..., 1763.79647352,
+         864.92543031,  270.20362692],
+       [  98.48857802,  112.44554237,  168.10710871, ..., 2110.61365484,
+         870.36658943,  204.40156555],
+       ...,
+       [ 143.17821063,  597.00753764, 2479.42977315, ...,  216.00925906,
+         248.33847869,  200.89798406],
+       [ 106.07544485,  393.67245268, 2188.78824924, ...,  124.96399481,
+         159.90622252,  346.34087255],
+       [  41.59326869,  229.05894438, 1845.1216762 , ...,  175.16278143,
+          33.37663854,  414.3911196 ]])
+Coordinates:
+  * x            (x) float64 10kB 0.5 1.5 2.5 ... 1.308e+03 1.31e+03 1.31e+03
+  * y            (y) float64 6kB 0.5 1.5 2.5 3.5 4.5 ... 767.5 768.5 769.5 770.5
+    spatial_ref  int64 8B 0
+\end{verbatim}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Amplitude du filtre de Scharr')
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-15-output-3.pdf}}
+
+\section{Gestion des bordures}\label{gestion-des-bordures}
+
+L'application de filtres à l'intérieur de fenêtres glissantes implique
+de gérer les bords de l'image car la fenêtre de traitement va
+nécessairement déborder de quelques pixels en dehors de l'image
+(généralement la moitié de la fenêtre déborde). On peut soit décider
+d'ignorer les valeurs en dehors de l'image en imposant une valeur
+\texttt{nan}, prolonger l'image de quelques lignes et colonnes avec des
+valeurs mirroirs ou constantes.
+
+\subsubsection{Filtrage par une couche
+convolutionnelle}\label{filtrage-par-une-couche-convolutionnelle}
+
+\textbf{Installation de Pytorch}
+
+Cette section nécessite la librairie Pytorch avec un GPU et ne
+fonctionnera que sur Colab. On peut quand même installer une version
+locale CPU de pytorch: \texttt{pip\ install\ -qU\ torch==2.4.0+cpu}
+
+Une couche convolutionnelle est simplement un ensemble de filtres
+appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des
+réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut
+ici imposer les mêmes filtres de gradient dans la couche
+convolutionnelle:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ torch}
+\ImportTok{import}\NormalTok{ torch.nn }\ImportTok{as}\NormalTok{ nn}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\NormalTok{normalized\_img}\OperatorTok{=}\NormalTok{ torch.tensor(img\_rgb.to\_numpy())}
+\NormalTok{nchannels}\OperatorTok{=}\NormalTok{ normalized\_img.size()[}\DecValTok{0}\NormalTok{] }\CommentTok{\# nombre de canaux de l\textquotesingle{}image}
+
+\CommentTok{\# On forme une couche convolutionnelle}
+\NormalTok{conv\_layer }\OperatorTok{=}\NormalTok{ nn.Conv2d(in\_channels}\OperatorTok{=}\NormalTok{ nchannels, out\_channels}\OperatorTok{=}\DecValTok{2}\NormalTok{, kernel\_size}\OperatorTok{=}\DecValTok{3}\NormalTok{, padding}\OperatorTok{=}\DecValTok{1}\NormalTok{, stride}\OperatorTok{=}\DecValTok{1}\NormalTok{, dilation}\OperatorTok{=} \DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Filtre de Sobel}
+\NormalTok{sobel\_x }\OperatorTok{=}\NormalTok{ np.array([[}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{], [}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{10}\NormalTok{], [}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{]])}
+\NormalTok{sobel\_y }\OperatorTok{=}\NormalTok{ np.array([[}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\OperatorTok{{-}}\DecValTok{3}\NormalTok{], [}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{], [}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{3}\NormalTok{]])}
+\CommentTok{\# Le filtre (kernel) est formé de deux filtres}
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ np.stack([sobel\_x, sobel\_y])}
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ kernel.reshape(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\CommentTok{\# On répète le filtre pour chaque bande}
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ np.tile(kernel,(}\DecValTok{1}\NormalTok{,nchannels,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\BuiltInTok{print}\NormalTok{(kernel.shape)}
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ torch.as\_tensor(kernel,dtype}\OperatorTok{=}\NormalTok{torch.float32)}
+\NormalTok{conv\_layer.weight }\OperatorTok{=}\NormalTok{ nn.Parameter(kernel)}
+\NormalTok{conv\_layer.bias }\OperatorTok{=}\NormalTok{ nn.Parameter(torch.zeros(}\DecValTok{2}\NormalTok{,))}
+
+\BuiltInTok{input}\OperatorTok{=}\NormalTok{ normalized\_img.unsqueeze(}\DecValTok{0}\NormalTok{) }\CommentTok{\# il faut ajouter une dimension pour le nombre d\textquotesingle{}échantillons}
+\BuiltInTok{print}\NormalTok{(}\BuiltInTok{input}\NormalTok{.shape)}
+\CommentTok{\# Visualize the filters}
+\NormalTok{fig, axs }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{2}\NormalTok{):}
+\NormalTok{    axs[i].imshow(conv\_layer.weight.data.numpy()[i, }\DecValTok{0}\NormalTok{])}
+\NormalTok{    axs[i].set\_title(}\SpecialStringTok{f\textquotesingle{}Filtre }\SpecialCharTok{\{}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(2, 3, 3, 3)
+torch.Size([1, 3, 771, 1311])
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-16-output-2.pdf}}
+
+Le résultat est alors calculé sur GPU (si disponible):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ torch}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+
+\NormalTok{output }\OperatorTok{=}\NormalTok{ conv\_layer(}\BuiltInTok{input}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}Image (BxCxHxW): }\SpecialCharTok{\{}\BuiltInTok{input}\SpecialCharTok{.}\NormalTok{shape}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}Sortie (BxFxHxW): }\SpecialCharTok{\{}\NormalTok{output}\SpecialCharTok{.}\NormalTok{shape}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{fig, axs }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{2}\NormalTok{):}
+\NormalTok{    axs[i].imshow(output.detach().data.numpy()[}\DecValTok{0}\NormalTok{,i], vmin}\OperatorTok{={-}}\DecValTok{5000}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{5000}\NormalTok{, cmap}\OperatorTok{=} \StringTok{\textquotesingle{}gray\textquotesingle{}}\NormalTok{)}
+\NormalTok{    axs[i].set\_title(}\SpecialStringTok{f\textquotesingle{}Filtrage }\SpecialCharTok{\{}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Image (BxCxHxW): torch.Size([1, 3, 771, 1311])
+Sortie (BxFxHxW): torch.Size([1, 2, 771, 1311])
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-17-output-2.pdf}}
+
+\subsection{Filtrage adaptatif}\label{filtrage-adaptatif}
+
+Les filtrages adaptatifs consistent à appliquer un traitement en
+fonction du contenu local d'une image. Le filtre n'est alors plus
+stationnaire et sa réponse peut varier en fonction du contenu local. Ce
+type de filtre est très utilisé pour filtrer les images SAR (Synthetic
+Aperture Radar) qui sont dégradées par un bruit multiplicatif que l'on
+appelle \emph{speckle}. On peut voir un exemple d'une image Sentinel-1
+(bande HH) sur la région de Montréal, remarquée que l'image est affichée
+en dB en appliquant la fonction \texttt{log10}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(img\_SAR.rio.resolution())}
+\BuiltInTok{print}\NormalTok{(img\_SAR.rio.crs)}
+\NormalTok{fig, axs }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{xr.ufuncs.log10(img\_SAR.sel(band}\OperatorTok{=}\DecValTok{1}\NormalTok{).drop(}\StringTok{"band"}\NormalTok{)).plot()}
+\NormalTok{axs.set\_title(}\StringTok{"Image SAR Sentinel{-}1 (dB)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(0.00029254428869762705, -0.000287092818453516)
+EPSG:4326
+\end{verbatim}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Image SAR Sentinel-1 (dB)')
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-18-output-3.pdf}}
+
+Un des filtres les plus simples pour réduire le bruit est d'appliquer un
+filtre moyenne, par exemple un \(5 \times 5\) ci dessous:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rolling\_win }\OperatorTok{=}\NormalTok{ img\_SAR.sel(band}\OperatorTok{=}\DecValTok{2}\NormalTok{).rolling(x}\OperatorTok{=}\DecValTok{5}\NormalTok{, y}\OperatorTok{=}\DecValTok{5}\NormalTok{,  min\_periods}\OperatorTok{=} \DecValTok{3}\NormalTok{, center}\OperatorTok{=} \VariableTok{True}\NormalTok{).construct(x}\OperatorTok{=}\StringTok{"x\_win"}\NormalTok{, y}\OperatorTok{=}\StringTok{"y\_win"}\NormalTok{, keep\_attrs}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{filtre\_moyen}\OperatorTok{=}\NormalTok{ rolling\_win.mean(dim}\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}x\_win\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\_win\textquotesingle{}}\NormalTok{], skipna}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{fig, axs }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{xr.ufuncs.log10(filtre\_moyen).plot.imshow()}
+\NormalTok{axs.set\_title(}\StringTok{"Filtrage moyen 5x5 (dB)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Text(0.5, 1.0, 'Filtrage moyen 5x5 (dB)')
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-19-output-2.pdf}}
+
+Au lieu d'appliquer un filtre moyen de manière indiscriminée, le filtre
+de Lee (Lee 1986) applique une pondération en fonction du contenu local
+de l'image \(I\) dans sa forme la plus simple:
+
+\begin{equation}\phantomsection\label{eq-lee-filter}{ 
+\begin{aligned}
+I_F & = I_M + K \times (I - I_M) \\
+K & = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
+\end{aligned}
+}\end{equation}
+
+Ainsi si la variance locale est élevée \(K\) s'approche de \(1\)
+préservant ainsi les détails de l'image \(I\) sinon l'image moyenne
+\(I_M\) est appliquée.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rolling\_win }\OperatorTok{=}\NormalTok{ img\_SAR.sel(band}\OperatorTok{=}\DecValTok{2}\NormalTok{).rolling(x}\OperatorTok{=}\DecValTok{5}\NormalTok{, y}\OperatorTok{=}\DecValTok{5}\NormalTok{,  min\_periods}\OperatorTok{=} \DecValTok{3}\NormalTok{, center}\OperatorTok{=} \VariableTok{True}\NormalTok{).construct(x}\OperatorTok{=}\StringTok{"x\_win"}\NormalTok{, y}\OperatorTok{=}\StringTok{"y\_win"}\NormalTok{, keep\_attrs}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{filtre\_moyen}\OperatorTok{=}\NormalTok{ rolling\_win.mean(dim}\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}x\_win\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\_win\textquotesingle{}}\NormalTok{], skipna}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{ecart\_type}\OperatorTok{=}\NormalTok{ rolling\_win.std(dim}\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}x\_win\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\_win\textquotesingle{}}\NormalTok{], skipna}\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{cv}\OperatorTok{=}\NormalTok{ ecart\_type}\OperatorTok{/}\NormalTok{filtre\_moyen}
+\NormalTok{ponderation }\OperatorTok{=}\NormalTok{ (cv }\OperatorTok{{-}} \FloatTok{0.25}\NormalTok{) }\OperatorTok{/}\NormalTok{ cv}
+
+\NormalTok{fig, axes }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{4}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{cv.plot.imshow( vmin}\OperatorTok{=}\DecValTok{0}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{2}\NormalTok{)}
+\NormalTok{axes[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"CV"}\NormalTok{)}
+\NormalTok{plt.subplot(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{ponderation.plot.imshow( vmin}\OperatorTok{=}\DecValTok{0}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{1}\NormalTok{) }
+\NormalTok{axes[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Pondération"}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-20-output-1.pdf}}
+
+On zoomant sur l'image on peut clairement voir que les détails de
+l'image sont mieux préservés:
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-21-output-1.pdf}}
+
+\section{Segmentation}\label{segmentation}
+
+La segmentation d'image consiste à séparer une image en régions
+homogènes spatialement connexes (segments) où les valeurs sont uniformes
+selon un certain critère (couleurs, texture, etc.). Une image présente
+généralement beaucoup de pixels redondants, l'intérêt de ce type de
+méthode est essentiellement de réduire la quantité de pxiels nécessaire.
+En télédétection, on parle souvent d'approche objet. En vision par
+ordinateur, on parle parfois de super-pixel. Il existe de nombreuses
+méthodes de segmentation, la librairie \texttt{sickit-image} rend
+disponible plusieurs implémentations sur des images RVB
+(\href{https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_segmentations.html\#sphx-glr-auto-examples-segmentation-plot-segmentations-py}{Comparison
+of segmentation and superpixel algorithms --- skimage 0.25.0
+documentation}).
+
+\subsection{Super-pixel}\label{super-pixel}
+
+Ce type de méthode cherche à former des régions homogènes et compactes
+dans l'image (Achanta et Süsstrunk 2012). Une des méthodes les plus
+simples est la méthode SLIC (\emph{Simple Linear Iterative Clustering}),
+elle combine un regroupement de type K-moyenne avec une distance hybride
+qui prend en compte les différences de couleur entre pixels mais aussi
+leur distance par rapport centre du super-pixel:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Décomposer l'image en N régions régulières de taille \(S \times S\)
+\item
+  Initialiser les centres \(C_k\) de chaque segment \(k\)
+\item
+  Rechercher les pixels qui ont la distance la plus petite dans une
+  région \(2S \times 2S\):
+\end{enumerate}
+
+\[
+D_{SLIC}= d_{couleur} + \frac{m}{S}d_{xy}
+\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Mettre à jour les centre \(C_k\) de chaque segment \(k\), retourner à
+  l'étape 3
+\end{enumerate}
+
+Les régions évoluent rapidement avec les itérations, plus le poids \(m\)
+est élevé, plus la forme du super-pixel est contrainte et ne suivra pas
+vraiment le contenu de l'image:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{img }\OperatorTok{=}\NormalTok{ img\_rgb.to\_numpy().astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{).transpose(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{) }
+
+\NormalTok{segments\_slic1 }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\DecValTok{250}\NormalTok{, compactness}\OperatorTok{=}\DecValTok{10}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+\NormalTok{segments\_slic2 }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\DecValTok{250}\NormalTok{, compactness}\OperatorTok{=}\DecValTok{10}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{2}\NormalTok{)}
+\NormalTok{segments\_slic100 }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\DecValTok{250}\NormalTok{, compactness}\OperatorTok{=}\DecValTok{100}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\NormalTok{segments\_slic100b }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\DecValTok{250}\NormalTok{, compactness}\OperatorTok{=}\DecValTok{10}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}SLIC nombre de segments: }\SpecialCharTok{\{}\BuiltInTok{len}\NormalTok{(np.unique(segments\_slic1))}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{6}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{ax[}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{].imshow(mark\_boundaries(img, segments\_slic1))}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Initialisation"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{].imshow(mark\_boundaries(img, segments\_slic2))}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}2 itérations\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{].imshow(mark\_boundaries(img, segments\_slic100))}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}10 itérations avec m=100\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{].imshow(mark\_boundaries(img, segments\_slic100b))}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}10 itérations avec m=10\textquotesingle{}}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.ravel():}
+\NormalTok{    a.set\_axis\_off()}
+
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+SLIC nombre de segments: 240
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-22-output-2.pdf}}
+
+Le nombre de segments initial est probablement le paramètre le plus
+important. Une manière de l'estimer est d'évaluer l'échelle moyenne des
+segments homogènes dans l'image à analyser. On peut observer ci-dessous
+l'impact de passer d'une échelle 40 x 40 à 20 x 20. En prenant la
+moyenne de chaque segment, on peut voir tout de suite que 40 x 40
+résulte en des segments trop grands mélangeant différentes classes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ skimage }\ImportTok{import}\NormalTok{ color, segmentation}
+\NormalTok{n\_regions }\OperatorTok{=} \BuiltInTok{int}\NormalTok{((img.shape[}\DecValTok{0}\NormalTok{] }\OperatorTok{*}\NormalTok{ img.shape[}\DecValTok{1}\NormalTok{])}\OperatorTok{/}\NormalTok{(}\DecValTok{40}\OperatorTok{*}\DecValTok{40}\NormalTok{))}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Nb segments: \textquotesingle{}}\NormalTok{,n\_regions)}
+\NormalTok{segments\_slic\_40 }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\NormalTok{n\_regions, compactness}\OperatorTok{=}\DecValTok{10}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}SLIC nombre de segments: }\SpecialCharTok{\{}\BuiltInTok{len}\NormalTok{(np.unique(segments\_slic\_40))}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\NormalTok{out }\OperatorTok{=}\NormalTok{ color.label2rgb(segments\_slic\_40, img, kind}\OperatorTok{=}\StringTok{\textquotesingle{}avg\textquotesingle{}}\NormalTok{, bg\_label}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+\NormalTok{out\_40 }\OperatorTok{=}\NormalTok{ segmentation.mark\_boundaries(out, segments\_slic\_40, (}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+
+\NormalTok{n\_regions }\OperatorTok{=} \BuiltInTok{int}\NormalTok{((img.shape[}\DecValTok{0}\NormalTok{] }\OperatorTok{*}\NormalTok{ img.shape[}\DecValTok{1}\NormalTok{])}\OperatorTok{/}\NormalTok{(}\DecValTok{20}\OperatorTok{*}\DecValTok{20}\NormalTok{))}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Nb segments: \textquotesingle{}}\NormalTok{,n\_regions)}
+\NormalTok{segments\_slic\_20 }\OperatorTok{=}\NormalTok{ slic(img, n\_segments}\OperatorTok{=}\NormalTok{n\_regions, compactness}\OperatorTok{=}\DecValTok{10}\NormalTok{, sigma}\OperatorTok{=}\DecValTok{1}\NormalTok{, start\_label}\OperatorTok{=}\DecValTok{1}\NormalTok{, max\_num\_iter}\OperatorTok{=}\DecValTok{10}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f\textquotesingle{}SLIC nombre de segments: }\SpecialCharTok{\{}\BuiltInTok{len}\NormalTok{(np.unique(segments\_slic\_20))}\SpecialCharTok{\}}\SpecialStringTok{\textquotesingle{}}\NormalTok{)}
+\NormalTok{out }\OperatorTok{=}\NormalTok{ color.label2rgb(segments\_slic\_20, img, kind}\OperatorTok{=}\StringTok{\textquotesingle{}avg\textquotesingle{}}\NormalTok{, bg\_label}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+\NormalTok{out\_20 }\OperatorTok{=}\NormalTok{ segmentation.mark\_boundaries(out, segments\_slic\_20, (}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{8}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].imshow(out\_40)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Initialisation avec 631 segments"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].imshow(out\_20)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}Initialisation avec 2526 segments\textquotesingle{}}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.ravel():}
+\NormalTok{    a.set\_axis\_off()}
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Nb segments:  631
+SLIC nombre de segments: 459
+Nb segments:  2526
+SLIC nombre de segments: 2201
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-23-output-2.pdf}}
+
+\subsection{Fusion des segments par graphe de
+proximité}\label{fusion-des-segments-par-graphe-de-proximituxe9}
+
+Une segmentation peut produire beaucoup trop de segments. On parle alors
+de sur-segmentation. Ceci est recherché dans certains cas pour permettre
+de bien capturer les détails fins de l'image. Cependant, afin de réduire
+le nombre de segments, un post-traitement possible est de fusionner les
+segments similaires selon certaines règles ou distances. Un graphe
+d'adjacence de régions (voir figure~\ref{fig-rag}) est formé à partir
+des segments connectés où chaque noeud représente un segment et un lien
+une proximité (Jaworek-Korjakowska (2018)). À partir de ce graphe, on
+peut fusionner les noeuds similaires à partir de leur distance
+radiométrique.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/Region-adjacency-graph.png}}
+
+}
+
+\caption{\label{fig-rag}Graphe d'adjacence de régions, d'après
+(Jaworek-Korjakowska (2018)). Chaque noeud est un segment, un lien est
+formé uniquement si les segments se touchent (par exemple le segment 6
+ne touche que la région 5). La fonction \texttt{graph.rag\_mean\_color}
+produit un graphe à partir d'une segmentation et de l'image originale.
+Chaque noeud tient la couleur de chaque segment dans un attribut appelé
+\texttt{\textquotesingle{}mean\ color\textquotesingle{}.}}
+
+\end{figure}%
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ \_weight\_mean\_color(graph, src, dst, n):}
+    \CommentTok{"""Fonction pour gérer la fusion des nœuds en recalculant la couleur moyenne.}
+\CommentTok{    La méthode suppose que la couleur moyenne de \textasciigrave{}dst\textasciigrave{} est déjà calculée.}
+\CommentTok{    """}
+\NormalTok{    diff }\OperatorTok{=}\NormalTok{ graph.nodes[dst][}\StringTok{\textquotesingle{}mean color\textquotesingle{}}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ graph.nodes[n][}\StringTok{\textquotesingle{}mean color\textquotesingle{}}\NormalTok{]}
+\NormalTok{    diff }\OperatorTok{=}\NormalTok{ np.linalg.norm(diff)}
+    \CommentTok{\#print(diff)}
+    \ControlFlowTok{return}\NormalTok{ \{}\StringTok{\textquotesingle{}weight\textquotesingle{}}\NormalTok{: diff\}}
+
+
+\KeywordTok{def}\NormalTok{ merge\_mean\_color(graph, src, dst):}
+    \CommentTok{"""Fonction appelée avant la fusion de deux nœuds d\textquotesingle{}un graphe de distance de couleur moyenne.}
+\CommentTok{      Cette méthode calcule la couleur moyenne de \textasciigrave{}dst\textasciigrave{}.}
+\CommentTok{    """}
+\NormalTok{    graph.nodes[dst][}\StringTok{\textquotesingle{}total color\textquotesingle{}}\NormalTok{] }\OperatorTok{+=}\NormalTok{ graph.nodes[src][}\StringTok{\textquotesingle{}total color\textquotesingle{}}\NormalTok{]}
+\NormalTok{    graph.nodes[dst][}\StringTok{\textquotesingle{}pixel count\textquotesingle{}}\NormalTok{] }\OperatorTok{+=}\NormalTok{ graph.nodes[src][}\StringTok{\textquotesingle{}pixel count\textquotesingle{}}\NormalTok{]}
+\NormalTok{    graph.nodes[dst][}\StringTok{\textquotesingle{}mean color\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ (}
+\NormalTok{        graph.nodes[dst][}\StringTok{\textquotesingle{}total color\textquotesingle{}}\NormalTok{] }\OperatorTok{/}\NormalTok{ graph.nodes[dst][}\StringTok{\textquotesingle{}pixel count\textquotesingle{}}\NormalTok{]}
+\NormalTok{    )}
+\NormalTok{g }\OperatorTok{=}\NormalTok{ graph.rag\_mean\_color(img, segments\_slic\_20)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Nombre de segments:\textquotesingle{}}\NormalTok{,}\BuiltInTok{len}\NormalTok{(g))}
+\NormalTok{labels2 }\OperatorTok{=}\NormalTok{ graph.merge\_hierarchical(}
+\NormalTok{    segments\_slic\_20,}
+\NormalTok{    g,}
+\NormalTok{    thresh}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    rag\_copy}\OperatorTok{=}\VariableTok{False}\NormalTok{,}
+\NormalTok{    in\_place\_merge}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{    merge\_func}\OperatorTok{=}\NormalTok{merge\_mean\_color,}
+\NormalTok{    weight\_func}\OperatorTok{=}\NormalTok{\_weight\_mean\_color,}
+\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Nombre de segments:\textquotesingle{}}\NormalTok{,}\BuiltInTok{len}\NormalTok{(g))}
+
+\NormalTok{out1 }\OperatorTok{=}\NormalTok{ color.label2rgb(segments\_slic\_20, img, kind}\OperatorTok{=}\StringTok{\textquotesingle{}avg\textquotesingle{}}\NormalTok{, bg\_label}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+\NormalTok{out1 }\OperatorTok{=}\NormalTok{ segmentation.mark\_boundaries(out1, segments\_slic\_20, (}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\NormalTok{out2 }\OperatorTok{=}\NormalTok{ color.label2rgb(labels2, img, kind}\OperatorTok{=}\StringTok{\textquotesingle{}avg\textquotesingle{}}\NormalTok{, bg\_label}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+\NormalTok{out2 }\OperatorTok{=}\NormalTok{ segmentation.mark\_boundaries(out2, labels2, (}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{8}\NormalTok{))}
+
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].imshow(out1)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Avant fusion"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].imshow(out2)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Après fusion"}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax:}
+\NormalTok{    a.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{plt.tight\_layout()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Nombre de segments: 2201
+Nombre de segments: 1187
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-24-output-2.pdf}}
+
+\subsection{Approche objet}\label{approche-objet}
+
+L'approche objet consiste à traiter chaque segment comme un objet avec
+un ensemble de propriétés. La librairie \texttt{skimage} offre la
+possibilité d'enrichir chaque segment avec des
+\href{https://scikit-image.org/docs/stable/api/skimage.measure.html\#skimage.measure.regionprops}{propriétés}
+et de former un tableau:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{properties }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}label\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}area\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}centroid\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}num\_pixels\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}intensity\_mean\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}intensity\_std\textquotesingle{}}\NormalTok{]}
+
+\NormalTok{table}\OperatorTok{=}\NormalTok{   measure.regionprops\_table(labels2, intensity\_image}\OperatorTok{=}\NormalTok{ img\_rgb.to\_numpy().transpose(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{), properties}\OperatorTok{=}\NormalTok{properties)}
+
+\NormalTok{table }\OperatorTok{=}\NormalTok{ pd.DataFrame(table)}
+\NormalTok{table.head(}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}llllllllllll@{}}
+\toprule\noalign{}
+& label & area & centroid-0 & centroid-1 & num\_pixels &
+intensity\_mean-0 & intensity\_mean-1 & intensity\_mean-2 &
+intensity\_std-0 & intensity\_std-1 & intensity\_std-2 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0 & 1 & 641.0 & 15.466459 & 69.489860 & 641 & 136.730103 & 132.851791 &
+117.126366 & 32.289547 & 31.451048 & 37.421638 \\
+1 & 2 & 480.0 & 10.997917 & 92.614583 & 480 & 201.208328 & 198.262497 &
+188.483337 & 14.184592 & 14.151334 & 15.475913 \\
+2 & 3 & 712.0 & 16.683989 & 114.776685 & 712 & 185.349716 & 183.113770 &
+170.994385 & 25.453747 & 26.184948 & 28.128426 \\
+3 & 4 & 1803.0 & 31.974487 & 139.379368 & 1803 & 117.897392 & 108.367722
+& 97.769829 & 31.086676 & 26.577900 & 28.297256 \\
+4 & 5 & 448.0 & 5.004464 & 166.542411 & 448 & 183.511154 & 181.276779 &
+167.720978 & 29.824030 & 30.625013 & 31.297607 \\
+5 & 6 & 459.0 & 9.934641 & 191.668845 & 459 & 133.557739 & 133.821350 &
+129.697174 & 22.902142 & 23.013086 & 22.428919 \\
+6 & 7 & 355.0 & 5.160563 & 222.895775 & 355 & 148.574646 & 148.802811 &
+142.580276 & 21.334805 & 21.457472 & 20.931572 \\
+7 & 8 & 334.0 & 4.904192 & 255.904192 & 334 & 125.973053 & 121.197601 &
+108.973053 & 23.151978 & 24.556480 & 25.351229 \\
+8 & 9 & 1481.0 & 32.279541 & 292.865631 & 1481 & 204.102631 & 172.359894
+& 137.501007 & 13.884891 & 14.092896 & 15.865581 \\
+9 & 10 & 445.0 & 8.013483 & 308.053933 & 445 & 145.373032 & 138.182022 &
+121.402245 & 18.543356 & 18.644655 & 22.237881 \\
+\end{longtable}
+
+Ce tableau pourra être exploiter pour une tâche de classification par la
+suite (on parle alors de classification objet).
+
 \part{Partie 3. Classifications d'images}
 
 \bookmarksetup{startatroot}
@@ -2115,7 +3765,7 @@ aussi disponible sous la forme d'un notebook Python sur Google Colab:
 
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/05-ClassificationsSupervisees.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
-\subsection{Librairies}\label{librairies-2}
+\subsection{Librairies}\label{librairies-4}
 
 Les librairies utilisées dans ce chapitre sont les suivantes:
 
@@ -2177,7 +3827,7 @@ Vérifier les importations nécessaires en premier:
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{Images utilisées}\label{images-utilisuxe9es-1}
+\subsection{Images utilisées}\label{images-utilisuxe9es-2}
 
 Nous allons utilisez les images suivantes dans ce chapitre:
 
@@ -3218,6 +4868,110 @@ De la même manière, la prédiction peut s'appliquer sur toute l'image:
 
 \bookmarksetup{startatroot}
 
+\chapter{Classifications d'images non supervisées}\label{sec-chap06}
+
+\section{:rocket: Préambule}\label{rocket-pruxe9ambule-2}
+
+Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+
+\subsection{:dart: Objectifs}\label{dart-objectifs-1}
+
+Dans ce chapitre, nous abordons quelques techniques de traitement
+d'images dans le domaine spatial uniquement. Ce chapitre est aussi
+disponible sous la forme d'un notebook Python sur Google Colab:
+
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
+
+\subsection{Librairies}\label{librairies-5}
+
+Les librairies qui vont être explorées dans ce chapitre sont les
+suivantes:
+
+\begin{itemize}
+\item
+  \href{https://scipy.org/}{SciPy -}
+\item
+  \href{https://numpy.org/}{NumPy -}
+\item
+  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
+\item
+  \href{https://scikit-image.org/}{scikit-image}
+\item
+  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
+\item
+  \href{https://docs.xarray.dev/en/stable/}{Xarray}
+\item
+  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
+\end{itemize}
+
+Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
+installés:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifier les importations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
+\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
+\ImportTok{import}\NormalTok{ xrscipy}
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Images utilisées}\label{images-utilisuxe9es-3}
+
+Nous allons utilisez les images suivantes dans ce chapitre:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
+\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif }\OperatorTok{{-}}\NormalTok{O SAR.tif}
+\end{Highlighting}
+\end{Shaded}
+
+Vérifiez que vous êtes capable de les lire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
+    \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
+    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
+    \BuiltInTok{print}\NormalTok{(img\_SAR)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Classifications strictes}\label{sec-061}
+
+\subsection{K-means}\label{sec-0611}
+
+\subsection{K-mediodes}\label{sec-0612}
+
+\subsection{Isodata}\label{sec-0613}
+
+\section{Classifications floues}\label{sec-062}
+
+\section{C-Means}\label{sec-0621}
+
+\subsection{C-Means intégrant une dimension spatiale}\label{sec-0622}
+
+\section{Exercices de révision}\label{sec-064}
+
+\bookmarksetup{startatroot}
+
 \chapter*{Bibliographie}\label{bibliographie}
 \addcontentsline{toc}{chapter}{Bibliographie}
 
@@ -3225,6 +4979,17 @@ De la même manière, la prédiction peut s'appliquer sur toute l'image:
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-Achanta-2012}
+Achanta, Kevin Smith adhakrishna, Appu Shaji et Sabine Süsstrunk. 2012.
+{«~SLIC Superpixels Compared to State-of-the-art Superpixel Methods.~»}
+\emph{{TPAMI}}: 636‑643. \url{https://doi.org/10.1109/TPAMI.2012.120}.
+
+\bibitem[\citeproctext]{ref-Cooley-1965}
+Cooley, James W. et John W. Tukey. 1965. {«~An algorithm for the machine
+calculation of complex Fourier series.~»} \emph{{Math. Comput.}}:
+297‑301.
+\url{https://web.stanford.edu/class/cme324/classics/cooley-tukey.pdf}.
+
 \bibitem[\citeproctext]{ref-NumpyNature}
 Harris, Millman, C. R. 2020. {«~Array programming with NumPy.~»}
 \emph{{Nature}}: 357‑362.
@@ -3234,6 +4999,21 @@ Harris, Millman, C. R. 2020. {«~Array programming with NumPy.~»}
 Hoyer, S. et J. Hamman. 2017. {«~xarray: N-D labeled Arrays and Datasets
 in Python.~»} \emph{{Journal of Open Research Software}} 5 (1): 10.
 \url{https://doi.org/10.5334/jors.148}.
+
+\bibitem[\citeproctext]{ref-Scharr1999}
+Jahne, Scharr, B et Korkel S. 1999. \emph{Principles of filter design}.
+Handbook of Computer Vision; Applications; Academic Press.
+
+\bibitem[\citeproctext]{ref-Jaworek-2018}
+Jaworek-Korjakowska, P., J.; Kłeczek. 2018. {«~Region Adjacency Graph
+Approach for Acral Melanocytic Lesion Segmentation.~»} \emph{{Applied
+Sciences}} 8: 1430.
+\href{https://10.3390/app8091430}{10.3390/app8091430}.
+
+\bibitem[\citeproctext]{ref-Lee-1986}
+Lee, J. S. 1986. {«~Speckle suppression and analysis for synthetic
+aperture radar images.~»} \emph{{Opt. Eng.}} 25 (5): 636‑643.
+\url{https://doi.org/10.1117/12.7973877}.
 
 \bibitem[\citeproctext]{ref-OGCGeoTIFF}
 OGC. 2019. {«~{OGC GeoTIFF Standard}.~»}
