@@ -89,7 +89,6 @@
 % Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
-\usepackage{svg}
 \ifLuaTeX
 \usepackage[bidi=basic]{babel}
 \else
@@ -127,17 +126,17 @@ d'images}}}{3~ Réhaussement et visualisation d'images}}\label{ruxe9haussement-e
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\subsection{\texorpdfstring{{3.1} {🚀}
-Préambule}{3.1 🚀 Préambule}}\label{pruxe9ambule}
+\subsection{\texorpdfstring{{3.1}
+Préambule}{3.1 Préambule}}\label{pruxe9ambule}
 
-\subsubsection{\texorpdfstring{{3.1.1} {🎯}
-Objectifs}{3.1.1 🎯 Objectifs}}\label{objectifs}
+\subsubsection{\texorpdfstring{{3.1.1}
+Objectifs}{3.1.1 Objectifs}}\label{objectifs}
 
 Dans ce chapitre, nous abordons quelques techniques de réhaussement et
 de visualisation d'images. Ce chapitre est aussi disponible sous la
 forme d'un notebook Python:
 
-\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb}{\pandocbounded{\includesvg[keepaspectratio]{images/colab-badge.svg}}}
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
 \subsubsection{\texorpdfstring{{3.1.2}
 Librairies}{3.1.2 Librairies}}\label{librairies}
@@ -147,9 +146,9 @@ suivantes:
 
 \begin{itemize}
 \item
-  \href{https://scipy.org/}{SciPy -}
+  \href{https://scipy.org/}{SciPy}
 \item
-  \href{https://numpy.org/}{NumPy -}
+  \href{https://numpy.org/}{NumPy}
 \item
   \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
 \item
@@ -165,7 +164,7 @@ suivantes:
 Dans l'environnement Google Colab, seul \texttt{rioxarray} et GDAL
 doivent être installés:
 
-\phantomsection\label{5eee1e9a}
+\phantomsection\label{c4347da7}
 \phantomsection\label{cb1}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -177,10 +176,22 @@ doivent être installés:
 \end{Highlighting}
 \end{Shaded}
 
+Dans l'environnement Google Colab, on peut s'assurer que les librairies
+sont installées:
+
+\phantomsection\label{23ee82f2}
+\phantomsection\label{cb2}
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\%\%}\NormalTok{capture}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy scikit}\OperatorTok{{-}}\NormalTok{image}
+\end{Highlighting}
+\end{Shaded}
+
 Vérifier les importations:
 
-\phantomsection\label{1382991a}
-\phantomsection\label{cb2}
+\phantomsection\label{cfa89116}
+\phantomsection\label{cb3}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -197,26 +208,30 @@ Données}{3.1.3 Données}}\label{donnuxe9es}
 
 Nous allons utilisez les images suivantes dans ce chapitre:
 
-\phantomsection\label{bb158c30}
-\phantomsection\label{cb3}
+\phantomsection\label{48dda4f2}
+\phantomsection\label{cb4}
 \begin{Shaded}
 \begin{Highlighting}[]
 \OperatorTok{\%\%}\NormalTok{capture}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif }\OperatorTok{{-}}\NormalTok{O SAR.tif}
+\ImportTok{import}\NormalTok{ gdown}
+
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg\_\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a6O3L\_abOfU7h94K22At8qtBuLMGErwo\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}sentinel2.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1\_zwCLN{-}x7XJcNHJCH6Z8upEdUXtVtvs1\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 Vérifiez que vous êtes capable de les lire :
 
-\phantomsection\label{3d6a2976}
-\phantomsection\label{cb4}
+\phantomsection\label{c94fb753}
+\phantomsection\label{cb5}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
     \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}sentinel2.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_s2:}
+    \BuiltInTok{print}\NormalTok{(img\_s2)}
 \ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
     \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
 \ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
@@ -224,8 +239,111 @@ Vérifiez que vous êtes capable de les lire :
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{\texorpdfstring{{3.2} Réhaussements
-visuels}{3.2 Réhaussements visuels}}\label{ruxe9haussements-visuels}
+\subsection{\texorpdfstring{{3.2} Visualisation en
+Python}{3.2 Visualisation en Python}}\label{visualisation-en-python}
+
+Il faut d'entrée mentionner que Python n'est pas vraiment fait pour
+visualiser de la donnée de grande taille, le niveau d'interactivité est
+aussi assez limité. Pour une visualisation interactives, il est plutôt
+conseillé d'utiliser un outil comme \href{https://qgis.org/}{QGIS}.
+Néanmoins, il est possible de visualiser de petites images avec la
+librairie \href{https://matplotlib.org/stable/}{\texttt{matplotlib}} qui
+est la librairie principale de visualisation en Python. Cette librairie
+est extrêmement riche et versatile, nous ne présenterons que les bases
+nécessaires pour démarrer. Le lecteur désirant aller plus loin pourra
+consulter les nombreux tutoriels disponibles comme
+\href{https://matplotlib.org/stable/tutorials/index.html}{celui-ci}.
+
+La fonction de base pour créer une figure est \texttt{subplots}, la
+largeur et hauteur en pouces de la figure peuvent être contrôlées via le
+paramètre \texttt{figsize}:
+
+\phantomsection\label{42c06813}
+\phantomsection\label{cb6}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=5.5in,height=4.52083in]{02-RehaussementVisualisationImages_files/figure-html/cell-8-output-1.png}
+\caption{}
+\end{figure}
+
+Pour l'affichage des images, la fonction \texttt{imshow} permet
+d'afficher une matrice 2D à une dimension en format float ou une matrice
+RVB avec 3 bandes. Il est important que les dimensions de la matrice
+soient dans l'ordre hauteur, largeur et bande.
+
+\phantomsection\label{a310105f}
+\phantomsection\label{cb7}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{plt.imshow(img\_rgbnir[}\DecValTok{0}\NormalTok{].data)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=5.03125in,height=4.52083in]{02-RehaussementVisualisationImages_files/figure-html/cell-9-output-1.png}
+\caption{}
+\end{figure}
+
+Pour un affichage à 3 bandes, les valeurs seront clippées entre 0 et 1,
+il est donc nécessaire de normaliser les valeurs avant l'affichage:
+
+\phantomsection\label{f07a293b}
+\phantomsection\label{cb8}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{plt.imshow(img\_rgbnir.data.transpose(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{)}\OperatorTok{/}\FloatTok{2500.0}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=5.03125in,height=4.52083in]{02-RehaussementVisualisationImages_files/figure-html/cell-10-output-1.png}
+\caption{}
+\end{figure}
+
+On remarquera les valeurs des axes \texttt{x} et \texttt{y} avec une
+origine en haut à gauche. Ceci est un référentiel purement matricielle
+(lignes et colonnes), il n'y a pas de géoréférence ici. Pour pallier à
+cette limitation, les librairies \texttt{rasterio} et \texttt{xarray}
+proposent une extension de la fonction \texttt{imshow} permettant
+d'afficher les coordonnées cartographiques ainsi qu'un contrôle la
+dynamique de l'image:
+
+\phantomsection\label{c9cfdfff}
+\phantomsection\label{cb9}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{img\_rgbnir.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{5000}\NormalTok{)}
+\NormalTok{ax.set\_title(}\StringTok{\textquotesingle{}Imshow avec rioxarray\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=6.13542in,height=4.875in]{02-RehaussementVisualisationImages_files/figure-html/cell-11-output-1.png}
+\caption{}
+\end{figure}
+
+\subsection{\texorpdfstring{{3.3} Réhaussements
+visuels}{3.3 Réhaussements visuels}}\label{ruxe9haussements-visuels}
 
 Le but du réhaussement visuel d'une image vise principalement à
 améliorer la qualité visuelle d'une image en améliorant le contraste, la
@@ -234,8 +352,8 @@ réhaussement ne modifie pas la donnée d'origine mais est plutôt
 appliquée dynamiquement à l'affichage pour des fins d'inspection
 visuelle.
 
-\subsubsection{\texorpdfstring{{3.2.1} Statistiques d'une
-image}{3.2.1 Statistiques d'une image}}\label{statistiques-dune-image}
+\subsubsection{\texorpdfstring{{3.3.1} Statistiques d'une
+image}{3.3.1 Statistiques d'une image}}\label{statistiques-dune-image}
 
 On peut considérer un ensemble de statistique globales pour chacune des
 bandes d'une image: - valeurs minimales et maximales - valeurs moyennes,
@@ -246,18 +364,13 @@ multispectrale.
 En ligne de commande, \texttt{gdalinfo} permet d'interroger rapidement
 un fichier image pour connaitre les statistiques de base:
 
-\phantomsection\label{a2a1248d}
-\phantomsection\label{lst-gdalstats}
-\begin{figure}
-\centering
-\phantomsection\label{lst-gdalstats}
+\phantomsection\label{39268283}
+\phantomsection\label{cb10}
 \begin{Shaded}
 \begin{Highlighting}[]
 \OperatorTok{!}\NormalTok{gdalinfo }\OperatorTok{{-}}\NormalTok{stats landsat7.tif}
 \end{Highlighting}
 \end{Shaded}
-\caption{Bloc de code~3.1: Statistiques d'une image avec gdal}
-\end{figure}
 
 \begin{verbatim}
 Driver: GTiff/GeoTIFF
@@ -340,8 +453,8 @@ Les librairies de base comme \texttt{xarray} et \texttt{numpy} peuvent
 facilement produire des statistiques comme avec la fonction
 \href{https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html\#rasterio.io.BufferedDatasetWriter.stats}{stats}:
 
-\phantomsection\label{093601ed}
-\phantomsection\label{cb6}
+\phantomsection\label{f1e49069}
+\phantomsection\label{cb12}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ rasterio }\ImportTok{as}\NormalTok{ rio}
@@ -355,8 +468,8 @@ facilement produire des statistiques comme avec la fonction
 La librairie \texttt{xarray} donne accès à des fonctionnalités plus
 sophistiquées comme le calcul des quantiles:
 
-\phantomsection\label{28aa5d49}
-\phantomsection\label{cb7}
+\phantomsection\label{57eddff8}
+\phantomsection\label{cb13}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ riox}
@@ -469,8 +582,8 @@ PandasIndex(Index([0.025, 0.25, 0.5, 0.75, 0.975], dtype='float64', name='quanti
 
 Attributes: {(0)}
 
-\paragraph{\texorpdfstring{{3.2.1.1} Calcul de
-l'histogramme}{3.2.1.1 Calcul de l'histogramme}}\label{calcul-de-lhistogramme}
+\paragraph{\texorpdfstring{{3.3.1.1} Calcul de
+l'histogramme}{3.3.1.1 Calcul de l'histogramme}}\label{calcul-de-lhistogramme}
 
 Le calcul d'un histogramme pour une image (une bande) permet d'avoir une
 vue plus détaillée de la répartition des valeurs radiométriques. Le
@@ -480,8 +593,8 @@ intervalle de valeurs pour lequel on peut calculer le nombre de valeurs
 observées dans l'image. La fonction de base pour ce type de calcul est
 la fonction \texttt{numpy.histogram()}:
 
-\phantomsection\label{970fff3f}
-\phantomsection\label{cb9}
+\phantomsection\label{cc15c57f}
+\phantomsection\label{cb15}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -493,26 +606,41 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.11111111 0.16666667 0.12222222 0.06666667 0.07777778 0.11111111
- 0.11111111 0.08888889 0.16666667 0.08888889]
+valeurs : [0.11111111 0.11111111 0.12222222 0.12222222 0.11111111 0.08888889
+ 0.13333333 0.06666667 0.12222222 0.12222222]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
 Le calcul se fait avec 10 intervalles par défaut.
 
+\phantomsection\label{deb9e2ed}
+\phantomsection\label{cb17}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.bar(bin\_limites[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{],hist)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=7.09375in,height=4.52083in]{02-RehaussementVisualisationImages_files/figure-html/cell-16-output-1.png}
+\caption{}
+\end{figure}
+
 Pour des besoins de visualisation, le calcul des valeurs extrêmes de
 l'histogramme peut aussi se faire via les quantiles comme discutés
 auparavant.
 
-\subparagraph{\texorpdfstring{{3.2.1.1.1} Visualisation des
-histogrammes}{3.2.1.1.1 Visualisation des histogrammes}}\label{visualisation-des-histogrammes}
+\subparagraph{\texorpdfstring{{3.3.1.1.1} Visualisation des
+histogrammes}{3.3.1.1.1 Visualisation des histogrammes}}\label{visualisation-des-histogrammes}
 
 La librarie \texttt{rasterio} est probablement l'outil le plus simples
 pour visualiser rapidement des histogrammes sur une image
 multi-spectrale:
 
-\phantomsection\label{a0c4ddee}
-\phantomsection\label{cb11}
+\phantomsection\label{e670a4b6}
+\phantomsection\label{cb18}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ rasterio }\ImportTok{as}\NormalTok{ rio}
@@ -524,17 +652,18 @@ multi-spectrale:
 
 \begin{figure}
 \centering
-\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-html/cell-10-output-1.png}}
+\includegraphics[width=7.27083in,height=4.875in]{02-RehaussementVisualisationImages_files/figure-html/cell-17-output-1.png}
 \caption{}
 \end{figure}
 
-\subsubsection{\texorpdfstring{{3.2.2} Réhaussements
-linéaires}{3.2.2 Réhaussements linéaires}}\label{ruxe9haussements-linuxe9aires}
+\subsubsection{\texorpdfstring{{3.3.2} Réhaussements
+linéaires}{3.3.2 Réhaussements linéaires}}\label{ruxe9haussements-linuxe9aires}
 
-Le réhaussement linéaire d'une image est la forme la plus simple de
-réhaussement, elle consiste 1) à optimiser les valeurs des pixels d'une
-image afin de maximiser la dynamique disponibles à l'affichage, ou 2)
-changer le format de stockage des valeurs (e.g.~de 8 bit à 16 bit):
+Le réhaussement linéaire (\emph{linear stretch}) d'une image est la
+forme la plus simple de réhaussement, elle consiste 1) à optimiser les
+valeurs des pixels d'une image afin de maximiser la dynamique
+disponibles à l'affichage, ou 2) changer le format de stockage des
+valeurs (e.g.~de 8 bit à 16 bit):
 
 \phantomsection\label{eq-rehauss-lin}{{\textbackslash{[}
 \textbackslash text\{nouvelle valeur d\textquotesingle un pixel\} =
@@ -557,13 +686,315 @@ s'assurer que {\textbackslash(min\_1\textgreater0\textbackslash)}. 3.
 \textbf{Précision du calcul} : si possible réaliser la division
 ci-dessus en format \emph{float}
 
-\subsubsection{\texorpdfstring{{3.2.3} Réhaussements non
-linéaires}{3.2.3 Réhaussements non linéaires}}\label{ruxe9haussements-non-linuxe9aires}
+\paragraph{\texorpdfstring{{3.3.2.1} Cas des histogrammes
+asymétriques}{3.3.2.1 Cas des histogrammes asymétriques}}\label{cas-des-histogrammes-asymuxe9triques}
 
-Calcul d'histogrammes, étirement, égalisation, styling
+Dans certains cas, la distribution de valeurs est très asymétrique et
+présente une longue queue avec des valeurs extrêmes élevées. Le cas des
+images SAR est particulièrement représentatif de ce type de données. En
+effet, celles-ci peuvent présenter une distribution de valeurs de type
+exponentiel. Il est alors préférable d'utiliser des
+\href{https://fr.wikipedia.org/wiki/Centile}{percentiles} au préalable
+afin d'explorer la forme de l'histogramme et la distribution des
+valeurs:
 
-\subsubsection{\texorpdfstring{{3.2.4} Composés
-couleurs}{3.2.4 Composés couleurs}}\label{composuxe9s-couleurs}
+\phantomsection\label{34d21d70}
+\phantomsection\label{cb19}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{NO\_DATA\_FLOAT}\OperatorTok{=} \OperatorTok{{-}}\FloatTok{999.0}
+\CommentTok{\# on prend tous les pixels de la première bande}
+\NormalTok{values }\OperatorTok{=}\NormalTok{ img\_SAR[}\DecValTok{0}\NormalTok{].values.flatten().astype(}\BuiltInTok{float}\NormalTok{)}
+\CommentTok{\# on exclut les valeurs invalides}
+\NormalTok{values }\OperatorTok{=}\NormalTok{ values[}\OperatorTok{\textasciitilde{}}\NormalTok{np.isnan(values)]}
+\CommentTok{\# on exclut le no data}
+\NormalTok{values }\OperatorTok{=}\NormalTok{ values[values}\OperatorTok{!=}\NormalTok{NO\_DATA\_FLOAT]}
+\CommentTok{\# calcul des percentiles}
+\NormalTok{percentiles\_position}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{98}\NormalTok{,}\DecValTok{99}\NormalTok{,}\FloatTok{99.9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{percentiles}\OperatorTok{=} \BuiltInTok{dict}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(percentiles\_position, np.percentile(values, percentiles\_position)))}
+\BuiltInTok{print}\NormalTok{(percentiles)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+{0: np.float64(8.172580237442162e-06), 0.1: np.float64(1.588739885482937e-05), 1: np.float64(8.657756850880105e-05), 2: np.float64(0.00018846066552214325), 50: np.float64(0.012372820172458887), 98: np.float64(0.1719470709562302), 99: np.float64(0.27963151514529694), 99.9: np.float64(1.5235805057287233), 100: np.float64(483.223876953125)}
+\end{verbatim}
+
+La première observation que l'on peut faire est que la valeur médiane
+(\texttt{0.012}) est très faible, 50\% des valeurs sont inférieures
+cette valeur alors que valeur maximale (\texttt{483}) est 10,000 fois
+plus élevée! Une façon de visualiser cette distribution de valeurs est
+d'utiliser
+\href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html}{\texttt{boxplot}}
+et
+\href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html}{\texttt{violinplot}}
+de la librairie \texttt{matplotlib}:
+
+\phantomsection\label{d95a1929}
+\phantomsection\label{cb21}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{4}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}Distribution de la bande 0 de img\_SAR\textquotesingle{}}\NormalTok{, fontsize}\OperatorTok{=}\StringTok{\textquotesingle{}small\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].violinplot(values, orientation  }\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{, }
+\NormalTok{                 quantiles }\OperatorTok{=}\NormalTok{(}\FloatTok{0.01}\NormalTok{,}\FloatTok{0.02}\NormalTok{,}\FloatTok{0.50}\NormalTok{,}\FloatTok{0.98}\NormalTok{,}\FloatTok{0.99}\NormalTok{),}
+\NormalTok{                  showmeans}\OperatorTok{=}\VariableTok{False}\NormalTok{,}
+\NormalTok{                  showmedians}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_xlabel(}\StringTok{\textquotesingle{}Valeur des pixels\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{bplot }\OperatorTok{=}\NormalTok{ ax[}\DecValTok{1}\NormalTok{].boxplot(values, notch }\OperatorTok{=} \VariableTok{True}\NormalTok{, orientation  }\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=6.13542in,height=4.05208in]{02-RehaussementVisualisationImages_files/figure-html/cell-19-output-1.png}
+\caption{}
+\end{figure}
+
+Afin de visualiser correctement l'histogramme, il faut se limiter à un
+interval de valeurs plus petit. Dans le code ci-dessous, on impose à la
+fonction histogramme de compter les valeurs de pixels dans des
+intervalles de valeurs fixés par la fonction
+\texttt{np.linspace(percentiles{[}0.1{]},percentiles{[}99.9{]},\ 50)} où
+\texttt{percentiles{[}0.1{]}} et \texttt{percentiles{[}99.9{]}} sont les
+{\textbackslash(0.1\textbackslash\%\textbackslash)} et
+{\textbackslash(99.9\textbackslash\%\textbackslash)} percentiles
+respectivement:
+
+\phantomsection\label{ec419390}
+\phantomsection\label{cb22}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hist, bin\_edges }\OperatorTok{=}\NormalTok{ np.histogram(values, }
+\NormalTok{                                bins}\OperatorTok{=}\NormalTok{np.linspace(percentiles[}\FloatTok{0.1}\NormalTok{], }
+\NormalTok{                                percentiles[}\FloatTok{99.9}\NormalTok{], }\DecValTok{50}\NormalTok{), }
+\NormalTok{                                density}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{,ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{,figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].bar(bin\_edges[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }
+\NormalTok{                hist}\OperatorTok{*}\NormalTok{(bin\_edges[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{bin\_edges[}\DecValTok{0}\NormalTok{]), }
+\NormalTok{                width}\OperatorTok{=}\NormalTok{ (bin\_edges[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{bin\_edges[}\DecValTok{0}\NormalTok{]), }
+\NormalTok{                edgecolor}\OperatorTok{=} \StringTok{\textquotesingle{}w\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{"Distribution de probabilité (PDF)"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].set\_ylabel(}\StringTok{"Densité de probabilité"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].plot(bin\_edges[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }
+\NormalTok{            hist.cumsum()}\OperatorTok{*}\NormalTok{(bin\_edges[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{bin\_edges[}\DecValTok{0}\NormalTok{]))}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{"Distribution de probabilité cumulée (CDF)"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_xlabel(}\StringTok{"Valeur du pixel"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].set\_ylabel(}\StringTok{"Probabilité cumulée"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{].grid(}\VariableTok{True}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()                              }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=6.14583in,height=5.10417in]{02-RehaussementVisualisationImages_files/figure-html/cell-20-output-1.png}
+\caption{}
+\end{figure}
+
+Au niveau de l'affichage avec \texttt{matplotlib}, la dynamique peut
+être contrôlée directement via les paramètres \texttt{vmin} et
+\texttt{vmax} comme ceci:
+
+\phantomsection\label{ed0b7578}
+\phantomsection\label{cb23}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{[a.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.flatten()]}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{0}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{100}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"0\% {-} 100\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{0}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{100}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\FloatTok{0.1}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\FloatTok{99.9}\NormalTok{]) }
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"0.1\% {-} 99.9\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\FloatTok{0.1}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\FloatTok{99.9}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{1}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{99}\NormalTok{]) }
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"1\% {-} 99\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{99}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].values, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{]) }
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"2\% {-} 98\%=}\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{ {-} }\SpecialCharTok{\{}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{]}\SpecialCharTok{:2.1f\}}\SpecialStringTok{"}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=6.14583in,height=5.04167in]{02-RehaussementVisualisationImages_files/figure-html/cell-21-output-1.png}
+\caption{}
+\end{figure}
+
+\subsubsection{\texorpdfstring{{3.3.3} Réhaussements non
+linéaires}{3.3.3 Réhaussements non linéaires}}\label{ruxe9haussements-non-linuxe9aires}
+
+\paragraph{\texorpdfstring{{3.3.3.1} Réhaussement par
+fonctions}{3.3.3.1 Réhaussement par fonctions}}\label{ruxe9haussement-par-fonctions}
+
+Le réhaussenent par fonction consiste à appliquer une fonction non
+linéaire afin de modifier la dynamique de l'image. Par exemple, pour une
+image radar, une transformation populaire est dd'afficher les valeurs de
+rétrodiffusion en décibel (\texttt{dB}) via la fonction
+\texttt{log10()}.
+
+\phantomsection\label{bfffca0f}
+\phantomsection\label{cb24}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{percentiles\_position}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{98}\NormalTok{,}\DecValTok{99}\NormalTok{,}\FloatTok{99.9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{values}\OperatorTok{=}\NormalTok{ np.log10(img\_SAR[}\DecValTok{0}\NormalTok{]).data}
+\NormalTok{percentiles\_db}\OperatorTok{=} \BuiltInTok{dict}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(percentiles\_position, np.percentile(values, percentiles\_position)))}
+\BuiltInTok{print}\NormalTok{(percentiles\_db)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+{0: np.float64(-5.08764123916626), 0.1: np.float64(-4.7989475197792055), 1: np.float64(-4.062595067024231), 2: np.float64(-3.7247793674468994), 50: np.float64(-1.9075313806533813), 98: np.float64(-0.7646052074432372), 99: np.float64(-0.5534139317274169), 99.9: np.float64(0.182865420415998), 100: np.float64(2.6841483116149902)}
+\end{verbatim}
+
+Les boxplots on une bien meilleure distribution proche d'une
+distribution Gaussienne:
+
+\phantomsection\label{f94b0c47}
+\begin{figure}
+\centering
+\includegraphics[width=6.14583in,height=4.05208in]{02-RehaussementVisualisationImages_files/figure-html/cell-23-output-1.png}
+\caption{}
+\end{figure}
+
+Ainsi que les images:
+
+\phantomsection\label{ba18ed4a}
+\begin{figure}
+\centering
+\includegraphics[width=6.14583in,height=5.04167in]{02-RehaussementVisualisationImages_files/figure-html/cell-24-output-1.png}
+\caption{}
+\end{figure}
+
+\paragraph{\texorpdfstring{{3.3.3.2} Égalisation
+d'histogramme}{3.3.3.2 Égalisation d'histogramme}}\label{uxe9galisation-dhistogramme}
+
+L'égalisation d'histogramme consiste à modifier les valeurs des pixels
+d'une image source de façon à ce que la distribution cumulée des valeurs
+(CDF) deviennent similaire à celle d'une image cible. La CDF
+(\emph{Cumulative Distribution Function}) est simplement la somme
+cumulée des valeurs de l'histogramme:
+
+{\textbackslash{[} CDF\_\{source\}(i)=
+\textbackslash frac\{1\}\{K\}\textbackslash sum\_\{j=0\}\^{}\{j
+\textbackslash leq i\} hist\_\{source\}(j) \textbackslash{]}} avec
+{\textbackslash(K\textbackslash)} choisit de façon à ce que la dernière
+valeur soit égale à 1
+({\textbackslash(CDF\_\{source\}(i\_\{max\})=1\textbackslash)}). De la
+même manière, {\textbackslash(CDF\_\{cible\}\textbackslash)} est la CDF
+d'une image cible. La formule générale pour l'égalisation d'histogramme
+est la suivante: {\textbackslash{[} j =
+CDF\_\{cible\}\^{}\{-1\}(CDF\_\{source\}(i)) \textbackslash{]}}
+
+On peut choisir {\textbackslash(CDF\_\{cible\}\textbackslash)} comme
+correspondant à une image où chaque valeur de pixel est équiprobable
+(d'où le terme \emph{égalisation}), ce qui veut dire
+{\textbackslash(hist\_\{cible\}(j)=1/L\textbackslash)} avec
+{\textbackslash(L\textbackslash)} égale au nombre de valeurs possibles
+dans l'image (par exemple {\textbackslash(L=256\textbackslash)}).
+{\textbackslash{[} j = L \textbackslash times CDF\_\{source\}(i)
+\textbackslash{]}} On peut appliquer cette procédure sur l'image SAR en
+dB de la façon suivante:
+
+\phantomsection\label{fbb82e7a}
+\phantomsection\label{cb26}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{values}\OperatorTok{=}\NormalTok{ np.sort(np.log10(img\_SAR[}\DecValTok{0}\NormalTok{].data.flatten()))}
+\NormalTok{cdf\_x}\OperatorTok{=}\NormalTok{ np.linspace(values[}\DecValTok{0}\NormalTok{], values[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }\DecValTok{1000}\NormalTok{)}
+\NormalTok{cdf\_source}\OperatorTok{=}\NormalTok{ np.interp(cdf\_x, values, np.arange(}\BuiltInTok{len}\NormalTok{(values))}\OperatorTok{/}\BuiltInTok{len}\NormalTok{(values)}\OperatorTok{*}\DecValTok{255}\NormalTok{)}
+\NormalTok{values\_eq}\OperatorTok{=}\NormalTok{np.interp(np.log10(img\_SAR[}\DecValTok{0}\NormalTok{].data), cdf\_x, cdf\_source).astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.imshow(values\_eq)}
+\NormalTok{plt.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=5.60417in,height=4.21875in]{02-RehaussementVisualisationImages_files/figure-html/cell-25-output-1.png}
+\caption{}
+\end{figure}
+
+\paragraph{\texorpdfstring{{3.3.3.3} Palettes de
+couleur}{3.3.3.3 Palettes de couleur}}\label{palettes-de-couleur}
+
+Les palettes de couleurs sont appliquées dynamiquement à l'affichage sur
+une image à une seule bande. La librairie \texttt{matplotlib} contient
+un nombre important de
+\href{https://matplotlib.org/stable/users/explain/colors/colormaps.html}{palettes}.
+
+\phantomsection\label{4f7723ee}
+\phantomsection\label{cb27}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ matplotlib }\ImportTok{import}\NormalTok{ colormaps}
+\BuiltInTok{list}\NormalTok{(colormaps)}
+\end{Highlighting}
+\end{Shaded}
+
+Voici quelques exemples ci-dessous, les valeurs de l'image doivent être
+normalisées entre 0 et 1 ou entre 0 et 255 sinon les paramètres
+\texttt{vmin} et \texttt{vmax} doivent être spécifiés. On peut observer
+comment ces palettes révèlent les détails de l'image malgré une image
+originalement très sombre.
+
+\phantomsection\label{353a8b83}
+\phantomsection\label{cb28}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{[a.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.flatten()]}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}jet\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"jet"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}hot\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"hot"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}hsv\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\SpecialStringTok{f"hsv"}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{], cmap}\OperatorTok{=}\StringTok{\textquotesingle{}terrain\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\SpecialStringTok{f"terrain"}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=6.14583in,height=5.04167in]{02-RehaussementVisualisationImages_files/figure-html/cell-27-output-1.png}
+\caption{}
+\end{figure}
+
+Il peut être utile d'ajouter une barre de couleurs afin d'indiquer la
+correspondance entre les couleurs et les valeurs numériques:
+
+\phantomsection\label{5cd60403}
+\phantomsection\label{cb29}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib }\ImportTok{as}\NormalTok{ mpl}
+\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{6}\NormalTok{))}
+\NormalTok{cmap}\OperatorTok{=}\NormalTok{ mpl.colormaps.get\_cmap(}\StringTok{\textquotesingle{}jet\textquotesingle{}}\NormalTok{).with\_extremes(under}\OperatorTok{=}\StringTok{\textquotesingle{}white\textquotesingle{}}\NormalTok{, over}\OperatorTok{=}\StringTok{\textquotesingle{}magenta\textquotesingle{}}\NormalTok{)}
+\NormalTok{h}\OperatorTok{=}\NormalTok{plt.imshow(img\_SAR[}\DecValTok{0}\NormalTok{].data, norm}\OperatorTok{=}\NormalTok{mpl.colors.LogNorm(vmin}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{2}\NormalTok{], vmax}\OperatorTok{=}\NormalTok{percentiles[}\DecValTok{98}\NormalTok{]),}
+\NormalTok{                   cmap}\OperatorTok{=}\NormalTok{cmap)}
+\NormalTok{fig.colorbar(h, ax}\OperatorTok{=}\NormalTok{ax,  orientation}\OperatorTok{=}\StringTok{\textquotesingle{}horizontal\textquotesingle{}}\NormalTok{, label}\OperatorTok{=}\StringTok{"Intensité"}\NormalTok{, extend}\OperatorTok{=}\StringTok{\textquotesingle{}both\textquotesingle{}}\NormalTok{)}
+\NormalTok{ax.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics[width=5.05208in,height=5in]{02-RehaussementVisualisationImages_files/figure-html/cell-28-output-1.png}
+\caption{}
+\end{figure}
+
+\subsubsection{\texorpdfstring{{3.3.4} Composés
+couleurs}{3.3.4 Composés couleurs}}\label{composuxe9s-couleurs}
 
 Le système visuel humain est sensible seulement à la partie visible du
 spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du
@@ -571,48 +1002,36 @@ bleu au rouge. L'ensemble des couleurs du spectre visible peut être
 obtenu à partir du mélange de trois couleurs primaires (rouge, vert et
 bleu). Ce système de décomposition à trois couleurs est à la base de la
 plupart des systèmes de visualisation ou de représentation de
-l'information de couleur. On peut trouver des variantes comme le système
-HSV (\emph{Hue-Saturation-Value}) utilisé en encodage de données vidéos.
+l'information de couleur. Si on prend le cas des images Sentinel-2, 12
+bandes sont disponibles, plusieurs composés couleurs sont donc possibles
+(voir le site de
+\href{https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/}{Copernicus}).
+Voici quelques exemples possibles, chaque composé mettant en valeur des
+propriétés différentes de la surface.
 
-\subsection{\texorpdfstring{{3.3}
-Visualisation}{3.3 Visualisation}}\label{visualisation}
+\phantomsection\label{581e6675}
+\phantomsection\label{cb30}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=} \DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{6}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{img\_s2.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{4}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{4000}\NormalTok{, ax}\OperatorTok{=}\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}RVB\textquotesingle{}}\NormalTok{)}
+\NormalTok{img\_s2.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{8}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{4000}\NormalTok{, ax}\OperatorTok{=}\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}NIR,V,B\textquotesingle{}}\NormalTok{)}
+\NormalTok{img\_s2.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{12}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{4}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{4000}\NormalTok{, ax}\OperatorTok{=}\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}SWIR2,NIR,R\textquotesingle{}}\NormalTok{)}
+\NormalTok{img\_s2.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{12}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DecValTok{4}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{4000}\NormalTok{, ax}\OperatorTok{=}\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}SWIR2,SWIR1,NIR\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
 
-\subsubsection{\texorpdfstring{{3.3.1} Visualisation en
-Python}{3.3.1 Visualisation en Python}}\label{visualisation-en-python}
-
-Il faut d'entrée mentionner que Python n'est pas vraiment fait pour
-visualiser de la donnée de grande taille, le niveau d'interactivité est
-aussi plus limité. Néanmoins, il est possible de visualiser de petites
-images avec la librairie Matplotlib.
-
-\subsubsection{\texorpdfstring{{3.3.2} Outils de
-visualisation}{3.3.2 Outils de visualisation}}\label{outils-de-visualisation}
-
-Il existe plusieurs outils gratuits de visualisation d'une image
-satellite, on peut mentionner les deux principaux: - QGIS - ESA Snap
-
-\subsubsection{\texorpdfstring{{3.3.3} Visualisation sur le
-Web}{3.3.3 Visualisation sur le Web}}\label{visualisation-sur-le-web}
-
-Une des meilleures pratiques pour visualiser une image de grande taille
-est d'utiliser un service de type Web Mapping Service (WMS). Cependant,
-type de service nécessite une architecture client-serveur qui est plus
-complexe à mettre en place.
-
-Google Earth Engine offre des moyens de visualiser de la donnée locale:
-\emph{Working with Local Geospatial Data} --- via
-\href{https://geog-312.gishub.org/book/geospatial/geemap.html\#working-with-local-geospatial-data}{17.
-Geemap --- Introduction to GIS Programming}
-
-via \href{https://github.com/opengeos/data/tree/main/raster}{data/raster
-at main · opengeos/data}
-
-\subsubsection{\texorpdfstring{{3.3.4} Visualisation
-3D}{3.3.4 Visualisation 3D}}\label{visualisation-3d}
-
-drapper une image satellite sur un DEM
-
-\subsection{\texorpdfstring{{3.4} Exercices de
-révision}{3.4 Exercices de révision}}\label{exercices-de-ruxe9vision}
+\begin{figure}
+\centering
+\includegraphics[width=8.32292in,height=6.14583in]{02-RehaussementVisualisationImages_files/figure-html/cell-29-output-1.png}
+\caption{}
+\end{figure}
 
 \end{document}

@@ -99,7 +99,6 @@
 % Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
-\usepackage{svg}
 \ifLuaTeX
 \usepackage[bidi=basic]{babel}
 \else
@@ -149,7 +148,7 @@ fondamentales. La librairie centrale utilisée dans ce chapitre sera
 \href{https://scikit-learn.org/}{\texttt{sickit-learn}}. Ce chapitre est
 aussi disponible sous la forme d'un notebook Python sur Google Colab:
 
-\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/05-ClassificationsSupervisees.ipynb}{\pandocbounded{\includesvg[keepaspectratio]{images/colab-badge.svg}}}
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/05-ClassificationsSupervisees.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
 \subsubsection{\texorpdfstring{{6.1.2}
 Librairies}{6.1.2 Librairies}}\label{librairies}
@@ -180,7 +179,7 @@ Les librairies utilisées dans ce chapitre sont les suivantes:
 Dans l'environnement Google Colab, seul \texttt{rioxarray} et
 \texttt{xrscipy} doit être installés:
 
-\phantomsection\label{3cf35c25}
+\phantomsection\label{853d04be}
 \phantomsection\label{cb1}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -191,7 +190,7 @@ Dans l'environnement Google Colab, seul \texttt{rioxarray} et
 
 Vérifier les importations nécessaires en premier:
 
-\phantomsection\label{1725a255}
+\phantomsection\label{1e497d69}
 \phantomsection\label{cb2}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -223,7 +222,7 @@ utilisées}{6.1.3 Images utilisées}}\label{images-utilisuxe9es}
 
 Nous allons utilisez les images suivantes dans ce chapitre:
 
-\phantomsection\label{669d08f3}
+\phantomsection\label{c100fc24}
 \phantomsection\label{cb3}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -240,7 +239,7 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 
 Vérifiez que vous êtes capable de les lire :
 
-\phantomsection\label{8dfad511}
+\phantomsection\label{baa75366}
 \phantomsection\label{cb4}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -318,7 +317,7 @@ d'apprentissage.
 \phantomsection\label{fig-overfitting}
 \begin{figure}
 \centering
-\includegraphics[width=11.23958in,height=4.53125in]{05-ClassificationsSupervisees_files/figure-html/fig-overfitting-output-1.png}
+\includegraphics[width=11.71875in,height=4.75in]{05-ClassificationsSupervisees_files/figure-html/fig-overfitting-output-1.png}
 \caption{Figure~6.1: Exemples de sur et sous-apprentissage.}
 \end{figure}
 
@@ -393,7 +392,7 @@ Une façon simple de construire un ensemble d'entraînement est
 d'échantillonner un produit existant. Nous allons utiliser la carte
 d'occupation des sols suivante qui contient 12 classes différentes.
 
-\phantomsection\label{9edc7159}
+\phantomsection\label{6b5ba44a}
 \phantomsection\label{cb5}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -407,7 +406,7 @@ d'occupation des sols suivante qui contient 12 classes différentes.
 
 On peut visualiser la carte de la façon suivante:
 
-\phantomsection\label{5c61a76f}
+\phantomsection\label{b7776659}
 \phantomsection\label{cb6}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -427,14 +426,14 @@ Text(0.5, 1.0, "Carte d'occupation des sols")
 
 \begin{figure}
 \centering
-\includegraphics[width=6.75in,height=5.40625in]{05-ClassificationsSupervisees_files/figure-html/cell-8-output-2.png}
+\includegraphics[width=7.04167in,height=5.65625in]{05-ClassificationsSupervisees_files/figure-html/cell-8-output-2.png}
 \caption{}
 \end{figure}
 
 On peut facilement calculer la fréquence d'occurrence des 12 classes
 dans l'image à l'aide de \texttt{numpy}:
 
-\phantomsection\label{8be8624a}
+\phantomsection\label{8bff6349}
 \phantomsection\label{cb8}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -455,7 +454,7 @@ alors d'un \textbf{ensemble déséquilibré}. Ceci est très commun dans la
 plupart des ensembles d'entraînement, les classes n'apparaissent pas
 avec la même fréquence.
 
-\phantomsection\label{adfdd31d}
+\phantomsection\label{e7666bf5}
 \phantomsection\label{cb10}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -474,13 +473,13 @@ avec la même fréquence.
 
 \begin{figure}
 \centering
-\includegraphics[width=4.54167in,height=4.19792in]{05-ClassificationsSupervisees_files/figure-html/cell-10-output-1.png}
+\includegraphics[width=4.73958in,height=4.38542in]{05-ClassificationsSupervisees_files/figure-html/cell-10-output-1.png}
 \caption{}
 \end{figure}
 
 On peut échantillonner 100 points aléatoires pour chaque classe:
 
-\phantomsection\label{a061c0ea}
+\phantomsection\label{fd868584}
 \phantomsection\label{cb11}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -525,7 +524,7 @@ On peut échantillonner 100 points aléatoires pour chaque classe:
 
 \begin{figure}
 \centering
-\includegraphics[width=6.75in,height=5.41667in]{05-ClassificationsSupervisees_files/figure-html/cell-11-output-1.png}
+\includegraphics[width=7.04167in,height=5.65625in]{05-ClassificationsSupervisees_files/figure-html/cell-11-output-1.png}
 \caption{}
 \end{figure}
 
@@ -540,7 +539,7 @@ Sentinel-2 à 4 bandes \texttt{RGBNIR\_of\_S2A.tif}. Ces valeurs seront
 stockées dans la colonne \texttt{value} sous la forme d'un vecteur en
 format \texttt{string}:
 
-\phantomsection\label{4b62cf70}
+\phantomsection\label{e4427311}
 \phantomsection\label{cb12}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -636,7 +635,7 @@ Cette distance présuppose que chaque classe
 covariance {\textbackslash(\textbackslash Sigma\_i\textbackslash)}. On
 peut en faire facilement une fonction Python à l'aide de \texttt{numpy}:
 
-\phantomsection\label{dda7b492}
+\phantomsection\label{9caf6a2f}
 \phantomsection\label{cb13}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -662,17 +661,17 @@ peut en faire facilement une fonction Python à l'aide de \texttt{numpy}:
 La figure ci-dessous illustre différentes situations avec des données
 artificielles:
 
-\phantomsection\label{1c13f01b}
+\phantomsection\label{3a49cf86}
 \begin{figure}
 \centering
-\includegraphics[width=8.21875in,height=7.39583in]{05-ClassificationsSupervisees_files/figure-html/cell-14-output-1.png}
+\includegraphics[width=8.55208in,height=7.71875in]{05-ClassificationsSupervisees_files/figure-html/cell-14-output-1.png}
 \caption{}
 \end{figure}
 
 On forme notre ensemble d'entrainement à partir du fichier \texttt{csv}
 de la section \hyperref[sec-05.02.02]{{Section 6.2.3}}.
 
-\phantomsection\label{203f61c8}
+\phantomsection\label{084bd8ef}
 \phantomsection\label{cb14}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -708,7 +707,7 @@ valeurs. On peut observer des valeurs inférieures à 1 ce qui indique des
 séparabilités faibles entre ces classes sous l'hypothèse du modèle
 Gaussien:
 
-\phantomsection\label{16c78db6}
+\phantomsection\label{c9eea0b8}
 \phantomsection\label{cb15}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -759,10 +758,10 @@ Afin d'évaluer chaque classe, on peut calculer la séparabilité minimale,
 on peut observer que la classe eau a le maximum de séparabilité avec les
 autres classes.
 
-\phantomsection\label{f8b38b5a}
+\phantomsection\label{cff659e5}
 \begin{figure}
 \centering
-\includegraphics[width=4.67708in,height=4.19792in]{05-ClassificationsSupervisees_files/figure-html/cell-17-output-1.png}
+\includegraphics[width=4.875in,height=4.38542in]{05-ClassificationsSupervisees_files/figure-html/cell-17-output-1.png}
 \caption{}
 \end{figure}
 
@@ -782,7 +781,7 @@ nombre de prédictions dont la vérité terrain indique la classe
 \href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html}{confusion\_matrix}
 permet de faire ce calcul, voici un exemple très simple:
 
-\phantomsection\label{dd534953}
+\phantomsection\label{9ab44e22}
 \phantomsection\label{cb16}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -802,7 +801,7 @@ La fonction
 \href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html\#sklearn.metrics.classification_report}{classification\_report}
 permet de générer quelques métriques:
 
-\phantomsection\label{c4b26260}
+\phantomsection\label{93bf9fab}
 \phantomsection\label{cb18}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -876,7 +875,7 @@ classes et à D dimensions, D hyperplans à D-1 dimensions par classe. Le
 modèle ici est donc une suite de valeurs \texttt{min} et \texttt{max}
 pour chacune des bandes et des classes:
 
-\phantomsection\label{0b86c0d5}
+\phantomsection\label{7397e81e}
 \phantomsection\label{cb20}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -899,7 +898,7 @@ La prédiction consiste à trouver pour chaque point la première limite
 qui est satisfaite. Notez qu'il n'y a pas de moyen de décider quelle est
 la meilleure classe si le point appartient à plusieurs classes.
 
-\phantomsection\label{0b0bd197}
+\phantomsection\label{7c2467dc}
 \phantomsection\label{cb21}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -924,7 +923,7 @@ On peut appliquer ensuite le modèle sur l'image au complet. Les
 résultats sont assez mauvais, seule la classe eau en bleu semble être
 bien classifiée.
 
-\phantomsection\label{5c2a30cc}
+\phantomsection\label{3cb9a268}
 \phantomsection\label{cb22}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -941,14 +940,14 @@ bien classifiée.
 
 \begin{figure}
 \centering
-\includegraphics[width=5.625in,height=5.22917in]{05-ClassificationsSupervisees_files/figure-html/cell-22-output-1.png}
+\includegraphics[width=5.86458in,height=5.45833in]{05-ClassificationsSupervisees_files/figure-html/cell-22-output-1.png}
 \caption{}
 \end{figure}
 
 On peut calculer quelques mesures de performance sur l'ensemble
 d'entrainement:
 
-\phantomsection\label{2953ed7a}
+\phantomsection\label{3ed13b10}
 \phantomsection\label{cb23}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1015,7 +1014,7 @@ de dimensions.
 Reprensons l'ensemble d'entraînement formé à partir de notre image
 RGBNIR précédente:
 
-\phantomsection\label{7dfb466e}
+\phantomsection\label{4a04f99a}
 \phantomsection\label{cb25}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1051,7 +1050,7 @@ porte le nom de \texttt{StandardScaler} dans \texttt{scikit-learn}. On
 peut alors former un pipeline de traitement combinant les deux
 opérations:
 
-\phantomsection\label{cd7c7777}
+\phantomsection\label{770f5604}
 \phantomsection\label{cb26}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1064,7 +1063,7 @@ opérations:
 Avant d'effectuer un entraînement, on met généralement une portion des
 données pour valider les performances:
 
-\phantomsection\label{44d7d104}
+\phantomsection\label{140d8089}
 \phantomsection\label{cb27}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1076,7 +1075,7 @@ On peut visualiser les frontières de décision du K-NN pour différentes
 valeurs de {\textbackslash(K\textbackslash)} lorsque seulement deux
 bandes sont utilisées (Rouge et proche infra-rouge ici):
 
-\phantomsection\label{08a687eb}
+\phantomsection\label{bbcea566}
 \begin{verbatim}
 Number of mislabeled points out of a total 200 points : 143
 Number of mislabeled points out of a total 200 points : 141
@@ -1086,7 +1085,7 @@ Number of mislabeled points out of a total 200 points : 130
 
 \begin{figure}
 \centering
-\includegraphics[width=7.78125in,height=7.6875in]{05-ClassificationsSupervisees_files/figure-html/cell-27-output-2.png}
+\includegraphics[width=8.125in,height=8.03125in]{05-ClassificationsSupervisees_files/figure-html/cell-27-output-2.png}
 \caption{}
 \end{figure}
 
@@ -1094,7 +1093,7 @@ On peut voir comment les différentes frontières de décision se forment
 dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces
 frontières plus complexes et le calcul plus long.
 
-\phantomsection\label{e3b879e0}
+\phantomsection\label{1417ba18}
 \phantomsection\label{cb29}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1111,7 +1110,7 @@ Nombre de points misclassifiés sur 200 points : 117
 
 Le rapport de performance est le suivant:
 
-\phantomsection\label{8dce079d}
+\phantomsection\label{db22fae5}
 \phantomsection\label{cb31}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1141,7 +1140,7 @@ Roche avec végétation       0.40      0.40      0.40        25
 
 La matrice de confusion peut-être affichée de manière graphique:
 
-\phantomsection\label{fc9200e5}
+\phantomsection\label{8b85f6d6}
 \phantomsection\label{cb33}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1151,7 +1150,7 @@ La matrice de confusion peut-être affichée de manière graphique:
 
 \begin{figure}
 \centering
-\includegraphics[width=6.69792in,height=5.92708in]{05-ClassificationsSupervisees_files/figure-html/cell-30-output-1.png}
+\includegraphics[width=6.97917in,height=6.17708in]{05-ClassificationsSupervisees_files/figure-html/cell-30-output-1.png}
 \caption{}
 \end{figure}
 
@@ -1159,7 +1158,7 @@ L'application du modèle (la prédiction) peut se faire sur toute l'image
 en transposant l'image sous forme d'une matrice avec Largeur x Hauteur
 lignes et 4 colonnes:
 
-\phantomsection\label{afcad211}
+\phantomsection\label{5122adf1}
 \phantomsection\label{cb34}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1169,7 +1168,7 @@ lignes et 4 colonnes:
 \end{Highlighting}
 \end{Shaded}
 
-\phantomsection\label{7ca944cb}
+\phantomsection\label{cf0331af}
 \phantomsection\label{cb35}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1182,7 +1181,7 @@ lignes et 4 colonnes:
 
 \begin{figure}
 \centering
-\includegraphics[width=5.625in,height=5.21875in]{05-ClassificationsSupervisees_files/figure-html/cell-32-output-1.png}
+\includegraphics[width=5.86458in,height=5.44792in]{05-ClassificationsSupervisees_files/figure-html/cell-32-output-1.png}
 \caption{}
 \end{figure}
 
@@ -1198,7 +1197,7 @@ Trees}). Les arbres de décision on tendance à sur-apprendre surtout si
 le nombre de dimensions est élevé. Il est donc conseillé d'avoir un bon
 ratio entre le nombre d'échantillons et le nombre de dimensions.
 
-\phantomsection\label{694d96e4}
+\phantomsection\label{9c65db11}
 \phantomsection\label{cb36}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1206,7 +1205,7 @@ ratio entre le nombre d'échantillons et le nombre de dimensions.
 \end{Highlighting}
 \end{Shaded}
 
-\phantomsection\label{a47dcffd}
+\phantomsection\label{d53ed433}
 \begin{verbatim}
 Number of mislabeled points out of a total 200 points : 167
 Number of mislabeled points out of a total 200 points : 154
@@ -1216,7 +1215,7 @@ Number of mislabeled points out of a total 200 points : 128
 
 \begin{figure}
 \centering
-\includegraphics[width=7.78125in,height=7.6875in]{05-ClassificationsSupervisees_files/figure-html/cell-34-output-2.png}
+\includegraphics[width=8.125in,height=8.03125in]{05-ClassificationsSupervisees_files/figure-html/cell-34-output-2.png}
 \caption{}
 \end{figure}
 
@@ -1225,7 +1224,7 @@ ensemble de plans simple. Chaque plan étant issu d'une règle de décison
 formé d'un seuil sur chacune des dimensions. On entraine un arbre de
 décision avec une profondeur maximale de 5:
 
-\phantomsection\label{851bd868}
+\phantomsection\label{bc82eb12}
 \phantomsection\label{cb38}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1243,7 +1242,7 @@ Nombre de points misclassifiés sur 200 points : 130
 
 Le rapport de performance et la matrice de confusion:
 
-\phantomsection\label{62023190}
+\phantomsection\label{19ca6084}
 \begin{verbatim}
                        precision    recall  f1-score   support
 
@@ -1263,10 +1262,10 @@ Roche avec végétation       0.20      0.68      0.31        25
          weighted avg       0.44      0.35      0.31       200
 \end{verbatim}
 
-\phantomsection\label{c5af5511}
+\phantomsection\label{564567a8}
 \begin{figure}
 \centering
-\includegraphics[width=6.83333in,height=5.97917in]{05-ClassificationsSupervisees_files/figure-html/cell-37-output-1.png}
+\includegraphics[width=7.125in,height=6.22917in]{05-ClassificationsSupervisees_files/figure-html/cell-37-output-1.png}
 \caption{}
 \end{figure}
 
@@ -1274,17 +1273,17 @@ L'application du modèle (la prédiction) peut se faire sur toute l'image
 en transposant l'image sous forme d'une matrice avec Largeur x Hauteur
 lignes et 4 colonnes:
 
-\phantomsection\label{248842f3}
+\phantomsection\label{11dde5fd}
 \begin{figure}
 \centering
-\includegraphics[width=5.625in,height=5.22917in]{05-ClassificationsSupervisees_files/figure-html/cell-39-output-1.png}
+\includegraphics[width=5.86458in,height=5.45833in]{05-ClassificationsSupervisees_files/figure-html/cell-39-output-1.png}
 \caption{}
 \end{figure}
 
 Il est possible de visualiser l'arbre mais cela contient beaucoup
 d'information
 
-\phantomsection\label{3163f0dc}
+\phantomsection\label{0faafd54}
 \phantomsection\label{cb41}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1307,7 +1306,7 @@ d'information
 
 \begin{figure}
 \centering
-\includegraphics[width=6.39583in,height=4.82292in]{05-ClassificationsSupervisees_files/figure-html/cell-40-output-2.png}
+\includegraphics[width=6.66667in,height=5.02083in]{05-ClassificationsSupervisees_files/figure-html/cell-40-output-2.png}
 \caption{}
 \end{figure}
 
@@ -1331,7 +1330,7 @@ La méthode Bayésienne naïve Gaussienne consiste faire des hypothèses
 simplificatrices sur les données, en particulier l'indépendance des
 données et des dimensions. Ceci permet un calcul plus simple.
 
-\phantomsection\label{4b596e68}
+\phantomsection\label{72439708}
 \phantomsection\label{cb43}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1347,17 +1346,17 @@ données et des dimensions. Ceci permet un calcul plus simple.
 Nombre de points erronés sur 200 points : 131
 \end{verbatim}
 
-\phantomsection\label{ae124bd9}
+\phantomsection\label{ab0a15ec}
 \begin{figure}
 \centering
-\includegraphics[width=3.90625in,height=3.84375in]{05-ClassificationsSupervisees_files/figure-html/cell-42-output-1.png}
+\includegraphics[width=4.08333in,height=4.03125in]{05-ClassificationsSupervisees_files/figure-html/cell-42-output-1.png}
 \caption{}
 \end{figure}
 
 On peut observer que les frontières de décision sont beaucoup plus
 régulières que pour K-NN.
 
-\phantomsection\label{e321431e}
+\phantomsection\label{b7a4c105}
 \phantomsection\label{cb45}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1374,10 +1373,10 @@ Nombre de points misclassifiés sur 200 points : 131
 
 De la même manière, la prédiction peut s'appliquer sur toute l'image:
 
-\phantomsection\label{1b9ddbf0}
+\phantomsection\label{29070554}
 \begin{figure}
 \centering
-\includegraphics[width=5.625in,height=5.22917in]{05-ClassificationsSupervisees_files/figure-html/cell-44-output-1.png}
+\includegraphics[width=5.86458in,height=5.45833in]{05-ClassificationsSupervisees_files/figure-html/cell-44-output-1.png}
 \caption{}
 \end{figure}
 
@@ -1389,7 +1388,7 @@ généralisation de l'approche Bayésienne naive qui suppose des modèles
 Gaussiens indépendants pour chaque dimension et chaque point. Ici, on va
 considérer un modèle Gaussien multivarié.
 
-\phantomsection\label{e513ddf0}
+\phantomsection\label{cdcbd94f}
 \phantomsection\label{cb47}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1408,19 +1407,19 @@ Nombre de points misclassifiés sur 200 points : 124
 Les Gaussiennes multivariées peuvent être visualiser sous forme
 d'éllipses décrivant le domaine des valeurs de chaque classe:
 
-\phantomsection\label{6dfabd0f}
+\phantomsection\label{19940539}
 \begin{figure}
 \centering
-\includegraphics[width=7.78125in,height=2.90625in]{05-ClassificationsSupervisees_files/figure-html/cell-46-output-1.png}
+\includegraphics[width=8.125in,height=3.04167in]{05-ClassificationsSupervisees_files/figure-html/cell-46-output-1.png}
 \caption{}
 \end{figure}
 
 De la même manière, la prédiction peut s'appliquer sur toute l'image:
 
-\phantomsection\label{b9ece539}
+\phantomsection\label{69f47e77}
 \begin{figure}
 \centering
-\includegraphics[width=5.625in,height=5.22917in]{05-ClassificationsSupervisees_files/figure-html/cell-47-output-1.png}
+\includegraphics[width=5.86458in,height=5.45833in]{05-ClassificationsSupervisees_files/figure-html/cell-47-output-1.png}
 \caption{}
 \end{figure}
 

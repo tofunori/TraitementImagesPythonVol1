@@ -2041,7 +2041,7 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 \ImportTok{import}\NormalTok{ gdown}
 
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg\_\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{)}
-\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw{-}Wo6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}landsat7.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a6O3L\_abOfU7h94K22At8qtBuLMGErwo\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}sentinel2.tif\textquotesingle{}}\NormalTok{)}
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1\_zwCLN{-}x7XJcNHJCH6Z8upEdUXtVtvs1\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{)}
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
@@ -2053,6 +2053,8 @@ Vérifiez que vous êtes capable de les lire :
 \begin{Highlighting}[]
 \ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
     \BuiltInTok{print}\NormalTok{(img\_rgb)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}sentinel2.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_s2:}
+    \BuiltInTok{print}\NormalTok{(img\_s2)}
 \ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
     \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
 \ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
@@ -2323,8 +2325,8 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.12222222 0.08888889 0.1        0.12222222 0.15555556 0.08888889
- 0.14444444 0.13333333 0.07777778 0.07777778]
+valeurs : [0.11111111 0.12222222 0.1        0.14444444 0.06666667 0.1
+ 0.08888889 0.11111111 0.11111111 0.15555556]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
@@ -2641,8 +2643,31 @@ bleu au rouge. L'ensemble des couleurs du spectre visible peut être
 obtenu à partir du mélange de trois couleurs primaires (rouge, vert et
 bleu). Ce système de décomposition à trois couleurs est à la base de la
 plupart des systèmes de visualisation ou de représentation de
-l'information de couleur. On peut trouver des variantes comme le système
-HSV (\emph{Hue-Saturation-Value}) utilisé en encodage de données vidéos.
+l'information de couleur. Si on prend le cas des images Sentinel-2, 12
+bandes sont disponibles, plusieurs composés couleurs sont donc possibles
+(voir le site de
+\href{https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/}{Copernicus}).
+Voici quelques exemples possibles, chaque composé mettant en valeur des
+propriétés différentes de la surface.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{2}\NormalTok{, ncols}\OperatorTok{=} \DecValTok{2}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{6}\NormalTok{), sharex}\OperatorTok{=}\VariableTok{True}\NormalTok{, sharey}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{img\_s2.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{4}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{4000}\NormalTok{, ax}\OperatorTok{=}\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}RVB\textquotesingle{}}\NormalTok{)}
+\NormalTok{img\_s2.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{8}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{4000}\NormalTok{, ax}\OperatorTok{=}\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}NIR,V,B\textquotesingle{}}\NormalTok{)}
+\NormalTok{img\_s2.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{12}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{4}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{4000}\NormalTok{, ax}\OperatorTok{=}\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}SWIR2,NIR,R\textquotesingle{}}\NormalTok{)}
+\NormalTok{img\_s2.sel(band}\OperatorTok{=}\NormalTok{[}\DecValTok{12}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DecValTok{4}\NormalTok{]).plot.imshow(vmin}\OperatorTok{=}\DecValTok{86}\NormalTok{, vmax}\OperatorTok{=}\DecValTok{4000}\NormalTok{, ax}\OperatorTok{=}\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{])}
+\NormalTok{ax[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{].set\_title(}\StringTok{\textquotesingle{}SWIR2,SWIR1,NIR\textquotesingle{}}\NormalTok{)}
+\NormalTok{plt.tight\_layout()}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-29-output-1.pdf}}
 
 \part{Partie 2. Transformations des données satellitaires}
 

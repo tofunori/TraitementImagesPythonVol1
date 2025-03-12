@@ -99,7 +99,6 @@
 % Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
-\usepackage{svg}
 % definitions for citeproc citations
 \NewDocumentCommand\citeproctext{}{}
 \NewDocumentCommand\citeproc{mm}{%
@@ -168,19 +167,19 @@ d\textquotesingle images satellites avec Python}
 {Transformations
 spatiales}}}{5~ Transformations spatiales}}\label{transformations-spatiales}
 
-\subsection{\texorpdfstring{{5.1} {🚀}
-Préambule}{5.1 🚀 Préambule}}\label{pruxe9ambule}
+\subsection{\texorpdfstring{{5.1}
+Préambule}{5.1 Préambule}}\label{pruxe9ambule}
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\subsubsection{\texorpdfstring{{5.1.1} {🎯}
-Objectifs}{5.1.1 🎯 Objectifs}}\label{objectifs}
+\subsubsection{\texorpdfstring{{5.1.1}
+Objectifs}{5.1.1 Objectifs}}\label{objectifs}
 
 Dans ce chapitre, nous abordons quelques techniques de traitement
 d'images dans le domaine spatial uniquement. Ce chapitre est aussi
 disponible sous la forme d'un notebook Python sur Google Colab:
 
-\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\pandocbounded{\includesvg[keepaspectratio]{images/colab-badge.svg}}}
+\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
 \subsubsection{\texorpdfstring{{5.1.2}
 Librairies}{5.1.2 Librairies}}\label{librairies}
@@ -189,9 +188,9 @@ Les librairies utilisées dans ce chapitre sont les suivantes:
 
 \begin{itemize}
 \item
-  \href{https://scipy.org/}{SciPy -}
+  \href{https://scipy.org/}{SciPy}
 \item
-  \href{https://numpy.org/}{NumPy -}
+  \href{https://numpy.org/}{NumPy}
 \item
   \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
 \item
@@ -207,7 +206,7 @@ Les librairies utilisées dans ce chapitre sont les suivantes:
 Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
 installés:
 
-\phantomsection\label{1265fcee}
+\phantomsection\label{58ae4044}
 \phantomsection\label{cb1}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -218,7 +217,7 @@ installés:
 
 Vérifier les importations:
 
-\phantomsection\label{cf2c891f}
+\phantomsection\label{e9be3809}
 \phantomsection\label{cb2}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -241,7 +240,7 @@ utilisées}{5.1.3 Images utilisées}}\label{images-utilisuxe9es}
 
 Nous allons utilisez les images suivantes dans ce chapitre:
 
-\phantomsection\label{950dc4db}
+\phantomsection\label{8a871516}
 \phantomsection\label{cb3}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -257,7 +256,7 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 
 Vérifiez que vous êtes capable de les lire :
 
-\phantomsection\label{4cfaffc0}
+\phantomsection\label{9de65965}
 \phantomsection\label{cb4}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -336,7 +335,7 @@ haute fréquence observée (ici {\textbackslash(F\_s \textgreater{}
 0.5\textbackslash)}) sinon un phénomène de repliement appelé aliasing
 sera observé.
 
-\phantomsection\label{b19b5fa1}
+\phantomsection\label{d991e65c}
 \phantomsection\label{cb5}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -364,7 +363,7 @@ sera observé.
 
 \begin{figure}
 \centering
-\includegraphics[width=8.52083in,height=3.92708in]{04-TransformationSpatiales_files/figure-html/cell-6-output-1.png}
+\includegraphics[width=8.88542in,height=4.07292in]{04-TransformationSpatiales_files/figure-html/cell-7-output-1.png}
 \caption{}
 \end{figure}
 
@@ -405,7 +404,7 @@ signal {\textbackslash(x\textbackslash)}:
 \phantomsection\label{eq-convolve}{{\textbackslash{[} x\_f =
 IDFT\^{}\{-1\}{[}F{]}*x \textbackslash tag\{5.4\}\textbackslash{]}}}
 
-\phantomsection\label{9ba87d7d}
+\phantomsection\label{70318c0b}
 \phantomsection\label{cb6}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -423,7 +422,7 @@ IDFT\^{}\{-1\}{[}F{]}*x \textbackslash tag\{5.4\}\textbackslash{]}}}
 
 \begin{figure}
 \centering
-\includegraphics[width=8.3125in,height=2.70833in]{04-TransformationSpatiales_files/figure-html/cell-7-output-1.png}
+\includegraphics[width=8.65625in,height=2.8125in]{04-TransformationSpatiales_files/figure-html/cell-8-output-1.png}
 \caption{}
 \end{figure}
 
@@ -440,7 +439,7 @@ le contenu fréquentielle de l'image et donc les fréquences maximales de
 l'image. L'image présente alors un aspect faussement texturée avec
 beaucoup de haute fréquences:
 
-\phantomsection\label{775acc61}
+\phantomsection\label{22df7308}
 \phantomsection\label{cb7}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -457,7 +456,7 @@ beaucoup de haute fréquences:
 
 \begin{figure}
 \centering
-\includegraphics[width=8.5in,height=3.92708in]{04-TransformationSpatiales_files/figure-html/cell-8-output-1.png}
+\includegraphics[width=8.86458in,height=4.07292in]{04-TransformationSpatiales_files/figure-html/cell-9-output-1.png}
 \caption{}
 \end{figure}
 
@@ -465,7 +464,7 @@ Une façon de réduire le contenu fréquentiel est de filtrer par un filtre
 passe-bas pour réduire les hautes fréquences par exemple avec un filtre
 Gaussien:
 
-\phantomsection\label{f7ea15ed}
+\phantomsection\label{8728ce14}
 \phantomsection\label{cb8}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -487,7 +486,7 @@ Gaussien:
 
 \begin{figure}
 \centering
-\includegraphics[width=8.5in,height=3.92708in]{04-TransformationSpatiales_files/figure-html/cell-9-output-1.png}
+\includegraphics[width=8.86458in,height=4.07292in]{04-TransformationSpatiales_files/figure-html/cell-10-output-1.png}
 \caption{}
 \end{figure}
 
@@ -496,7 +495,7 @@ La fonction
 dans \texttt{scipy.signal} réalise l'opération de décimation
 (\emph{downsampling}) en une seule étape:
 
-\phantomsection\label{c68e548a}
+\phantomsection\label{c0367bd9}
 \phantomsection\label{cb9}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -518,7 +517,7 @@ Text(0.5, 1.0, 'Décimée par un facteur 4')
 
 \begin{figure}
 \centering
-\includegraphics[width=8.5in,height=3.92708in]{04-TransformationSpatiales_files/figure-html/cell-10-output-2.png}
+\includegraphics[width=8.86458in,height=4.07292in]{04-TransformationSpatiales_files/figure-html/cell-11-output-2.png}
 \caption{}
 \end{figure}
 
@@ -573,12 +572,6 @@ afin de définir une position centrale et une fenêtre symétrique. La
 valeur calculée à partir de tous les pixels dans la fenêtre est alors
 attribuée au pixel central.
 
-\emph{}
-
-Note
-
-Mettre une figure ici
-
 Le filtre le plus simple est certainement le filtre moyen qui consiste à
 appliquer le même poids uniforme dans la fenêtre glissante. Par exemple
 pour un filtre 5x5:
@@ -600,7 +593,7 @@ exemple pour le cas du filtre moyen on peut construire une nouvelle vue
 de l'image avec deux nouvelles dimensions \texttt{x\_win} et
 \texttt{y\_win}:
 
-\phantomsection\label{3b1b4246}
+\phantomsection\label{bb7155d9}
 \phantomsection\label{cb11}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -632,7 +625,7 @@ fenêtre déborde sur les bordures de l'image. Par la suite un opérateur
 moyenne peut être appliqué sur les axes \texttt{x\_win} et
 \texttt{y\_win} correspondant aux fenêtres glissantes.
 
-\phantomsection\label{e4e11bbc}
+\phantomsection\label{6f03866e}
 \phantomsection\label{cb13}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -649,7 +642,7 @@ Text(0.5, 1.0, 'Filtre moyen 5x5')
 
 \begin{figure}
 \centering
-\includegraphics[width=6.94792in,height=3.91667in]{04-TransformationSpatiales_files/figure-html/cell-12-output-2.png}
+\includegraphics[width=7.25in,height=4.07292in]{04-TransformationSpatiales_files/figure-html/cell-13-output-2.png}
 \caption{}
 \end{figure}
 
@@ -658,7 +651,7 @@ devient trop grande, il est préférable d'utiliser une convolution dans
 le domaine fréquentielle. La fonction \texttt{fftconvolve} de la
 librairie \texttt{scipy.signal} permet de faire cela:
 
-\phantomsection\label{ffbbf43e}
+\phantomsection\label{e443e0f4}
 \phantomsection\label{cb15}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -667,12 +660,6 @@ librairie \texttt{scipy.signal} permet de faire cela:
 \NormalTok{blurred }\OperatorTok{=}\NormalTok{ signal.fftconvolve(img\_rgb, kernel, mode}\OperatorTok{=}\StringTok{\textquotesingle{}same\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-
-\emph{}
-
-Note
-
-Filtre de Sobel, filtre Prewitt
 
 \paragraph{\texorpdfstring{{5.3.1.1} Filtrage par
 convolution}{5.3.1.1 Filtrage par convolution}}\label{filtrage-par-convolution}
@@ -694,7 +681,7 @@ verticaux:
 Remarquez l'utilisation de chiffres complexes afin de passer deux
 filtres différents sur la partie réelle et imaginaire.
 
-\phantomsection\label{8a8cbdf9}
+\phantomsection\label{8bfe8b07}
 \phantomsection\label{cb16}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -740,13 +727,12 @@ Text(0.5, 1.0, 'Amplitude du filtre de Scharr')
 
 \begin{figure}
 \centering
-\includegraphics[width=6.625in,height=3.91667in]{04-TransformationSpatiales_files/figure-html/cell-14-output-3.png}
+\includegraphics[width=6.91667in,height=4.07292in]{04-TransformationSpatiales_files/figure-html/cell-15-output-3.png}
 \caption{}
 \end{figure}
 
-\emph{}
-
-Gestion des bordures
+\subsection{\texorpdfstring{{5.4} Gestion des
+bordures}{5.4 Gestion des bordures}}\label{gestion-des-bordures}
 
 L'application de filtres à l'intérieur de fenêtres glissantes implique
 de gérer les bords de l'image car la fenêtre de traitement va
@@ -756,12 +742,10 @@ d'ignorer les valeurs en dehors de l'image en imposant une valeur
 \texttt{nan}, prolonger l'image de quelques lignes et colonnes avec des
 valeurs mirroirs ou constantes.
 
-\paragraph{\texorpdfstring{{5.3.1.2} Filtrage par une couche
-convolutionnelle}{5.3.1.2 Filtrage par une couche convolutionnelle}}\label{filtrage-par-une-couche-convolutionnelle}
+\paragraph{\texorpdfstring{{5.4.0.1} Filtrage par une couche
+convolutionnelle}{5.4.0.1 Filtrage par une couche convolutionnelle}}\label{filtrage-par-une-couche-convolutionnelle}
 
-\emph{}
-
-Installation de Pytorch
+\textbf{Installation de Pytorch}
 
 Cette section nécessite la librairie Pytorch avec un GPU et ne
 fonctionnera que sur Colab. On peut quand même installer une version
@@ -773,7 +757,7 @@ réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut
 ici imposer les mêmes filtres de gradient dans la couche
 convolutionnelle:
 
-\phantomsection\label{e4417b87}
+\phantomsection\label{8a6d73fe}
 \phantomsection\label{cb19}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -818,13 +802,13 @@ torch.Size([1, 3, 771, 1311])
 
 \begin{figure}
 \centering
-\includegraphics[width=6.94792in,height=3.45833in]{04-TransformationSpatiales_files/figure-html/cell-15-output-2.png}
+\includegraphics[width=7.23958in,height=3.59375in]{04-TransformationSpatiales_files/figure-html/cell-16-output-2.png}
 \caption{}
 \end{figure}
 
 Le résultat est alors calculé sur GPU (si disponible):
 
-\phantomsection\label{29c671f0}
+\phantomsection\label{04b646e2}
 \phantomsection\label{cb21}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -850,12 +834,12 @@ Sortie (BxFxHxW): torch.Size([1, 2, 771, 1311])
 
 \begin{figure}
 \centering
-\includegraphics[width=15.5625in,height=4.48958in]{04-TransformationSpatiales_files/figure-html/cell-16-output-2.png}
+\includegraphics[width=16.20833in,height=4.66667in]{04-TransformationSpatiales_files/figure-html/cell-17-output-2.png}
 \caption{}
 \end{figure}
 
-\subsubsection{\texorpdfstring{{5.3.2} Filtrage
-adaptatif}{5.3.2 Filtrage adaptatif}}\label{filtrage-adaptatif}
+\subsubsection{\texorpdfstring{{5.4.1} Filtrage
+adaptatif}{5.4.1 Filtrage adaptatif}}\label{filtrage-adaptatif}
 
 Les filtrages adaptatifs consistent à appliquer un traitement en
 fonction du contenu local d'une image. Le filtre n'est alors plus
@@ -866,7 +850,7 @@ appelle \emph{speckle}. On peut voir un exemple d'une image Sentinel-1
 (bande HH) sur la région de Montréal, remarquée que l'image est affichée
 en dB en appliquant la fonction \texttt{log10}.
 
-\phantomsection\label{a5a08269}
+\phantomsection\label{1d73ecfc}
 \phantomsection\label{cb23}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -889,7 +873,7 @@ Text(0.5, 1.0, 'Image SAR Sentinel-1 (dB)')
 
 \begin{figure}
 \centering
-\includegraphics[width=5.29167in,height=3.91667in]{04-TransformationSpatiales_files/figure-html/cell-17-output-3.png}
+\includegraphics[width=5.52083in,height=4.07292in]{04-TransformationSpatiales_files/figure-html/cell-18-output-3.png}
 \caption{}
 \end{figure}
 
@@ -897,7 +881,7 @@ Un des filtres les plus simples pour réduire le bruit est d'appliquer un
 filtre moyenne, par exemple un {\textbackslash(5 \textbackslash times
 5\textbackslash)} ci dessous:
 
-\phantomsection\label{ff1753e5}
+\phantomsection\label{0db8518a}
 \phantomsection\label{cb26}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -915,7 +899,7 @@ Text(0.5, 1.0, 'Filtrage moyen 5x5 (dB)')
 
 \begin{figure}
 \centering
-\includegraphics[width=5.29167in,height=3.91667in]{04-TransformationSpatiales_files/figure-html/cell-18-output-2.png}
+\includegraphics[width=5.52083in,height=4.07292in]{04-TransformationSpatiales_files/figure-html/cell-19-output-2.png}
 \caption{}
 \end{figure}
 
@@ -936,7 +920,7 @@ s'approche de {\textbackslash(1\textbackslash)} préservant ainsi les
 détails de l'image {\textbackslash(I\textbackslash)} sinon l'image
 moyenne {\textbackslash(I\_M\textbackslash)} est appliquée.
 
-\phantomsection\label{59c62e6c}
+\phantomsection\label{c82e3bf2}
 \phantomsection\label{cb28}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -959,22 +943,22 @@ moyenne {\textbackslash(I\_M\textbackslash)} est appliquée.
 
 \begin{figure}
 \centering
-\includegraphics[width=9.72917in,height=3.89583in]{04-TransformationSpatiales_files/figure-html/cell-19-output-1.png}
+\includegraphics[width=10.13542in,height=4.0625in]{04-TransformationSpatiales_files/figure-html/cell-20-output-1.png}
 \caption{}
 \end{figure}
 
 On zoomant sur l'image on peut clairement voir que les détails de
 l'image sont mieux préservés:
 
-\phantomsection\label{4c9224a6}
+\phantomsection\label{213dafc7}
 \begin{figure}
 \centering
-\includegraphics[width=9.69792in,height=3.89583in]{04-TransformationSpatiales_files/figure-html/cell-20-output-1.png}
+\includegraphics[width=10.11458in,height=4.0625in]{04-TransformationSpatiales_files/figure-html/cell-21-output-1.png}
 \caption{}
 \end{figure}
 
-\subsection{\texorpdfstring{{5.4}
-Segmentation}{5.4 Segmentation}}\label{segmentation}
+\subsection{\texorpdfstring{{5.5}
+Segmentation}{5.5 Segmentation}}\label{segmentation}
 
 La segmentation d'image consiste à séparer une image en régions
 homogènes spatialement connexes (segments) où les valeurs sont uniformes
@@ -989,8 +973,8 @@ disponible plusieurs implémentations sur des images RVB
 of segmentation and superpixel algorithms --- skimage 0.25.0
 documentation}).
 
-\subsubsection{\texorpdfstring{{5.4.1}
-Super-pixel}{5.4.1 Super-pixel}}\label{super-pixel}
+\subsubsection{\texorpdfstring{{5.5.1}
+Super-pixel}{5.5.1 Super-pixel}}\label{super-pixel}
 
 Ce type de méthode cherche à former des régions homogènes et compactes
 dans l'image {(\href{references.html\#ref-Achanta-2012}{Achanta et
@@ -1031,7 +1015,7 @@ Les régions évoluent rapidement avec les itérations, plus le poids
 super-pixel est contrainte et ne suivra pas vraiment le contenu de
 l'image:
 
-\phantomsection\label{6032e407}
+\phantomsection\label{919f3fb2}
 \phantomsection\label{cb29}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1069,7 +1053,7 @@ SLIC nombre de segments: 240
 
 \begin{figure}
 \centering
-\includegraphics[width=9.52083in,height=5.91667in]{04-TransformationSpatiales_files/figure-html/cell-21-output-2.png}
+\includegraphics[width=9.94792in,height=6.15625in]{04-TransformationSpatiales_files/figure-html/cell-22-output-2.png}
 \caption{}
 \end{figure}
 
@@ -1080,7 +1064,7 @@ l'impact de passer d'une échelle 40 x 40 à 20 x 20. En prenant la
 moyenne de chaque segment, on peut voir tout de suite que 40 x 40
 résulte en des segments trop grands mélangeant différentes classes.
 
-\phantomsection\label{62d7cafa}
+\phantomsection\label{2290a6d2}
 \phantomsection\label{cb31}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1121,12 +1105,12 @@ SLIC nombre de segments: 2201
 
 \begin{figure}
 \centering
-\includegraphics[width=5.89583in,height=7.66667in]{04-TransformationSpatiales_files/figure-html/cell-22-output-2.png}
+\includegraphics[width=6.14583in,height=7.96875in]{04-TransformationSpatiales_files/figure-html/cell-23-output-2.png}
 \caption{}
 \end{figure}
 
-\subsubsection{\texorpdfstring{{5.4.2} Fusion des segments par graphe de
-proximité}{5.4.2 Fusion des segments par graphe de proximité}}\label{fusion-des-segments-par-graphe-de-proximituxe9}
+\subsubsection{\texorpdfstring{{5.5.2} Fusion des segments par graphe de
+proximité}{5.5.2 Fusion des segments par graphe de proximité}}\label{fusion-des-segments-par-graphe-de-proximituxe9}
 
 Une segmentation peut produire beaucoup trop de segments. On parle alors
 de sur-segmentation. Ceci est recherché dans certains cas pour permettre
@@ -1155,7 +1139,7 @@ chaque segment dans un attribut appelé
 \texttt{\textquotesingle{}mean\ color\textquotesingle{}.}}
 \end{figure}
 
-\phantomsection\label{546ab572}
+\phantomsection\label{ca93c984}
 \phantomsection\label{cb33}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1216,12 +1200,12 @@ Nombre de segments: 1187
 
 \begin{figure}
 \centering
-\includegraphics[width=5.89583in,height=7.67708in]{04-TransformationSpatiales_files/figure-html/cell-23-output-2.png}
+\includegraphics[width=6.14583in,height=7.97917in]{04-TransformationSpatiales_files/figure-html/cell-24-output-2.png}
 \caption{}
 \end{figure}
 
-\subsubsection{\texorpdfstring{{5.4.3} Approche
-objet}{5.4.3 Approche objet}}\label{approche-objet}
+\subsubsection{\texorpdfstring{{5.5.3} Approche
+objet}{5.5.3 Approche objet}}\label{approche-objet}
 
 L'approche objet consiste à traiter chaque segment comme un objet avec
 un ensemble de propriétés. La librairie \texttt{skimage} offre la
@@ -1229,7 +1213,7 @@ possibilité d'enrichir chaque segment avec des
 \href{https://scikit-image.org/docs/stable/api/skimage.measure.html\#skimage.measure.regionprops}{propriétés}
 et de former un tableau:
 
-\phantomsection\label{f21073f1}
+\phantomsection\label{6376001f}
 \phantomsection\label{cb35}
 \begin{Shaded}
 \begin{Highlighting}[]
