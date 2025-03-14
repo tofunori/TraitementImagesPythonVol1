@@ -14,7 +14,7 @@
         "  warning: false\n",
         "---"
       ],
-      "id": "687ba2d9"
+      "id": "f1e45b24"
     },
     {
       "cell_type": "code",
@@ -30,7 +30,7 @@
         "plt.rcParams['legend.fontsize'] = 10\n",
         "plt.rcParams[\"image.aspect\"]= 'equal'"
       ],
-      "id": "b3c76bd6",
+      "id": "3ccf8098",
       "execution_count": null,
       "outputs": []
     },
@@ -68,16 +68,17 @@
         "\n",
         "Dans l'environnement Google Colab, seul `rioxarray` doit être installés:\n"
       ],
-      "id": "a9d6f058"
+      "id": "2a233404"
     },
     {
       "cell_type": "code",
       "metadata": {},
       "source": [
         "%%capture\n",
-        "!pip install -qU matplotlib rioxarray xrscipy scikit-image spyindex"
+        "!pip install -qU matplotlib rioxarray xrscipy scikit-image\n",
+        "!pip install -q git+https://github.com/davemlz/spyndex"
       ],
-      "id": "cbd3fffc",
+      "id": "f676049d",
       "execution_count": null,
       "outputs": []
     },
@@ -87,13 +88,12 @@
       "source": [
         "Vérifier les importations:\n"
       ],
-      "id": "48a6dc46"
+      "id": "5a5d00e8"
     },
     {
       "cell_type": "code",
       "metadata": {},
       "source": [
-        "#| eval: true\n",
         "import numpy as np\n",
         "import rioxarray as rxr\n",
         "from scipy import signal\n",
@@ -102,7 +102,7 @@
         "import matplotlib.pyplot as plt\n",
         "import spyindex"
       ],
-      "id": "63c9c699",
+      "id": "3ca4f50e",
       "execution_count": null,
       "outputs": []
     },
@@ -114,12 +114,13 @@
         "\n",
         "Nous allons utilisez les images suivantes dans ce chapitre:\n"
       ],
-      "id": "bc0a97e2"
+      "id": "eb7fbe38"
     },
     {
       "cell_type": "code",
       "metadata": {},
       "source": [
+        "#| eval: false\n",
         "%%capture\n",
         "import gdown\n",
         "\n",
@@ -128,7 +129,7 @@
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')\n",
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')"
       ],
-      "id": "884296a0",
+      "id": "e4e3eb1b",
       "execution_count": null,
       "outputs": []
     },
@@ -138,13 +139,12 @@
       "source": [
         "Vérifiez que vous êtes capable de les lire :\n"
       ],
-      "id": "d8874c6a"
+      "id": "136751fb"
     },
     {
       "cell_type": "code",
       "metadata": {},
       "source": [
-        "#| eval: true\n",
         "#| output: false\n",
         "\n",
         "with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:\n",
@@ -154,7 +154,7 @@
         "with rxr.open_rasterio('sentinel2.tif', mask_and_scale= True) as img_s2:\n",
         "    print(img_s2)"
       ],
-      "id": "e04e962f",
+      "id": "04e3421f",
       "execution_count": null,
       "outputs": []
     },
@@ -180,7 +180,7 @@
         "\n",
         "L'analyse en composantes principales (ACP) est probablement la plus employée. En théorie, l'ACP n'est valide seulement que sur des données Gaussiennes c'est à dire que le nuage de points des données a la forme d'une ellipse à N dimensions. Cette ellipse est caractérisée par des directions principales (grand axe versus petit axe). La première composante est celle du grand axe de l'ellipse pour laquelle la donnée présente le maximum de variation. L'ACP est une décomposition linéaire, c'est à dire que les composantes principales sont des sommes pondérées des valeurs originales."
       ],
-      "id": "c22fa13a"
+      "id": "c6b2b05e"
     }
   ],
   "metadata": {

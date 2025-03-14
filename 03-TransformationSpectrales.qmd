@@ -52,13 +52,13 @@ Dans l'environnement Google Colab, seul `rioxarray` doit être installés:
 
 ```{python}
 %%capture
-!pip install -qU matplotlib rioxarray xrscipy scikit-image spyindex
+!pip install -qU matplotlib rioxarray xrscipy scikit-image
+!pip install -q git+https://github.com/davemlz/spyndex
 ```
 
 Vérifier les importations:
 
 ```{python}
-#| eval: true
 import numpy as np
 import rioxarray as rxr
 from scipy import signal
@@ -73,6 +73,7 @@ import spyindex
 Nous allons utilisez les images suivantes dans ce chapitre:
 
 ```{python}
+#| eval: false
 %%capture
 import gdown
 
@@ -85,7 +86,6 @@ gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6
 Vérifiez que vous êtes capable de les lire :
 
 ```{python}
-#| eval: true
 #| output: false
 
 with rxr.open_rasterio('berkeley.jpg', mask_and_scale= True) as img_rgb:
