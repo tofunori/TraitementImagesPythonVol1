@@ -51,10 +51,9 @@ Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 Dans l'environnement Google Colab, seul `rioxarray` doit être installés:
 
 ```{python}
-#| eval: true
+#| eval: false
 %%capture
-!pip install -qU matplotlib rioxarray xrscipy scikit-image
-!pip install -q git+https://github.com/davemlz/spyndex
+!pip install -qU matplotlib rioxarray xrscipy scikit-image pyarrow spyndex
 ```
 
 Vérifier les importations:
@@ -66,7 +65,7 @@ from scipy import signal
 import xarray as xr
 import xrscipy
 import matplotlib.pyplot as plt
-import spyindex
+import spyndex
 ```
 
 ### Images utilisées
