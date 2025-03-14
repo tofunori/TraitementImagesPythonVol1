@@ -3,45 +3,60 @@ jupyter: python3
 from: markdown+emoji
 execute:
   echo: true
-  eval: false
+  eval: true
   message: false
   warning: false
 ---
 
+```{python}
+#| echo: false
+#| output: false
+import matplotlib.pyplot as plt
+plt.rcParams['axes.titlesize'] = 10
+plt.rcParams['axes.labelsize'] = 10
+plt.rcParams['xtick.labelsize'] = 10
+plt.rcParams['ytick.labelsize'] = 10
+plt.rcParams['legend.fontsize'] = 10
+plt.rcParams["image.aspect"]= 'equal'
+```
+
 # Transformations spectrales {#sec-chap03}
 
-## :rocket: Préambule
+## Préambule
+
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
-### :dart: Objectifs
-Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visualisation d'images. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
-[![](images/colab.png)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb){target="_blank"} 
+
+### Objectifs 
+
+Dans ce chapitre, nous abordons l'exploitation de la dimension spectrale des images satellites. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
+
+[![](images/colab.png)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb)
 
 ### Librairies
+
 Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
 
-* [SciPy -](https://scipy.org/)
+-   [SciPy](https://scipy.org/)
 
-* [NumPy -](https://numpy.org/) 
+-   [NumPy](https://numpy.org/)
 
-* [opencv-python · PyPI](https://pypi.org/project/opencv-python/)
+-   [spyindex](https://github.com/awesome-spectral-indices/spyndex)
 
-* [scikit-image](https://scikit-image.org/)
+-   [Rasterio](https://rasterio.readthedocs.io/en/stable/)
 
-* [Rasterio](https://rasterio.readthedocs.io/en/stable/)
+-   [Xarray](https://docs.xarray.dev/en/stable/)
 
-* [Xarray](https://docs.xarray.dev/en/stable/)
+-   [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
 
-* [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
+Dans l'environnement Google Colab, seul `rioxarray` doit être installés:
 
-Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être installés:
 ```{python}
 %%capture
-!apt-get update
-!apt-get install gdal-bin libgdal-dev
-!pip install -q rioxarray
-!pip install -qU "geemap[workshop]"
+!pip install -qU matplotlib rioxarray xrscipy scikit-image spyindex
 ```
+
 Vérifier les importations:
+
 ```{python}
 #| eval: true
 import numpy as np
@@ -50,18 +65,25 @@ from scipy import signal
 import xarray as xr
 import xrscipy
 import matplotlib.pyplot as plt
+import spyindex
 ```
+
 ### Images utilisées
 
 Nous allons utilisez les images suivantes dans ce chapitre:
+
 ```{python}
 %%capture
-!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_RGBNIR_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903.tif -O RGBNIR_of_S2A.tif
-!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/raster/landsat7.tif -O landsat7.tif
-!wget https://github.com/sfoucher/opengeos-data/raw/refs/heads/main/images/berkeley.jpg -O berkeley.jpg
-!wget https://github.com/sfoucher/TraitementImagesPythonVol1/raw/refs/heads/main/data/chapitre01/subset_1_of_S2A_MSIL2A_20240625T153941_N0510_R011_T18TYR_20240625T221903_resampled.tif -O sentinel2.tif
+import gdown
+
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg_', output= 'RGBNIR_of_S2A.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a6O3L_abOfU7h94K22At8qtBuLMGErwo', output= 'sentinel2.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')
 ```
+
 Vérifiez que vous êtes capable de les lire :
+
 ```{python}
 #| eval: true
 #| output: false
@@ -73,17 +95,16 @@ with rxr.open_rasterio('RGBNIR_of_S2A.tif', mask_and_scale= True) as img_rgbnir:
 with rxr.open_rasterio('sentinel2.tif', mask_and_scale= True) as img_s2:
     print(img_s2)
 ```
+
 ## Qu'est ce que l'information spectrale?
 
-L'information spectrale touche à l'exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l'image). La taille de cette dimension spectrale dépend du type de capteurs considéré. Un capteur à très haute résolution spatiale par exemple aura très peu de bandes (4 ou 5). Un capteur multispectral pourra contenir une quinzaine de bande. À l'autre extrême, on trouvera les capteurs hyperspectraux qui peuvent contenir des centaines de bandes spectrales.
+L'information spectrale touche à l'exploitation de la dimension spectrale des images (c.à.d le long des bandes spectrales de l'image). La taille de cette dimension spectrale dépend du type de capteurs considéré. Un capteur à très haute résolution spectrale par exemple aura très peu de bandes (4 ou 5). Un capteur multispectral pourra contenir une quinzaine de bande. À l'autre extrême, on trouvera les capteurs hyperspectraux qui peuvent contenir des centaines de bandes spectrales.
 
-Pour une surface donnée, la forme des valeurs le long de l'axe spectrale caractérise le type de matériau observé ainsi que son état. On parle souvent alors de signature spectrale. On peut voir celle-ci comme une généralisation de la couleur d'un matériau au delà des bandes visibles du spectre. L'exploitation de ces signatures spectrales est probablement un des principes les plus importants en télédétection qui le distingue de la vison par ordinateur. 
+Pour une surface donnée, la forme des valeurs le long de l'axe spectrale caractérise le type de matériau observé ainsi que son état. On parle souvent alors de signature spectrale. On peut voir celle-ci comme une généralisation de la couleur d'un matériau au delà des bandes visibles du spectre. L'exploitation de ces signatures spectrales est probablement un des principes les plus importants en télédétection qui le distingue de la vison par ordinateur.
 
 ## Indices spectraux
 
-Il existe une vaste littérature sur les indices spectraux, le choix d'un indice plutôt qu'un autre dépend fortement de l'application visée, nous allons simplement couvrir les principes de base ici.
-
-Le principe d'un indice spectral consiste à mettre en valeur certaines caractéristiques du spectre comme des pentes, des gradients, etc.
+Il existe une vaste littérature sur les indices spectraux, le choix d'un indice plutôt qu'un autre dépend fortement de l'application visée, nous allons simplement couvrir les principes de base ici. Le principe d'un indice spectral consiste à mettre en valeur certaines caractéristiques saillantes du spectre comme des pentes, des gradients, etc. La librairie Python [Awesome Spectral Indices](https://awesome-ee-spectral-indices.readthedocs.io/en/latest/) maintient une liste de plus de 200 indices spectraux (radar et optiques).
 
 ## Réduction de dimension
 
@@ -91,6 +112,4 @@ La réduction de dimension vise à ne retenir que l'information principale d'un 
 
 ### Analyses en composantes principales
 
-L'analyse en composantes principales (ACP) est probablement la plus employée. En théorie, l'ACP n'est valide seulement que sur des données Gaussiennes c'est à dire que le nuage de points des données a la forme d'une ellipse à N dimensions. Cette ellipse est caractérisée par des directions principales (grand axe versus petit axe). La première composante est celle du grand axe de l'ellipse pour laquelle la donnée présente le maximum de variation. L'ACP est une décomposition linéaire, c'est à dire que les composantes principales sont des sommes pondérées des valeurs originales.  
-
-## Exercices de révision
+L'analyse en composantes principales (ACP) est probablement la plus employée. En théorie, l'ACP n'est valide seulement que sur des données Gaussiennes c'est à dire que le nuage de points des données a la forme d'une ellipse à N dimensions. Cette ellipse est caractérisée par des directions principales (grand axe versus petit axe). La première composante est celle du grand axe de l'ellipse pour laquelle la donnée présente le maximum de variation. L'ACP est une décomposition linéaire, c'est à dire que les composantes principales sont des sommes pondérées des valeurs originales.
