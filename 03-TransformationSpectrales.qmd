@@ -18,6 +18,8 @@ plt.rcParams['xtick.labelsize'] = 10
 plt.rcParams['ytick.labelsize'] = 10
 plt.rcParams['legend.fontsize'] = 10
 plt.rcParams["image.aspect"]= 'equal'
+import warnings
+warnings.filterwarnings('ignore')
 ```
 
 # Transformations spectrales {#sec-chap03}
@@ -26,7 +28,7 @@ plt.rcParams["image.aspect"]= 'equal'
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-### Objectifs 
+### Objectifs
 
 Dans ce chapitre, nous abordons l'exploitation de la dimension spectrale des images satellites. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
 
@@ -66,6 +68,7 @@ import xarray as xr
 import xrscipy
 import matplotlib.pyplot as plt
 import spyndex
+import rasterio as rio
 ```
 
 ### Images utilisées
@@ -104,7 +107,75 @@ Pour une surface donnée, la forme des valeurs le long de l'axe spectrale caract
 
 ## Indices spectraux
 
-Il existe une vaste littérature sur les indices spectraux, le choix d'un indice plutôt qu'un autre dépend fortement de l'application visée, nous allons simplement couvrir les principes de base ici. Le principe d'un indice spectral consiste à mettre en valeur certaines caractéristiques saillantes du spectre comme des pentes, des gradients, etc. La librairie Python [Awesome Spectral Indices](https://awesome-ee-spectral-indices.readthedocs.io/en/latest/) maintient une liste de plus de 200 indices spectraux (radar et optiques).
+Il existe une vaste littérature sur les indices spectraux, le choix d'un indice plutôt qu'un autre dépend fortement de l'application visée, nous allons simplement couvrir les principes de base ici. Le principe d'un indice spectral consiste à mettre en valeur certaines caractéristiques saillantes du spectre comme des pentes, des gradients, etc.
+
+La librairie Python [Awesome Spectral Indices](https://awesome-ee-spectral-indices.readthedocs.io/en/latest/) maintient une liste de plus de 200 indices spectraux (radar et optiques). La liste complète est affichable avec la commande suivante:
+
+```{python}
+spyndex.indices
+```
+
+Le détail d'un indice particulier, par exemple le \`NDVI\`, est aussi affichable:
+
+```{python}
+spyndex.indices["NDVI"]
+```
+
+`spyndex` pré-suppose une nomenclature prédéfinie des [bandes](https://awesome-ee-spectral-indices.readthedocs.io/en/latest/#expressions), on peut voir la correspondance sur le tableau ci-dessous:
+
+```{python}
+spyndex.bands
+```
+
+| Index | Noms  | Spyndex | Noms                      |
+|-------|-------|---------|---------------------------|
+| 1     | B01   | A       | Aérosol                   |
+| 2     | B02   | B       | Bleu                      |
+| 3     | B03   | G       | Vert                      |
+| 4     | B04   | R       | Rouge                     |
+| 5     | B05   | RE1     | Red edge 1                |
+| 6     | B06   | RE1     | Red edge 2                |
+| 7     | B07   | RE2     | Red edge 3                |
+| 8     | B08   | N       | Proche-infrarouge 1       |
+| 9     | B08A  | N2      | Proche-infrarouge 2       |
+| 10    | B09   | \-      | Vapeur d'eau              |
+| 11    | B11   | S1      | Infra-rouge onde courte 1 |
+| 12    | B12   | S2      | Infra-rouge onde courte 1 |
+
+: Noms des bandes Sentinel-2
+
+Deux options sont possibles, on peut soit renommer les noms des bandes avec `xarray` ou "mapper" les noms vers les noms appropriés. Regardons les dimensions de notre jeux de données:
+
+```{python}
+img_s2.dims
+```
+
+On peut simplement changer les index (`coords`) de la dimension `band`:
+
+```{python}
+img_s2 = img_s2.sel(band = list(range(1,13))).assign_coords({'band':["A", "B", "G", "R", "RE1", "RE2", "RE3", "N", "N2", "WV", "S1", "S2"]})
+img_s2=img_s2/10000 # normalisation en réflectance
+```
+
+```{python}
+from rasterio import plot
+idx = spyndex.computeIndex(
+    index = ["NDVI","GNDVI","SAVI"],
+    params = {
+        "N": img_s2.sel(band = "N"),
+        "R": img_s2.sel(band = "R"),
+        "G": img_s2.sel(band = "G"),
+        "L": 0.5
+    }
+)
+
+# Plot the indices (and the RGB image for comparison)
+fig, ax = plt.subplots(2,2,figsize = (6,6))
+plot.show(img_s2.sel(band = ["R","G","B"]).data / 0.3,ax = ax[0,0],title = "RGB")
+plot.show(idx.sel(index = "NDVI"),ax = ax[0,1],title = "NDVI")
+plot.show(idx.sel(index = "GNDVI"),ax = ax[1,0],title = "GNDVI")
+plot.show(idx.sel(index = "SAVI"),ax = ax[1,1],title = "SAVI")
+```
 
 ## Réduction de dimension
 

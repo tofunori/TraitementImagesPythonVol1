@@ -14,7 +14,7 @@
         "  warning: false\n",
         "---"
       ],
-      "id": "afc94fff"
+      "id": "05d315b6"
     },
     {
       "cell_type": "code",
@@ -30,7 +30,7 @@
         "plt.rcParams['legend.fontsize'] = 10\n",
         "plt.rcParams[\"image.aspect\"]= 'equal'"
       ],
-      "id": "81259482",
+      "id": "bbb403b0",
       "execution_count": null,
       "outputs": []
     },
@@ -73,7 +73,7 @@
         "\n",
         "Dans l'environnement Google Colab, seul `rioxarray` et `xrscipy` doit être installés:\n"
       ],
-      "id": "11916a82"
+      "id": "662ae910"
     },
     {
       "cell_type": "code",
@@ -83,7 +83,7 @@
         "%%capture\n",
         "!pip install -qU matplotlib rioxarray xrscipy"
       ],
-      "id": "0743cf61",
+      "id": "163fe16a",
       "execution_count": null,
       "outputs": []
     },
@@ -93,7 +93,7 @@
       "source": [
         "Vérifier les importations nécessaires en premier:\n"
       ],
-      "id": "56d807c6"
+      "id": "22476538"
     },
     {
       "cell_type": "code",
@@ -120,7 +120,7 @@
         "from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis\n",
         "from sklearn.datasets import make_blobs, make_classification, make_gaussian_quantiles"
       ],
-      "id": "ef3a5fba",
+      "id": "c7ad0ef0",
       "execution_count": null,
       "outputs": []
     },
@@ -132,7 +132,7 @@
         "\n",
         "Nous allons utilisez les images suivantes dans ce chapitre:\n"
       ],
-      "id": "65da6ee4"
+      "id": "8e3fb92c"
     },
     {
       "cell_type": "code",
@@ -148,7 +148,7 @@
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')\n",
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg', output= 'carte.tif')"
       ],
-      "id": "10763f4b",
+      "id": "bbc03365",
       "execution_count": null,
       "outputs": []
     },
@@ -158,7 +158,7 @@
       "source": [
         "Vérifiez que vous êtes capable de les lire :\n"
       ],
-      "id": "d9e4ca42"
+      "id": "e1077182"
     },
     {
       "cell_type": "code",
@@ -175,7 +175,7 @@
         "with rxr.open_rasterio('carte.tif', mask_and_scale= True) as img_carte:\n",
         "    print(img_carte)"
       ],
-      "id": "c7bad8f8",
+      "id": "81b4a6fa",
       "execution_count": null,
       "outputs": []
     },
@@ -195,7 +195,7 @@
         "\n",
         "Cet exemple tiré de [`sickit-learn`](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py) illustre les problèmes d'ajustement insuffisant ou **sous-apprentissage** (*underfitting*) et d'ajustement excessif ou **sur-apprentissage** (*overfitting*) et montre comment nous pouvons utiliser la régression linéaire avec un modèle polynomiale pour approximer des fonctions non linéaires. La @fig-overfitting montre la fonction que nous voulons approximer, qui est une partie de la fonction cosinus (couleur orange). En outre, les échantillons de la fonction réelle et les approximations de différents modèles sont affichés en bleu. Les modèles ont des caractéristiques polynomiales de différents degrés. Nous pouvons constater qu'une fonction linéaire (polynôme de degré 1) n'est pas suffisante pour s'adapter aux échantillons d'apprentissage. C'est ce qu'on appelle un sous-ajustement (underfitting) qui produit un biais systématique quelque soit les points d’entraînement. Un polynôme de degré 4 se rapproche presque parfaitement de la fonction réelle. Cependant, pour des degrés plus élevés, le modèle s'adaptera trop aux données d'apprentissage, c'est-à-dire qu'il apprendra le bruit des données d'apprentissage. Nous évaluons quantitativement le sur-apprentissage et le sous-apprentissage à l'aide de la validation croisée. Nous calculons l'erreur quadratique moyenne (EQM) sur l'ensemble de validation. Plus elle est élevée, moins le modèle est susceptible de se généraliser correctement à partir des données d'apprentissage.\n"
       ],
-      "id": "3b88dfeb"
+      "id": "b94de01b"
     },
     {
       "cell_type": "code",
@@ -327,7 +327,7 @@
         "\n",
         "Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des sols suivante qui contient 12 classes différentes.\n"
       ],
-      "id": "9b2e79ab"
+      "id": "7f23e9a9"
     },
     {
       "cell_type": "code",
@@ -339,7 +339,7 @@
         "nom_classes= [*couleurs_classes.keys()]\n",
         "couleurs_classes= [*couleurs_classes.values()]"
       ],
-      "id": "2ff12724",
+      "id": "eac2731f",
       "execution_count": null,
       "outputs": []
     },
@@ -349,7 +349,7 @@
       "source": [
         "On peut visualiser la carte de la façon suivante:\n"
       ],
-      "id": "e64f59cb"
+      "id": "9e6fe7ba"
     },
     {
       "cell_type": "code",
@@ -363,7 +363,7 @@
         "img_carte.squeeze().plot.imshow(cmap=cmap_classes, vmin=0, vmax=12)\n",
         "ax.set_title(\"Carte d'occupation des sols\", fontsize=\"small\")"
       ],
-      "id": "f7890a96",
+      "id": "7354b96a",
       "execution_count": null,
       "outputs": []
     },
@@ -373,7 +373,7 @@
       "source": [
         "On peut facilement calculer la fréquence d’occurrence des 12 classes dans l'image à l'aide de `numpy`:\n"
       ],
-      "id": "5f69ba68"
+      "id": "15983472"
     },
     {
       "cell_type": "code",
@@ -383,7 +383,7 @@
         "compte_classe = np.unique(img_carte.data, return_counts=True)\n",
         "print(compte_classe)"
       ],
-      "id": "b981ce60",
+      "id": "24bcc117",
       "execution_count": null,
       "outputs": []
     },
@@ -393,7 +393,7 @@
       "source": [
         "La fréquence d'apparition de chaque classe varie grandement, on parle alors d'un **ensemble déséquilibré**. Ceci est très commun dans la plupart des ensembles d’entraînement, les classes n'apparaissent pas avec la même fréquence. \n"
       ],
-      "id": "359b920d"
+      "id": "6f9373e3"
     },
     {
       "cell_type": "code",
@@ -410,7 +410,7 @@
         "plt.xticks(range(len(nom_classes)), nom_classes, rotation=45, ha='right')\n",
         "plt.show()"
       ],
-      "id": "cbc67518",
+      "id": "fc09c4ad",
       "execution_count": null,
       "outputs": []
     },
@@ -420,7 +420,7 @@
       "source": [
         "On peut échantillonner 100 points aléatoires pour chaque classe:\n"
       ],
-      "id": "116209bc"
+      "id": "8a6636b2"
     },
     {
       "cell_type": "code",
@@ -463,7 +463,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec les points échantillonnés\", fontsize=\"small\")\n",
         "plt.show()"
       ],
-      "id": "91a3db68",
+      "id": "cdd34a7b",
       "execution_count": null,
       "outputs": []
     },
@@ -473,7 +473,7 @@
       "source": [
         "Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes `sample()` de `rasterio`. Éventuellement, la librairie [`geopandas`](https://geopandas.org) permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence. Afin de pouvoir classifier ces points, nous allons ajouter les valeurs radiométriques provenant de l'image Sentinel-2 à 4 bandes `RGBNIR_of_S2A.tif`. Ces valeurs seront stockées dans la colonne `value` sous la forme d'un vecteur en format `string`:\n"
       ],
-      "id": "2a161178"
+      "id": "2286a759"
     },
     {
       "cell_type": "code",
@@ -488,7 +488,7 @@
         "gdf.to_csv('sampling_points.csv') # sauvegarde sous forme d'un format csv\n",
         "gdf.head()"
       ],
-      "id": "74f9bfd1",
+      "id": "a9a8b62d",
       "execution_count": null,
       "outputs": []
     },
@@ -531,7 +531,7 @@
         "\n",
         "Cette distance présuppose que chaque classe $i$ est décrite par son centre $m_i$ et de sa dispersion dans l'espace à $D$ dimensions mesurée par la matrice de covariance $\\Sigma_i$. On peut en faire facilement une fonction Python à l'aide de `numpy`:\n"
       ],
-      "id": "89a6af19"
+      "id": "7713e4a6"
     },
     {
       "cell_type": "code",
@@ -554,7 +554,7 @@
         "    B = bhattacharyya_distance(m1, s1, m2, s2)\n",
         "    return 2 * (1 - np.exp(-B))"
       ],
-      "id": "4c7d23c9",
+      "id": "7a252983",
       "execution_count": null,
       "outputs": []
     },
@@ -564,7 +564,7 @@
       "source": [
         "La figure ci-dessous illustre différentes situations avec des données artificielles:\n"
       ],
-      "id": "6261db58"
+      "id": "07b94266"
     },
     {
       "cell_type": "code",
@@ -645,7 +645,7 @@
         "\n",
         "plt.show()"
       ],
-      "id": "583ff407",
+      "id": "681d0d28",
       "execution_count": null,
       "outputs": []
     },
@@ -655,7 +655,7 @@
       "source": [
         "On forme notre ensemble d'entrainement à partir du fichier `csv` de la section @sec-05.02.02. \n"
       ],
-      "id": "ceed97ac"
+      "id": "c8de7bef"
     },
     {
       "cell_type": "code",
@@ -685,7 +685,7 @@
         "nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]\n",
         "cmap_classes2 = ListedColormap(couleurs_classes2)"
       ],
-      "id": "e5b6cc37",
+      "id": "7d6b97d4",
       "execution_count": null,
       "outputs": []
     },
@@ -695,7 +695,7 @@
       "source": [
         "On peut faire une analyse de séparabilité sur notre ensemble d'entrainement de 10 classes. On obtient un tableau symmétrique de 10x10 valeurs. On peut observer des valeurs inférieures à 1 ce qui indique des séparabilités faibles entre ces classes sous l'hypothèse du modèle Gaussien:\n"
       ],
-      "id": "8c24a782"
+      "id": "bfce29c4"
     },
     {
       "cell_type": "code",
@@ -713,7 +713,7 @@
         "JM= pd.DataFrame(JM, index=classes, columns=classes)\n",
         "JM.head(10)"
       ],
-      "id": "5c705ab5",
+      "id": "ee4f6bf4",
       "execution_count": null,
       "outputs": []
     },
@@ -723,7 +723,7 @@
       "source": [
         "Afin d'évaluer chaque classe, on peut calculer la séparabilité minimale, on peut observer que la classe eau a le maximum de séparabilité avec les autres classes.\n"
       ],
-      "id": "fc9cf2e1"
+      "id": "017ca3fe"
     },
     {
       "cell_type": "code",
@@ -739,7 +739,7 @@
         "plt.xticks(range(len(nom_classes2)), nom_classes2, rotation=45, ha='right')\n",
         "plt.show()"
       ],
-      "id": "7b5c80ce",
+      "id": "d95f44e6",
       "execution_count": null,
       "outputs": []
     },
@@ -751,7 +751,7 @@
         "\n",
         "Lorsque que l'on cherche à établir la performance d'un modèle, il faut être capable de mesurer la performance de ce classificateur. Il existe de nombreuses mesures de performance qui sont toutes dérivées de la matrice de confusion. Cette matrice compare les étiquettes provenant de l'annotation (la vérité terrain) et les étiquettes prédites par un modèle. On peut définir $C(i,j)$ est le nombre de prédictions dont la vérité terrain indique la classe $i$ et qui sont prédites dans la classe $j$. La fonction [confusion_matrix](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html) permet de faire ce calcul, voici un exemple très simple:\n"
       ],
-      "id": "4ae43d96"
+      "id": "dbe7d970"
     },
     {
       "cell_type": "code",
@@ -761,7 +761,7 @@
         "y_pred = [\"ant\", \"ant\", \"cat\", \"cat\", \"ant\", \"cat\", \"bird\"]\n",
         "confusion_matrix(y_true, y_pred, labels=[\"ant\", \"bird\", \"cat\"])"
       ],
-      "id": "f3893507",
+      "id": "3f3a1d52",
       "execution_count": null,
       "outputs": []
     },
@@ -771,7 +771,7 @@
       "source": [
         "La fonction [classification_report](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html#sklearn.metrics.classification_report) permet de générer quelques métriques:\n"
       ],
-      "id": "382fafcd"
+      "id": "e1e26652"
     },
     {
       "cell_type": "code",
@@ -781,7 +781,7 @@
         "y_pred = [\"ant\", \"ant\", \"cat\", \"cat\", \"ant\", \"cat\", \"bird\"]\n",
         "print(classification_report(y_true, y_pred, target_names=[\"ant\", \"bird\", \"cat\"]))"
       ],
-      "id": "09651aab",
+      "id": "2ca227f9",
       "execution_count": null,
       "outputs": []
     },
@@ -816,7 +816,7 @@
         "\n",
         "La méthode du parallélépipède est probablement la plus simple et consiste à délimiter directement le domaine des points d'une classe par une boite (un parallélépipède) à $D$ dimensions. Les limites de ces parallélépipèdes forment alors des frontières de décision manuelles qui vont permettre décider de la classe d'appartenance d'un nouveau point. Un des avantages de cette technique est que si un point n'est dans aucun parallélépipède alors on peut le laisser comme non classifié. Par contre, la construction de ces parallélépipèdes se complexifient grandement avec le nombre de bandes. À une dimension, deux paramètres, équivalents à un seuillage d'histogramme, sont suffisants. À deux dimensions, vous devez définir 4 segments par classe. Avec 3 bandes, vous devez définir 6 plans par classes et à D dimensions, D hyperplans à D-1 dimensions par classe. Le modèle ici est donc une suite de valeurs `min` et `max` pour chacune des bandes et des classes: \n"
       ],
-      "id": "de787907"
+      "id": "62d19232"
     },
     {
       "cell_type": "code",
@@ -835,7 +835,7 @@
         "  return clf\n",
         "clf= parrallepiped_train(X, y_new)"
       ],
-      "id": "66ad91e8",
+      "id": "72da2d82",
       "execution_count": null,
       "outputs": []
     },
@@ -845,7 +845,7 @@
       "source": [
         "La prédiction consiste à trouver pour chaque point la première limite qui est satisfaite. Notez qu'il n'y a pas de moyen de décider quelle est la meilleure classe si le point appartient à plusieurs classes.\n"
       ],
-      "id": "1ab8f231"
+      "id": "01002b57"
     },
     {
       "cell_type": "code",
@@ -866,7 +866,7 @@
         "        y_pred[-1]=cl\n",
         "  return np.array(y_pred)"
       ],
-      "id": "65d217ab",
+      "id": "048122c1",
       "execution_count": null,
       "outputs": []
     },
@@ -876,7 +876,7 @@
       "source": [
         "On peut appliquer ensuite le modèle sur l'image au complet. Les résultats sont assez mauvais, seule la classe eau en bleu semble être bien classifiée.\n"
       ],
-      "id": "a3d2cf14"
+      "id": "840bf8da"
     },
     {
       "cell_type": "code",
@@ -891,7 +891,7 @@
         "ax.set_title(\"Méthode des parrallélépipèdes\", fontsize=\"small\")\n",
         "plt.show()"
       ],
-      "id": "326aed12",
+      "id": "3a4fd1f3",
       "execution_count": null,
       "outputs": []
     },
@@ -901,7 +901,7 @@
       "source": [
         "On peut calculer quelques mesures de performance sur l'ensemble d'entrainement:\n"
       ],
-      "id": "67de7384"
+      "id": "2aaa06a0"
     },
     {
       "cell_type": "code",
@@ -911,7 +911,7 @@
         "nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]\n",
         "print(classification_report(y_new, y_pred, target_names=nom_classes2, zero_division=np.nan))"
       ],
-      "id": "eab8f780",
+      "id": "76173ae2",
       "execution_count": null,
       "outputs": []
     },
@@ -929,7 +929,7 @@
         "\n",
         "Reprensons l'ensemble d’entraînement formé à partir de notre image RGBNIR précédente:\n"
       ],
-      "id": "f52b42ad"
+      "id": "e9f9b818"
     },
     {
       "cell_type": "code",
@@ -956,7 +956,7 @@
         "  y_new = np.array(y_new)\n",
         "nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]"
       ],
-      "id": "884a9613",
+      "id": "edcce0bf",
       "execution_count": null,
       "outputs": []
     },
@@ -966,7 +966,7 @@
       "source": [
         "Il est important de faire précéder la méthode K-NN par une normalisation des données de façon à ce que chaque caractéristique soit de moyenne 0 et d'écart-type égale à 1 (on dit parfois que l'on blanchit les données). Cette normalisation permet à ce que chaque dimension ait le même poids dans le calcul des distances entre points. Cette opération porte le nom de `StandardScaler` dans `scikit-learn`. On peut alors former un pipeline de traitement combinant les deux opérations:\n"
       ],
-      "id": "3995e57f"
+      "id": "3a02bfdb"
     },
     {
       "cell_type": "code",
@@ -976,7 +976,7 @@
         "    steps=[(\"scaler\", StandardScaler()), (\"knn\", KNeighborsClassifier(n_neighbors=1))]\n",
         ")"
       ],
-      "id": "8413246f",
+      "id": "764fac80",
       "execution_count": null,
       "outputs": []
     },
@@ -986,7 +986,7 @@
       "source": [
         "Avant d'effectuer un entraînement, on met généralement une portion des données pour valider les performances:\n"
       ],
-      "id": "c93570bc"
+      "id": "046efcd6"
     },
     {
       "cell_type": "code",
@@ -994,7 +994,7 @@
       "source": [
         "X_train, X_test, y_train, y_test = train_test_split(X, y_new, test_size=0.2, random_state=0)"
       ],
-      "id": "5ebb12fe",
+      "id": "e7b39c91",
       "execution_count": null,
       "outputs": []
     },
@@ -1004,7 +1004,7 @@
       "source": [
         "On peut visualiser les frontières de décision du K-NN pour différentes valeurs de $K$ lorsque seulement deux bandes sont utilisées (Rouge et proche infra-rouge ici):\n"
       ],
-      "id": "e92fb9ec"
+      "id": "7efd9476"
     },
     {
       "cell_type": "code",
@@ -1040,7 +1040,7 @@
         "\n",
         "plt.show()"
       ],
-      "id": "f5ade362",
+      "id": "7db0e239",
       "execution_count": null,
       "outputs": []
     },
@@ -1050,7 +1050,7 @@
       "source": [
         "On peut voir comment les différentes frontières de décision se forment dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes et le calcul plus long.\n"
       ],
-      "id": "3cca4172"
+      "id": "dd73d883"
     },
     {
       "cell_type": "code",
@@ -1061,7 +1061,7 @@
         "print(\"Nombre de points misclassifiés sur %d points : %d\"\n",
         "  % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
-      "id": "320005a5",
+      "id": "908ab976",
       "execution_count": null,
       "outputs": []
     },
@@ -1071,7 +1071,7 @@
       "source": [
         "Le rapport de performance est le suivant:\n"
       ],
-      "id": "41d7b269"
+      "id": "5fc74d87"
     },
     {
       "cell_type": "code",
@@ -1080,7 +1080,7 @@
         "nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]\n",
         "print(classification_report(y_test, y_pred, target_names=nom_classes2, zero_division=np.nan))"
       ],
-      "id": "4b85a668",
+      "id": "e583fcd1",
       "execution_count": null,
       "outputs": []
     },
@@ -1090,7 +1090,7 @@
       "source": [
         "La matrice de confusion peut-être affichée de manière graphique:\n"
       ],
-      "id": "153839c6"
+      "id": "4838fefe"
     },
     {
       "cell_type": "code",
@@ -1098,7 +1098,7 @@
       "source": [
         "disp= ConfusionMatrixDisplay.from_predictions(y_test, y_pred, display_labels=nom_classes2, xticks_rotation='vertical')"
       ],
-      "id": "750c4979",
+      "id": "e7af0215",
       "execution_count": null,
       "outputs": []
     },
@@ -1108,7 +1108,7 @@
       "source": [
         "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec Largeur x Hauteur lignes et 4 colonnes:\n"
       ],
-      "id": "79a9eac6"
+      "id": "dc949bcd"
     },
     {
       "cell_type": "code",
@@ -1118,7 +1118,7 @@
         "y_classe= clf.predict(data_image)\n",
         "y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])"
       ],
-      "id": "ce9d3162",
+      "id": "8f26d02e",
       "execution_count": null,
       "outputs": []
     },
@@ -1131,7 +1131,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec K-NN\", fontsize=\"small\")\n",
         "plt.show()"
       ],
-      "id": "13a2ed2e",
+      "id": "a4244834",
       "execution_count": null,
       "outputs": []
     },
@@ -1143,7 +1143,7 @@
         "\n",
         "La méthode par arbre de décision consiste à contruire une cascade de règles de décision sur chaque caractéristique du jeu de donnée. On pourra trouver plus de détails dans la documentation de `scikit-learn` ([Decision Trees](https://scikit-learn.org/stable/modules/tree.html)). Les arbres de décision on tendance à sur-apprendre surtout si le nombre de dimensions est élevé. Il est donc conseillé d'avoir un bon ratio entre le nombre d'échantillons et le nombre de dimensions.\n"
       ],
-      "id": "0323b691"
+      "id": "fccf6c55"
     },
     {
       "cell_type": "code",
@@ -1151,7 +1151,7 @@
       "source": [
         "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)"
       ],
-      "id": "db6f55d5",
+      "id": "4f08d992",
       "execution_count": null,
       "outputs": []
     },
@@ -1191,7 +1191,7 @@
         "\n",
         "plt.show()"
       ],
-      "id": "b6e3858b",
+      "id": "f463fd58",
       "execution_count": null,
       "outputs": []
     },
@@ -1201,7 +1201,7 @@
       "source": [
         "On peut observer que les frontières de décision sont formées d'un ensemble de plans simple. Chaque plan étant issu d'une règle de décison formé d'un seuil sur chacune des dimensions. On entraine un arbre de décision avec une profondeur maximale de 5:\n"
       ],
-      "id": "7d584088"
+      "id": "6f0769bb"
     },
     {
       "cell_type": "code",
@@ -1213,7 +1213,7 @@
         "print(\"Nombre de points misclassifiés sur %d points : %d\"\n",
         "  % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
-      "id": "71da5fbf",
+      "id": "071b841f",
       "execution_count": null,
       "outputs": []
     },
@@ -1223,7 +1223,7 @@
       "source": [
         "Le rapport de performance et la matrice de confusion:\n"
       ],
-      "id": "f584113c"
+      "id": "b7ecba6e"
     },
     {
       "cell_type": "code",
@@ -1233,7 +1233,7 @@
         "#| warning: false\n",
         "print(classification_report(y_test, y_pred, target_names=nom_classes2, zero_division=np.nan))"
       ],
-      "id": "da9d7264",
+      "id": "cd2ed809",
       "execution_count": null,
       "outputs": []
     },
@@ -1245,7 +1245,7 @@
         "#| warning: false\n",
         "disp= ConfusionMatrixDisplay.from_predictions(y_test, y_pred, display_labels=nom_classes2, xticks_rotation='vertical')"
       ],
-      "id": "ce506b79",
+      "id": "8dc1f3cc",
       "execution_count": null,
       "outputs": []
     },
@@ -1255,7 +1255,7 @@
       "source": [
         "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec Largeur x Hauteur lignes et 4 colonnes:\n"
       ],
-      "id": "3df66a42"
+      "id": "d3e01e59"
     },
     {
       "cell_type": "code",
@@ -1268,7 +1268,7 @@
         "y_classe= clf.predict(data_image)\n",
         "y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])"
       ],
-      "id": "518ae04f",
+      "id": "b41bbbc2",
       "execution_count": null,
       "outputs": []
     },
@@ -1283,7 +1283,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec un arbre de décision\", fontsize=\"small\")\n",
         "plt.show()"
       ],
-      "id": "8addef87",
+      "id": "a3fd1097",
       "execution_count": null,
       "outputs": []
     },
@@ -1293,7 +1293,7 @@
       "source": [
         "Il est possible de visualiser l'arbre mais cela contient beaucoup d'information\n"
       ],
-      "id": "e55640de"
+      "id": "14b615cb"
     },
     {
       "cell_type": "code",
@@ -1302,7 +1302,7 @@
         "fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))\n",
         "tree.plot_tree(clf, max_depth=1)"
       ],
-      "id": "b59806ff",
+      "id": "2a4f3c8f",
       "execution_count": null,
       "outputs": []
     },
@@ -1318,7 +1318,7 @@
         "\n",
         "La méthode Bayésienne naïve Gaussienne consiste faire des hypothèses simplificatrices sur les données, en particulier l'indépendance des données et des dimensions. Ceci permet un calcul plus simple.\n"
       ],
-      "id": "19fe5922"
+      "id": "54b0508a"
     },
     {
       "cell_type": "code",
@@ -1330,7 +1330,7 @@
         "print(\"Nombre de points erronés sur %d points : %d\"\n",
         "      % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
-      "id": "72018991",
+      "id": "070ebe7a",
       "execution_count": null,
       "outputs": []
     },
@@ -1365,7 +1365,7 @@
         "\n",
         "plt.show()"
       ],
-      "id": "2e2f5579",
+      "id": "b5939d00",
       "execution_count": null,
       "outputs": []
     },
@@ -1375,7 +1375,7 @@
       "source": [
         "On peut observer que les frontières de décision sont beaucoup plus régulières que pour K-NN.\n"
       ],
-      "id": "2e31a702"
+      "id": "e8f71fb2"
     },
     {
       "cell_type": "code",
@@ -1386,7 +1386,7 @@
         "print(\"Nombre de points misclassifiés sur %d points : %d\"\n",
         "  % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
-      "id": "c909cc8f",
+      "id": "dfea8ed8",
       "execution_count": null,
       "outputs": []
     },
@@ -1396,7 +1396,7 @@
       "source": [
         "De la même manière, la prédiction peut s'appliquer sur toute l'image:\n"
       ],
-      "id": "846469fe"
+      "id": "4990a4ea"
     },
     {
       "cell_type": "code",
@@ -1412,7 +1412,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec la méthode Bayésienne naive\", fontsize=\"small\")\n",
         "plt.show()"
       ],
-      "id": "dd1109e4",
+      "id": "27e53b75",
       "execution_count": null,
       "outputs": []
     },
@@ -1424,7 +1424,7 @@
         "\n",
         "L'analyse discriminante quadratique peut-être vue comme une généralisation de l'approche Bayésienne naive qui suppose des modèles Gaussiens indépendants pour chaque dimension et chaque point. Ici, on va considérer un modèle Gaussien multivarié.\n"
       ],
-      "id": "a6eee79d"
+      "id": "7ae25611"
     },
     {
       "cell_type": "code",
@@ -1436,7 +1436,7 @@
         "print(\"Nombre de points misclassifiés sur %d points : %d\"\n",
         "  % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
-      "id": "dde36bc3",
+      "id": "43974590",
       "execution_count": null,
       "outputs": []
     },
@@ -1446,7 +1446,7 @@
       "source": [
         "Les Gaussiennes multivariées peuvent être visualiser sous forme d'éllipses décrivant le domaine des valeurs de chaque classe:\n"
       ],
-      "id": "76f11ec4"
+      "id": "edd8ddf5"
     },
     {
       "cell_type": "code",
@@ -1493,7 +1493,7 @@
         "  h.set_xlabel(noms_bandes[2], fontsize=\"small\")\n",
         "  h.set_ylabel(noms_bandes[b], fontsize=\"small\")"
       ],
-      "id": "1483a86d",
+      "id": "7a232bf1",
       "execution_count": null,
       "outputs": []
     },
@@ -1503,7 +1503,7 @@
       "source": [
         "De la même manière, la prédiction peut s'appliquer sur toute l'image:\n"
       ],
-      "id": "4b08c09f"
+      "id": "7be07c94"
     },
     {
       "cell_type": "code",
@@ -1519,7 +1519,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec la méthode ADQ\", fontsize=\"small\")\n",
         "plt.show()"
       ],
-      "id": "efef2018",
+      "id": "74e513fe",
       "execution_count": null,
       "outputs": []
     },
@@ -1539,7 +1539,7 @@
         "Ces réseaux sont entraînés via des techniques itératives d'optimisation de type descente en gradient avec une correction des paramètres (les poids) à l'aide de la rétro-propagation de l'erreur. L'erreur est mesurée via une fonction de coût que l'on cherche à réduire.\n",
         "-->"
       ],
-      "id": "42afe3e9"
+      "id": "fa66c462"
     }
   ],
   "metadata": {
