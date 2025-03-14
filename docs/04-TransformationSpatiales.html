@@ -399,7 +399,7 @@ window.Quarto = {
 <p>L’analyse fréquentielle, issue du traitement du signal, permet d’avoir un autre point de vue sur les données à partir de ses composantes harmoniques. La modifications de ces composantes de Fourier modifie l’ensemble de l’image et permet de corriger des problèmes systématiques comme des artefacts ou du bruit de capteur. Bien que ce domaine soit un peu éloigné de la télédétection, les images issues des capteurs sont toutes sujettes à des étapes de traitement du signal et il faut donc en connaître les grands principes afin de pouvoir comprendre certains enjeux lors des traitements.</p>
 <section id="la-transformée-de-fourier" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="la-transformée-de-fourier"><span class="header-section-number">5.2.1</span> La transformée de Fourier</h3>
-<p>La transformée de Fourier permet de transformer une image dans un espace fréquentielle. Cette transformée est complètement reversible. Dans le cas des images numériques, on parle de <code>2D-DFT</code> (<em>2D-Discrete Fourier Transform</em>) qui est un algorithme optimisé pour le calcul fréquentiel <span class="citation" data-cites="Cooley-1965">(<a href="#ref-Cooley-1965" role="doc-biblioref">Cooley et Tukey 1965</a>)</span>. La <em>1D-DFT</em> peu s’écrire simplement comme une projection sur une série d’exponentielles complexes:</p>
+<p>La transformée de Fourier permet de transformer une image dans un espace fréquentielle. Cette transformée est complètement reversible. Dans le cas des images numériques, on parle de <code>2D-DFT</code> (<em>2D-Discrete Fourier Transform</em>) qui est un algorithme optimisé pour le calcul fréquentiel <span class="citation" data-cites="Cooley-1965">(<a href="references.html#ref-Cooley-1965" role="doc-biblioref">Cooley et Tukey 1965</a>)</span>. La <em>1D-DFT</em> peu s’écrire simplement comme une projection sur une série d’exponentielles complexes:</p>
 <p><span id="eq-dft"><span class="math display">\[X[k] = \sum_{n=0 \ldots N-1} x[n] \times \exp(-j \times 2\pi \times k \times n/N)) \tag{5.1}\]</span></span></p>
 <p>La transformée inverse prend une forme similaire:</p>
 <p><span id="eq-idft"><span class="math display">\[x[k] = \frac{1}{N}\sum_{n=0 \ldots N-1} X[n] \times \exp(j \times 2\pi \times k \times n/N)) \tag{5.2}\]</span></span></p>
@@ -625,7 +625,7 @@ Filtre de Sobel, filtre Prewitt
 -->
 <section id="filtrage-par-convolution" class="level4" data-number="5.3.1.1">
 <h4 data-number="5.3.1.1" class="anchored" data-anchor-id="filtrage-par-convolution"><span class="header-section-number">5.3.1.1</span> Filtrage par convolution</h4>
-<p>La façon la plus efficace d’appliquer un filtre linéaire est d’appliquer une convolution. La convolution est généralement très efficace car elle est peut être calculée dans le domaine fréquentielle. Prenons l’exemple du filtre de Scharr <span class="citation" data-cites="Scharr1999">(<a href="#ref-Scharr1999" role="doc-biblioref">Jahne et S. 1999</a>)</span>, ce filtre permet de détecter les contours horizontaux et verticaux:</p>
+<p>La façon la plus efficace d’appliquer un filtre linéaire est d’appliquer une convolution. La convolution est généralement très efficace car elle est peut être calculée dans le domaine fréquentielle. Prenons l’exemple du filtre de Scharr <span class="citation" data-cites="Scharr1999">(<a href="references.html#ref-Scharr1999" role="doc-biblioref">Jahne et S. 1999</a>)</span>, ce filtre permet de détecter les contours horizontaux et verticaux:</p>
 <p><span id="eq-scharr-filter"><span class="math display">\[
 F= \left[
 \begin{array}{ccc}
@@ -804,7 +804,7 @@ EPSG:4326</code></pre>
 </div>
 </div>
 </div>
-<p>Au lieu d’appliquer un filtre moyen de manière indiscriminée, le filtre de Lee <span class="citation" data-cites="Lee-1986">(<a href="#ref-Lee-1986" role="doc-biblioref">Lee 1986</a>)</span> applique une pondération en fonction du contenu local de l’image <span class="math inline">\(I\)</span> dans sa forme la plus simple:</p>
+<p>Au lieu d’appliquer un filtre moyen de manière indiscriminée, le filtre de Lee <span class="citation" data-cites="Lee-1986">(<a href="references.html#ref-Lee-1986" role="doc-biblioref">Lee 1986</a>)</span> applique une pondération en fonction du contenu local de l’image <span class="math inline">\(I\)</span> dans sa forme la plus simple:</p>
 <p><span id="eq-lee-filter"><span class="math display">\[
 \begin{aligned}
 I_F &amp; = I_M + K \times (I - I_M) \\
@@ -852,7 +852,7 @@ K &amp; = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
 <p>La segmentation d’image consiste à séparer une image en régions homogènes spatialement connexes (segments) où les valeurs sont uniformes selon un certain critère (couleurs, texture, etc.). Une image présente généralement beaucoup de pixels redondants, l’intérêt de ce type de méthode est essentiellement de réduire la quantité de pxiels nécessaire. En télédétection, on parle souvent d’approche objet. En vision par ordinateur, on parle parfois de super-pixel. Il existe de nombreuses méthodes de segmentation, la librairie <code>sickit-image</code> rend disponible plusieurs implémentations sur des images RVB (<a href="https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_segmentations.html#sphx-glr-auto-examples-segmentation-plot-segmentations-py">Comparison of segmentation and superpixel algorithms — skimage 0.25.0 documentation</a>).</p>
 <section id="super-pixel" class="level3" data-number="5.5.1">
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="super-pixel"><span class="header-section-number">5.5.1</span> Super-pixel</h3>
-<p>Ce type de méthode cherche à former des régions homogènes et compactes dans l’image <span class="citation" data-cites="Achanta-2012">(<a href="#ref-Achanta-2012" role="doc-biblioref">Achanta et Süsstrunk 2012</a>)</span>. Une des méthodes les plus simples est la méthode SLIC (<em>Simple Linear Iterative Clustering</em>), elle combine un regroupement de type K-moyenne avec une distance hybride qui prend en compte les différences de couleur entre pixels mais aussi leur distance par rapport centre du super-pixel:</p>
+<p>Ce type de méthode cherche à former des régions homogènes et compactes dans l’image <span class="citation" data-cites="Achanta-2012">(<a href="references.html#ref-Achanta-2012" role="doc-biblioref">Achanta et Süsstrunk 2012</a>)</span>. Une des méthodes les plus simples est la méthode SLIC (<em>Simple Linear Iterative Clustering</em>), elle combine un regroupement de type K-moyenne avec une distance hybride qui prend en compte les différences de couleur entre pixels mais aussi leur distance par rapport centre du super-pixel:</p>
 <ol type="1">
 <li><p>Décomposer l’image en N régions régulières de taille <span class="math inline">\(S \times S\)</span></p></li>
 <li><p>Initialiser les centres <span class="math inline">\(C_k\)</span> de chaque segment <span class="math inline">\(k\)</span></p></li>
@@ -946,14 +946,14 @@ SLIC nombre de segments: 2201</code></pre>
 </section>
 <section id="fusion-des-segments-par-graphe-de-proximité" class="level3" data-number="5.5.2">
 <h3 data-number="5.5.2" class="anchored" data-anchor-id="fusion-des-segments-par-graphe-de-proximité"><span class="header-section-number">5.5.2</span> Fusion des segments par graphe de proximité</h3>
-<p>Une segmentation peut produire beaucoup trop de segments. On parle alors de sur-segmentation. Ceci est recherché dans certains cas pour permettre de bien capturer les détails fins de l’image. Cependant, afin de réduire le nombre de segments, un post-traitement possible est de fusionner les segments similaires selon certaines règles ou distances. Un graphe d’adjacence de régions (voir <a href="#fig-rag" class="quarto-xref">figure&nbsp;<span class="quarto-unresolved-ref">fig-rag</span></a>) est formé à partir des segments connectés où chaque noeud représente un segment et un lien une proximité (<span class="citation" data-cites="Jaworek-2018">Jaworek-Korjakowska (<a href="#ref-Jaworek-2018" role="doc-biblioref">2018</a>)</span>). À partir de ce graphe, on peut fusionner les noeuds similaires à partir de leur distance radiométrique.</p>
+<p>Une segmentation peut produire beaucoup trop de segments. On parle alors de sur-segmentation. Ceci est recherché dans certains cas pour permettre de bien capturer les détails fins de l’image. Cependant, afin de réduire le nombre de segments, un post-traitement possible est de fusionner les segments similaires selon certaines règles ou distances. Un graphe d’adjacence de régions (voir <a href="#fig-rag" class="quarto-xref">figure&nbsp;<span>5.1</span></a>) est formé à partir des segments connectés où chaque noeud représente un segment et un lien une proximité (<span class="citation" data-cites="Jaworek-2018">Jaworek-Korjakowska (<a href="references.html#ref-Jaworek-2018" role="doc-biblioref">2018</a>)</span>). À partir de ce graphe, on peut fusionner les noeuds similaires à partir de leur distance radiométrique.</p>
 <div id="fig-rag" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/Region-adjacency-graph.png" title="Graphe d'adjacence de régions" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.1: Graphe d’adjacence de régions, d’après (<span class="citation" data-cites="Jaworek-2018">Jaworek-Korjakowska (<a href="#ref-Jaworek-2018" role="doc-biblioref">2018</a>)</span>). Chaque noeud est un segment, un lien est formé uniquement si les segments se touchent (par exemple le segment 6 ne touche que la région 5). La fonction <code>graph.rag_mean_color</code> produit un graphe à partir d’une segmentation et de l’image originale. Chaque noeud tient la couleur de chaque segment dans un attribut appelé <code>'mean color'.</code>
+Figure&nbsp;5.1: Graphe d’adjacence de régions, d’après (<span class="citation" data-cites="Jaworek-2018">Jaworek-Korjakowska (<a href="references.html#ref-Jaworek-2018" role="doc-biblioref">2018</a>)</span>). Chaque noeud est un segment, un lien est formé uniquement si les segments se touchent (par exemple le segment 6 ne touche que la région 5). La fonction <code>graph.rag_mean_color</code> produit un graphe à partir d’une segmentation et de l’image originale. Chaque noeud tient la couleur de chaque segment dans un attribut appelé <code>'mean color'.</code>
 </figcaption>
 </figure>
 </div>
@@ -1199,7 +1199,7 @@ Nombre de segments: 1187</code></pre>
 <p>Ce tableau pourra être exploiter pour une tâche de classification par la suite (on parle alors de classification objet).</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-Achanta-2012" class="csl-entry" role="listitem">
 Achanta, Kevin Smith adhakrishna, Appu Shaji et Sabine Süsstrunk. 2012. <span>«&nbsp;SLIC Superpixels Compared to State-of-the-art Superpixel Methods.&nbsp;»</span> <em><span>TPAMI</span></em>: 636‑643. <a href="https://doi.org/10.1109/TPAMI.2012.120">https://doi.org/10.1109/TPAMI.2012.120</a>.
 </div>
