@@ -14,7 +14,7 @@
         "  warning: false\n",
         "---"
       ],
-      "id": "f1e45b24"
+      "id": "80dd2859"
     },
     {
       "cell_type": "code",
@@ -30,7 +30,7 @@
         "plt.rcParams['legend.fontsize'] = 10\n",
         "plt.rcParams[\"image.aspect\"]= 'equal'"
       ],
-      "id": "3ccf8098",
+      "id": "ef26954f",
       "execution_count": null,
       "outputs": []
     },
@@ -68,7 +68,7 @@
         "\n",
         "Dans l'environnement Google Colab, seul `rioxarray` doit être installés:\n"
       ],
-      "id": "2a233404"
+      "id": "5180815d"
     },
     {
       "cell_type": "code",
@@ -78,7 +78,7 @@
         "!pip install -qU matplotlib rioxarray xrscipy scikit-image\n",
         "!pip install -q git+https://github.com/davemlz/spyndex"
       ],
-      "id": "f676049d",
+      "id": "e81a18c2",
       "execution_count": null,
       "outputs": []
     },
@@ -88,7 +88,7 @@
       "source": [
         "Vérifier les importations:\n"
       ],
-      "id": "5a5d00e8"
+      "id": "792028f8"
     },
     {
       "cell_type": "code",
@@ -102,7 +102,7 @@
         "import matplotlib.pyplot as plt\n",
         "import spyindex"
       ],
-      "id": "3ca4f50e",
+      "id": "8f1463f5",
       "execution_count": null,
       "outputs": []
     },
@@ -114,7 +114,7 @@
         "\n",
         "Nous allons utilisez les images suivantes dans ce chapitre:\n"
       ],
-      "id": "eb7fbe38"
+      "id": "21f0aa57"
     },
     {
       "cell_type": "code",
@@ -129,7 +129,7 @@
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')\n",
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')"
       ],
-      "id": "e4e3eb1b",
+      "id": "6dce8ea9",
       "execution_count": null,
       "outputs": []
     },
@@ -139,7 +139,7 @@
       "source": [
         "Vérifiez que vous êtes capable de les lire :\n"
       ],
-      "id": "136751fb"
+      "id": "9f51bca7"
     },
     {
       "cell_type": "code",
@@ -154,7 +154,7 @@
         "with rxr.open_rasterio('sentinel2.tif', mask_and_scale= True) as img_s2:\n",
         "    print(img_s2)"
       ],
-      "id": "04e3421f",
+      "id": "3048bf4b",
       "execution_count": null,
       "outputs": []
     },
@@ -180,7 +180,7 @@
         "\n",
         "L'analyse en composantes principales (ACP) est probablement la plus employée. En théorie, l'ACP n'est valide seulement que sur des données Gaussiennes c'est à dire que le nuage de points des données a la forme d'une ellipse à N dimensions. Cette ellipse est caractérisée par des directions principales (grand axe versus petit axe). La première composante est celle du grand axe de l'ellipse pour laquelle la donnée présente le maximum de variation. L'ACP est une décomposition linéaire, c'est à dire que les composantes principales sont des sommes pondérées des valeurs originales."
       ],
-      "id": "c6b2b05e"
+      "id": "e5ad149a"
     }
   ],
   "metadata": {
