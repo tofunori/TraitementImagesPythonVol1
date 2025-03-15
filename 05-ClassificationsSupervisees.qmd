@@ -367,7 +367,7 @@ $$
 
 La méthode [`QuadraticDiscriminantAnalysis`](https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html) permet de calculer les paramètres des Gaussiennes multivariées pour chacune des classes.
 
-On peut calculer une distance entre deux nuages Gaussiens avec la distance dites de Jeffries-Matusita (JM) basée sur la distance de Bhattacharyya $B$:
+On peut calculer une distance entre deux nuages Gaussiens avec la distance dites de Jeffries-Matusita (JM) basée sur la distance de Bhattacharyya $B$ [@Jensen2016]:
 
 $$
 JM_{ij}= 2(1-e^{-B})\\

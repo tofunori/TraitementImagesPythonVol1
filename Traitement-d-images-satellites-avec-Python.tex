@@ -283,7 +283,7 @@ code}
 \subtitle{Première édition}
 \author{Samuel Foucher \and Philippe Apparicio \and Yacine
 Bouroubi \and Mickaël Germain \and Étienne Clabaut}
-\date{2025-03-14}
+\date{2025-03-15}
 
 \begin{document}
 \frontmatter
@@ -617,13 +617,12 @@ partie comprend deux chapitres~: les transformations spectrales
 
 \textbf{Partie 3. Classifications d'images} Cette troisième partie
 comprend deux chapitres~: les classifications supervisées
-(chapitre~\ref{sec-chap05}) et non supervisées
-(chapitre~\ref{sec-chap06}).
+(chapitre~\ref{sec-chap05}) et non supervisées (à venir dans une
+prochaine édition).
 
 \textbf{Partie 4. Données massives} (à venir dans une édition future).
 Cette quatrième et dernière partie comprend un seul chapitre qui est
-dédié aux plateformes de mégadonnes \textbf{?@sec-chap07}, notammment
-Google Earth Engine.
+dédié aux plateformes de mégadonnes, notammment Google Earth Engine.
 
 \section*{Remerciements}\label{sect005}
 \addcontentsline{toc}{section}{Remerciements}
@@ -2335,8 +2334,8 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.08888889 0.08888889 0.13333333 0.11111111 0.1        0.11111111
- 0.08888889 0.13333333 0.13333333 0.12222222]
+valeurs : [0.08888889 0.12222222 0.12222222 0.08888889 0.07777778 0.11111111
+ 0.12222222 0.13333333 0.08888889 0.15555556]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
@@ -2344,7 +2343,7 @@ Le calcul se fait avec 10 intervalles par défaut.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{))}
 \NormalTok{plt.bar(bin\_limites[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{],hist)}
 \NormalTok{plt.show()}
 \end{Highlighting}
@@ -2756,6 +2755,7 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a6O3L\_abOfU7h94K22At8qtBuLMGErwo\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}sentinel2.tif\textquotesingle{}}\NormalTok{)}
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1\_zwCLN{-}x7XJcNHJCH6Z8upEdUXtVtvs1\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{)}
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1aAq7crc\_LoaLC3kG3HkQ6Fv5JfG0mswg\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}carte.tif\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2769,6 +2769,8 @@ Vérifiez que vous êtes capable de les lire :
     \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
 \ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}sentinel2.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_s2:}
     \BuiltInTok{print}\NormalTok{(img\_s2)}
+\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}carte.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_carte:}
+    \BuiltInTok{print}\NormalTok{(img\_carte)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2785,12 +2787,12 @@ hyperspectraux qui peuvent contenir des centaines de bandes spectrales.
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=9in,height=\textheight,keepaspectratio]{images/Landsat.v.Sentinel-2-1.png}
+{\centering \includegraphics[width=6in,height=\textheight,keepaspectratio]{images/Landsat.v.Sentinel-2-1.png}
 
 }
 
 \caption{Positions des bandes spectrales pour quelques capteurs
-({[}source{]}(https://landsat.gsfc.nasa.gov/article/sentinel-2a-launches-our-compliments-our-complements/))}
+(\href{https://landsat.gsfc.nasa.gov/article/sentinel-2a-launches-our-compliments-our-complements/}{source})}
 
 \end{figure}%
 
@@ -2923,6 +2925,7 @@ On peut simplement changer les index (\texttt{coords}) de la dimension
 
 \CommentTok{\# Plot the indices (and the RGB image for comparison)}
 \NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{,figsize }\OperatorTok{=}\NormalTok{ (}\DecValTok{9}\NormalTok{,}\DecValTok{9}\NormalTok{))}
+\NormalTok{[a.axis(}\StringTok{\textquotesingle{}off\textquotesingle{}}\NormalTok{) }\ControlFlowTok{for}\NormalTok{ a }\KeywordTok{in}\NormalTok{ ax.flatten()]}
 \NormalTok{plot.show(img\_s2.sel(band }\OperatorTok{=}\NormalTok{ [}\StringTok{"R"}\NormalTok{,}\StringTok{"G"}\NormalTok{,}\StringTok{"B"}\NormalTok{]).data }\OperatorTok{/} \FloatTok{0.3}\NormalTok{,ax }\OperatorTok{=}\NormalTok{ ax[}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{],title }\OperatorTok{=} \StringTok{"RGB"}\NormalTok{)}
 \NormalTok{plot.show(idx.sel(index }\OperatorTok{=} \StringTok{"NDVI"}\NormalTok{),ax }\OperatorTok{=}\NormalTok{ ax[}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{],title }\OperatorTok{=} \StringTok{"NDVI"}\NormalTok{)}
 \NormalTok{plot.show(idx.sel(index }\OperatorTok{=} \StringTok{"GNDVI"}\NormalTok{),ax }\OperatorTok{=}\NormalTok{ ax[}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{],title }\OperatorTok{=} \StringTok{"GNDVI"}\NormalTok{)}
@@ -2932,28 +2935,53 @@ On peut simplement changer les index (\texttt{coords}) de la dimension
 
 \pandocbounded{\includegraphics[keepaspectratio]{03-TransformationSpectrales_files/figure-pdf/cell-12-output-1.pdf}}
 
-\section{Réduction de dimension}\label{ruxe9duction-de-dimension}
+On peut vérifier l'utilité des indices en vérifiant leur séparabilité
+pour certaines classes d'intérêts. Nous reprenons ici l'exemple de la
+section section~\ref{sec-05.02.02} pour vérifier l'utilité des indices
+\texttt{NDVI}, \texttt{NDWI} et \texttt{NDBI}:
 
-La réduction de dimension vise à ne retenir que l'information principale
-d'un jeu de données. L'objectif est parfois d'éliminer le bruit d'un
-capteur ou de faciliter la visualisation en ne retenant que 3 bandes
-principales. Le degré d'information est souvent mesuré par la variance
-d'une bande, c'est à dire son contraste. L'analyse en composante
-principale vise alors à ranger l'information contenue dans une image en
-ordre de variance décroissante.
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
+\ImportTok{import}\NormalTok{ seaborn }\ImportTok{as}\NormalTok{ sns}
 
-\subsection{Analyses en composantes
-principales}\label{analyses-en-composantes-principales}
+\CommentTok{\# On sélectionne trois classes}
+\NormalTok{class\_selected}\OperatorTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{9}\NormalTok{]}
+\NormalTok{df}\OperatorTok{=}\NormalTok{ pd.concat([gdf[gdf[}\StringTok{\textquotesingle{}class\textquotesingle{}}\NormalTok{] }\OperatorTok{==}\NormalTok{c] }\ControlFlowTok{for}\NormalTok{ c }\KeywordTok{in}\NormalTok{ class\_selected], ignore\_index}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{idx[}\StringTok{"Land Cover"}\NormalTok{] }\OperatorTok{=}\NormalTok{ [nom\_classes[l] }\ControlFlowTok{for}\NormalTok{ l }\KeywordTok{in}\NormalTok{ df[}\StringTok{"class"}\NormalTok{].tolist()]}
+\CommentTok{\# Compute the desired spectral indices}
+\NormalTok{idx }\OperatorTok{=}\NormalTok{ spyndex.computeIndex(}
+\NormalTok{    index }\OperatorTok{=}\NormalTok{ [}\StringTok{"NDVI"}\NormalTok{,}\StringTok{"NDWI"}\NormalTok{,}\StringTok{"NDBI"}\NormalTok{],}
+\NormalTok{    params }\OperatorTok{=}\NormalTok{ \{}
+        \StringTok{"N"}\NormalTok{: df[}\StringTok{"SR\_B8"}\NormalTok{],}
+        \StringTok{"R"}\NormalTok{: df[}\StringTok{"SR\_B4"}\NormalTok{],}
+        \StringTok{"G"}\NormalTok{: df[}\StringTok{"SR\_B3"}\NormalTok{],}
+        \StringTok{"S1"}\NormalTok{: df[}\StringTok{"SR\_B11"}\NormalTok{]}
+\NormalTok{    \}}
+\NormalTok{)}
 
-L'analyse en composantes principales (ACP) est probablement la plus
-employée. En théorie, l'ACP n'est valide seulement que sur des données
-Gaussiennes c'est à dire que le nuage de points des données a la forme
-d'une ellipse à N dimensions. Cette ellipse est caractérisée par des
-directions principales (grand axe versus petit axe). La première
-composante est celle du grand axe de l'ellipse pour laquelle la donnée
-présente le maximum de variation. L'ACP est une décomposition linéaire,
-c'est à dire que les composantes principales sont des sommes pondérées
-des valeurs originales.
+\NormalTok{colors}\OperatorTok{=}\NormalTok{ [couleurs\_classes[c] }\ControlFlowTok{for}\NormalTok{ c }\KeywordTok{in}\NormalTok{ class\_selected]}
+\CommentTok{\# Plot a pairplot to check the indices behaviour}
+\NormalTok{plt.figure(figsize }\OperatorTok{=}\NormalTok{ (}\DecValTok{15}\NormalTok{,}\DecValTok{15}\NormalTok{))}
+\NormalTok{g }\OperatorTok{=}\NormalTok{ sns.PairGrid(idx,hue }\OperatorTok{=} \StringTok{"Land Cover"}\NormalTok{,palette }\OperatorTok{=}\NormalTok{ sns.color\_palette(colors))}
+\NormalTok{g.map\_lower(sns.scatterplot)}
+\NormalTok{g.map\_upper(sns.kdeplot,fill }\OperatorTok{=} \VariableTok{True}\NormalTok{,alpha }\OperatorTok{=} \FloatTok{.5}\NormalTok{)}
+\NormalTok{g.map\_diag(sns.kdeplot,fill }\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\NormalTok{g.add\_legend()}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{images/fig-classes-indices.png}}
+
+}
+
+\caption{Visualisation des points d'une image Sentinel-2 pour trois
+classes}
+
+\end{figure}%
 
 \bookmarksetup{startatroot}
 
@@ -5033,111 +5061,9 @@ d'éllipses décrivant le domaine des valeurs de chaque classe:
 
 De la même manière, la prédiction peut s'appliquer sur toute l'image:
 
-\pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-48-output-1.pdf}}
-
-\bookmarksetup{startatroot}
-
-\chapter{Classifications d'images non supervisées}\label{sec-chap06}
-
-\section{:rocket: Préambule}\label{rocket-pruxe9ambule}
-
-Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
-
-\subsection{:dart: Objectifs}\label{dart-objectifs}
-
-Dans ce chapitre, nous abordons quelques techniques de traitement
-d'images dans le domaine spatial uniquement. Ce chapitre est aussi
-disponible sous la forme d'un notebook Python sur Google Colab:
-
-\href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
-
-\subsection{Librairies}\label{librairies-5}
-
-Les librairies qui vont être explorées dans ce chapitre sont les
-suivantes:
-
-\begin{itemize}
-\item
-  \href{https://scipy.org/}{SciPy -}
-\item
-  \href{https://numpy.org/}{NumPy -}
-\item
-  \href{https://pypi.org/project/opencv-python/}{opencv-python · PyPI}
-\item
-  \href{https://scikit-image.org/}{scikit-image}
-\item
-  \href{https://rasterio.readthedocs.io/en/stable/}{Rasterio}
-\item
-  \href{https://docs.xarray.dev/en/stable/}{Xarray}
-\item
-  \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
-\end{itemize}
-
-Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
-installés:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\OperatorTok{\%\%}\NormalTok{capture}
-\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy}
-\end{Highlighting}
-\end{Shaded}
-
-Vérifier les importations:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
-\ImportTok{import}\NormalTok{ rioxarray }\ImportTok{as}\NormalTok{ rxr}
-\ImportTok{from}\NormalTok{ scipy }\ImportTok{import}\NormalTok{ signal}
-\ImportTok{import}\NormalTok{ xarray }\ImportTok{as}\NormalTok{ xr}
-\ImportTok{import}\NormalTok{ xrscipy}
-\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Images utilisées}\label{images-utilisuxe9es-3}
-
-Nous allons utilisez les images suivantes dans ce chapitre:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\OperatorTok{\%\%}\NormalTok{capture}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_RGBNIR\_of\_S2A\_MSIL2A\_20240625T153941\_N0510\_R011\_T18TYR\_20240625T221903.tif }\OperatorTok{{-}}\NormalTok{O RGBNIR\_of\_S2A.tif}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{raster}\OperatorTok{/}\NormalTok{landsat7.tif }\OperatorTok{{-}}\NormalTok{O landsat7.tif}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{opengeos}\OperatorTok{{-}}\NormalTok{data}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{images}\OperatorTok{/}\NormalTok{berkeley.jpg }\OperatorTok{{-}}\NormalTok{O berkeley.jpg}
-\OperatorTok{!}\NormalTok{wget https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{sfoucher}\OperatorTok{/}\NormalTok{TraitementImagesPythonVol1}\OperatorTok{/}\NormalTok{raw}\OperatorTok{/}\NormalTok{refs}\OperatorTok{/}\NormalTok{heads}\OperatorTok{/}\NormalTok{main}\OperatorTok{/}\NormalTok{data}\OperatorTok{/}\NormalTok{chapitre01}\OperatorTok{/}\NormalTok{subset\_0\_of\_S1A\_split\_NR\_Cal\_Deb\_ML\_Spk\_SRGR.tif }\OperatorTok{{-}}\NormalTok{O SAR.tif}
-\end{Highlighting}
-\end{Shaded}
-
-Vérifiez que vous êtes capable de les lire :
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgb:}
-    \BuiltInTok{print}\NormalTok{(img\_rgb)}
-\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}RGBNIR\_of\_S2A.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_rgbnir:}
-    \BuiltInTok{print}\NormalTok{(img\_rgbnir)}
-\ControlFlowTok{with}\NormalTok{ rxr.open\_rasterio(}\StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{, mask\_and\_scale}\OperatorTok{=} \VariableTok{True}\NormalTok{) }\ImportTok{as}\NormalTok{ img\_SAR:}
-    \BuiltInTok{print}\NormalTok{(img\_SAR)}
-\end{Highlighting}
-\end{Shaded}
-
-\section{Classifications strictes}\label{sec-061}
-
-\subsection{K-means}\label{sec-0611}
-
-\subsection{K-mediodes}\label{sec-0612}
-
-\subsection{Isodata}\label{sec-0613}
-
-\section{Classifications floues}\label{sec-062}
-
-\section{C-Means}\label{sec-0621}
-
-\subsection{C-Means intégrant une dimension spatiale}\label{sec-0622}
-
-\section{Exercices de révision}\label{sec-064}
+\begin{center}
+\includegraphics[width=8.33333in,height=\textheight,keepaspectratio]{images/cell-48-output-1.png}
+\end{center}
 
 \bookmarksetup{startatroot}
 
