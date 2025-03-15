@@ -164,22 +164,20 @@ suivantes:
 Dans l'environnement Google Colab, seul \texttt{rioxarray} et GDAL
 doivent être installés:
 
-\phantomsection\label{c4347da7}
+\phantomsection\label{88c8f020}
 \phantomsection\label{cb1}
 \begin{Shaded}
 \begin{Highlighting}[]
 \OperatorTok{\%\%}\NormalTok{capture}
 \OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get update}
 \OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get install gdal}\OperatorTok{{-}}\BuiltInTok{bin}\NormalTok{ libgdal}\OperatorTok{{-}}\NormalTok{dev}
-\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{q rioxarray}
-\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU }\StringTok{"geemap[workshop]"}
 \end{Highlighting}
 \end{Shaded}
 
 Dans l'environnement Google Colab, on peut s'assurer que les librairies
 sont installées:
 
-\phantomsection\label{23ee82f2}
+\phantomsection\label{19ef499a}
 \phantomsection\label{cb2}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -190,7 +188,7 @@ sont installées:
 
 Vérifier les importations:
 
-\phantomsection\label{cfa89116}
+\phantomsection\label{17c6f91c}
 \phantomsection\label{cb3}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -208,7 +206,7 @@ Données}{3.1.3 Données}}\label{donnuxe9es}
 
 Nous allons utilisez les images suivantes dans ce chapitre:
 
-\phantomsection\label{48dda4f2}
+\phantomsection\label{1bb418e8}
 \phantomsection\label{cb4}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -224,7 +222,7 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 
 Vérifiez que vous êtes capable de les lire :
 
-\phantomsection\label{c94fb753}
+\phantomsection\label{3e6f47b6}
 \phantomsection\label{cb5}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -258,19 +256,19 @@ La fonction de base pour créer une figure est \texttt{subplots}, la
 largeur et hauteur en pouces de la figure peuvent être contrôlées via le
 paramètre \texttt{figsize}:
 
-\phantomsection\label{42c06813}
+\phantomsection\label{423d541c}
 \phantomsection\label{cb6}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
-\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{6}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{))}
 \NormalTok{plt.show()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}
 \centering
-\includegraphics[width=5.5in,height=4.52083in]{02-RehaussementVisualisationImages_files/figure-html/cell-8-output-1.png}
+\includegraphics[width=4.6875in,height=3.71875in]{02-RehaussementVisualisationImages_files/figure-html/cell-8-output-1.png}
 \caption{}
 \end{figure}
 
@@ -279,7 +277,7 @@ d'afficher une matrice 2D à une dimension en format float ou une matrice
 RVB avec 3 bandes. Il est important que les dimensions de la matrice
 soient dans l'ordre hauteur, largeur et bande.
 
-\phantomsection\label{a310105f}
+\phantomsection\label{4e808201}
 \phantomsection\label{cb7}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -299,7 +297,7 @@ soient dans l'ordre hauteur, largeur et bande.
 Pour un affichage à 3 bandes, les valeurs seront clippées entre 0 et 1,
 il est donc nécessaire de normaliser les valeurs avant l'affichage:
 
-\phantomsection\label{f07a293b}
+\phantomsection\label{bc6f6ead}
 \phantomsection\label{cb8}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -324,7 +322,7 @@ proposent une extension de la fonction \texttt{imshow} permettant
 d'afficher les coordonnées cartographiques ainsi qu'un contrôle la
 dynamique de l'image:
 
-\phantomsection\label{c9cfdfff}
+\phantomsection\label{0b09ae41}
 \phantomsection\label{cb9}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -350,21 +348,33 @@ améliorer la qualité visuelle d'une image en améliorant le contraste, la
 dynamique ou la texture d'une image. De manière générale, ce
 réhaussement ne modifie pas la donnée d'origine mais est plutôt
 appliquée dynamiquement à l'affichage pour des fins d'inspection
-visuelle.
+visuelle. Le réhaussement nécessite généralement une connaissance des
+caractéristiques statistiques d'une image. Ces statistiques sont ensuite
+exploitées pour appliquer diverses transformations linéaires ou non
+linéaires.
 
 \subsubsection{\texorpdfstring{{3.3.1} Statistiques d'une
 image}{3.3.1 Statistiques d'une image}}\label{statistiques-dune-image}
 
 On peut considérer un ensemble de statistique globales pour chacune des
-bandes d'une image: - valeurs minimales et maximales - valeurs moyennes,
-médianes et quantiles - écart-types, skewness et kurtosis Ces
-statistiques doivent être calculées pour chaque bande d'une image
+bandes d'une image:
+
+\begin{itemize}
+\item
+  valeurs minimales et maximales
+\item
+  valeurs moyennes, médianes et quantiles
+\item
+  écart-types, skewness et kurtosis
+\end{itemize}
+
+Ces statistiques doivent être calculées pour chaque bande d'une image
 multispectrale.
 
 En ligne de commande, \texttt{gdalinfo} permet d'interroger rapidement
 un fichier image pour connaitre les statistiques de base:
 
-\phantomsection\label{39268283}
+\phantomsection\label{3b944483}
 \phantomsection\label{cb10}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -449,11 +459,11 @@ Band 3 Block=512x512 Type=Byte, ColorInterp=Blue
     STATISTICS_STDDEV=20.32987736339
 \end{verbatim}
 
-Les librairies de base comme \texttt{xarray} et \texttt{numpy} peuvent
-facilement produire des statistiques comme avec la fonction
+Les librairies de base comme \texttt{rasterio} et \texttt{xarray}
+peuvent facilement produire des statistiques comme avec la fonction
 \href{https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html\#rasterio.io.BufferedDatasetWriter.stats}{stats}:
 
-\phantomsection\label{f1e49069}
+\phantomsection\label{30e811fb}
 \phantomsection\label{cb12}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -468,7 +478,7 @@ facilement produire des statistiques comme avec la fonction
 La librairie \texttt{xarray} donne accès à des fonctionnalités plus
 sophistiquées comme le calcul des quantiles:
 
-\phantomsection\label{57eddff8}
+\phantomsection\label{0e71bc4f}
 \phantomsection\label{cb13}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -593,7 +603,7 @@ intervalle de valeurs pour lequel on peut calculer le nombre de valeurs
 observées dans l'image. La fonction de base pour ce type de calcul est
 la fonction \texttt{numpy.histogram()}:
 
-\phantomsection\label{cc15c57f}
+\phantomsection\label{a70bd3e0}
 \phantomsection\label{cb15}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -606,17 +616,18 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.11111111 0.11111111 0.12222222 0.12222222 0.11111111 0.08888889
- 0.13333333 0.06666667 0.12222222 0.12222222]
+valeurs : [0.12222222 0.15555556 0.11111111 0.08888889 0.05555556 0.15555556
+ 0.12222222 0.11111111 0.11111111 0.07777778]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
 Le calcul se fait avec 10 intervalles par défaut.
 
-\phantomsection\label{deb9e2ed}
+\phantomsection\label{bc1b1d18}
 \phantomsection\label{cb17}
 \begin{Shaded}
 \begin{Highlighting}[]
+\NormalTok{fig, ax}\OperatorTok{=}\NormalTok{ plt.subplots(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{))}
 \NormalTok{plt.bar(bin\_limites[:}\OperatorTok{{-}}\DecValTok{1}\NormalTok{],hist)}
 \NormalTok{plt.show()}
 \end{Highlighting}
@@ -624,7 +635,7 @@ Le calcul se fait avec 10 intervalles par défaut.
 
 \begin{figure}
 \centering
-\includegraphics[width=7.09375in,height=4.52083in]{02-RehaussementVisualisationImages_files/figure-html/cell-16-output-1.png}
+\includegraphics[width=4.66667in,height=3.66667in]{02-RehaussementVisualisationImages_files/figure-html/cell-16-output-1.png}
 \caption{}
 \end{figure}
 
@@ -639,7 +650,7 @@ La librarie \texttt{rasterio} est probablement l'outil le plus simples
 pour visualiser rapidement des histogrammes sur une image
 multi-spectrale:
 
-\phantomsection\label{e670a4b6}
+\phantomsection\label{cb364e4b}
 \phantomsection\label{cb18}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -698,7 +709,7 @@ exponentiel. Il est alors préférable d'utiliser des
 afin d'explorer la forme de l'histogramme et la distribution des
 valeurs:
 
-\phantomsection\label{34d21d70}
+\phantomsection\label{81e49d33}
 \phantomsection\label{cb19}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -730,7 +741,7 @@ et
 \href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html}{\texttt{violinplot}}
 de la librairie \texttt{matplotlib}:
 
-\phantomsection\label{d95a1929}
+\phantomsection\label{19fa02f0}
 \phantomsection\label{cb21}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -765,7 +776,7 @@ intervalles de valeurs fixés par la fonction
 {\textbackslash(99.9\textbackslash\%\textbackslash)} percentiles
 respectivement:
 
-\phantomsection\label{ec419390}
+\phantomsection\label{fa0a89f0}
 \phantomsection\label{cb22}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -804,7 +815,7 @@ Au niveau de l'affichage avec \texttt{matplotlib}, la dynamique peut
 être contrôlée directement via les paramètres \texttt{vmin} et
 \texttt{vmax} comme ceci:
 
-\phantomsection\label{ed0b7578}
+\phantomsection\label{aea7c2f3}
 \phantomsection\label{cb23}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -840,7 +851,7 @@ image radar, une transformation populaire est dd'afficher les valeurs de
 rétrodiffusion en décibel (\texttt{dB}) via la fonction
 \texttt{log10()}.
 
-\phantomsection\label{bfffca0f}
+\phantomsection\label{48387e90}
 \phantomsection\label{cb24}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -858,7 +869,7 @@ rétrodiffusion en décibel (\texttt{dB}) via la fonction
 Les boxplots on une bien meilleure distribution proche d'une
 distribution Gaussienne:
 
-\phantomsection\label{f94b0c47}
+\phantomsection\label{3cf97d4f}
 \begin{figure}
 \centering
 \includegraphics[width=6.14583in,height=4.05208in]{02-RehaussementVisualisationImages_files/figure-html/cell-23-output-1.png}
@@ -867,7 +878,7 @@ distribution Gaussienne:
 
 Ainsi que les images:
 
-\phantomsection\label{ba18ed4a}
+\phantomsection\label{d2d92b3c}
 \begin{figure}
 \centering
 \includegraphics[width=6.14583in,height=5.04167in]{02-RehaussementVisualisationImages_files/figure-html/cell-24-output-1.png}
@@ -904,7 +915,7 @@ dans l'image (par exemple {\textbackslash(L=256\textbackslash)}).
 \textbackslash{]}} On peut appliquer cette procédure sur l'image SAR en
 dB de la façon suivante:
 
-\phantomsection\label{fbb82e7a}
+\phantomsection\label{ce8cddaa}
 \phantomsection\label{cb26}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -931,7 +942,7 @@ une image à une seule bande. La librairie \texttt{matplotlib} contient
 un nombre important de
 \href{https://matplotlib.org/stable/users/explain/colors/colormaps.html}{palettes}.
 
-\phantomsection\label{4f7723ee}
+\phantomsection\label{dde4ef1d}
 \phantomsection\label{cb27}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -946,7 +957,7 @@ normalisées entre 0 et 1 ou entre 0 et 255 sinon les paramètres
 comment ces palettes révèlent les détails de l'image malgré une image
 originalement très sombre.
 
-\phantomsection\label{353a8b83}
+\phantomsection\label{19113c74}
 \phantomsection\label{cb28}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -973,7 +984,7 @@ originalement très sombre.
 Il peut être utile d'ajouter une barre de couleurs afin d'indiquer la
 correspondance entre les couleurs et les valeurs numériques:
 
-\phantomsection\label{5cd60403}
+\phantomsection\label{df8a3222}
 \phantomsection\label{cb29}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1009,7 +1020,7 @@ bandes sont disponibles, plusieurs composés couleurs sont donc possibles
 Voici quelques exemples possibles, chaque composé mettant en valeur des
 propriétés différentes de la surface.
 
-\phantomsection\label{581e6675}
+\phantomsection\label{176ba08d}
 \phantomsection\label{cb30}
 \begin{Shaded}
 \begin{Highlighting}[]

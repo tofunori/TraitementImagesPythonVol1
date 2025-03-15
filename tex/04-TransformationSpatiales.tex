@@ -206,7 +206,7 @@ Les librairies utilisées dans ce chapitre sont les suivantes:
 Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
 installés:
 
-\phantomsection\label{58ae4044}
+\phantomsection\label{67e4316c}
 \phantomsection\label{cb1}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -217,7 +217,7 @@ installés:
 
 Vérifier les importations:
 
-\phantomsection\label{e9be3809}
+\phantomsection\label{e19d140c}
 \phantomsection\label{cb2}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -240,7 +240,7 @@ utilisées}{5.1.3 Images utilisées}}\label{images-utilisuxe9es}
 
 Nous allons utilisez les images suivantes dans ce chapitre:
 
-\phantomsection\label{8a871516}
+\phantomsection\label{b2dbf610}
 \phantomsection\label{cb3}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -256,7 +256,7 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 
 Vérifiez que vous êtes capable de les lire :
 
-\phantomsection\label{9de65965}
+\phantomsection\label{816cbcdd}
 \phantomsection\label{cb4}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -335,7 +335,7 @@ haute fréquence observée (ici {\textbackslash(F\_s \textgreater{}
 0.5\textbackslash)}) sinon un phénomène de repliement appelé aliasing
 sera observé.
 
-\phantomsection\label{d991e65c}
+\phantomsection\label{98b21fca}
 \phantomsection\label{cb5}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -404,7 +404,7 @@ signal {\textbackslash(x\textbackslash)}:
 \phantomsection\label{eq-convolve}{{\textbackslash{[} x\_f =
 IDFT\^{}\{-1\}{[}F{]}*x \textbackslash tag\{5.4\}\textbackslash{]}}}
 
-\phantomsection\label{70318c0b}
+\phantomsection\label{5e81ec77}
 \phantomsection\label{cb6}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -439,7 +439,7 @@ le contenu fréquentielle de l'image et donc les fréquences maximales de
 l'image. L'image présente alors un aspect faussement texturée avec
 beaucoup de haute fréquences:
 
-\phantomsection\label{22df7308}
+\phantomsection\label{f32b17fd}
 \phantomsection\label{cb7}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -464,7 +464,7 @@ Une façon de réduire le contenu fréquentiel est de filtrer par un filtre
 passe-bas pour réduire les hautes fréquences par exemple avec un filtre
 Gaussien:
 
-\phantomsection\label{8728ce14}
+\phantomsection\label{52db1638}
 \phantomsection\label{cb8}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -495,7 +495,7 @@ La fonction
 dans \texttt{scipy.signal} réalise l'opération de décimation
 (\emph{downsampling}) en une seule étape:
 
-\phantomsection\label{c0367bd9}
+\phantomsection\label{e502cc2f}
 \phantomsection\label{cb9}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -593,7 +593,7 @@ exemple pour le cas du filtre moyen on peut construire une nouvelle vue
 de l'image avec deux nouvelles dimensions \texttt{x\_win} et
 \texttt{y\_win}:
 
-\phantomsection\label{bb7155d9}
+\phantomsection\label{b2e95d3e}
 \phantomsection\label{cb11}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -625,7 +625,7 @@ fenêtre déborde sur les bordures de l'image. Par la suite un opérateur
 moyenne peut être appliqué sur les axes \texttt{x\_win} et
 \texttt{y\_win} correspondant aux fenêtres glissantes.
 
-\phantomsection\label{6f03866e}
+\phantomsection\label{edb2fcb0}
 \phantomsection\label{cb13}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -651,7 +651,7 @@ devient trop grande, il est préférable d'utiliser une convolution dans
 le domaine fréquentielle. La fonction \texttt{fftconvolve} de la
 librairie \texttt{scipy.signal} permet de faire cela:
 
-\phantomsection\label{e443e0f4}
+\phantomsection\label{1ea51530}
 \phantomsection\label{cb15}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -681,7 +681,7 @@ verticaux:
 Remarquez l'utilisation de chiffres complexes afin de passer deux
 filtres différents sur la partie réelle et imaginaire.
 
-\phantomsection\label{8bfe8b07}
+\phantomsection\label{5e28dea3}
 \phantomsection\label{cb16}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -757,7 +757,7 @@ réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut
 ici imposer les mêmes filtres de gradient dans la couche
 convolutionnelle:
 
-\phantomsection\label{8a6d73fe}
+\phantomsection\label{e6ce1400}
 \phantomsection\label{cb19}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -808,7 +808,7 @@ torch.Size([1, 3, 771, 1311])
 
 Le résultat est alors calculé sur GPU (si disponible):
 
-\phantomsection\label{04b646e2}
+\phantomsection\label{71780e88}
 \phantomsection\label{cb21}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -850,7 +850,7 @@ appelle \emph{speckle}. On peut voir un exemple d'une image Sentinel-1
 (bande HH) sur la région de Montréal, remarquée que l'image est affichée
 en dB en appliquant la fonction \texttt{log10}.
 
-\phantomsection\label{1d73ecfc}
+\phantomsection\label{353be0cc}
 \phantomsection\label{cb23}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -881,7 +881,7 @@ Un des filtres les plus simples pour réduire le bruit est d'appliquer un
 filtre moyenne, par exemple un {\textbackslash(5 \textbackslash times
 5\textbackslash)} ci dessous:
 
-\phantomsection\label{0db8518a}
+\phantomsection\label{60e3a726}
 \phantomsection\label{cb26}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -920,7 +920,7 @@ s'approche de {\textbackslash(1\textbackslash)} préservant ainsi les
 détails de l'image {\textbackslash(I\textbackslash)} sinon l'image
 moyenne {\textbackslash(I\_M\textbackslash)} est appliquée.
 
-\phantomsection\label{c82e3bf2}
+\phantomsection\label{e9df9b62}
 \phantomsection\label{cb28}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -950,7 +950,7 @@ moyenne {\textbackslash(I\_M\textbackslash)} est appliquée.
 On zoomant sur l'image on peut clairement voir que les détails de
 l'image sont mieux préservés:
 
-\phantomsection\label{213dafc7}
+\phantomsection\label{0dd51a52}
 \begin{figure}
 \centering
 \includegraphics[width=10.11458in,height=4.0625in]{04-TransformationSpatiales_files/figure-html/cell-21-output-1.png}
@@ -1015,7 +1015,7 @@ Les régions évoluent rapidement avec les itérations, plus le poids
 super-pixel est contrainte et ne suivra pas vraiment le contenu de
 l'image:
 
-\phantomsection\label{919f3fb2}
+\phantomsection\label{ba40dce5}
 \phantomsection\label{cb29}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1064,7 +1064,7 @@ l'impact de passer d'une échelle 40 x 40 à 20 x 20. En prenant la
 moyenne de chaque segment, on peut voir tout de suite que 40 x 40
 résulte en des segments trop grands mélangeant différentes classes.
 
-\phantomsection\label{2290a6d2}
+\phantomsection\label{b416dd44}
 \phantomsection\label{cb31}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1139,7 +1139,7 @@ chaque segment dans un attribut appelé
 \texttt{\textquotesingle{}mean\ color\textquotesingle{}.}}
 \end{figure}
 
-\phantomsection\label{ca93c984}
+\phantomsection\label{58ef7c3e}
 \phantomsection\label{cb33}
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1213,7 +1213,7 @@ possibilité d'enrichir chaque segment avec des
 \href{https://scikit-image.org/docs/stable/api/skimage.measure.html\#skimage.measure.regionprops}{propriétés}
 et de former un tableau:
 
-\phantomsection\label{6376001f}
+\phantomsection\label{39961565}
 \phantomsection\label{cb35}
 \begin{Shaded}
 \begin{Highlighting}[]
