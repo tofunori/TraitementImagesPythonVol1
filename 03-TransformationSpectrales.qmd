@@ -18,6 +18,7 @@ plt.rcParams['xtick.labelsize'] = 10
 plt.rcParams['ytick.labelsize'] = 10
 plt.rcParams['legend.fontsize'] = 10
 plt.rcParams["image.aspect"]= 'equal'
+plt.rcParams['figure.dpi'] = 100
 import warnings
 warnings.filterwarnings('ignore')
 ```
@@ -176,6 +177,7 @@ idx = spyndex.computeIndex(
 
 # Plot the indices (and the RGB image for comparison)
 fig, ax = plt.subplots(2,2,figsize = (9,9))
+[a.axis('off') for a in ax.flatten()]
 plot.show(img_s2.sel(band = ["R","G","B"]).data / 0.3,ax = ax[0,0],title = "RGB")
 plot.show(idx.sel(index = "NDVI"),ax = ax[0,1],title = "NDVI")
 plot.show(idx.sel(index = "GNDVI"),ax = ax[1,0],title = "GNDVI")

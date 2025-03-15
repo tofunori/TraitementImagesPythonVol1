@@ -19,6 +19,7 @@ plt.rcParams['xtick.labelsize'] = 10
 plt.rcParams['ytick.labelsize'] = 10
 plt.rcParams['legend.fontsize'] = 10
 plt.rcParams["image.aspect"]= 'equal'
+plt.rcParams['figure.dpi'] = 100
 import warnings
 warnings.filterwarnings('ignore')
 ```

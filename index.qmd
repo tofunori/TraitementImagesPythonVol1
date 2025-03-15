@@ -197,9 +197,9 @@ Le livre est organisé autour de quatre grandes parties.
 
 **Partie 2. Transformations des données spatiales**. Cette deuxième partie comprend deux chapitres : les transformations spectrales ([chapitre @sec-chap03]) et les transformations spatiales ([chapitre @sec-chap04]).
 
-**Partie 3. Classifications d'images** Cette troisième partie comprend deux chapitres : les classifications supervisées ([chapitre @sec-chap05]) et non supervisées ([chapitre @sec-chap06]).
+**Partie 3. Classifications d'images** Cette troisième partie comprend deux chapitres : les classifications supervisées ([chapitre @sec-chap05]) et non supervisées (à venir dans une prochaine édition).
 
-**Partie 4. Données massives** (à venir dans une édition future). Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes [chapitre @sec-chap07], notammment Google Earth Engine.
+**Partie 4. Données massives** (à venir dans une édition future). Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes, notammment Google Earth Engine.
 
 ## Remerciements {#sect005 .unnumbered}
 
