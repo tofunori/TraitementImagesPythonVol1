@@ -4101,9 +4101,9 @@ de différents modèles sont affichés en bleu. Les modèles ont des
 caractéristiques polynomiales de différents degrés. Nous pouvons
 constater qu'une fonction linéaire (polynôme de degré 1) n'est pas
 suffisante pour s'adapter aux échantillons d'apprentissage. C'est ce
-qu'on appelle un sous-ajustement (underfitting) qui produit un biais
-systématique quelque soit les points d'entraînement. Un polynôme de
-degré 4 se rapproche presque parfaitement de la fonction réelle.
+qu'on appelle un sous-ajustement (\emph{underfitting}) qui produit un
+biais systématique quelque soit les points d'entraînement. Un polynôme
+de degré 4 se rapproche presque parfaitement de la fonction réelle.
 Cependant, pour des degrés plus élevés, le modèle s'adaptera trop aux
 données d'apprentissage, c'est-à-dire qu'il apprendra le bruit des
 données d'apprentissage. Nous évaluons quantitativement le
@@ -4386,7 +4386,7 @@ chacune des classes.
 
 On peut calculer une distance entre deux nuages Gaussiens avec la
 distance dites de Jeffries-Matusita (JM) basée sur la distance de
-Bhattacharyya \(B\):
+Bhattacharyya \(B\) (Jensen 2016):
 
 \[
 JM_{ij}= 2(1-e^{-B})\\
@@ -4881,10 +4881,10 @@ lignes et 4 colonnes:
 \subsection{Méthodes par arbre de
 décision}\label{muxe9thodes-par-arbre-de-duxe9cision}
 
-La méthode par arbre de décision consiste à contruire une cascade de
-règles de décision sur chaque caractéristique du jeu de donnée. On
-pourra trouver plus de détails dans la documentation de
-\texttt{scikit-learn}
+La méthode par arbre de décision consiste à construire une cascade de
+règles de décision sur chaque caractéristique du jeu de donnée (Breiman
+et C. Stone 1984). On pourra trouver plus de détails dans la
+documentation de \texttt{scikit-learn}
 (\href{https://scikit-learn.org/stable/modules/tree.html}{Decision
 Trees}). Les arbres de décision on tendance à sur-apprendre surtout si
 le nombre de dimensions est élevé. Il est donc conseillé d'avoir un bon
@@ -5079,6 +5079,10 @@ Achanta, Kevin Smith adhakrishna, Appu Shaji et Sabine Süsstrunk. 2012.
 {«~SLIC Superpixels Compared to State-of-the-art Superpixel Methods.~»}
 \emph{{TPAMI}}: 636‑643. \url{https://doi.org/10.1109/TPAMI.2012.120}.
 
+\bibitem[\citeproctext]{ref-Breiman1984}
+Breiman, Friedman, L. et C. C. Stone. 1984. \emph{Classification and
+Regression Trees}. {Wadsworth, Belmont, CA}.
+
 \bibitem[\citeproctext]{ref-Cooley-1965}
 Cooley, James W. et John W. Tukey. 1965. {«~An algorithm for the machine
 calculation of complex Fourier series.~»} \emph{{Math. Comput.}}:
@@ -5104,6 +5108,10 @@ Jaworek-Korjakowska, P., J.; Kłeczek. 2018. {«~Region Adjacency Graph
 Approach for Acral Melanocytic Lesion Segmentation.~»} \emph{{Applied
 Sciences}} 8: 1430.
 \href{https://10.3390/app8091430}{10.3390/app8091430}.
+
+\bibitem[\citeproctext]{ref-Jensen2016}
+Jensen, J. R. 2016. \emph{Introductory digital image processing: A
+remote sensing perspective}. {Pearson Education, Inc.}
 
 \bibitem[\citeproctext]{ref-Lee-1986}
 Lee, J. S. 1986. {«~Speckle suppression and analysis for synthetic
