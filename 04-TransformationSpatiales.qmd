@@ -19,6 +19,8 @@ plt.rcParams['xtick.labelsize'] = 10
 plt.rcParams['ytick.labelsize'] = 10
 plt.rcParams['legend.fontsize'] = 10
 plt.rcParams["image.aspect"]= 'equal'
+import warnings
+warnings.filterwarnings('ignore')
 ```
 
 # Transformations spatiales {#sec-chap04}

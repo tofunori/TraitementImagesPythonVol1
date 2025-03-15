@@ -18,48 +18,54 @@ plt.rcParams['xtick.labelsize'] = 10
 plt.rcParams['ytick.labelsize'] = 10
 plt.rcParams['legend.fontsize'] = 10
 plt.rcParams["image.aspect"]= 'equal'
+import warnings
+warnings.filterwarnings('ignore')
 ```
 
 # Classifications d'images supervisées {#sec-chap05}
-
 
 ## Préambule
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
 ### Objectifs
+
 Dans ce chapitre, nous ferons une introduction générale à l'apprentissage automatique et abordons quelques techniques fondamentales. La librairie centrale utilisée dans ce chapitre sera [`sickit-learn`](https://scikit-learn.org/). Ce chapitre est aussi disponible sous la forme d'un notebook Python sur Google Colab:
 
-[![](images/colab.png)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/05-ClassificationsSupervisees.ipynb){target="_blank"} 
+[![](images/colab.png)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/05-ClassificationsSupervisees.ipynb)
 
 ### Librairies
+
 Les librairies utilisées dans ce chapitre sont les suivantes:
 
-* [SciPy](https://scipy.org/)
+-   [SciPy](https://scipy.org/)
 
-* [NumPy](https://numpy.org/) 
+-   [NumPy](https://numpy.org/)
 
-* [opencv-python · PyPI](https://pypi.org/project/opencv-python/)
+-   [opencv-python · PyPI](https://pypi.org/project/opencv-python/)
 
-* [scikit-image](https://scikit-image.org/)
+-   [scikit-image](https://scikit-image.org/)
 
-* [Rasterio](https://rasterio.readthedocs.io/en/stable/)
+-   [Rasterio](https://rasterio.readthedocs.io/en/stable/)
 
-* [xarray](https://docs.xarray.dev/en/stable/)
+-   [xarray](https://docs.xarray.dev/en/stable/)
 
-* [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
+-   [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
 
-* [geopandas](https://geopandas.org)
+-   [geopandas](https://geopandas.org)
 
-* [scikit-learn](https://scikit-learn.org/)
+-   [scikit-learn](https://scikit-learn.org/)
 
 Dans l'environnement Google Colab, seul `rioxarray` et `xrscipy` doit être installés:
+
 ```{python}
 #| eval: false
 %%capture
 !pip install -qU matplotlib rioxarray xrscipy
 ```
+
 Vérifier les importations nécessaires en premier:
+
 ```{python}
 import numpy as np
 import rioxarray as rxr
@@ -86,6 +92,7 @@ from sklearn.datasets import make_blobs, make_classification, make_gaussian_quan
 ### Images utilisées
 
 Nous allons utilisez les images suivantes dans ce chapitre:
+
 ```{python}
 #| eval: false
 %%capture
@@ -97,7 +104,9 @@ gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zw
 gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')
 gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg', output= 'carte.tif')
 ```
+
 Vérifiez que vous êtes capable de les lire :
+
 ```{python}
 #| output: false
 
@@ -113,9 +122,9 @@ with rxr.open_rasterio('carte.tif', mask_and_scale= True) as img_carte:
 
 ## Principes généraux
 
-Une classification supervisée ou dirigée consiste à attribuer une étiquette (une classe) de manière automatique à chaque point d'un jeu de données. Cette classification peut se faire à l'aide d'une cascade de règles pré-établies (arbre de décision) ou à l'aide de techniques d'apprentissage automatique (*machine learning*). L'utilisation de règles pré-établies atteint vite une limite car ces règles doivent être fournies manuellement par un expert. Ainsi, l'avantage de l'apprentissage automatique est que les règles de décision sont dérivées automatiquement du jeu de données via une phase dite d’entraînement. On parle souvent de solutions générées par les données (*Data Driven Solutions*). Cet ensemble de règles est souvent appelé **modèle**. On visualise souvent ces règles sous la forme de *frontières de décisions* dans l'espace des données. Cependant, un des défis majeur de ce type de technique est d'être capable de produire des règles qui soient généralisables au-delà du jeu d’entraînement. 
+Une classification supervisée ou dirigée consiste à attribuer une étiquette (une classe) de manière automatique à chaque point d'un jeu de données. Cette classification peut se faire à l'aide d'une cascade de règles pré-établies (arbre de décision) ou à l'aide de techniques d'apprentissage automatique (*machine learning*). L'utilisation de règles pré-établies atteint vite une limite car ces règles doivent être fournies manuellement par un expert. Ainsi, l'avantage de l'apprentissage automatique est que les règles de décision sont dérivées automatiquement du jeu de données via une phase dite d’entraînement. On parle souvent de solutions générées par les données (*Data Driven Solutions*). Cet ensemble de règles est souvent appelé **modèle**. On visualise souvent ces règles sous la forme de *frontières de décisions* dans l'espace des données. Cependant, un des défis majeur de ce type de technique est d'être capable de produire des règles qui soient généralisables au-delà du jeu d’entraînement.
 
-Les classifications supervisées ou dirigées présupposent donc que nous avons à disposition **un jeu d’entraînement** déjà étiqueté. Celui-ci va nous permettre de construire un modèle. Afin que ce modèle soit représentatif et robuste, il nous faut assez de données d’entraînement. Les algorithmes d'apprentissage automatique sont très nombreux et plus ou moins complexes pouvant produire des frontières de décision très complexes et non linéaires. 
+Les classifications supervisées ou dirigées présupposent donc que nous avons à disposition **un jeu d’entraînement** déjà étiqueté. Celui-ci va nous permettre de construire un modèle. Afin que ce modèle soit représentatif et robuste, il nous faut assez de données d’entraînement. Les algorithmes d'apprentissage automatique sont très nombreux et plus ou moins complexes pouvant produire des frontières de décision très complexes et non linéaires.
 
 **curse of dimensionnality, capacité d'un modèle, sur-aprrentissage, sous-apprentissage**
 
@@ -197,15 +206,15 @@ On constate aussi que sans les échantillons de validation, nous serions incapab
 
 La construction d'un modèle implique généralement toujours les mêmes étapes illustrées sur la figure [@fig-pipeline]:
 
-1. La préparation des données implique parfois un pré-traitement afin de normaliser les données.
+1.  La préparation des données implique parfois un pré-traitement afin de normaliser les données.
 
-2. Partage des données en trois groupes: entraînement, validation et test
+2.  Partage des données en trois groupes: entraînement, validation et test
 
-3. L'apprentissage du modèle sur l'ensemble d'entraînement. Cet apprentissage nécessite de déterminer les valeurs des hyper-paramètres du modèle par l'usager.
+3.  L'apprentissage du modèle sur l'ensemble d'entraînement. Cet apprentissage nécessite de déterminer les valeurs des hyper-paramètres du modèle par l'usager.
 
-4. La validation du modèle sur l'ensemble de validation. Cette étape vise à vérifier que les hyper-paramètres du modèle sont adéquate.
+4.  La validation du modèle sur l'ensemble de validation. Cette étape vise à vérifier que les hyper-paramètres du modèle sont adéquate.
 
-5. Enfin le test du modèle sur un ensemble de donnée indépendant
+5.  Enfin le test du modèle sur un ensemble de donnée indépendant
 
 ```{mermaid}
 %%| echo: false
@@ -225,11 +234,11 @@ flowchart TD
 
 Les données d’entraînement vont permettre de construire un modèle. Ces données peuvent prendre des formes très variées mais on peut voir cela sous la forme d'un tableau $N \times D$:
 
-1. La taille $N$ du jeu de donnée
+1.  La taille $N$ du jeu de donnée
 
-2. Chaque entrée définit un échantillon ou un point dans un espace à plusieurs dimension.
+2.  Chaque entrée définit un échantillon ou un point dans un espace à plusieurs dimension.
 
-3. Chaque échantillon est décrit par $D$ dimensions ou caractéristiques (*features*).
+3.  Chaque échantillon est décrit par $D$ dimensions ou caractéristiques (*features*).
 
 Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des sols suivante qui contient 12 classes différentes.
 
@@ -240,7 +249,9 @@ couleurs_classes= {'NoData': 'black', 'Commercial': 'yellow', 'Nuages': 'lightgr
 nom_classes= [*couleurs_classes.keys()]
 couleurs_classes= [*couleurs_classes.values()]
 ```
+
 On peut visualiser la carte de la façon suivante:
+
 ```{python}
 import matplotlib.pyplot as plt
 import rioxarray as rxr
@@ -258,7 +269,9 @@ img_carte= img_carte.squeeze() # nécessaire pour ignorer la dimension du canal
 compte_classe = np.unique(img_carte.data, return_counts=True)
 print(compte_classe)
 ```
-La fréquence d'apparition de chaque classe varie grandement, on parle alors d'un **ensemble déséquilibré**. Ceci est très commun dans la plupart des ensembles d’entraînement, les classes n'apparaissent pas avec la même fréquence. 
+
+La fréquence d'apparition de chaque classe varie grandement, on parle alors d'un **ensemble déséquilibré**. Ceci est très commun dans la plupart des ensembles d’entraînement, les classes n'apparaissent pas avec la même fréquence.
+
 ```{python}
 valeurs, comptes = compte_classe
 
@@ -331,19 +344,19 @@ gdf.head()
 
 Une bonne pratique avant d'appliquer une technique d'apprentissage automatique est de regarder les caractéristiques de vos données:
 
-1. Le nombre de dimensions (*features*)
+1.  Le nombre de dimensions (*features*)
 
-2. Certaines dimensions sont informatives (discriminantes) et d'autres ne le sont pas
+2.  Certaines dimensions sont informatives (discriminantes) et d'autres ne le sont pas
 
-3. Le nombre classes
+3.  Le nombre classes
 
-4. Le nombre de modes (*clusters*) par classes
+4.  Le nombre de modes (*clusters*) par classes
 
-5. Le nombre d'échantillons par classe
+5.  Le nombre d'échantillons par classe
 
-6. La forme des groupes 
+6.  La forme des groupes
 
-7. La séparabilité des classes ou des groupes
+7.  La séparabilité des classes ou des groupes
 
 Une manière d'évaluer la séparabilité de vos classes est d'appliquer des modèles Gaussiens sur chacune des classes. Le modèle Gaussien multivarié suppose que les données sont distribuées comme un nuage de points symétrique et unimodale. La distribution d'un point $x$ appartenant à la classe $i$ est la suivante:
 
@@ -361,6 +374,7 @@ B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln 
 $$
 
 Cette distance présuppose que chaque classe $i$ est décrite par son centre $m_i$ et de sa dispersion dans l'espace à $D$ dimensions mesurée par la matrice de covariance $\Sigma_i$. On peut en faire facilement une fonction Python à l'aide de `numpy`:
+
 ```{python}
 def bhattacharyya_distance(m1, s1, m2, s2):
     # Calcul de la covariance moyenne
@@ -459,7 +473,7 @@ plt.scatter(X1[:, 0], X1[:, 1], marker="o", c=Y1, s=25, edgecolor="k", cmap=cmap
 plt.show()
 ```
 
-On forme notre ensemble d'entrainement à partir du fichier `csv` de la section @sec-05.02.02. 
+On forme notre ensemble d'entrainement à partir du fichier `csv` de la section @sec-05.02.02.
 
 ```{python}
 df= pd.read_csv('sampling_points.csv')
@@ -502,7 +516,9 @@ JM= np.array(JM).reshape(len(classes),len(classes))
 JM= pd.DataFrame(JM, index=classes, columns=classes)
 JM.head(10)
 ```
+
 Afin d'évaluer chaque classe, on peut calculer la séparabilité minimale, on peut observer que la classe eau a le maximum de séparabilité avec les autres classes.
+
 ```{python}
 #| echo: false
 #| warning: false
@@ -514,6 +530,7 @@ plt.title("Séparabilité minimale", fontsize="small")
 plt.xticks(range(len(nom_classes2)), nom_classes2, rotation=45, ha='right')
 plt.show()
 ```
+
 ## Mesures de performance d'une méthode de classification
 
 Lorsque que l'on cherche à établir la performance d'un modèle, il faut être capable de mesurer la performance de ce classificateur. Il existe de nombreuses mesures de performance qui sont toutes dérivées de la matrice de confusion. Cette matrice compare les étiquettes provenant de l'annotation (la vérité terrain) et les étiquettes prédites par un modèle. On peut définir $C(i,j)$ est le nombre de prédictions dont la vérité terrain indique la classe $i$ et qui sont prédites dans la classe $j$. La fonction [confusion_matrix](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html) permet de faire ce calcul, voici un exemple très simple:
@@ -523,27 +540,26 @@ y_true = ["cat", "ant", "cat", "cat", "ant", "bird", "bird"]
 y_pred = ["ant", "ant", "cat", "cat", "ant", "cat", "bird"]
 confusion_matrix(y_true, y_pred, labels=["ant", "bird", "cat"])
 ```
+
 La fonction [classification_report](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html#sklearn.metrics.classification_report) permet de générer quelques métriques:
+
 ```{python}
 y_true = ["cat", "ant", "cat", "cat", "ant", "bird", "bird"]
 y_pred = ["ant", "ant", "cat", "cat", "ant", "cat", "bird"]
 print(classification_report(y_true, y_pred, target_names=["ant", "bird", "cat"]))
 ```
-Le rappel (*recall*) pour une classe donnée est la proportion de la vérité terrain qui a été correctement identifiée et est sensible aux confusions entre classes (erreurs d'omission). Les valeurs de rappels correspondent à une normalization de la matrice de confusion par rapport aux lignes. 
+
+Le rappel (*recall*) pour une classe donnée est la proportion de la vérité terrain qui a été correctement identifiée et est sensible aux confusions entre classes (erreurs d'omission). Les valeurs de rappels correspondent à une normalization de la matrice de confusion par rapport aux lignes.
 
 $$
 Recall_i= C_{ii} / \sum_j C_{ij}
-$$
-Une faible valeur de rappel signifie que le classificateur confond facilement la classe concernée avec d'autres classes.
+$$ Une faible valeur de rappel signifie que le classificateur confond facilement la classe concernée avec d'autres classes.
 
-La précision est la portion des prédictions qui ont été bien classifiées et est sensible aux fausses alarmes (erreurs de commission). Les valeurs de précision correspondent à une normalization de la matrice de confusion par rapport aux colonnes.
-$$
+La précision est la portion des prédictions qui ont été bien classifiées et est sensible aux fausses alarmes (erreurs de commission). Les valeurs de précision correspondent à une normalization de la matrice de confusion par rapport aux colonnes. $$
 Precision_i= C_{ii} / \sum_i C_{ij}
-$$
-Une faible valeur de précision signifie que le classificateur trouve facilement la classe concernée dans d'autres classes.
+$$ Une faible valeur de précision signifie que le classificateur trouve facilement la classe concernée dans d'autres classes.
 
-Le `f1-score` calcul une moyenne des deux métriques précédentes:
-$$
+Le `f1-score` calcul une moyenne des deux métriques précédentes: $$
 \text{f1-score}_i=2\frac{Recall_i \times Precision_i}{Recall_i + Precision_i}
 $$
 
@@ -551,10 +567,9 @@ $$
 
 Les méthodes non paramétriques ne font pas d'hypothèses particulières sur les données. Un des inconvénients de ces modèles est que le nombre de paramètres du modèles augmente avec la taille des données.
 
-
 ### Méthode des parallélépipèdes {#sec-0511}
 
-La méthode du parallélépipède est probablement la plus simple et consiste à délimiter directement le domaine des points d'une classe par une boite (un parallélépipède) à $D$ dimensions. Les limites de ces parallélépipèdes forment alors des frontières de décision manuelles qui vont permettre décider de la classe d'appartenance d'un nouveau point. Un des avantages de cette technique est que si un point n'est dans aucun parallélépipède alors on peut le laisser comme non classifié. Par contre, la construction de ces parallélépipèdes se complexifient grandement avec le nombre de bandes. À une dimension, deux paramètres, équivalents à un seuillage d'histogramme, sont suffisants. À deux dimensions, vous devez définir 4 segments par classe. Avec 3 bandes, vous devez définir 6 plans par classes et à D dimensions, D hyperplans à D-1 dimensions par classe. Le modèle ici est donc une suite de valeurs `min` et `max` pour chacune des bandes et des classes: 
+La méthode du parallélépipède est probablement la plus simple et consiste à délimiter directement le domaine des points d'une classe par une boite (un parallélépipède) à $D$ dimensions. Les limites de ces parallélépipèdes forment alors des frontières de décision manuelles qui vont permettre décider de la classe d'appartenance d'un nouveau point. Un des avantages de cette technique est que si un point n'est dans aucun parallélépipède alors on peut le laisser comme non classifié. Par contre, la construction de ces parallélépipèdes se complexifient grandement avec le nombre de bandes. À une dimension, deux paramètres, équivalents à un seuillage d'histogramme, sont suffisants. À deux dimensions, vous devez définir 4 segments par classe. Avec 3 bandes, vous devez définir 6 plans par classes et à D dimensions, D hyperplans à D-1 dimensions par classe. Le modèle ici est donc une suite de valeurs `min` et `max` pour chacune des bandes et des classes:
 
 ```{python}
 def parrallepiped_train(X_train, y_train):
@@ -570,6 +585,7 @@ def parrallepiped_train(X_train, y_train):
   return clf
 clf= parrallepiped_train(X, y_new)
 ```
+
 La prédiction consiste à trouver pour chaque point la première limite qui est satisfaite. Notez qu'il n'y a pas de moyen de décider quelle est la meilleure classe si le point appartient à plusieurs classes.
 
 ```{python}
@@ -588,7 +604,9 @@ def parrallepiped_predict(clf, X_test):
         y_pred[-1]=cl
   return np.array(y_pred)
 ```
+
 On peut appliquer ensuite le modèle sur l'image au complet. Les résultats sont assez mauvais, seule la classe eau en bleu semble être bien classifiée.
+
 ```{python}
 data_image= img_rgbnir.to_numpy().transpose(1,2,0).reshape(img_rgbnir.shape[1]*img_rgbnir.shape[2],4)
 y_image= parrallepiped_predict(clf, data_image)
@@ -599,7 +617,9 @@ plt.imshow(y_image, cmap=cmap_classes2)
 ax.set_title("Méthode des parrallélépipèdes", fontsize="small")
 plt.show()
 ```
+
 On peut calculer quelques mesures de performance sur l'ensemble d'entrainement:
+
 ```{python}
 y_pred= parrallepiped_predict(clf, X)
 nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]
@@ -608,7 +628,7 @@ print(classification_report(y_new, y_pred, target_names=nom_classes2, zero_divis
 
 #### La malédiction de la haute dimension
 
-Augmenter le nombre de dimension ou de caractéristiques des données permet de résoudre des problèmes complexes comme la classification d'image. Cependant, cela amène beaucoup de contraintes sur le volume des données. Supposons que nous avons N points occupant un segment linéaire de taille d. La densité de points est $N/d$. Si nous augmentons le nombre de dimension D, la densité de points va diminuer exponentiellement en $1/d^D$. Par conséquent, pour garder une densité constante et donc une bonne estimation des parallélépipèdes, il nous faudrait augmenter le nombre de points en puissance de D. Ceci porte le nom de la malédiction de la dimensionnalité (*dimensionality curse*). En résumé, l'espace vide augmente plus rapidement que le nombre de données d'entraînement et l'espace des données devient de plus en plus parcimonieux (*sparse*). Pour contrecarrer ce problème, on peut sélectionner les meilleures caractéristiques ou appliquer une réduction de dimension. 
+Augmenter le nombre de dimension ou de caractéristiques des données permet de résoudre des problèmes complexes comme la classification d'image. Cependant, cela amène beaucoup de contraintes sur le volume des données. Supposons que nous avons N points occupant un segment linéaire de taille d. La densité de points est $N/d$. Si nous augmentons le nombre de dimension D, la densité de points va diminuer exponentiellement en $1/d^D$. Par conséquent, pour garder une densité constante et donc une bonne estimation des parallélépipèdes, il nous faudrait augmenter le nombre de points en puissance de D. Ceci porte le nom de la malédiction de la dimensionnalité (*dimensionality curse*). En résumé, l'espace vide augmente plus rapidement que le nombre de données d'entraînement et l'espace des données devient de plus en plus parcimonieux (*sparse*). Pour contrecarrer ce problème, on peut sélectionner les meilleures caractéristiques ou appliquer une réduction de dimension.
 
 ### Plus proches voisins
 
@@ -652,6 +672,7 @@ Avant d'effectuer un entraînement, on met généralement une portion des donné
 ```{python}
 X_train, X_test, y_train, y_test = train_test_split(X, y_new, test_size=0.2, random_state=0)
 ```
+
 On peut visualiser les frontières de décision du K-NN pour différentes valeurs de $K$ lorsque seulement deux bandes sont utilisées (Rouge et proche infra-rouge ici):
 
 ```{python}
@@ -685,6 +706,7 @@ for ax, K in zip(axs.flatten(), [1,3,7,15]):
 
 plt.show()
 ```
+
 On peut voir comment les différentes frontières de décision se forment dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes et le calcul plus long.
 
 ```{python}
@@ -693,15 +715,20 @@ y_pred = clf.predict(X_test)
 print("Nombre de points misclassifiés sur %d points : %d"
   % (X_test.shape[0], (y_test != y_pred).sum()))
 ```
+
 Le rapport de performance est le suivant:
+
 ```{python}
 nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]
 print(classification_report(y_test, y_pred, target_names=nom_classes2, zero_division=np.nan))
 ```
+
 La matrice de confusion peut-être affichée de manière graphique:
+
 ```{python}
 disp= ConfusionMatrixDisplay.from_predictions(y_test, y_pred, display_labels=nom_classes2, xticks_rotation='vertical')
 ```
+
 L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec Largeur x Hauteur lignes et 4 colonnes:
 
 ```{python}
@@ -758,7 +785,9 @@ for ax, K in zip(axs.flatten(), [1,2,3,4]):
 
 plt.show()
 ```
+
 On peut observer que les frontières de décision sont formées d'un ensemble de plans simple. Chaque plan étant issu d'une règle de décison formé d'un seuil sur chacune des dimensions. On entraine un arbre de décision avec une profondeur maximale de 5:
+
 ```{python}
 clf = tree.DecisionTreeClassifier(max_depth=5)
 clf.fit(X_train, y_train)
@@ -768,6 +797,7 @@ print("Nombre de points misclassifiés sur %d points : %d"
 ```
 
 Le rapport de performance et la matrice de confusion:
+
 ```{python}
 #| echo: false
 #| warning: false
@@ -779,6 +809,7 @@ print(classification_report(y_test, y_pred, target_names=nom_classes2, zero_divi
 #| warning: false
 disp= ConfusionMatrixDisplay.from_predictions(y_test, y_pred, display_labels=nom_classes2, xticks_rotation='vertical')
 ```
+
 L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec Largeur x Hauteur lignes et 4 colonnes:
 
 ```{python}
@@ -798,18 +829,22 @@ plt.imshow(y_classe, cmap=cmap_classes2)
 ax.set_title("Carte d'occupation des sols avec un arbre de décision", fontsize="small")
 plt.show()
 ```
+
 Il est possible de visualiser l'arbre mais cela contient beaucoup d'information
+
 ```{python}
 fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
 tree.plot_tree(clf, max_depth=1)
 ```
+
 ## Méthodes paramétriques
 
-Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. Contraitement au méthodes non paramétriques, elles ont un nombre fixe de paramètres qui ne dépend pas de la taille du jeu de données. Par contre, des hypothèses sont faites sur le comportement statistique des données. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. L'ensemble d’entraînement permettra alors de calculer les paramètres de chaque Gaussienne pour chacune des classes d'intérêt. 
+Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. Contraitement au méthodes non paramétriques, elles ont un nombre fixe de paramètres qui ne dépend pas de la taille du jeu de données. Par contre, des hypothèses sont faites sur le comportement statistique des données. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. L'ensemble d’entraînement permettra alors de calculer les paramètres de chaque Gaussienne pour chacune des classes d'intérêt.
 
 ### Méthode Bayésienne naïve
 
 La méthode Bayésienne naïve Gaussienne consiste faire des hypothèses simplificatrices sur les données, en particulier l'indépendance des données et des dimensions. Ceci permet un calcul plus simple.
+
 ```{python}
 from sklearn.naive_bayes import GaussianNB
 gnb = GaussianNB()
@@ -846,8 +881,8 @@ _ = disp.ax_.set_title(
 
 plt.show()
 ```
-On peut observer que les frontières de décision sont beaucoup plus régulières que pour K-NN.
 
+On peut observer que les frontières de décision sont beaucoup plus régulières que pour K-NN.
 
 ```{python}
 gnb.fit(X_train, y_train)
@@ -869,6 +904,7 @@ plt.imshow(y_classe, cmap=cmap_classes2)
 ax.set_title("Carte d'occupation des sols avec la méthode Bayésienne naive", fontsize="small")
 plt.show()
 ```
+
 ### Analyse Discriminante Quadratique (ADQ)
 
 L'analyse discriminante quadratique peut-être vue comme une généralisation de l'approche Bayésienne naive qui suppose des modèles Gaussiens indépendants pour chaque dimension et chaque point. Ici, on va considérer un modèle Gaussien multivarié.
@@ -881,8 +917,8 @@ print("Nombre de points misclassifiés sur %d points : %d"
   % (X_test.shape[0], (y_test != y_pred).sum()))
 ```
 
-
 Les Gaussiennes multivariées peuvent être visualiser sous forme d'éllipses décrivant le domaine des valeurs de chaque classe:
+
 ```{python}
 #| echo: false
 #| warning: false
@@ -929,6 +965,7 @@ for index, b in enumerate([0,1,3]):
 De la même manière, la prédiction peut s'appliquer sur toute l'image:
 
 ```{python}
+#| eval: false
 #| echo: false
 #| warning: false
 data_image= img_rgbnir.to_numpy().transpose(1,2,0).reshape(img_rgbnir.shape[1]*img_rgbnir.shape[2],4)
@@ -940,6 +977,9 @@ ax.set_title("Carte d'occupation des sols avec la méthode ADQ", fontsize="small
 plt.show()
 ```
 
+![](images/cell-48-output-1.png){fig-align="center" width="800"}
+
+```{=html}
 <!-- 
 ### Réseaux de neurones
 
@@ -951,3 +991,4 @@ Le perceptron multi-couches est un réseau dense (*fully connected*) avec des co
 
 Ces réseaux sont entraînés via des techniques itératives d'optimisation de type descente en gradient avec une correction des paramètres (les poids) à l'aide de la rétro-propagation de l'erreur. L'erreur est mesurée via une fonction de coût que l'on cherche à réduire.
 -->
+```

@@ -19,6 +19,8 @@ plt.rcParams['ytick.labelsize'] = 10
 plt.rcParams['legend.fontsize'] = 10
 plt.rcParams['image.aspect'] = 'equal'
 plt.rcParams['image.cmap'] = 'gray'
+import warnings
+warnings.filterwarnings('ignore')
 ```
 
 # Réhaussement et visualisation d'images {#sec-chap02}
@@ -231,7 +233,7 @@ print(';imites :',bin_limites)
 Le calcul se fait avec 10 intervalles par défaut.
 
 ```{python}
-fig, ax= plt.subplots(figsize=(6, 5))
+fig, ax= plt.subplots(figsize=(5, 4))
 plt.bar(bin_limites[:-1],hist)
 plt.show()
 ```
