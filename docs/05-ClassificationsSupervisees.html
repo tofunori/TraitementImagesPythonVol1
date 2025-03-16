@@ -86,7 +86,7 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
 <link href="./04-TransformationSpatiales.html" rel="prev">
-<link href="./images/couverture-full.png" rel="icon" type="image/png">
+<link href="./images/favicon-32x32.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -664,8 +664,10 @@ P(x | Classe=i) = \frac{1}{(2\pi)^{D/2} |\Sigma_i|^{1/2}}\exp\left(-\frac{1}{2} 
 <p>La méthode <a href="https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis.html"><code>QuadraticDiscriminantAnalysis</code></a> permet de calculer les paramètres des Gaussiennes multivariées pour chacune des classes.</p>
 <p>On peut calculer une distance entre deux nuages Gaussiens avec la distance dites de Jeffries-Matusita (JM) basée sur la distance de Bhattacharyya <span class="math inline">\(B\)</span> <span class="citation" data-cites="Jensen2016">(<a href="references.html#ref-Jensen2016" role="doc-biblioref">Jensen 2016</a>)</span>:</p>
 <p><span class="math display">\[
-JM_{ij}= 2(1-e^{-B})\\
-B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln { \frac{|(\Sigma_i+\Sigma_j)/2|}{|\Sigma_i|^{1/2}|\Sigma_j|^{1/2}}}
+\begin{aligned}
+JM_{ij} &amp;= 2(1 - e^{-B_{ij}}) \\
+B_{ij} &amp;= \frac{1}{8}(m_i - m_j)^t \left( \frac{\Sigma_i + \Sigma_j}{2} \right)^{-1} (m_i - m_j) + \frac{1}{2} \ln \left( \frac{|(\Sigma_i + \Sigma_j)/2|}{|\Sigma_i|^{1/2} |\Sigma_j|^{1/2}} \right)
+\end{aligned}
 \]</span></p>
 <p>Cette distance présuppose que chaque classe <span class="math inline">\(i\)</span> est décrite par son centre <span class="math inline">\(m_i\)</span> et de sa dispersion dans l’espace à <span class="math inline">\(D\)</span> dimensions mesurée par la matrice de covariance <span class="math inline">\(\Sigma_i\)</span>. On peut en faire facilement une fonction Python à l’aide de <code>numpy</code>:</p>
 <div id="9630159c" class="cell" data-execution_count="14">

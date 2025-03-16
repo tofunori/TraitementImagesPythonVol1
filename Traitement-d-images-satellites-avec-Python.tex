@@ -4389,8 +4389,10 @@ distance dites de Jeffries-Matusita (JM) basée sur la distance de
 Bhattacharyya \(B\) (Jensen 2016):
 
 \[
-JM_{ij}= 2(1-e^{-B})\\
-B=\frac{1}{8}(m_i-m_j)^t { \frac{\Sigma_i+\Sigma_j}{2} }(m_i-m_j)+\frac{1}{2}ln { \frac{|(\Sigma_i+\Sigma_j)/2|}{|\Sigma_i|^{1/2}|\Sigma_j|^{1/2}}}
+\begin{aligned}
+JM_{ij} &= 2(1 - e^{-B_{ij}}) \\
+B_{ij} &= \frac{1}{8}(m_i - m_j)^t \left( \frac{\Sigma_i + \Sigma_j}{2} \right)^{-1} (m_i - m_j) + \frac{1}{2} \ln \left( \frac{|(\Sigma_i + \Sigma_j)/2|}{|\Sigma_i|^{1/2} |\Sigma_j|^{1/2}} \right)
+\end{aligned}
 \]
 
 Cette distance présuppose que chaque classe \(i\) est décrite par son
