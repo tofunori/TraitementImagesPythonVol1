@@ -63,6 +63,7 @@ book:
   - issue
   downloads:
   - pdf
+  - docx
   chapters:
   - index.qmd
   - 00-auteurs.qmd
