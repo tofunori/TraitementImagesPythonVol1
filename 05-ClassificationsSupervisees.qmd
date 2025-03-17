@@ -947,7 +947,7 @@ def make_ellipses(gmm, bands, ax):
         ax.add_artist(ell)
         ax.set_aspect("equal", "datalim")
 
-plt.figure(figsize=(9, 3))
+plt.figure(figsize=(9, 3), sharey= True)
 #plt.subplots_adjust(
 #    bottom=0.01, top=0.95, hspace=0.15, wspace=0.05, left=0.01, right=0.99
 #)
@@ -980,7 +980,7 @@ ax.set_title("Carte d'occupation des sols avec la méthode ADQ", fontsize="small
 plt.show()
 ```
 
-![](images/cell-48-output-1.png){fig-align="center" width="800"}
+![](images/cell-48-output-1.png){fig-align="center" width="600"}
 
 ```{=html}
 <!-- 

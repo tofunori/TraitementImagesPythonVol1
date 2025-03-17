@@ -13,7 +13,8 @@
         "  message: false\n",
         "  warning: false\n",
         "---"
-      ]
+      ],
+      "id": "da3320f2"
     },
     {
       "cell_type": "code",
@@ -32,6 +33,7 @@
         "import warnings\n",
         "warnings.filterwarnings('ignore')"
       ],
+      "id": "89c78ae4",
       "execution_count": null,
       "outputs": []
     },
@@ -73,8 +75,9 @@
         "\n",
         "-   [scikit-learn](https://scikit-learn.org/)\n",
         "\n",
-        "Dans l'environnement Google Colab, seul `rioxarray` et `xrscipy` doit être installés:"
-      ]
+        "Dans l'environnement Google Colab, seul `rioxarray` et `xrscipy` doit être installés:\n"
+      ],
+      "id": "d7711dab"
     },
     {
       "cell_type": "code",
@@ -84,6 +87,7 @@
         "%%capture\n",
         "!pip install -qU matplotlib rioxarray xrscipy"
       ],
+      "id": "f657af32",
       "execution_count": null,
       "outputs": []
     },
@@ -91,8 +95,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Vérifier les importations nécessaires en premier:"
-      ]
+        "Vérifier les importations nécessaires en premier:\n"
+      ],
+      "id": "1eb1f6e5"
     },
     {
       "cell_type": "code",
@@ -119,6 +124,7 @@
         "from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis\n",
         "from sklearn.datasets import make_blobs, make_classification, make_gaussian_quantiles"
       ],
+      "id": "7e923b6e",
       "execution_count": null,
       "outputs": []
     },
@@ -128,8 +134,9 @@
       "source": [
         "### Images utilisées\n",
         "\n",
-        "Nous allons utilisez les images suivantes dans ce chapitre:"
-      ]
+        "Nous allons utilisez les images suivantes dans ce chapitre:\n"
+      ],
+      "id": "e2be628f"
     },
     {
       "cell_type": "code",
@@ -145,6 +152,7 @@
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')\n",
         "gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg', output= 'carte.tif')"
       ],
+      "id": "9c36ca16",
       "execution_count": null,
       "outputs": []
     },
@@ -152,8 +160,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Vérifiez que vous êtes capable de les lire :"
-      ]
+        "Vérifiez que vous êtes capable de les lire :\n"
+      ],
+      "id": "c1f6825d"
     },
     {
       "cell_type": "code",
@@ -170,6 +179,7 @@
         "with rxr.open_rasterio('carte.tif', mask_and_scale= True) as img_carte:\n",
         "    print(img_carte)"
       ],
+      "id": "c4bee47d",
       "execution_count": null,
       "outputs": []
     },
@@ -187,8 +197,9 @@
         "\n",
         "### Comportement d'un modèle\n",
         "\n",
-        "Cet exemple tiré de [`sickit-learn`](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py) illustre les problèmes d'ajustement insuffisant ou **sous-apprentissage** (*underfitting*) et d'ajustement excessif ou **sur-apprentissage** (*overfitting*) et montre comment nous pouvons utiliser la régression linéaire avec un modèle polynomiale pour approximer des fonctions non linéaires. La @fig-overfitting montre la fonction que nous voulons approximer, qui est une partie de la fonction cosinus (couleur orange). En outre, les échantillons de la fonction réelle et les approximations de différents modèles sont affichés en bleu. Les modèles ont des caractéristiques polynomiales de différents degrés. Nous pouvons constater qu'une fonction linéaire (polynôme de degré 1) n'est pas suffisante pour s'adapter aux échantillons d'apprentissage. C'est ce qu'on appelle un sous-ajustement (*underfitting*) qui produit un biais systématique quelque soit les points d’entraînement. Un polynôme de degré 4 se rapproche presque parfaitement de la fonction réelle. Cependant, pour des degrés plus élevés, le modèle s'adaptera trop aux données d'apprentissage, c'est-à-dire qu'il apprendra le bruit des données d'apprentissage. Nous évaluons quantitativement le sur-apprentissage et le sous-apprentissage à l'aide de la validation croisée. Nous calculons l'erreur quadratique moyenne (EQM) sur l'ensemble de validation. Plus elle est élevée, moins le modèle est susceptible de se généraliser correctement à partir des données d'apprentissage."
-      ]
+        "Cet exemple tiré de [`sickit-learn`](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py) illustre les problèmes d'ajustement insuffisant ou **sous-apprentissage** (*underfitting*) et d'ajustement excessif ou **sur-apprentissage** (*overfitting*) et montre comment nous pouvons utiliser la régression linéaire avec un modèle polynomiale pour approximer des fonctions non linéaires. La @fig-overfitting montre la fonction que nous voulons approximer, qui est une partie de la fonction cosinus (couleur orange). En outre, les échantillons de la fonction réelle et les approximations de différents modèles sont affichés en bleu. Les modèles ont des caractéristiques polynomiales de différents degrés. Nous pouvons constater qu'une fonction linéaire (polynôme de degré 1) n'est pas suffisante pour s'adapter aux échantillons d'apprentissage. C'est ce qu'on appelle un sous-ajustement (*underfitting*) qui produit un biais systématique quelque soit les points d’entraînement. Un polynôme de degré 4 se rapproche presque parfaitement de la fonction réelle. Cependant, pour des degrés plus élevés, le modèle s'adaptera trop aux données d'apprentissage, c'est-à-dire qu'il apprendra le bruit des données d'apprentissage. Nous évaluons quantitativement le sur-apprentissage et le sous-apprentissage à l'aide de la validation croisée. Nous calculons l'erreur quadratique moyenne (EQM) sur l'ensemble de validation. Plus elle est élevée, moins le modèle est susceptible de se généraliser correctement à partir des données d'apprentissage.\n"
+      ],
+      "id": "876ecbde"
     },
     {
       "cell_type": "code",
@@ -196,7 +207,7 @@
       "source": [
         "#| echo: false\n",
         "#| label: fig-overfitting\n",
-        "#| fig-cap: \"Exemples de sur et sous-apprentissage.\"\n",
+        "#| fig-cap: Exemples de sur et sous-apprentissage.\n",
         "import matplotlib.pyplot as plt\n",
         "import numpy as np\n",
         "\n",
@@ -260,6 +271,7 @@
         "    results.append([degrees[i], -scores['train_score'].mean(), -scores['test_score'].mean(),scores['train_score'].std(),scores['test_score'].std()])\n",
         "plt.show()"
       ],
+      "id": "fig-overfitting",
       "execution_count": null,
       "outputs": []
     },
@@ -283,6 +295,13 @@
         "\n",
         "5.  Enfin le test du modèle sur un ensemble de donnée indépendant\n",
         "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
         "```{mermaid}\n",
         "%%| echo: false\n",
         "%%| label: fig-pipeline\n",
@@ -297,6 +316,13 @@
         "    C -.-> G\n",
         "```\n",
         "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
         "### Construction d'un ensemble d’entraînement {#sec-05.02.02}\n",
         "\n",
         "Les données d’entraînement vont permettre de construire un modèle. Ces données peuvent prendre des formes très variées mais on peut voir cela sous la forme d'un tableau $N \\times D$:\n",
@@ -307,8 +333,9 @@
         "\n",
         "3.  Chaque échantillon est décrit par $D$ dimensions ou caractéristiques (*features*).\n",
         "\n",
-        "Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des sols suivante qui contient 12 classes différentes."
-      ]
+        "Une façon simple de construire un ensemble d’entraînement est d'échantillonner un produit existant. Nous allons utiliser la carte d'occupation des sols suivante qui contient 12 classes différentes.\n"
+      ],
+      "id": "d7cd5b89"
     },
     {
       "cell_type": "code",
@@ -320,6 +347,7 @@
         "nom_classes= [*couleurs_classes.keys()]\n",
         "couleurs_classes= [*couleurs_classes.values()]"
       ],
+      "id": "feace744",
       "execution_count": null,
       "outputs": []
     },
@@ -327,8 +355,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut visualiser la carte de la façon suivante:"
-      ]
+        "On peut visualiser la carte de la façon suivante:\n"
+      ],
+      "id": "17ea7eae"
     },
     {
       "cell_type": "code",
@@ -342,6 +371,7 @@
         "img_carte.squeeze().plot.imshow(cmap=cmap_classes, vmin=0, vmax=12)\n",
         "ax.set_title(\"Carte d'occupation des sols\", fontsize=\"small\")"
       ],
+      "id": "b9186be0",
       "execution_count": null,
       "outputs": []
     },
@@ -349,8 +379,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut facilement calculer la fréquence d’occurrence des 12 classes dans l'image à l'aide de `numpy`:"
-      ]
+        "On peut facilement calculer la fréquence d’occurrence des 12 classes dans l'image à l'aide de `numpy`:\n"
+      ],
+      "id": "c3edeba7"
     },
     {
       "cell_type": "code",
@@ -360,6 +391,7 @@
         "compte_classe = np.unique(img_carte.data, return_counts=True)\n",
         "print(compte_classe)"
       ],
+      "id": "fb37be05",
       "execution_count": null,
       "outputs": []
     },
@@ -367,8 +399,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "La fréquence d'apparition de chaque classe varie grandement, on parle alors d'un **ensemble déséquilibré**. Ceci est très commun dans la plupart des ensembles d’entraînement, les classes n'apparaissent pas avec la même fréquence."
-      ]
+        "La fréquence d'apparition de chaque classe varie grandement, on parle alors d'un **ensemble déséquilibré**. Ceci est très commun dans la plupart des ensembles d’entraînement, les classes n'apparaissent pas avec la même fréquence.\n"
+      ],
+      "id": "4c061103"
     },
     {
       "cell_type": "code",
@@ -385,6 +418,7 @@
         "plt.xticks(range(len(nom_classes)), nom_classes, rotation=45, ha='right')\n",
         "plt.show()"
       ],
+      "id": "681ca91b",
       "execution_count": null,
       "outputs": []
     },
@@ -392,8 +426,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut échantillonner 100 points aléatoires pour chaque classe:"
-      ]
+        "On peut échantillonner 100 points aléatoires pour chaque classe:\n"
+      ],
+      "id": "d6a82d1b"
     },
     {
       "cell_type": "code",
@@ -436,6 +471,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec les points échantillonnés\", fontsize=\"small\")\n",
         "plt.show()"
       ],
+      "id": "30463e82",
       "execution_count": null,
       "outputs": []
     },
@@ -443,8 +479,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes `sample()` de `rasterio`. Éventuellement, la librairie [`geopandas`](https://geopandas.org) permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence. Afin de pouvoir classifier ces points, nous allons ajouter les valeurs radiométriques provenant de l'image Sentinel-2 à 4 bandes `RGBNIR_of_S2A.tif`. Ces valeurs seront stockées dans la colonne `value` sous la forme d'un vecteur en format `string`:"
-      ]
+        "Une fois les points sélectionnés, il faut ajouter les valeurs des bandes provenant d'une image satellite. Pour cela, on peut utiliser la méthodes `sample()` de `rasterio`. Éventuellement, la librairie [`geopandas`](https://geopandas.org) permet de gérer les données d’entraînement sous la forme d'un tableau transportant aussi l'information de géoréférence. Afin de pouvoir classifier ces points, nous allons ajouter les valeurs radiométriques provenant de l'image Sentinel-2 à 4 bandes `RGBNIR_of_S2A.tif`. Ces valeurs seront stockées dans la colonne `value` sous la forme d'un vecteur en format `string`:\n"
+      ],
+      "id": "c2bea024"
     },
     {
       "cell_type": "code",
@@ -459,6 +496,7 @@
         "gdf.to_csv('sampling_points.csv') # sauvegarde sous forme d'un format csv\n",
         "gdf.head()"
       ],
+      "id": "2172fb50",
       "execution_count": null,
       "outputs": []
     },
@@ -501,8 +539,9 @@
         "\\end{aligned}\n",
         "$$\n",
         "\n",
-        "Cette distance présuppose que chaque classe $i$ est décrite par son centre $m_i$ et de sa dispersion dans l'espace à $D$ dimensions mesurée par la matrice de covariance $\\Sigma_i$. On peut en faire facilement une fonction Python à l'aide de `numpy`:"
-      ]
+        "Cette distance présuppose que chaque classe $i$ est décrite par son centre $m_i$ et de sa dispersion dans l'espace à $D$ dimensions mesurée par la matrice de covariance $\\Sigma_i$. On peut en faire facilement une fonction Python à l'aide de `numpy`:\n"
+      ],
+      "id": "6bff3f16"
     },
     {
       "cell_type": "code",
@@ -525,6 +564,7 @@
         "    B = bhattacharyya_distance(m1, s1, m2, s2)\n",
         "    return 2 * (1 - np.exp(-B))"
       ],
+      "id": "d81c4372",
       "execution_count": null,
       "outputs": []
     },
@@ -532,8 +572,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "La figure ci-dessous illustre différentes situations avec des données artificielles:"
-      ]
+        "La figure ci-dessous illustre différentes situations avec des données artificielles:\n"
+      ],
+      "id": "a5069679"
     },
     {
       "cell_type": "code",
@@ -614,6 +655,7 @@
         "\n",
         "plt.show()"
       ],
+      "id": "615dcce9",
       "execution_count": null,
       "outputs": []
     },
@@ -621,8 +663,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On forme notre ensemble d'entrainement à partir du fichier `csv` de la section @sec-05.02.02."
-      ]
+        "On forme notre ensemble d'entrainement à partir du fichier `csv` de la section @sec-05.02.02.\n"
+      ],
+      "id": "8a9bdcdc"
     },
     {
       "cell_type": "code",
@@ -652,6 +695,7 @@
         "nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]\n",
         "cmap_classes2 = ListedColormap(couleurs_classes2)"
       ],
+      "id": "1926096f",
       "execution_count": null,
       "outputs": []
     },
@@ -659,8 +703,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut faire une analyse de séparabilité sur notre ensemble d'entrainement de 10 classes. On obtient un tableau symmétrique de 10x10 valeurs. On peut observer des valeurs inférieures à 1 ce qui indique des séparabilités faibles entre ces classes sous l'hypothèse du modèle Gaussien:"
-      ]
+        "On peut faire une analyse de séparabilité sur notre ensemble d'entrainement de 10 classes. On obtient un tableau symmétrique de 10x10 valeurs. On peut observer des valeurs inférieures à 1 ce qui indique des séparabilités faibles entre ces classes sous l'hypothèse du modèle Gaussien:\n"
+      ],
+      "id": "7c1dc181"
     },
     {
       "cell_type": "code",
@@ -678,6 +723,7 @@
         "JM= pd.DataFrame(JM, index=classes, columns=classes)\n",
         "JM.head(10)"
       ],
+      "id": "e9fe6db6",
       "execution_count": null,
       "outputs": []
     },
@@ -685,8 +731,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Afin d'évaluer chaque classe, on peut calculer la séparabilité minimale, on peut observer que la classe eau a le maximum de séparabilité avec les autres classes."
-      ]
+        "Afin d'évaluer chaque classe, on peut calculer la séparabilité minimale, on peut observer que la classe eau a le maximum de séparabilité avec les autres classes.\n"
+      ],
+      "id": "831388c4"
     },
     {
       "cell_type": "code",
@@ -702,6 +749,7 @@
         "plt.xticks(range(len(nom_classes2)), nom_classes2, rotation=45, ha='right')\n",
         "plt.show()"
       ],
+      "id": "88c9e1be",
       "execution_count": null,
       "outputs": []
     },
@@ -711,8 +759,9 @@
       "source": [
         "## Mesures de performance d'une méthode de classification\n",
         "\n",
-        "Lorsque que l'on cherche à établir la performance d'un modèle, il faut être capable de mesurer la performance de ce classificateur. Il existe de nombreuses mesures de performance qui sont toutes dérivées de la matrice de confusion. Cette matrice compare les étiquettes provenant de l'annotation (la vérité terrain) et les étiquettes prédites par un modèle. On peut définir $C(i,j)$ est le nombre de prédictions dont la vérité terrain indique la classe $i$ et qui sont prédites dans la classe $j$. La fonction [confusion_matrix](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html) permet de faire ce calcul, voici un exemple très simple:"
-      ]
+        "Lorsque que l'on cherche à établir la performance d'un modèle, il faut être capable de mesurer la performance de ce classificateur. Il existe de nombreuses mesures de performance qui sont toutes dérivées de la matrice de confusion. Cette matrice compare les étiquettes provenant de l'annotation (la vérité terrain) et les étiquettes prédites par un modèle. On peut définir $C(i,j)$ est le nombre de prédictions dont la vérité terrain indique la classe $i$ et qui sont prédites dans la classe $j$. La fonction [confusion_matrix](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html) permet de faire ce calcul, voici un exemple très simple:\n"
+      ],
+      "id": "1b94340f"
     },
     {
       "cell_type": "code",
@@ -722,6 +771,7 @@
         "y_pred = [\"ant\", \"ant\", \"cat\", \"cat\", \"ant\", \"cat\", \"bird\"]\n",
         "confusion_matrix(y_true, y_pred, labels=[\"ant\", \"bird\", \"cat\"])"
       ],
+      "id": "22e9289b",
       "execution_count": null,
       "outputs": []
     },
@@ -729,8 +779,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "La fonction [classification_report](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html#sklearn.metrics.classification_report) permet de générer quelques métriques:"
-      ]
+        "La fonction [classification_report](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html#sklearn.metrics.classification_report) permet de générer quelques métriques:\n"
+      ],
+      "id": "e7b93bb0"
     },
     {
       "cell_type": "code",
@@ -740,6 +791,7 @@
         "y_pred = [\"ant\", \"ant\", \"cat\", \"cat\", \"ant\", \"cat\", \"bird\"]\n",
         "print(classification_report(y_true, y_pred, target_names=[\"ant\", \"bird\", \"cat\"]))"
       ],
+      "id": "8b096b4f",
       "execution_count": null,
       "outputs": []
     },
@@ -767,8 +819,9 @@
         "\n",
         "### Méthode des parallélépipèdes {#sec-0511}\n",
         "\n",
-        "La méthode du parallélépipède est probablement la plus simple et consiste à délimiter directement le domaine des points d'une classe par une boite (un parallélépipède) à $D$ dimensions. Les limites de ces parallélépipèdes forment alors des frontières de décision manuelles qui vont permettre décider de la classe d'appartenance d'un nouveau point. Un des avantages de cette technique est que si un point n'est dans aucun parallélépipède alors on peut le laisser comme non classifié. Par contre, la construction de ces parallélépipèdes se complexifient grandement avec le nombre de bandes. À une dimension, deux paramètres, équivalents à un seuillage d'histogramme, sont suffisants. À deux dimensions, vous devez définir 4 segments par classe. Avec 3 bandes, vous devez définir 6 plans par classes et à D dimensions, D hyperplans à D-1 dimensions par classe. Le modèle ici est donc une suite de valeurs `min` et `max` pour chacune des bandes et des classes:"
-      ]
+        "La méthode du parallélépipède est probablement la plus simple et consiste à délimiter directement le domaine des points d'une classe par une boite (un parallélépipède) à $D$ dimensions. Les limites de ces parallélépipèdes forment alors des frontières de décision manuelles qui vont permettre décider de la classe d'appartenance d'un nouveau point. Un des avantages de cette technique est que si un point n'est dans aucun parallélépipède alors on peut le laisser comme non classifié. Par contre, la construction de ces parallélépipèdes se complexifient grandement avec le nombre de bandes. À une dimension, deux paramètres, équivalents à un seuillage d'histogramme, sont suffisants. À deux dimensions, vous devez définir 4 segments par classe. Avec 3 bandes, vous devez définir 6 plans par classes et à D dimensions, D hyperplans à D-1 dimensions par classe. Le modèle ici est donc une suite de valeurs `min` et `max` pour chacune des bandes et des classes:\n"
+      ],
+      "id": "700c7d20"
     },
     {
       "cell_type": "code",
@@ -787,6 +840,7 @@
         "  return clf\n",
         "clf= parrallepiped_train(X, y_new)"
       ],
+      "id": "6a9d5530",
       "execution_count": null,
       "outputs": []
     },
@@ -794,8 +848,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "La prédiction consiste à trouver pour chaque point la première limite qui est satisfaite. Notez qu'il n'y a pas de moyen de décider quelle est la meilleure classe si le point appartient à plusieurs classes."
-      ]
+        "La prédiction consiste à trouver pour chaque point la première limite qui est satisfaite. Notez qu'il n'y a pas de moyen de décider quelle est la meilleure classe si le point appartient à plusieurs classes.\n"
+      ],
+      "id": "5d38d2c4"
     },
     {
       "cell_type": "code",
@@ -816,6 +871,7 @@
         "        y_pred[-1]=cl\n",
         "  return np.array(y_pred)"
       ],
+      "id": "76b50a24",
       "execution_count": null,
       "outputs": []
     },
@@ -823,8 +879,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut appliquer ensuite le modèle sur l'image au complet. Les résultats sont assez mauvais, seule la classe eau en bleu semble être bien classifiée."
-      ]
+        "On peut appliquer ensuite le modèle sur l'image au complet. Les résultats sont assez mauvais, seule la classe eau en bleu semble être bien classifiée.\n"
+      ],
+      "id": "7e75645b"
     },
     {
       "cell_type": "code",
@@ -839,6 +896,7 @@
         "ax.set_title(\"Méthode des parrallélépipèdes\", fontsize=\"small\")\n",
         "plt.show()"
       ],
+      "id": "49f96b99",
       "execution_count": null,
       "outputs": []
     },
@@ -846,8 +904,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut calculer quelques mesures de performance sur l'ensemble d'entrainement:"
-      ]
+        "On peut calculer quelques mesures de performance sur l'ensemble d'entrainement:\n"
+      ],
+      "id": "e09f0ab1"
     },
     {
       "cell_type": "code",
@@ -857,6 +916,7 @@
         "nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]\n",
         "print(classification_report(y_new, y_pred, target_names=nom_classes2, zero_division=np.nan))"
       ],
+      "id": "585e4642",
       "execution_count": null,
       "outputs": []
     },
@@ -872,8 +932,9 @@
         "\n",
         "La méthode des plus proches voisins (*K-Nearest-Neighbors* en Anglais) est certainement la plus simple des méthodes pour classifier des données. Elle consiste à comparer une nouvelle données avec ces voisins les plus proches en fonction d'une simple distance Euclidienne. Si une majorité de ces $K$ voisins appartiennent à une classe majoritaire alors cette classe est sélectionnée. Afin de permettre un vote majoritaire, on choisira un nombre impair pour la valeur de $K$. Mallgré sa simplicité, cette technique peut devenir assez demandante en terme de calcul pour un nombre important de points avec un nombre élevé de dimensions.\n",
         "\n",
-        "Reprensons l'ensemble d’entraînement formé à partir de notre image RGBNIR précédente:"
-      ]
+        "Reprensons l'ensemble d’entraînement formé à partir de notre image RGBNIR précédente:\n"
+      ],
+      "id": "3ee882aa"
     },
     {
       "cell_type": "code",
@@ -900,6 +961,7 @@
         "  y_new = np.array(y_new)\n",
         "nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]"
       ],
+      "id": "e1f7b40f",
       "execution_count": null,
       "outputs": []
     },
@@ -907,8 +969,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Il est important de faire précéder la méthode K-NN par une normalisation des données de façon à ce que chaque caractéristique soit de moyenne 0 et d'écart-type égale à 1 (on dit parfois que l'on blanchit les données). Cette normalisation permet à ce que chaque dimension ait le même poids dans le calcul des distances entre points. Cette opération porte le nom de `StandardScaler` dans `scikit-learn`. On peut alors former un pipeline de traitement combinant les deux opérations:"
-      ]
+        "Il est important de faire précéder la méthode K-NN par une normalisation des données de façon à ce que chaque caractéristique soit de moyenne 0 et d'écart-type égale à 1 (on dit parfois que l'on blanchit les données). Cette normalisation permet à ce que chaque dimension ait le même poids dans le calcul des distances entre points. Cette opération porte le nom de `StandardScaler` dans `scikit-learn`. On peut alors former un pipeline de traitement combinant les deux opérations:\n"
+      ],
+      "id": "ef60929b"
     },
     {
       "cell_type": "code",
@@ -918,6 +981,7 @@
         "    steps=[(\"scaler\", StandardScaler()), (\"knn\", KNeighborsClassifier(n_neighbors=1))]\n",
         ")"
       ],
+      "id": "6075a031",
       "execution_count": null,
       "outputs": []
     },
@@ -925,8 +989,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Avant d'effectuer un entraînement, on met généralement une portion des données pour valider les performances:"
-      ]
+        "Avant d'effectuer un entraînement, on met généralement une portion des données pour valider les performances:\n"
+      ],
+      "id": "fbe1e6f8"
     },
     {
       "cell_type": "code",
@@ -934,6 +999,7 @@
       "source": [
         "X_train, X_test, y_train, y_test = train_test_split(X, y_new, test_size=0.2, random_state=0)"
       ],
+      "id": "bef65b07",
       "execution_count": null,
       "outputs": []
     },
@@ -941,8 +1007,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut visualiser les frontières de décision du K-NN pour différentes valeurs de $K$ lorsque seulement deux bandes sont utilisées (Rouge et proche infra-rouge ici):"
-      ]
+        "On peut visualiser les frontières de décision du K-NN pour différentes valeurs de $K$ lorsque seulement deux bandes sont utilisées (Rouge et proche infra-rouge ici):\n"
+      ],
+      "id": "ebbdbd8d"
     },
     {
       "cell_type": "code",
@@ -978,6 +1045,7 @@
         "\n",
         "plt.show()"
       ],
+      "id": "36598b99",
       "execution_count": null,
       "outputs": []
     },
@@ -985,8 +1053,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut voir comment les différentes frontières de décision se forment dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes et le calcul plus long."
-      ]
+        "On peut voir comment les différentes frontières de décision se forment dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces frontières plus complexes et le calcul plus long.\n"
+      ],
+      "id": "b98628a2"
     },
     {
       "cell_type": "code",
@@ -997,6 +1066,7 @@
         "print(\"Nombre de points misclassifiés sur %d points : %d\"\n",
         "  % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
+      "id": "5b70de4a",
       "execution_count": null,
       "outputs": []
     },
@@ -1004,8 +1074,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Le rapport de performance est le suivant:"
-      ]
+        "Le rapport de performance est le suivant:\n"
+      ],
+      "id": "6d6ba3f5"
     },
     {
       "cell_type": "code",
@@ -1014,6 +1085,7 @@
         "nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]\n",
         "print(classification_report(y_test, y_pred, target_names=nom_classes2, zero_division=np.nan))"
       ],
+      "id": "859436b5",
       "execution_count": null,
       "outputs": []
     },
@@ -1021,8 +1093,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "La matrice de confusion peut-être affichée de manière graphique:"
-      ]
+        "La matrice de confusion peut-être affichée de manière graphique:\n"
+      ],
+      "id": "6cbec778"
     },
     {
       "cell_type": "code",
@@ -1030,6 +1103,7 @@
       "source": [
         "disp= ConfusionMatrixDisplay.from_predictions(y_test, y_pred, display_labels=nom_classes2, xticks_rotation='vertical')"
       ],
+      "id": "bae74c51",
       "execution_count": null,
       "outputs": []
     },
@@ -1037,8 +1111,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec Largeur x Hauteur lignes et 4 colonnes:"
-      ]
+        "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec Largeur x Hauteur lignes et 4 colonnes:\n"
+      ],
+      "id": "568ada8c"
     },
     {
       "cell_type": "code",
@@ -1048,6 +1123,7 @@
         "y_classe= clf.predict(data_image)\n",
         "y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])"
       ],
+      "id": "79840eff",
       "execution_count": null,
       "outputs": []
     },
@@ -1060,6 +1136,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec K-NN\", fontsize=\"small\")\n",
         "plt.show()"
       ],
+      "id": "c565e920",
       "execution_count": null,
       "outputs": []
     },
@@ -1069,8 +1146,9 @@
       "source": [
         "### Méthodes par arbre de décision\n",
         "\n",
-        "La méthode par arbre de décision consiste à construire une cascade de règles de décision sur chaque caractéristique du jeu de donnée [@Breiman1984]. On pourra trouver plus de détails dans la documentation de `scikit-learn` ([Decision Trees](https://scikit-learn.org/stable/modules/tree.html)). Les arbres de décision on tendance à sur-apprendre surtout si le nombre de dimensions est élevé. Il est donc conseillé d'avoir un bon ratio entre le nombre d'échantillons et le nombre de dimensions."
-      ]
+        "La méthode par arbre de décision consiste à construire une cascade de règles de décision sur chaque caractéristique du jeu de donnée [@Breiman1984]. On pourra trouver plus de détails dans la documentation de `scikit-learn` ([Decision Trees](https://scikit-learn.org/stable/modules/tree.html)). Les arbres de décision on tendance à sur-apprendre surtout si le nombre de dimensions est élevé. Il est donc conseillé d'avoir un bon ratio entre le nombre d'échantillons et le nombre de dimensions.\n"
+      ],
+      "id": "74e6f470"
     },
     {
       "cell_type": "code",
@@ -1078,6 +1156,7 @@
       "source": [
         "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)"
       ],
+      "id": "cbc2b44b",
       "execution_count": null,
       "outputs": []
     },
@@ -1117,6 +1196,7 @@
         "\n",
         "plt.show()"
       ],
+      "id": "c4ec81cd",
       "execution_count": null,
       "outputs": []
     },
@@ -1124,8 +1204,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut observer que les frontières de décision sont formées d'un ensemble de plans simple. Chaque plan étant issu d'une règle de décison formé d'un seuil sur chacune des dimensions. On entraine un arbre de décision avec une profondeur maximale de 5:"
-      ]
+        "On peut observer que les frontières de décision sont formées d'un ensemble de plans simple. Chaque plan étant issu d'une règle de décison formé d'un seuil sur chacune des dimensions. On entraine un arbre de décision avec une profondeur maximale de 5:\n"
+      ],
+      "id": "54492894"
     },
     {
       "cell_type": "code",
@@ -1137,6 +1218,7 @@
         "print(\"Nombre de points misclassifiés sur %d points : %d\"\n",
         "  % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
+      "id": "5ce7d134",
       "execution_count": null,
       "outputs": []
     },
@@ -1144,8 +1226,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Le rapport de performance et la matrice de confusion:"
-      ]
+        "Le rapport de performance et la matrice de confusion:\n"
+      ],
+      "id": "9bf634a0"
     },
     {
       "cell_type": "code",
@@ -1155,6 +1238,7 @@
         "#| warning: false\n",
         "print(classification_report(y_test, y_pred, target_names=nom_classes2, zero_division=np.nan))"
       ],
+      "id": "e21f34c0",
       "execution_count": null,
       "outputs": []
     },
@@ -1166,6 +1250,7 @@
         "#| warning: false\n",
         "disp= ConfusionMatrixDisplay.from_predictions(y_test, y_pred, display_labels=nom_classes2, xticks_rotation='vertical')"
       ],
+      "id": "63d24cb3",
       "execution_count": null,
       "outputs": []
     },
@@ -1173,8 +1258,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec Largeur x Hauteur lignes et 4 colonnes:"
-      ]
+        "L'application du modèle (la prédiction) peut se faire sur toute l'image en transposant l'image sous forme d'une matrice avec Largeur x Hauteur lignes et 4 colonnes:\n"
+      ],
+      "id": "c9e92c04"
     },
     {
       "cell_type": "code",
@@ -1187,6 +1273,7 @@
         "y_classe= clf.predict(data_image)\n",
         "y_classe= y_classe.reshape(img_rgbnir.shape[1],img_rgbnir.shape[2])"
       ],
+      "id": "a4ec7a97",
       "execution_count": null,
       "outputs": []
     },
@@ -1201,6 +1288,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec un arbre de décision\", fontsize=\"small\")\n",
         "plt.show()"
       ],
+      "id": "8da3eeda",
       "execution_count": null,
       "outputs": []
     },
@@ -1208,8 +1296,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Il est possible de visualiser l'arbre mais cela contient beaucoup d'information"
-      ]
+        "Il est possible de visualiser l'arbre mais cela contient beaucoup d'information\n"
+      ],
+      "id": "38af3a56"
     },
     {
       "cell_type": "code",
@@ -1218,6 +1307,7 @@
         "fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))\n",
         "tree.plot_tree(clf, max_depth=1)"
       ],
+      "id": "cea5423f",
       "execution_count": null,
       "outputs": []
     },
@@ -1231,8 +1321,9 @@
         "\n",
         "### Méthode Bayésienne naïve\n",
         "\n",
-        "La méthode Bayésienne naïve Gaussienne consiste faire des hypothèses simplificatrices sur les données, en particulier l'indépendance des données et des dimensions. Ceci permet un calcul plus simple."
-      ]
+        "La méthode Bayésienne naïve Gaussienne consiste faire des hypothèses simplificatrices sur les données, en particulier l'indépendance des données et des dimensions. Ceci permet un calcul plus simple.\n"
+      ],
+      "id": "2383a5ba"
     },
     {
       "cell_type": "code",
@@ -1244,6 +1335,7 @@
         "print(\"Nombre de points erronés sur %d points : %d\"\n",
         "      % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
+      "id": "c9c28b54",
       "execution_count": null,
       "outputs": []
     },
@@ -1278,6 +1370,7 @@
         "\n",
         "plt.show()"
       ],
+      "id": "1e3499a3",
       "execution_count": null,
       "outputs": []
     },
@@ -1285,8 +1378,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "On peut observer que les frontières de décision sont beaucoup plus régulières que pour K-NN."
-      ]
+        "On peut observer que les frontières de décision sont beaucoup plus régulières que pour K-NN.\n"
+      ],
+      "id": "f865288f"
     },
     {
       "cell_type": "code",
@@ -1297,6 +1391,7 @@
         "print(\"Nombre de points misclassifiés sur %d points : %d\"\n",
         "  % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
+      "id": "0da9a274",
       "execution_count": null,
       "outputs": []
     },
@@ -1304,8 +1399,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "De la même manière, la prédiction peut s'appliquer sur toute l'image:"
-      ]
+        "De la même manière, la prédiction peut s'appliquer sur toute l'image:\n"
+      ],
+      "id": "d59c7651"
     },
     {
       "cell_type": "code",
@@ -1321,6 +1417,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec la méthode Bayésienne naive\", fontsize=\"small\")\n",
         "plt.show()"
       ],
+      "id": "5c578427",
       "execution_count": null,
       "outputs": []
     },
@@ -1330,8 +1427,9 @@
       "source": [
         "### Analyse Discriminante Quadratique (ADQ)\n",
         "\n",
-        "L'analyse discriminante quadratique peut-être vue comme une généralisation de l'approche Bayésienne naive qui suppose des modèles Gaussiens indépendants pour chaque dimension et chaque point. Ici, on va considérer un modèle Gaussien multivarié."
-      ]
+        "L'analyse discriminante quadratique peut-être vue comme une généralisation de l'approche Bayésienne naive qui suppose des modèles Gaussiens indépendants pour chaque dimension et chaque point. Ici, on va considérer un modèle Gaussien multivarié.\n"
+      ],
+      "id": "3dd2b795"
     },
     {
       "cell_type": "code",
@@ -1343,6 +1441,7 @@
         "print(\"Nombre de points misclassifiés sur %d points : %d\"\n",
         "  % (X_test.shape[0], (y_test != y_pred).sum()))"
       ],
+      "id": "258c2553",
       "execution_count": null,
       "outputs": []
     },
@@ -1350,8 +1449,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "Les Gaussiennes multivariées peuvent être visualiser sous forme d'éllipses décrivant le domaine des valeurs de chaque classe:"
-      ]
+        "Les Gaussiennes multivariées peuvent être visualiser sous forme d'éllipses décrivant le domaine des valeurs de chaque classe:\n"
+      ],
+      "id": "b6470a87"
     },
     {
       "cell_type": "code",
@@ -1398,6 +1498,7 @@
         "  h.set_xlabel(noms_bandes[2], fontsize=\"small\")\n",
         "  h.set_ylabel(noms_bandes[b], fontsize=\"small\")"
       ],
+      "id": "ae9cb72e",
       "execution_count": null,
       "outputs": []
     },
@@ -1405,8 +1506,9 @@
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "De la même manière, la prédiction peut s'appliquer sur toute l'image:"
-      ]
+        "De la même manière, la prédiction peut s'appliquer sur toute l'image:\n"
+      ],
+      "id": "d65e4db3"
     },
     {
       "cell_type": "code",
@@ -1423,6 +1525,7 @@
         "ax.set_title(\"Carte d'occupation des sols avec la méthode ADQ\", fontsize=\"small\")\n",
         "plt.show()"
       ],
+      "id": "7711401f",
       "execution_count": null,
       "outputs": []
     },
@@ -1431,6 +1534,13 @@
       "metadata": {},
       "source": [
         "![](images/cell-48-output-1.png){fig-align=\"center\" width=\"600\"}\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
         "\n",
         "```{=html}\n",
         "<!-- \n",
@@ -1445,7 +1555,8 @@
         "Ces réseaux sont entraînés via des techniques itératives d'optimisation de type descente en gradient avec une correction des paramètres (les poids) à l'aide de la rétro-propagation de l'erreur. L'erreur est mesurée via une fonction de coût que l'on cherche à réduire.\n",
         "-->\n",
         "```"
-      ]
+      ],
+      "id": "0716c23e"
     }
   ],
   "metadata": {
@@ -1456,5 +1567,5 @@
     }
   },
   "nbformat": 4,
-  "nbformat_minor": 4
+  "nbformat_minor": 5
 }
