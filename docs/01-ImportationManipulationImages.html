@@ -480,7 +480,7 @@ Bloc de code&nbsp;2.2: Lecture d’une image en format PNG avec OpenCV
 </section>
 <section id="lecture-avec-la-librairie-rasterio" class="level5" data-number="2.2.1.1.3">
 <h5 data-number="2.2.1.1.3" class="anchored" data-anchor-id="lecture-avec-la-librairie-rasterio"><span class="header-section-number">2.2.1.1.3</span> Lecture avec la librairie RasterIO</h5>
-<p>Rien ne nous empêche de lire une image de format RVB avec <a href="https://rasterio.readthedocs.io/en/stable/">RasterIO</a> comme décrit dans (<a href="#lst-lecturerasterioPNG" class="quarto-xref">bloc&nbsp;<span class="quarto-unresolved-ref">lst-lecturerasterioPNG</span></a>). Vous noterez cependant les avertissements concernant l’absence de géoréférence pour ce type d’image.</p>
+<p>Rien ne nous empêche de lire une image de format RVB avec <a href="https://rasterio.readthedocs.io/en/stable/">RasterIO</a> comme décrit dans (<a href="#lst-lecturerasterioPNG" class="quarto-xref">bloc&nbsp;<span>2.3</span></a>). Vous noterez cependant les avertissements concernant l’absence de géoréférence pour ce type d’image.</p>
 <div id="26176f8f" class="cell" data-execution_count="8">
 <div id="lst-lecturerasterioPNG" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-lst figure">
@@ -506,7 +506,7 @@ Bloc de code&nbsp;2.3: Lecture d’une image en format PNG avec OpenCV
 <p>Le format GeoTIFF est très utilisé et est largement supporté par les bibliothèques et logiciels géospatiaux, notamment <a href="https://gdal.org">GDAL</a> (<em>Geospatial Data Abstraction Library</em>), qui offre des capacités de lecture et d’écriture pour ce format. Cette compatibilité étendue a contribué à son adoption généralisée dans la communauté géospatiale.</p>
 <section id="standardisation-par-logc" class="level5" data-number="2.2.1.2.1">
 <h5 data-number="2.2.1.2.1" class="anchored" data-anchor-id="standardisation-par-logc"><span class="header-section-number">2.2.1.2.1</span> Standardisation par l’OGC</h5>
-<p>Le standard GeoTIFF proposé par l’Open Geospatial Consortium (OGC) en 2019 formalise et étend les spécifications originales du format GeoTIFF, offrant une norme robuste pour l’échange d’images géoréférencées. Cette standardisation, connue sous le nom d’OGC GeoTIFF 1.1 <span class="citation" data-cites="OGCGeoTIFF">(<a href="#ref-OGCGeoTIFF" role="doc-biblioref">2019</a>)</span>, apporte plusieurs améliorations et clarifications importantes.</p>
+<p>Le standard GeoTIFF proposé par l’Open Geospatial Consortium (OGC) en 2019 formalise et étend les spécifications originales du format GeoTIFF, offrant une norme robuste pour l’échange d’images géoréférencées. Cette standardisation, connue sous le nom d’OGC GeoTIFF 1.1 <span class="citation" data-cites="OGCGeoTIFF">(<a href="references.html#ref-OGCGeoTIFF" role="doc-biblioref">2019</a>)</span>, apporte plusieurs améliorations et clarifications importantes.</p>
 </section>
 </section>
 <section id="le-format-cog" class="level4" data-number="2.2.1.3">
@@ -630,21 +630,21 @@ Bloc de code&nbsp;2.5: Collecte d’information sur une image avec rasterio
 <h2 data-number="2.3" class="anchored" data-anchor-id="manipulation-des-images"><span class="header-section-number">2.3</span> Manipulation des images</h2>
 <section id="manipulation-de-la-matrice-de-pixels" class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="manipulation-de-la-matrice-de-pixels"><span class="header-section-number">2.3.1</span> Manipulation de la matrice de pixels</h3>
-<p>La donnée brute de l’image est généralement contenue dans un cube matricielle à trois dimensions (deux dimensions spatiales et une dimension spectrale). Comme exposé précédemment, la librairie dite <em>“fondationnelle”</em> pour la manipulation de matrices en Python est <a href="https://numpy.org/">NumPy</a>. Cette librairie contient un nombre très important de fonctionnalités couvrant l’algèbre linéaires, les statistiques, etc. et constitue la fondation de nombreuses librairies en traitement numérique (voir (<a href="#fig-naturenumpy1" class="quarto-xref">figure&nbsp;<span class="quarto-unresolved-ref">fig-naturenumpy1</span></a>))</p>
+<p>La donnée brute de l’image est généralement contenue dans un cube matricielle à trois dimensions (deux dimensions spatiales et une dimension spectrale). Comme exposé précédemment, la librairie dite <em>“fondationnelle”</em> pour la manipulation de matrices en Python est <a href="https://numpy.org/">NumPy</a>. Cette librairie contient un nombre très important de fonctionnalités couvrant l’algèbre linéaires, les statistiques, etc. et constitue la fondation de nombreuses librairies en traitement numérique (voir (<a href="#fig-naturenumpy1" class="quarto-xref">figure&nbsp;<span>2.1</span></a>))</p>
 <div id="fig-naturenumpy1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-naturenumpy1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/41586_2020_2649_Fig2_HTML.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-naturenumpy1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après <span class="citation" data-cites="NumpyNature">(<a href="#ref-NumpyNature" role="doc-biblioref">Harris 2020</a>)</span>).
+Figure&nbsp;2.1: La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après <span class="citation" data-cites="NumpyNature">(<a href="references.html#ref-NumpyNature" role="doc-biblioref">Harris 2020</a>)</span>).
 </figcaption>
 </figure>
 </div>
 </section>
 <section id="information-de-base" class="level3" data-number="2.3.2">
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="information-de-base"><span class="header-section-number">2.3.2</span> Information de base</h3>
-<p>Les deux informations de base à afficher sur une matrice sont 1) les dimensions de la matrice et 2) le format de stockage (le type). Pour cela, on peut utiliser le (<a href="#lst-numpyshape" class="quarto-xref">bloc&nbsp;<span class="quarto-unresolved-ref">lst-numpyshape</span></a>), le résultat nous informe que la matrice a 3 dimensions et une taille de <code>(442, 553, 3)</code> et un type <code>uint8</code> qui représente 1 octet (8 bit). Par conséquent, la matrice a <code>442</code> lignes, <code>553</code> colonnes et <code>3</code> canaux ou bandes. Il faut prêter une attention particulière aux valeurs minimales et maximales tolérées par le type de la donnée comme indiqué dans le (<a href="#tbl-numpytype" class="quarto-xref">tableau&nbsp;<span class="quarto-unresolved-ref">tbl-numpytype</span></a>) (voir aussi <a href="https://numpy.org/doc/stable/user/basics.types.html">Data types — NumPy v2.1 Manual</a>).</p>
+<p>Les deux informations de base à afficher sur une matrice sont 1) les dimensions de la matrice et 2) le format de stockage (le type). Pour cela, on peut utiliser le (<a href="#lst-numpyshape" class="quarto-xref">bloc&nbsp;<span>2.6</span></a>), le résultat nous informe que la matrice a 3 dimensions et une taille de <code>(442, 553, 3)</code> et un type <code>uint8</code> qui représente 1 octet (8 bit). Par conséquent, la matrice a <code>442</code> lignes, <code>553</code> colonnes et <code>3</code> canaux ou bandes. Il faut prêter une attention particulière aux valeurs minimales et maximales tolérées par le type de la donnée comme indiqué dans le (<a href="#tbl-numpytype" class="quarto-xref">tableau&nbsp;<span>2.1</span></a>) (voir aussi <a href="https://numpy.org/doc/stable/user/basics.types.html">Data types — NumPy v2.1 Manual</a>).</p>
 <div id="0b232cfc" class="cell" data-execution_count="11">
 <div id="lst-numpyshape" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-lst figure">
@@ -723,7 +723,7 @@ Tableau&nbsp;2.1: Type de données de NumPy
 </section>
 <section id="découpage-et-indexation-de-la-matrice" class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="découpage-et-indexation-de-la-matrice"><span class="header-section-number">2.3.3</span> Découpage et indexation de la matrice</h3>
-<p>L’indexation et le découpage (<em>slicing</em>) des matrices dans NumPy sont des techniques essentielles pour manipuler efficacement les données multidimensionnelles en Python, offrant une syntaxe puissante et flexible pour accéder et modifier des sous-ensembles spécifiques d’éléments dans les tableaux (voir <a href="#fig-naturenumpy2" class="quarto-xref">figure&nbsp;<span class="quarto-unresolved-ref">fig-naturenumpy2</span></a>). Indexer une matrice consiste à accéder à une valeur dans la matrice pour une position particulière, la syntaxe générale est <code>matrice[ligne, colonne, bande]</code> et est similaire à la manipulation des <a href="https://docs.python.org/fr/3/tutorial/introduction.html#lists">listes</a> en Python. Les indices commencent à <code>0</code> et se termine à la <code>taille-1</code> de l’axe considéré.</p>
+<p>L’indexation et le découpage (<em>slicing</em>) des matrices dans NumPy sont des techniques essentielles pour manipuler efficacement les données multidimensionnelles en Python, offrant une syntaxe puissante et flexible pour accéder et modifier des sous-ensembles spécifiques d’éléments dans les tableaux (voir <a href="#fig-naturenumpy2" class="quarto-xref">figure&nbsp;<span>2.2</span></a>). Indexer une matrice consiste à accéder à une valeur dans la matrice pour une position particulière, la syntaxe générale est <code>matrice[ligne, colonne, bande]</code> et est similaire à la manipulation des <a href="https://docs.python.org/fr/3/tutorial/introduction.html#lists">listes</a> en Python. Les indices commencent à <code>0</code> et se termine à la <code>taille-1</code> de l’axe considéré.</p>
 <div id="fig-naturenumpy2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-naturenumpy2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -790,7 +790,7 @@ Dimensions de la matrice:  (442, 3)</code></pre>
 </section>
 <section id="données-en-géoscience" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="données-en-géoscience"><span class="header-section-number">2.4</span> Données en géoscience</h2>
-<p>Les données en géoscience contiennent beaucoup de métadonnées et peuvent être composées de différentes variables avec différentes unités, résolution, etc. Ces données sont aussi souvent étiquetées avec des dates sur certains axes, des coordonnées géographiques, des identifiants d’expériences, etc. Par conséquent, utiliser seulement des matrices est souvent incomplet <span class="citation" data-cites="xarray-2017">(<a href="#ref-xarray-2017" role="doc-biblioref">Hoyer et Hamman 2017</a>)</span>.</p>
+<p>Les données en géoscience contiennent beaucoup de métadonnées et peuvent être composées de différentes variables avec différentes unités, résolution, etc. Ces données sont aussi souvent étiquetées avec des dates sur certains axes, des coordonnées géographiques, des identifiants d’expériences, etc. Par conséquent, utiliser seulement des matrices est souvent incomplet <span class="citation" data-cites="xarray-2017">(<a href="references.html#ref-xarray-2017" role="doc-biblioref">Hoyer et Hamman 2017</a>)</span>.</p>
 <p>Calibration, unités, données manquantes, données éparses.</p>
 <section id="xarray" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="xarray"><span class="header-section-number">2.4.1</span> xarray</h3>
@@ -867,7 +867,7 @@ Données météos, exemple avec SWOT.
 -->
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-NumpyNature" class="csl-entry" role="listitem">
 Harris, Millman, C. R. 2020. <span>«&nbsp;Array programming with NumPy.&nbsp;»</span> <em><span>Nature</span></em>: 357‑362. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>.
 </div>

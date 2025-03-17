@@ -947,28 +947,25 @@ def make_ellipses(gmm, bands, ax):
         ax.add_artist(ell)
         ax.set_aspect("equal", "datalim")
 
-plt.figure(figsize=(9, 3), sharey= True)
-#plt.subplots_adjust(
-#    bottom=0.01, top=0.95, hspace=0.15, wspace=0.05, left=0.01, right=0.99
-#)
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(9, 3), sharey=True)
 noms_bandes= ['Bleu','Vert','Rouge','NIR']
 for index, b in enumerate([0,1,3]):
-  h = plt.subplot(1, 3, index+1)
+  #h = plt.subplot(1, 3, index+1)
   bands= [2,b]
-  make_ellipses(qda, bands, h)
+  make_ellipses(qda, bands, ax[index])
   for n, color in enumerate(colors):
           data = X[y_new == n,...]
           plt.scatter(
               data[:, bands[0]], data[:, bands[1]], s=0.8, color=color
           )
-  h.set_xlabel(noms_bandes[2], fontsize="small")
-  h.set_ylabel(noms_bandes[b], fontsize="small")
+  ax[index].set_xlabel(noms_bandes[2], fontsize="small")
+  ax[index].set_ylabel(noms_bandes[b], fontsize="small")
 ```
 
 De la même manière, la prédiction peut s'appliquer sur toute l'image:
 
 ```{python}
-#| eval: false
+#| eval: true
 #| echo: false
 #| warning: false
 data_image= img_rgbnir.to_numpy().transpose(1,2,0).reshape(img_rgbnir.shape[1]*img_rgbnir.shape[2],4)
@@ -980,7 +977,7 @@ ax.set_title("Carte d'occupation des sols avec la méthode ADQ", fontsize="small
 plt.show()
 ```
 
-![](images/cell-48-output-1.png){fig-align="center" width="600"}
+
 
 ```{=html}
 <!-- 
