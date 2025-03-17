@@ -55,13 +55,14 @@ book:
     right: |
       Ce livre a été réalisé avec <a href="https://quarto.org/">Quarto</a>.
   cover-image: images/couverture-full.png
-  favicon: images/favicon-32x32.png
+  favicon: images/favicon.ico
   site-url: https://serie-python-tele.github.io/TraitementImagesPythonVol1/index.html
   repo-url: https://github.com/serie-python-tele/TraitementImagesPythonVol1
   repo-branch: main
   repo-actions:
   - issue
-  downloads: pdf
+  downloads:
+  - pdf
   chapters:
   - index.qmd
   - 00-auteurs.qmd
