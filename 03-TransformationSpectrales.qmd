@@ -86,6 +86,8 @@ gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a6O
 gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')
 gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')
 gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1aAq7crc_LoaLC3kG3HkQ6Fv5JfG0mswg', output= 'carte.tif')
+gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1iCZNYTv0qEZRzPhe22nPdpV4Ks7NsY3b', output= 'ASCIIdata_splib07b_rsSentinel2.zip')
+!unzip -q ASCIIdata_splib07b_rsSentinel2.zip
 ```
 
 Vérifiez que vous êtes capable de les lire :
@@ -109,7 +111,39 @@ L'information spectrale touche à l'exploitation de la dimension spectrale des i
 
 ![Positions des bandes spectrales pour quelques capteurs ([source](https://landsat.gsfc.nasa.gov/article/sentinel-2a-launches-our-compliments-our-complements/))](images/Landsat.v.Sentinel-2-1.png){fig-align="center" width="6in"}
 
-Pour une surface donnée, la forme des valeurs le long de l'axe spectrale caractérise le type de matériau observé ainsi que son état. On parle souvent alors de signature spectrale. On peut voir celle-ci comme une généralisation de la couleur d'un matériau au delà des bandes visibles du spectre. L'exploitation de ces signatures spectrales est probablement un des principes les plus importants en télédétection qui le distingue de la vison par ordinateur.
+Pour une surface donnée, la forme des valeurs le long de l'axe spectrale caractérise le type de matériau observé ainsi que son état. On parle souvent alors de signature spectrale. On peut voir celle-ci comme une généralisation de la couleur d'un matériau au delà des bandes visibles du spectre. L'exploitation de ces signatures spectrales est probablement un des principes les plus importants en télédétection qui le distingue de la vison par ordinateur. L'[USGS](https://www.sciencebase.gov/catalog/item/586e8c88e4b0f5ce109fccae) maintient une base de données spectrales acquises en laboratoire [@Kokaly-2017]. On peut observer sur la figure ci-dessous comment la forme et l'amplitude de trois signatures différentes peut changer en fonction du type de surface.
+
+```{python}
+#| echo: false
+#| fig-cap: "Exemples de signatures spectrales pour trois surfaces différentes pour les bandes spectrales de Sentinel-2"
+HOME= !pwd
+with open(f'{HOME[0]}/ASCIIdata_splib07b_rsSentinel2/S07SNTL2_Wavelengths_Sentinel2_(13_bands)_microns.txt','r') as f:
+    # Read all lines, skipping the first line
+    lines = f.read().split('\n')[1:]  
+    # Filter out empty or whitespace-only lines before converting to float
+    band_pos = [float(s.replace(' ', ''))*1000 for s in lines if s.strip()]
+
+with open('ASCIIdata_splib07b_rsSentinel2/ChapterV_Vegetation/S07SNTL2_Rangeland_C03-004_S08%_G27%_ASDFRa_AREF.txt','r') as f:
+    lines = f.read().split('\n')[1:]  
+    LawnGrass = [float(s.replace(' ', '')) for s in lines if s.strip()]
+
+with open('ASCIIdata_splib07b_rsSentinel2/ChapterL_Liquids/S07SNTL2_Water+Montmor_SWy-2+0.50g-l_ASDFRa_AREF.txt','r') as f:
+    lines = f.read().split('\n')[1:]  
+    Water = [float(s.replace(' ', '')) for s in lines if s.strip()]
+
+
+with open('ASCIIdata_splib07b_rsSentinel2/ChapterA_ArtificialMaterials/S07SNTL2_Concrete_GDS375_Lt_Gry_Road_ASDFRa_AREF.txt','r') as f:
+    lines = f.read().split('\n')[1:]  
+    Concrete = [float(s.replace(' ', '')) for s in lines if s.strip()]
+fig, ax= plt.subplots(figsize = (8,5))
+plt.plot(band_pos,LawnGrass, 'g.-')
+plt.plot(band_pos,Water, 'b.-')
+plt.plot(band_pos,Concrete, 'y.-')
+plt.legend(['Prairie','Eau','Béton'])
+ax.grid('on')
+ax.set_xlabel('Longueur d\'onde (nm)')
+ax.set_ylabel('Réflectance')
+```
 
 ## Indices spectraux
 
@@ -183,7 +217,9 @@ plot.show(idx.sel(index = "NDVI"),ax = ax[0,1],title = "NDVI")
 plot.show(idx.sel(index = "GNDVI"),ax = ax[1,0],title = "GNDVI")
 plot.show(idx.sel(index = "SAVI"),ax = ax[1,1],title = "SAVI")
 ```
+
 On peut vérifier l'utilité des indices en vérifiant leur séparabilité pour certaines classes d'intérêts. Nous reprenons ici l'exemple de la section @sec-05.02.02 pour vérifier l'utilité des indices `NDVI`, `NDWI` et `NDBI`:
+
 ```{python}
 #| eval: false
 #| echo: false

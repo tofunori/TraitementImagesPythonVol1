@@ -977,8 +977,6 @@ ax.set_title("Carte d'occupation des sols avec la méthode ADQ", fontsize="small
 plt.show()
 ```
 
-
-
 ```{=html}
 <!-- 
 ### Réseaux de neurones

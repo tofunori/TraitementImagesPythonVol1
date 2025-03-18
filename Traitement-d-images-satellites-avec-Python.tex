@@ -283,7 +283,7 @@ code}
 \subtitle{Première édition}
 \author{Samuel Foucher \and Philippe Apparicio \and Yacine
 Bouroubi \and Mickaël Germain \and Étienne Clabaut}
-\date{2025-03-17}
+\date{2025-03-18}
 
 \begin{document}
 \frontmatter
@@ -2756,6 +2756,8 @@ Nous allons utilisez les images suivantes dans ce chapitre:
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1\_zwCLN{-}x7XJcNHJCH6Z8upEdUXtVtvs1\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{)}
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{)}
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1aAq7crc\_LoaLC3kG3HkQ6Fv5JfG0mswg\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}carte.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1iCZNYTv0qEZRzPhe22nPdpV4Ks7NsY3b\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}ASCIIdata\_splib07b\_rsSentinel2.zip\textquotesingle{}}\NormalTok{)}
+\OperatorTok{!}\NormalTok{unzip }\OperatorTok{{-}}\NormalTok{q ASCIIdata\_splib07b\_rsSentinel2.}\BuiltInTok{zip}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2803,6 +2805,20 @@ généralisation de la couleur d'un matériau au delà des bandes visibles
 du spectre. L'exploitation de ces signatures spectrales est probablement
 un des principes les plus importants en télédétection qui le distingue
 de la vison par ordinateur.
+L'\href{https://www.sciencebase.gov/catalog/item/586e8c88e4b0f5ce109fccae}{USGS}
+maintient une base de données spectrales acquises en laboratoire (Kokaly
+et Klein 2017). On peut observer sur la figure ci-dessous comment la
+forme et l'amplitude de trois signatures différentes peut changer en
+fonction du type de surface.
+
+\begin{verbatim}
+Text(0, 0.5, 'Réflectance')
+\end{verbatim}
+
+Exemples de signatures spectrales pour trois surfaces différentes pour
+les bandes spectrales de Sentinel-2
+
+\pandocbounded{\includegraphics[keepaspectratio]{03-TransformationSpectrales_files/figure-pdf/cell-7-output-2.pdf}}
 
 \section{Indices spectraux}\label{indices-spectraux}
 
@@ -2933,7 +2949,7 @@ On peut simplement changer les index (\texttt{coords}) de la dimension
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{03-TransformationSpectrales_files/figure-pdf/cell-12-output-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{03-TransformationSpectrales_files/figure-pdf/cell-13-output-1.pdf}}
 
 On peut vérifier l'utilité des indices en vérifiant leur séparabilité
 pour certaines classes d'intérêts. Nous reprenons ici l'exemple de la
@@ -5112,6 +5128,11 @@ Sciences}} 8: 1430.
 \bibitem[\citeproctext]{ref-Jensen2016}
 Jensen, J. R. 2016. \emph{Introductory digital image processing: A
 remote sensing perspective}. {Pearson Education, Inc.}
+
+\bibitem[\citeproctext]{ref-Kokaly-2017}
+Kokaly, Clark, R. F. et A. J. Klein. 2017. {«~USGS Spectral Library
+Version 7 Data: U.S. Geological Survey data release.~»} \emph{{Applied
+Sciences}}. \href{https://10.5066/F7RR1WDJ}{10.5066/F7RR1WDJ}.
 
 \bibitem[\citeproctext]{ref-Lee-1986}
 Lee, J. S. 1986. {«~Speckle suppression and analysis for synthetic
