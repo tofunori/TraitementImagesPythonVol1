@@ -332,6 +332,4 @@ L'analyse en composantes principales (ACP) est probablement la plus employée. E
 from code_complementaire.quizz_functions import *
 Chap01Quiz = Quiz("quiz/Chap01.yml", "Chap01")
 render_quizz(Chap01Quiz)
-from IPython.display import display, HTML
-display(HTML(render_quizz(Chap01Quiz)))
 ```

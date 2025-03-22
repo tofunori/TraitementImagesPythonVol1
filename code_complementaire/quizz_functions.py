@@ -2,6 +2,7 @@ import yaml
 from typing import List, Dict, Any, Union
 import html
 import os
+from IPython.display import display, HTML, Markdown
 
 def is_latex_output(output_format):
     """
@@ -278,7 +279,7 @@ def render_quizz(myquizz: Quiz) -> str:
     # In a real scenario, you would check the output format here
     # For this example, we'll always return HTML
     if is_latex_output(output_format):
-        return render_quizz_pdf(myquizz)
+        return Markdown(render_quizz_pdf(myquizz))
     else:
-        return render_quizz_html(myquizz)
+        return HTML(render_quizz_html(myquizz))
 

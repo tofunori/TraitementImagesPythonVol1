@@ -1,6 +1,7 @@
 quarto render --cache --to html --output-dir ./docs
 
 quarto convert 00-PriseEnMainPython.qmd
+marimo convert 00-PriseEnMainPython.ipynb  -o ./marimo/00-PriseEnMainPython.py
 #jupyter nbconvert 00-PriseEnMainPython.ipynb  --to pdf --output-dir pdfs
 #jupyter nbconvert 00-PriseEnMainPython.ipynb --to latex --output-dir latex
 mv 00-PriseEnMainPython.ipynb ./notebooks/
@@ -18,11 +19,13 @@ quarto convert references.qmd
 #jupyter nbconvert references.ipynb --to latex --output-dir latex
 
 quarto convert 01-ImportationManipulationImages.qmd
+marimo convert 01-ImportationManipulationImages.ipynb  -o ./marimo/01-ImportationManipulationImages.py
 #jupyter nbconvert 01-ImportationManipulationImages.ipynb  --execute --to pdf --output-dir pdfs
 #jupyter nbconvert 01-ImportationManipulationImages.ipynb --execute --to latex --output-dir latex
 mv 01-ImportationManipulationImages.ipynb ./notebooks/
 
 quarto convert 02-RehaussementVisualisationImages.qmd
+marimo convert 02-RehaussementVisualisationImages.ipynb  -o ./marimo/02-RehaussementVisualisationImages.py
 #jupyter nbconvert 02-RehaussementVisualisationImages.ipynb  --execute --to pdf --output-dir pdfs
 #jupyter nbconvert 02-RehaussementVisualisationImages.ipynb --execute --to latex --output-dir latex
 mv 02-RehaussementVisualisationImages.ipynb ./notebooks/
