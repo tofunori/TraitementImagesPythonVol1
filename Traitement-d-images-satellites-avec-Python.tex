@@ -283,7 +283,7 @@ code}
 \subtitle{Première édition}
 \author{Samuel Foucher \and Philippe Apparicio \and Yacine
 Bouroubi \and Mickaël Germain \and Étienne Clabaut}
-\date{2025-03-21}
+\date{2025-03-22}
 
 \begin{document}
 \frontmatter
@@ -306,7 +306,9 @@ Bouroubi \and Mickaël Germain \and Étienne Clabaut}
 
 \markboth{Préface}{Préface}
 
-\renewcommand{\partname}{} % Réinitialiser partie
+\renewcommand{\partname}{}
+
+\% Réinitialiser partie
 
 \textbf{Résumé~:} Ce livre vise à décrire une panoplie de méthodes de
 traitement d'images satellites avec le langage Python. Celles et ceux
@@ -390,10 +392,10 @@ de~:
   \textbf{Réviser}, c'est-à-dire modifier, adapter et traduire le
   contenu en fonction d'un besoin pédagogique précis puisqu'aucun manuel
   n'est parfait, tant s'en faut! Le livre a d'ailleurs été écrit
-  intégralement dans R avec \href{https://quarto.org/}{Quatro}.
+  intégralement dans Python avec \href{https://quarto.org/}{Quatro}.
   Quiconque peut ainsi télécharger gratuitement le code source du livre
   sur
-  \href{https://github.com/SerieBoldR/MethodesAnalyseSpatiale}{github}
+  \href{https://github.com/serie-python-tele/TraitementImagesPythonVol1}{GitHub}
   et le modifier à sa guise (voir l'encadré intitulé \emph{Suggestions
   d'adaptation du manuel}).
 \item
@@ -420,8 +422,8 @@ La licence de ce livre, CC BY-SA (figure~\ref{fig-Licence}), oblige donc
 \end{itemize}
 
 Samuel Foucher, Apparicio Philippe, Mickaël Germain, Yacine Bouroubi et
-Étienne Clabaut (2024). \emph{Traitement d'images satellites : }.
-Université de Sherbrooke, Département de géomatique appliquée.
+Étienne Clabaut (2025). \emph{Traitement d'images satellites avec
+Python}. Université de Sherbrooke, Département de géomatique appliquée.
 fabriqueREL. Licence CC~BY-SA.
 
 \begin{itemize}
@@ -569,12 +571,12 @@ exemples?}
 Ce livre comprend des exemples détaillés et appliqués en Python pour
 chacune des méthodes abordées. Ces exemples se basent sur des jeux de
 données ouverts et mis à disposition avec le livre. Ils sont disponibles
-sur le \emph{repo github} dans le sous-dossier \texttt{data}, à
+sur le \emph{repo GitHub} dans le sous-dossier \texttt{data}, à
 l'adresse
 \url{https://github.com/serie-tele-pyton/TraitementImagesVol1/tree/main/data}.
 
 Une autre option est de télécharger le \emph{repo} complet du livre
-directement sur \emph{github}
+directement sur \emph{GitHub}
 (\url{https://github.com/serie-tele-pyton/TraitementImagesVol1}) en
 cliquant sur le bouton \texttt{Code}, puis le bouton
 \texttt{Download\ ZIP} (figure~\ref{fig-downloaffromgit}). Les données
@@ -615,14 +617,14 @@ partie comprend deux chapitres~: les transformations spectrales
 (chapitre~\ref{sec-chap03}) et les transformations spatiales
 (chapitre~\ref{sec-chap04}).
 
-\textbf{Partie 3. Classifications d'images} Cette troisième partie
+\textbf{Partie 3. Classifications d'images.} Cette troisième partie
 comprend deux chapitres~: les classifications supervisées
 (chapitre~\ref{sec-chap05}) et non supervisées (à venir dans une
 prochaine édition).
 
-\textbf{Partie 4. Données massives} (à venir dans une édition future).
+\textbf{Partie 4. Données massives.} (à venir dans une édition future).
 Cette quatrième et dernière partie comprend un seul chapitre qui est
-dédié aux plateformes de mégadonnes, notammment Google Earth Engine.
+dédié aux plateformes de mégadonnées, notamment Google Earth Engine.
 
 \section*{Remerciements}\label{sect005}
 \addcontentsline{toc}{section}{Remerciements}
@@ -644,26 +646,24 @@ Ainsi, nous remercions chaleureusement les membres de la
 
 \begin{itemize}
 \item
-  Myriam Beaudet, bibliothécaire à l'Université de Sherbrooke.
+  José-Miguel Escobar-Zuniga, bibliothécaire à l'Université de
+  Sherbrooke.
 \item
   Marianne Dubé, coordonnatrice de la fabriqueREL, Université de
   Sherbrooke.
-\item
-  Serge Piché, conseiller pédagogique, Université de Sherbrooke.
 \item
   Claude Potvin, conseiller en formation, Service de soutien à
   l'enseignement, Université Laval.
 \end{itemize}
 
-Nous remercions chaleureusement les personnes étudiantes des cours
-\textbf{à modifier plus tard} du
+Nous remercions chaleureusement les personnes étudiantes du
 \href{https://www.usherbrooke.ca/admission/programme/271/baccalaureat-en-geomatiqueappliquee-a-lenvironnement/}{Baccalauréat
 en géomatique appliquée à l'environnement} et du
 \href{https://www.usherbrooke.ca/admission/programme/429/microprogramme-de-1er-cycleen-geomatique-appliquee/}{Microprogramme
 de 1er cycle en géomatique appliquée} du
 \href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
 appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
-Sherbrooke} de la session d'été 2023~: à modifier plus tard.
+Sherbrooke} qui utilisent le manuel dans le cadre de cours.
 
 \section*{Introduction aux images de télédétection}\label{sect006}
 \addcontentsline{toc}{section}{Introduction aux images de télédétection}
@@ -671,38 +671,38 @@ Sherbrooke} de la session d'été 2023~: à modifier plus tard.
 \markright{Introduction aux images de télédétection}
 
 L'imagerie numérique a pris une place importante dans notre vie de tous
-les jours depuis une quinzaine d'année. Ces images sont prises
+les jours depuis une quinzaine d'années. Ces images sont prises
 généralement au niveau du sol (imagerie proximale) avec seulement trois
 couleurs dans le domaine de la vision humaine (rouge, vert et bleu).
 Dans la suite du manuel, on parlera d'images du domaine de la vision par
 ordinateur ou images en vision pour faire plus court.
 
 Les images de télédétection ont des particularités et des propriétés qui
-les différencient des images de tous les jours. On peut souligner au
-moins cinq caractéristiques principales:
+les différencient des images ``classiques'', dont les cinq principales
+sont:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Les images sont géoréférencées : Cela veut dire que pour chaque pixel
+  Les images sont géoréférencées. Cela signifie que pour chaque pixel
   nous pouvons y associer une position géographique ou cartographique.
 \item
-  Le point de vue est très différent : Ces images sont prises avec une
+  Le point de vue est très différent. Ces images sont prises avec une
   vue d'en haut (Nadir) ou oblique avec une distance qui peut être très
-  grande (On parle d'images distales).
+  grande; on parle d'images distales.
 \item
-  Elles possèdent plus que 3 bandes : Contrairement aux images en
-  vision, les images de télédétection possèdent bien souvent plus que 3
-  bandes. Il n'est pas rare de trouver 4 bandes (Pléiade), 13 bandes
-  (Sentinel-2, Landsat) et même 200 bandes pour des capteurs
+  Elles possèdent plus que 3 bandes. Contrairement aux images en vision,
+  les images de télédétection possèdent bien souvent plus que trois
+  bandes. Il n'est pas rare de trouver quatre bandes (Pléiade), 13
+  bandes (Sentinel-2, Landsat) et même 200 bandes pour des capteurs
   hyperspectraux.
 \item
-  Elles peuvent être calibrées : Les valeurs numérique de l'image
-  peuvent être converties en quantités physiques (luminance,
-  réflectance, section efficace, etc.) via une fonction de calibration.
+  Elles peuvent être calibrées. Les valeurs numérique de l'image peuvent
+  être converties en quantités physiques (luminance, réflectance,
+  section efficace, etc.) via une fonction de calibration.
 \item
-  Elles sont de grande taille : Il n'est pas rare de manipuler des
-  images qui font plusieurs dizaines de milliers de pixels en dimension.
+  Elles sont de grande taille. Il n'est pas rare de manipuler des images
+  qui font plusieurs dizaines de milliers de pixels en dimension.
 \end{enumerate}
 
 \subsection*{Ressources en ligne}\label{ressources-en-ligne}
@@ -779,12 +779,30 @@ spatiales}
 
 \chapter{Introduction au langage Python}\label{sec-chap00}
 
-Dans ce chapitre, nous allons présenter quelques éléments essentiels du
+Dans ce chapitre, nous présentons quelques éléments essentiels du
 langage Python qui nous seront utiles dans ce manuel. Python est un
 langage très riche et peut aboutir à des projets logiciels très
 sophistiqués. Il est important de comprendre que la programmation Python
-n'est pas une fin en soit ici. Python est pour nous principalement un
-outil de `scriptage' et de manipulation de la donnée.
+n'est pas ici une fin en soi, mais plutôt un outil de scriptage et de
+manipulation des données satellitaires.
+
+\begin{tcolorbox}[colback=background_color, colframe=objectif_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocObjectif.png} \textbf{Objectif}}]
+
+\textbf{Objectifs d'apprentissage visés dans ce chapitre}
+
+À la fin de ce chapitre, vous devriez être en mesure de~:
+
+\begin{itemize}
+\tightlist
+\item
+  connaître les principales distributions de Python;
+\item
+  installer un environnement d'exécution du code de cet ouvrage;
+\item
+  comprendre les structures de base du langage Python;
+\end{itemize}
+
+\end{tcolorbox}
 
 Python, créé par
 \href{https://en.wikipedia.org/wiki/Guido_van_Rossum}{Guido van Rossum}
@@ -805,27 +823,28 @@ principales distributions :
 
 \begin{itemize}
 \item
-  \href{https://www.python.org/downloads/}{CPython} : C'est la
-  distribution ``vanille'' officielle, comme la recette originale de
-  Python. C'est le choix idéal pour la compatibilité et la conformité
-  aux standards.
+  \href{https://www.python.org/downloads/}{CPython} est la distribution
+  ``vanille'' officielle, comme la recette originale de Python. Elle est
+  ainsi le choix idéal pour la compatibilité et la conformité aux
+  standards.
 \item
-  \href{https://www.anaconda.com/download}{Anaconda} : Pensez-y comme à
-  un sundae tout garni. Il vient avec de nombreuses bibliothèques
-  scientifiques préinstallées, idéal pour l'analyse de données et le
-  machine learning.
+  \href{https://www.anaconda.com/download}{Anaconda}. Pensez-y comme à
+  un sundae tout garni. Elle vient avec de nombreuses bibliothèques
+  scientifiques préinstallées, ce qui est idéal pour l'analyse de
+  données et l'apprentissage automatique (\emph{machine learning}).
 \item
   \href{https://docs.anaconda.com/miniconda/miniconda-install/}{Miniconda}
-  : est une distribution légère de Python qui vous permet d'ajouter les
-  librairies au besoin.
+  est une distribution légère de Python qui vous permet d'ajouter au
+  besoin d'autres bibliothèques.
 \item
-  PyPy : C'est comme une version turbo de Python, optimisée pour la
-  vitesse.
+  \href{https://pypy.org/}{PyPy} : est une version turbo de Python,
+  optimisée pour la vitesse.
 \end{itemize}
 
 Chaque distribution a ses forces, que ce soit la simplicité, la vitesse
-ou des fonctionnalités spécifiques. Le choix dépend de vos besoins,
-comme choisir entre une glace simple ou un banana split élaboré.
+ou des fonctionnalités spécifiques. Le choix dépend donc de vos besoins,
+comme choisir entre une glace simple ou une glace royal (banana split)
+élaboré.
 
 \section{Les styles de programmation en
 Python}\label{les-styles-de-programmation-en-python}
@@ -840,7 +859,7 @@ programmation}\label{les-outils-de-programmation}
 Un code python prend la forme d'un simple fichier texte avec l'extension
 \texttt{.py} et peut être modifié avec un simple éditeur de texte.
 Cependant, il n'y aura pas de rétroactions immédiates de l'interpréteur
-Python ce qui rend la correction d'erreurs (débogage) beaucoup plus
+Python, ce qui rend la correction d'erreurs (débogage) beaucoup plus
 laborieux.
 
 Un IDE (\emph{Integrated Developement Environnement}) est comme une
@@ -872,31 +891,35 @@ Voici quelques options populaires :
 
 \begin{itemize}
 \item
-  \href{https://www.jetbrains.com/pycharm/}{PyCharm} : C'est un des
-  outils les plus utilisés dans l'industrie. Il offre une multitude de
+  \href{https://www.jetbrains.com/pycharm/}{PyCharm}: est un des outils
+  les plus utilisés dans l'industrie. Il offre une multitude de
   fonctionnalités comme l'autocomplétion intelligente et le débogage
-  intégré, idéal pour les grands projets. Cepednant, cet outil peut être
-  assez gourmand en mémoire et en CPU.
+  intégré, idéal pour les grands projets. Cependant, cet outil peut être
+  assez gourmand en mémoire et en CPU. Notez qu'il existe une version
+  gratuite et une version professionnelle.
 \item
-  \href{https://code.visualstudio.com/}{Visual Studio Code} : Gratuit,
+  \href{https://code.visualstudio.com/}{Visual Studio Code} : gratuit,
   léger mais puissant, il est personnalisable avec des extensions pour
   Python.
 \item
-  \href{https://www.spyder-ide.org/}{Spyder} : Logiciel libre et
+  \href{https://www.spyder-ide.org/}{Spyder} : logiciel libre et
   gratuit, orienté vers les applications scientifiques.
 \item
-  \href{https://jupyter.org/}{Jupyter Notebooks} : Imaginez un cahier
+  \href{https://jupyter.org/}{Jupyter Notebooks} : imaginez un cahier
   interactif pour le code. Idéal pour l'analyse de données et
   l'apprentissage, il permet de mélanger code, texte et visualisations.
   Des services gratuits dans le \textbf{cloud} sont disponibles comme
   Google Colab et Kaggle. Ces environnements sont néanmoins moins
-  appropriées pour des grands projets et le débogage.
+  appropriés pour des grands projets et le débogage. Jupyter peut
+  souffrir de problèmes de reproductibilité dus à l'exécution arbitraire
+  des cellules.
 \item
-  Sublime Text : C'est comme un stylo élégant et rapide. Léger et
-  rapide, il est apprécié pour sa simplicité et sa vitesse. Le choix
-  dépend de vos besoins, que vous soyez débutant ou développeur
-  chevronné. L'important est de trouver l'éditeur qui vous convient le
-  mieux pour coder confortablement.
+  \href{https://marimo.io/}{Marimo} se veut une version plus moderne des
+  \emph{notebooks jupyter}. Contrairement à Jupyter, Marimo garantit la
+  cohérence entre le code, les sorties et l'état du programme. Il
+  analyse intelligemment les relations entre les cellules et réexécute
+  automatiquement celles qui sont affectées par des changements,
+  éliminant ainsi les problèmes d'état caché.
 \end{itemize}
 
 \section{Bonnes pratiques}\label{bonnes-pratiques}
@@ -904,35 +927,34 @@ Voici quelques options populaires :
 Python est un langage très dynamique, qui évolue constamment. Cela pose
 certains défis pour la gestion du code à long terme. Il est fortement
 conseillé d'utiliser des environnements virtuels pour gérer vos
-différentes librairies. Voici quelques bonnes pratiques à suivre :
+différentes bibliothèques (\emph{libraries}). Voici quelques bonnes
+pratiques à suivre :
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{N'installez par la toute dernière version de Python} :
-  installez toujours une version ou deux qui précède
-  \href{https://www.python.org/downloads/}{la dernière version}. Les
-  versions trop récentes peuvent être instables. La version de python
-  désirée peut être spécifiée au moment de la création d'un
-  environnement virtuel (voir plus bas). Vous pouvez afficher la liste
-  des versions de python avec la commande
-  \texttt{conda\ search\ -\/-full-name\ python}. Il est recommandé
-  d'installer 1 ou 2 version antérieure, par exemple si 3.13 est la
-  version plus récente, installer plutôt la version 3.11.
+  \textbf{N'installez par la toute dernière version de Python} : Il est
+  recommandé d'installer 1 ou 2 version antérieure, par exemple si 3.13
+  est \href{https://www.python.org/downloads/}{la version plus récente},
+  installer plutôt la version 3.11. Les versions trop récentes peuvent
+  être instables. La version de python désirée peut être spécifiée au
+  moment de la création d'un environnement virtuel (voir plus bas). Vous
+  pouvez afficher la liste des versions de python avec la commande
+  \texttt{conda\ search\ -\/-full-name\ python}.
 \item
-  \textbf{N'utilisez pas de version obsolète de Python} : cela peut
-  sembler contradictoire avec le point 1 mais c'est l'excès inverse. Si
-  vous utilisez une version trop ancienne alors toutes vos librairies
-  vont cessez d'évoluer et peuvent devenir obsolète.
+  \textbf{N'utilisez pas de version obsolète de Python}. Cela peut
+  sembler contradictoire avec le point précédent mais c'est l'excès
+  inverse. Si vous utilisez une version trop ancienne alors toutes vos
+  librairies cesseront d'évoluer et peuvent devenir obsolètes.
 \item
-  \textbf{Utilisez des environnements virtuels} : Pensez-y comme à des
+  \textbf{Utilisez des environnements virtuels}. Pensez-y comme à des
   compartiments séparées pour chaque projet. Cela évite les conflits
-  entre les différentes versions de bibliothèques et garde votre système
-  propre. Par exemple, si vous souhaitez vérifier une nouvelle version
-  de Python, utilisez un environnement :
+  entre les différentes versions de bibliothèques (\emph{libraries})et
+  garde votre système propre. Par exemple, si vous souhaitez vérifier
+  une nouvelle version de Python, utilisez un environnement :
   \texttt{conda\ create\ -\/-name\ test\ python=3.11}
 \item
-  \textbf{Vérifiez l'installation} : Après l'installation, ouvrez un
+  \textbf{Vérifiez l'installation}. Après l'installation, ouvrez un
   terminal et tapez \texttt{python\ -\/-version} pour vous assurer que
   tout fonctionne correctement.
 \end{enumerate}
@@ -946,11 +968,11 @@ distribution de Python:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  \textbf{Option 1} : vous utilisez
+  \textbf{Option 1}. Vous utilisez
   \href{https://www.anaconda.com/download}{Anaconda} ou
-  \href{https://docs.anaconda.com/miniconda/miniconda-install/}{Miniconda},
-  dans ce cas la commande \texttt{conda} est utilisée pour créer un
-  environnement test avec Python 3.10:
+  \href{https://docs.anaconda.com/miniconda/miniconda-install/}{Miniconda}.
+  La commande \texttt{conda} est utilisée pour créer un environnement
+  test avec Python 3.10:
 \end{enumerate}
 
 \begin{Shaded}
@@ -965,7 +987,7 @@ distribution de Python:
 \setcounter{enumi}{1}
 \tightlist
 \item
-  \textbf{Option 2} : vous utilisez
+  \textbf{Option 2}. Vous utilisez
   \href{https://www.python.org/downloads/}{CPython}
 \end{enumerate}
 
@@ -987,22 +1009,32 @@ Les notebooks Python fonctionnent par défaut dans l'environnement
 fonctionner ces notebook localement, vous pouvez installer un
 environnement local avec un serveur
 \href{https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html}{Jupyter}.
-Il suffit de suivre les étapes suivantes: 1. Installer \texttt{WSL2}
-sous
-\href{https://learn.microsoft.com/en-us/windows/wsl/install}{Windows} 2.
-Installer
-\href{https://code.visualstudio.com/docs/setup/windows}{vscode} 3.
-Installer
+Il suffit de suivre les étapes suivantes:
+
+1. Installer \texttt{WSL2} sous
+\href{https://learn.microsoft.com/en-us/windows/wsl/install}{Windows}
+
+2. Installer
+\href{https://code.visualstudio.com/docs/setup/windows}{vscode}
+
+3. Installer
 \href{https://docs.anaconda.com/miniconda/install/\#quick-command-line-install}{Miniconda}
+
 4. Faire une installation du contenu du livre soit en utilisant une
 commande \texttt{git\ clone} ou en récupérant le \texttt{.zip} du livre
+
 5. Ouvrir WSL2 et placer vous dans le répertoire du livre
 \texttt{TraitementImagesPythonVol1}. Assurez vous que vous avez accès à
-conda en tapant \texttt{conda\ -\/-version} 6. Lancer la commande
-\texttt{conda\ env\ create\ -f\ jupyter\_env.yaml} 7. Activer le nouvel
-environnement: \texttt{conda\ activate\ jupyter\_env} 8. Le serveur
-jupyter peut ensuite être lancé avec la commande suivante:
+conda en tapant \texttt{conda\ -\/-version}
+
+6. Lancer la commande \texttt{conda\ env\ create\ -f\ jupyter\_env.yaml}
+
+7. Activer le nouvel environnement:
+\texttt{conda\ activate\ jupyter\_env}
+
+8. Le serveur jupyter peut ensuite être lancé avec la commande suivante:
 \texttt{jupyter\ lab\ -\/-ip=\textquotesingle{}*\textquotesingle{}\ -\/-NotebookApp.token=\textquotesingle{}\textquotesingle{}\ -\/-NotebookApp.password=\textquotesingle{}\textquotesingle{}}
+
 Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu
 de gauche vous pouvez accéder aux notebooks dans le répertoire
 \texttt{notebooks}:
@@ -1015,9 +1047,8 @@ de gauche vous pouvez accéder aux notebooks dans le répertoire
 
 }
 
-\caption[Client Jupyter Lab]{\label{fig-jupyterlab}La librairie NumPy
-est le fondement de nombreuses librairies scientifiques (d'après (Harris
-2020)).}
+\caption[Client Jupyter Lab]{\label{fig-jupyterlab}Fenêtre principale du
+serveur Jupyter Lab.}
 
 \end{figure}%
 
@@ -1030,14 +1061,14 @@ les listes et les dictionnaires.
 \subsection{Les listes}\label{les-listes}
 
 Les listes sont comme des boites extensibles où vous pouvez ranger
-différents types d'objets :
+différents types d'objets:
 
 \begin{itemize}
 \item
   Représentées par des crochets : \texttt{{[}1,\ 2,\ 3,\ "python"{]}}.
 \item
-  Ordonnées et modifiables (mutables), vous pouvez récupérer une valeur
-  par sa position avec \texttt{{[}{]}}.
+  Ordonnées et modifiables (\emph{mutable}), vous pouvez récupérer une
+  valeur par sa position avec \texttt{{[}{]}}.
 \item
   Permettent les doublons (deux fois la même valeur).
 \item
@@ -1047,24 +1078,24 @@ différents types d'objets :
 
 \subsection{Les tuples}\label{les-tuples}
 
-Les tuples sont similaires aux listes, mais les boîtes sont scellées :
+Les tuples sont similaires aux listes, mais les boîtes sont scellées:
 
 \begin{itemize}
 \item
   Représentés par des parenthèses : \texttt{(1,\ 2,\ 3,\ "python")}.
 \item
-  Ordonnés mais non modifiables (immutables).
+  Ordonnés mais non modifiables (\emph{immutable}).
 \item
   Permettent les doublons.
 \item
-  Souvent utilisé pour stocker des données qui ne doivent pas changer
+  Souvent utilisés pour stocker des données qui ne doivent pas changer
   (comme des paramètres).
 \end{itemize}
 
 \subsection{Les ensembles (Sets)}\label{les-ensembles-sets}
 
 Les ensembles sont comme des boites magiques qui ne gardent qu'un
-exemplaire de chaque objet :
+exemplaire de chaque objet:
 
 \begin{itemize}
 \item
@@ -1106,21 +1137,21 @@ les plans pour créer ces blocs. Par exemple, une classe ``Voiture''
 pourrait avoir des attributs comme ``couleur'' et ``vitesse'', et des
 méthodes comme ``démarrer'' et ``accélérer''.
 
-Python rend la POO accessible avec des fonctionnalités conviviales :
+Python rend la POO accessible avec des fonctionnalités conviviales:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{Encapsulation} : Comme emballer un cadeau, elle cache les
+  \textbf{Encapsulation}: comme emballer un cadeau, elle cache les
   détails internes d'un objet.
 \item
-  \textbf{Héritage} : Permet de créer de nouvelles classes basées sur
-  des classes existantes, comme un enfant héritant des traits de ses
+  \textbf{Héritage}: permet de créer de nouvelles classes basées sur des
+  classes existantes, comme un enfant héritant des traits de ses
   parents.
 \item
-  \textbf{Polymorphisme} : Permet à différents objets de répondre au
-  même message de manière unique, comme si différents animaux
-  répondaient différemment à ``fais du bruit''.
+  \textbf{Polymorphisme}: permet à différents objets de répondre au même
+  message de manière unique, comme si différents animaux répondaient
+  différemment à ``fais du bruit''.
 \end{enumerate}
 
 Ces caractéristiques font de Python un excellent choix pour apprendre et
@@ -1150,16 +1181,15 @@ réutilisable
   \begin{itemize}
   \tightlist
   \item
-    \texttt{tmap} est certainement le meilleur \emph{package} pour la
-    cartographie.
+    \texttt{matplotlib} est certainement le \emph{package} le plus
+    complet pour l'affichage général.
   \item
-    \texttt{ggplot2} pour construire des graphiques.
+    \texttt{seaborn} pour construire des graphiques plus détaillés en
+    particulier pour les statistiques.
   \end{itemize}
 \end{itemize}
 
 \end{tcolorbox}
-
-\section{Cahier de révision (notebook)}\label{sec-016}
 
 \bookmarksetup{startatroot}
 
@@ -1309,7 +1339,7 @@ profond (PyTorch, Tensorflow).
 
 \begin{tcolorbox}[colback=background_color, colframe=package_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocPackage.png} \textbf{Package}}]
 
-\textbf{Installation de gdal dans un système Linux }
+\textbf{Installation de gdal dans un système Linux}
 
 \begin{itemize}
 \tightlist

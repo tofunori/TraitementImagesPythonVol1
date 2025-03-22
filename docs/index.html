@@ -11,7 +11,7 @@
 <meta name="author" content="Yacine Bouroubi">
 <meta name="author" content="Mickaël Germain">
 <meta name="author" content="Étienne Clabaut">
-<meta name="dcterms.date" content="2025-03-21">
+<meta name="dcterms.date" content="2025-03-22">
 
 <title>Traitement d’images satellites avec Python</title>
 <style>
@@ -297,7 +297,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025-03-21</p>
+      <p class="date">2025-03-22</p>
     </div>
   </div>
   
@@ -310,6 +310,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p><img src="images/couverture-full.png" title="Traitement d'images satellites avec Python" class="quarto-cover-image img-fluid"></p>
+<p>% Réinitialiser partie</p>
 <p><strong>Résumé&nbsp;:</strong> Ce livre vise à décrire une panoplie de méthodes de traitement d’images satellites avec le langage Python. Celles et ceux souhaitant migrer progressivement d’un autre logiciel d’imagerie et de télédétection vers Python trouveront dans cet ouvrage les éléments pour une transition en douceur. La philosophie de ce livre est de donner toutes les clefs de compréhension et de mise en œuvre des méthodes abordées dans Python. La présentation des méthodes est basée sur une approche compréhensive et intuitive plutôt que mathématique, sans pour autant négliger la rigueur mathématique ou statistique. Des rappels sur les fondements en télédétection pourront apparaître au besoin afin d’éclairer les approches techniques. Plusieurs éditions régulières sont prévues sachant que ce domaine évolue constamment.</p>
 <p><strong>Ce projet est en cours d’écriture et le contenu n’est pas complet</strong></p>
 <div class="quarto-figure quarto-figure-left">
@@ -335,7 +336,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><p><strong>Retenir</strong>, c’est-à-dire télécharger et imprimer gratuitement le livre. Notez qu’il aurait été plutôt surprenant d’écrire un livre payant sur un logiciel libre et donc gratuit. Aussi, nous aurions été très embarrassés que des personnes étudiantes avec des ressources financières limitées doivent payer pour avoir accès au livre, sans pour autant savoir préalablement si le contenu est réellement adapté à leurs besoins.</p></li>
 <li><p><strong>Réutiliser</strong>, c’est-à-dire utiliser la totalité ou une section du livre sans limitation et sans compensation financière. Cela permet ainsi à d’autres personnes enseignantes de l’utiliser dans le cadre d’activités pédagogiques.</p></li>
-<li><p><strong>Réviser</strong>, c’est-à-dire modifier, adapter et traduire le contenu en fonction d’un besoin pédagogique précis puisqu’aucun manuel n’est parfait, tant s’en faut! Le livre a d’ailleurs été écrit intégralement dans R avec <a href="https://quarto.org/">Quatro</a>. Quiconque peut ainsi télécharger gratuitement le code source du livre sur <a href="https://github.com/SerieBoldR/MethodesAnalyseSpatiale">github</a> et le modifier à sa guise (voir l’encadré intitulé <em>Suggestions d’adaptation du manuel</em>).</p></li>
+<li><p><strong>Réviser</strong>, c’est-à-dire modifier, adapter et traduire le contenu en fonction d’un besoin pédagogique précis puisqu’aucun manuel n’est parfait, tant s’en faut! Le livre a d’ailleurs été écrit intégralement dans Python avec <a href="https://quarto.org/">Quatro</a>. Quiconque peut ainsi télécharger gratuitement le code source du livre sur <a href="https://github.com/serie-python-tele/TraitementImagesPythonVol1">GitHub</a> et le modifier à sa guise (voir l’encadré intitulé <em>Suggestions d’adaptation du manuel</em>).</p></li>
 <li><p><strong>Remixer</strong>, c’est-à-dire «&nbsp;combiner la ressource avec d’autres ressources dont la licence le permet aussi pour créer une nouvelle ressource intégrée&nbsp;» (<a href="https://fabriquerel.org/rel/"><strong><em>fabriqueREL</em></strong></a>).</p></li>
 <li><p><strong>Redistribuer</strong>, c’est-à-dire distribuer, en totalité ou en partie le manuel ou une version révisée sur d’autres canaux que le site Web du livre (par exemple, sur le site Moodle de votre université ou en faire une version imprimée).</p></li>
 </ul>
@@ -343,7 +344,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Attribuer la paternité de l’auteur dans vos versions dérivées, ainsi qu’une mention concernant les grandes modifications apportées, en utilisant la formulation suivante&nbsp;:</li>
 </ul>
-<p>Samuel Foucher, Apparicio Philippe, Mickaël Germain, Yacine Bouroubi et Étienne Clabaut (2024). <em>Traitement d’images satellites : </em>. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC&nbsp;BY-SA.</p>
+<p>Samuel Foucher, Apparicio Philippe, Mickaël Germain, Yacine Bouroubi et Étienne Clabaut (2025). <em>Traitement d’images satellites avec Python</em>. Université de Sherbrooke, Département de géomatique appliquée. fabriqueREL. Licence CC&nbsp;BY-SA.</p>
 <ul>
 <li>Utiliser la même licence ou une licence similaire à toutes versions dérivées.</li>
 </ul>
@@ -464,8 +465,8 @@ Figure&nbsp;1: Licence Creative Commons du livre
 </section>
 <section id="sect003" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="sect003">Comment utiliser les données du livre pour reproduire les exemples?</h2>
-<p>Ce livre comprend des exemples détaillés et appliqués en Python pour chacune des méthodes abordées. Ces exemples se basent sur des jeux de données ouverts et mis à disposition avec le livre. Ils sont disponibles sur le <em>repo github</em> dans le sous-dossier <code>data</code>, à l’adresse <a href="https://github.com/serie-tele-pyton/TraitementImagesVol1/tree/main/data" class="uri">https://github.com/serie-tele-pyton/TraitementImagesVol1/tree/main/data</a>.</p>
-<p>Une autre option est de télécharger le <em>repo</em> complet du livre directement sur <em>github</em> (<a href="https://github.com/serie-tele-pyton/TraitementImagesVol1" class="uri">https://github.com/serie-tele-pyton/TraitementImagesVol1</a>) en cliquant sur le bouton <code>Code</code>, puis le bouton <code>Download ZIP</code> (<a href="#fig-downloaffromgit" class="quarto-xref">figure&nbsp;<span>2</span></a>). Les données se trouvent alors dans le sous-dossier nommé <code>data</code>.</p>
+<p>Ce livre comprend des exemples détaillés et appliqués en Python pour chacune des méthodes abordées. Ces exemples se basent sur des jeux de données ouverts et mis à disposition avec le livre. Ils sont disponibles sur le <em>repo GitHub</em> dans le sous-dossier <code>data</code>, à l’adresse <a href="https://github.com/serie-tele-pyton/TraitementImagesVol1/tree/main/data" class="uri">https://github.com/serie-tele-pyton/TraitementImagesVol1/tree/main/data</a>.</p>
+<p>Une autre option est de télécharger le <em>repo</em> complet du livre directement sur <em>GitHub</em> (<a href="https://github.com/serie-tele-pyton/TraitementImagesVol1" class="uri">https://github.com/serie-tele-pyton/TraitementImagesVol1</a>) en cliquant sur le bouton <code>Code</code>, puis le bouton <code>Download ZIP</code> (<a href="#fig-downloaffromgit" class="quarto-xref">figure&nbsp;<span>2</span></a>). Les données se trouvent alors dans le sous-dossier nommé <code>data</code>.</p>
 <div id="fig-downloaffromgit" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-downloaffromgit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -482,20 +483,20 @@ Figure&nbsp;2: Téléchargement de l’intégralité du livre
 <p>Le livre est organisé autour de quatre grandes parties.</p>
 <p><strong>Partie 1. Importation et manipulation de données spatiales.</strong> Dans cette première partie, nous voyons comment importer, manipuler, visualiser et exporter des données spatiales de type image (ou de type matriciel) avec Python, principalement avec les <em>packages</em> <code>rasterio</code>, <code>xarray</code> et <code>numpy</code> (<a href="01-ImportationManipulationImages.html" class="quarto-xref">chapitre&nbsp;<span>2&nbsp; Importation et manipulation de données spatiales</span></a>). Ce chapitre vous permettra de maîtriser la manipulation à bas niveau de différents types d’imagerie. Différents exemples et exercises sont disponibles avec différents capteurs satellites (multi-spectral, RGB-NIR, SAR, etc.)</p>
 <p><strong>Partie 2. Transformations des données spatiales</strong>. Cette deuxième partie comprend deux chapitres&nbsp;: les transformations spectrales (<a href="03-TransformationSpectrales.html" class="quarto-xref">chapitre&nbsp;<span>4&nbsp; Transformations spectrales</span></a>) et les transformations spatiales (<a href="04-TransformationSpatiales.html" class="quarto-xref">chapitre&nbsp;<span>5&nbsp; Transformations spatiales</span></a>).</p>
-<p><strong>Partie 3. Classifications d’images</strong> Cette troisième partie comprend deux chapitres&nbsp;: les classifications supervisées (<a href="05-ClassificationsSupervisees.html" class="quarto-xref">chapitre&nbsp;<span>6&nbsp; Classifications d’images supervisées</span></a>) et non supervisées (à venir dans une prochaine édition).</p>
-<p><strong>Partie 4. Données massives</strong> (à venir dans une édition future). Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnes, notammment Google Earth Engine.</p>
+<p><strong>Partie 3. Classifications d’images.</strong> Cette troisième partie comprend deux chapitres&nbsp;: les classifications supervisées (<a href="05-ClassificationsSupervisees.html" class="quarto-xref">chapitre&nbsp;<span>6&nbsp; Classifications d’images supervisées</span></a>) et non supervisées (à venir dans une prochaine édition).</p>
+<p><strong>Partie 4. Données massives.</strong> (à venir dans une édition future). Cette quatrième et dernière partie comprend un seul chapitre qui est dédié aux plateformes de mégadonnées, notamment Google Earth Engine.</p>
 </section>
 <section id="sect005" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="sect005">Remerciements</h2>
 <p>De nombreuses personnes ont contribué à l’élaboration de ce manuel.</p>
 <p>Ce projet a bénéficié du soutien pédagogique et financier de la <a href="https://fabriquerel.org/"><strong><em>fabriqueREL</em></strong></a> (ressources éducatives libres). Les différentes rencontres avec le comité de suivi nous ont permis de comprendre l’univers des ressources éducatives libres (REL) et notamment leurs <a href="https://fabriquerel.org/rel/">fameux 5R</a> (Retenir — Réutiliser — Réviser — Remixer — Redistribuer), de mieux définir le besoin pédagogique visé par ce manuel, d’identifier des ressources pédagogiques et des outils pertinents pour son élaboration. Ainsi, nous remercions chaleureusement les membres de la <em>fabriqueREL</em> pour leur soutien inconditionnel&nbsp;:</p>
 <ul>
-<li><p>Myriam Beaudet, bibliothécaire à l’Université de Sherbrooke.</p></li>
+<li><p>José-Miguel Escobar-Zuniga, bibliothécaire à l’Université de Sherbrooke.</p></li>
 <li><p>Marianne Dubé, coordonnatrice de la fabriqueREL, Université de Sherbrooke.</p></li>
-<li><p>Serge Piché, conseiller pédagogique, Université de Sherbrooke.</p></li>
 <li><p>Claude Potvin, conseiller en formation, Service de soutien à l’enseignement, Université Laval.</p></li>
 </ul>
-<p>Nous remercions chaleureusement les personnes étudiantes des cours <strong>à modifier plus tard</strong> du <a href="https://www.usherbrooke.ca/admission/programme/271/baccalaureat-en-geomatiqueappliquee-a-lenvironnement/">Baccalauréat en géomatique appliquée à l’environnement</a> et du <a href="https://www.usherbrooke.ca/admission/programme/429/microprogramme-de-1er-cycleen-geomatique-appliquee/">Microprogramme de 1er cycle en géomatique appliquée</a> du <a href="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/">Université de Sherbrooke</a> de la session d’été 2023&nbsp;: à modifier plus tard. <!--
+<p>Nous remercions chaleureusement les personnes étudiantes du <a href="https://www.usherbrooke.ca/admission/programme/271/baccalaureat-en-geomatiqueappliquee-a-lenvironnement/" title="https://www.usherbrooke.ca/admission/programme/271/baccalaureat-en-geomatiqueappliquee-a-lenvironnement/">Baccalauréat en géomatique appliquée à l’environnement</a> et du <a href="https://www.usherbrooke.ca/admission/programme/429/microprogramme-de-1er-cycleen-geomatique-appliquee/" title="https://www.usherbrooke.ca/admission/programme/429/microprogramme-de-1er-cycleen-geomatique-appliquee/">Microprogramme de 1er cycle en géomatique appliquée</a> du <a href="https://www.usherbrooke.ca/geomatique/" title="https://www.usherbrooke.ca/geomatique/">Département de géomatique appliquée</a> de l’<a href="https://www.usherbrooke.ca/" title="https://www.usherbrooke.ca/">Université de Sherbrooke</a> qui utilisent le manuel dans le cadre de cours.</p>
+<!--
 Nous remercions aussi les membres du comité de révision pour leurs commentaires et suggestions très constructifs. Ce comité est composé de quatre personnes étudiantes du [Département de géomatique appliquée](https://www.usherbrooke.ca/geomatique/) de l'[Université de Sherbrooke](https://www.usherbrooke.ca/) :
 
 -   À compléter plus tard.
@@ -503,18 +504,18 @@ Nous remercions aussi les membres du comité de révision pour leurs commentaire
 -   À compléter plus tard.
 
 Finalement, nous remercions Denise Latreille, réviseure linguistique et chargée de cours à l'Université Sherbrooke, pour la révision du manuel.
---></p>
+-->
 </section>
 <section id="sect006" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="sect006">Introduction aux images de télédétection</h2>
-<p>L’imagerie numérique a pris une place importante dans notre vie de tous les jours depuis une quinzaine d’année. Ces images sont prises généralement au niveau du sol (imagerie proximale) avec seulement trois couleurs dans le domaine de la vision humaine (rouge, vert et bleu). Dans la suite du manuel, on parlera d’images du domaine de la vision par ordinateur ou images en vision pour faire plus court.</p>
-<p>Les images de télédétection ont des particularités et des propriétés qui les différencient des images de tous les jours. On peut souligner au moins cinq caractéristiques principales:</p>
+<p>L’imagerie numérique a pris une place importante dans notre vie de tous les jours depuis une quinzaine d’années. Ces images sont prises généralement au niveau du sol (imagerie proximale) avec seulement trois couleurs dans le domaine de la vision humaine (rouge, vert et bleu). Dans la suite du manuel, on parlera d’images du domaine de la vision par ordinateur ou images en vision pour faire plus court.</p>
+<p>Les images de télédétection ont des particularités et des propriétés qui les différencient des images “classiques”, dont les cinq principales sont:</p>
 <ol type="1">
-<li><p>Les images sont géoréférencées : Cela veut dire que pour chaque pixel nous pouvons y associer une position géographique ou cartographique.</p></li>
-<li><p>Le point de vue est très différent : Ces images sont prises avec une vue d’en haut (Nadir) ou oblique avec une distance qui peut être très grande (On parle d’images distales).</p></li>
-<li><p>Elles possèdent plus que 3 bandes : Contrairement aux images en vision, les images de télédétection possèdent bien souvent plus que 3 bandes. Il n’est pas rare de trouver 4 bandes (Pléiade), 13 bandes (Sentinel-2, Landsat) et même 200 bandes pour des capteurs hyperspectraux.</p></li>
-<li><p>Elles peuvent être calibrées : Les valeurs numérique de l’image peuvent être converties en quantités physiques (luminance, réflectance, section efficace, etc.) via une fonction de calibration.</p></li>
-<li><p>Elles sont de grande taille : Il n’est pas rare de manipuler des images qui font plusieurs dizaines de milliers de pixels en dimension.</p></li>
+<li><p>Les images sont géoréférencées. Cela signifie que pour chaque pixel nous pouvons y associer une position géographique ou cartographique.</p></li>
+<li><p>Le point de vue est très différent. Ces images sont prises avec une vue d’en haut (Nadir) ou oblique avec une distance qui peut être très grande; on parle d’images distales.</p></li>
+<li><p>Elles possèdent plus que 3 bandes. Contrairement aux images en vision, les images de télédétection possèdent bien souvent plus que trois bandes. Il n’est pas rare de trouver quatre bandes (Pléiade), 13 bandes (Sentinel-2, Landsat) et même 200 bandes pour des capteurs hyperspectraux.</p></li>
+<li><p>Elles peuvent être calibrées. Les valeurs numérique de l’image peuvent être converties en quantités physiques (luminance, réflectance, section efficace, etc.) via une fonction de calibration.</p></li>
+<li><p>Elles sont de grande taille. Il n’est pas rare de manipuler des images qui font plusieurs dizaines de milliers de pixels en dimension.</p></li>
 </ol>
 <section id="ressources-en-ligne" class="level3">
 <h3 class="anchored" data-anchor-id="ressources-en-ligne">Ressources en ligne</h3>

@@ -54,27 +54,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -276,7 +256,6 @@ div.csl-indent {
   </ul></li>
   <li><a href="#dictionnaires" id="toc-dictionnaires" class="nav-link" data-scroll-target="#dictionnaires"><span class="header-section-number">1.5</span> Dictionnaires</a></li>
   <li><a href="#programmation-objet" id="toc-programmation-objet" class="nav-link" data-scroll-target="#programmation-objet"><span class="header-section-number">1.6</span> Programmation objet</a></li>
-  <li><a href="#sec-016" id="toc-sec-016" class="nav-link" data-scroll-target="#sec-016"><span class="header-section-number">1.7</span> Cahier de révision (notebook)</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/sfoucher/TraitementImagesPythonVol1/issues" class="toc-action"><i class="bi bi-github"></i>Signaler un problème ou<br>formuler une suggestion</a></li></ul></div></nav>
     </div>
@@ -302,25 +281,41 @@ div.csl-indent {
 </header>
 
 
-<p>Dans ce chapitre, nous allons présenter quelques éléments essentiels du langage Python qui nous seront utiles dans ce manuel. Python est un langage très riche et peut aboutir à des projets logiciels très sophistiqués. Il est important de comprendre que la programmation Python n’est pas une fin en soit ici. Python est pour nous principalement un outil de ‘scriptage’ et de manipulation de la donnée.</p>
+<p>Dans ce chapitre, nous présentons quelques éléments essentiels du langage Python qui nous seront utiles dans ce manuel. Python est un langage très riche et peut aboutir à des projets logiciels très sophistiqués. Il est important de comprendre que la programmation Python n’est pas ici une fin en soi, mais plutôt un outil de scriptage et de manipulation des données satellitaires.</p>
+<div class="bloc_objectif">
+<div class="bloc_objectif-header">
+<div class="bloc_objectif-icon">
+
+</div>
+<p><strong>Objectifs d’apprentissage visés dans ce chapitre</strong></p>
+</div>
+<div class="bloc_objectif-body">
+<p>À la fin de ce chapitre, vous devriez être en mesure de&nbsp;:</p>
+<ul>
+<li>connaître les principales distributions de Python;</li>
+<li>installer un environnement d’exécution du code de cet ouvrage;</li>
+<li>comprendre les structures de base du langage Python;</li>
+</ul>
+</div>
+</div>
 <p>Python, créé par <a href="https://en.wikipedia.org/wiki/Guido_van_Rossum">Guido van Rossum</a> en 1991, est un langage de programmation polyvalent et facile à apprendre, souvent comparé à un couteau suisse numérique pour sa simplicité et sa polyvalence. Comme un outil multifonction, Python peut être utilisé pour une variété de tâches, du développement web à l’analyse de données, en passant par l’intelligence artificielle.</p>
 <section id="les-distributions" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="les-distributions"><span class="header-section-number">1.1</span> Les distributions</h2>
 <p>Il existe plusieurs <a href="https://wiki.python.org/moin/PythonDistributions">distributions</a> du langage Python, ces distributions sont comme différentes saveurs de votre glace préférée - chacune a ses propres caractéristiques uniques, mais elles sont toutes fondamentalement Python. Voici un aperçu des principales distributions :</p>
 <ul>
-<li><p><a href="https://www.python.org/downloads/">CPython</a> : C’est la distribution “vanille” officielle, comme la recette originale de Python. C’est le choix idéal pour la compatibilité et la conformité aux standards.</p></li>
-<li><p><a href="https://www.anaconda.com/download">Anaconda</a> : Pensez-y comme à un sundae tout garni. Il vient avec de nombreuses bibliothèques scientifiques préinstallées, idéal pour l’analyse de données et le machine learning.</p></li>
-<li><p><a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a> : est une distribution légère de Python qui vous permet d’ajouter les librairies au besoin.</p></li>
-<li><p>PyPy : C’est comme une version turbo de Python, optimisée pour la vitesse.</p></li>
+<li><p><a href="https://www.python.org/downloads/">CPython</a> est la distribution “vanille” officielle, comme la recette originale de Python. Elle est ainsi le choix idéal pour la compatibilité et la conformité aux standards.</p></li>
+<li><p><a href="https://www.anaconda.com/download">Anaconda</a>. Pensez-y comme à un sundae tout garni. Elle vient avec de nombreuses bibliothèques scientifiques préinstallées, ce qui est idéal pour l’analyse de données et l’apprentissage automatique (<em>machine learning</em>).</p></li>
+<li><p><a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a> est une distribution légère de Python qui vous permet d’ajouter au besoin d’autres bibliothèques.</p></li>
+<li><p><a href="https://pypy.org/">PyPy</a> : est une version turbo de Python, optimisée pour la vitesse.</p></li>
 </ul>
-<p>Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend de vos besoins, comme choisir entre une glace simple ou un banana split élaboré.</p>
+<p>Chaque distribution a ses forces, que ce soit la simplicité, la vitesse ou des fonctionnalités spécifiques. Le choix dépend donc de vos besoins, comme choisir entre une glace simple ou une glace royal (banana split) élaboré.</p>
 </section>
 <section id="les-styles-de-programmation-en-python" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="les-styles-de-programmation-en-python"><span class="header-section-number">1.2</span> Les styles de programmation en Python</h2>
 <p>Il existe plusieurs approches pour programmer en Python. La plus directe est en version interactive en tapant <code>python</code> et de rentrer des commandes ligne par ligne.</p>
 <section id="les-outils-de-programmation" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="les-outils-de-programmation"><span class="header-section-number">1.2.1</span> Les outils de programmation</h3>
-<p>Un code python prend la forme d’un simple fichier texte avec l’extension <code>.py</code> et peut être modifié avec un simple éditeur de texte. Cependant, il n’y aura pas de rétroactions immédiates de l’interpréteur Python ce qui rend la correction d’erreurs (débogage) beaucoup plus laborieux.</p>
+<p>Un code python prend la forme d’un simple fichier texte avec l’extension <code>.py</code> et peut être modifié avec un simple éditeur de texte. Cependant, il n’y aura pas de rétroactions immédiates de l’interpréteur Python, ce qui rend la correction d’erreurs (débogage) beaucoup plus laborieux.</p>
 <p>Un IDE (<em>Integrated Developement Environnement</em>) est comme une boîte à outils complète pour les programmeurs, vous trouverez :</p>
 <ul>
 <li><p>Un éditeur de texte amélioré pour écrire votre code, avec des fonctionnalités comme la coloration syntaxique qui rend le code plus lisible.</p></li>
@@ -332,33 +327,33 @@ div.csl-indent {
 <p>Ces outils intégrés permettent aux développeurs de travailler plus efficacement, en passant moins de temps à jongler entre différentes applications et plus de temps à produire du code.</p>
 <p>Voici quelques options populaires :</p>
 <ul>
-<li><p><a href="https://www.jetbrains.com/pycharm/">PyCharm</a> : C’est un des outils les plus utilisés dans l’industrie. Il offre une multitude de fonctionnalités comme l’autocomplétion intelligente et le débogage intégré, idéal pour les grands projets. Cepednant, cet outil peut être assez gourmand en mémoire et en CPU.</p></li>
-<li><p><a href="https://code.visualstudio.com/">Visual Studio Code</a> : Gratuit, léger mais puissant, il est personnalisable avec des extensions pour Python.</p></li>
-<li><p><a href="https://www.spyder-ide.org/">Spyder</a> : Logiciel libre et gratuit, orienté vers les applications scientifiques.</p></li>
-<li><p><a href="https://jupyter.org/">Jupyter Notebooks</a> : Imaginez un cahier interactif pour le code. Idéal pour l’analyse de données et l’apprentissage, il permet de mélanger code, texte et visualisations. Des services gratuits dans le <strong>cloud</strong> sont disponibles comme Google Colab et Kaggle. Ces environnements sont néanmoins moins appropriées pour des grands projets et le débogage.</p></li>
-<li><p>Sublime Text : C’est comme un stylo élégant et rapide. Léger et rapide, il est apprécié pour sa simplicité et sa vitesse. Le choix dépend de vos besoins, que vous soyez débutant ou développeur chevronné. L’important est de trouver l’éditeur qui vous convient le mieux pour coder confortablement.</p></li>
+<li><p><a href="https://www.jetbrains.com/pycharm/">PyCharm</a>: est un des outils les plus utilisés dans l’industrie. Il offre une multitude de fonctionnalités comme l’autocomplétion intelligente et le débogage intégré, idéal pour les grands projets. Cependant, cet outil peut être assez gourmand en mémoire et en CPU. Notez qu’il existe une version gratuite et une version professionnelle.</p></li>
+<li><p><a href="https://code.visualstudio.com/">Visual Studio Code</a> : gratuit, léger mais puissant, il est personnalisable avec des extensions pour Python.</p></li>
+<li><p><a href="https://www.spyder-ide.org/">Spyder</a> : logiciel libre et gratuit, orienté vers les applications scientifiques.</p></li>
+<li><p><a href="https://jupyter.org/">Jupyter Notebooks</a> : imaginez un cahier interactif pour le code. Idéal pour l’analyse de données et l’apprentissage, il permet de mélanger code, texte et visualisations. Des services gratuits dans le <strong>cloud</strong> sont disponibles comme Google Colab et Kaggle. Ces environnements sont néanmoins moins appropriés pour des grands projets et le débogage. Jupyter peut souffrir de problèmes de reproductibilité dus à l’exécution arbitraire des cellules.</p></li>
+<li><p><a href="https://marimo.io/">Marimo</a> se veut une version plus moderne des <em>notebooks jupyter</em>. Contrairement à Jupyter, Marimo garantit la cohérence entre le code, les sorties et l’état du programme. Il analyse intelligemment les relations entre les cellules et réexécute automatiquement celles qui sont affectées par des changements, éliminant ainsi les problèmes d’état caché.</p></li>
 </ul>
 </section>
 </section>
 <section id="bonnes-pratiques" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="bonnes-pratiques"><span class="header-section-number">1.3</span> Bonnes pratiques</h2>
-<p>Python est un langage très dynamique, qui évolue constamment. Cela pose certains défis pour la gestion du code à long terme. Il est fortement conseillé d’utiliser des environnements virtuels pour gérer vos différentes librairies. Voici quelques bonnes pratiques à suivre :</p>
+<p>Python est un langage très dynamique, qui évolue constamment. Cela pose certains défis pour la gestion du code à long terme. Il est fortement conseillé d’utiliser des environnements virtuels pour gérer vos différentes bibliothèques (<em>libraries</em>). Voici quelques bonnes pratiques à suivre :</p>
 <ol type="1">
-<li><p><strong>N’installez par la toute dernière version de Python</strong> : installez toujours une version ou deux qui précède <a href="https://www.python.org/downloads/">la dernière version</a>. Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d’un environnement virtuel (voir plus bas). Vous pouvez afficher la liste des versions de python avec la commande <code>conda search --full-name python</code>. Il est recommandé d’installer 1 ou 2 version antérieure, par exemple si 3.13 est la version plus récente, installer plutôt la version 3.11.</p></li>
-<li><p><strong>N’utilisez pas de version obsolète de Python</strong> : cela peut sembler contradictoire avec le point 1 mais c’est l’excès inverse. Si vous utilisez une version trop ancienne alors toutes vos librairies vont cessez d’évoluer et peuvent devenir obsolète.</p></li>
-<li><p><strong>Utilisez des environnements virtuels</strong> : Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques et garde votre système propre. Par exemple, si vous souhaitez vérifier une nouvelle version de Python, utilisez un environnement : <code>conda create --name test python=3.11</code></p></li>
-<li><p><strong>Vérifiez l’installation</strong> : Après l’installation, ouvrez un terminal et tapez <code>python --version</code> pour vous assurer que tout fonctionne correctement.</p></li>
+<li><p><strong>N’installez par la toute dernière version de Python</strong> : Il est recommandé d’installer 1 ou 2 version antérieure, par exemple si 3.13 est <a href="https://www.python.org/downloads/">la version plus récente</a>, installer plutôt la version 3.11. Les versions trop récentes peuvent être instables. La version de python désirée peut être spécifiée au moment de la création d’un environnement virtuel (voir plus bas). Vous pouvez afficher la liste des versions de python avec la commande <code>conda search --full-name python</code>.</p></li>
+<li><p><strong>N’utilisez pas de version obsolète de Python</strong>. Cela peut sembler contradictoire avec le point précédent mais c’est l’excès inverse. Si vous utilisez une version trop ancienne alors toutes vos librairies cesseront d’évoluer et peuvent devenir obsolètes.</p></li>
+<li><p><strong>Utilisez des environnements virtuels</strong>. Pensez-y comme à des compartiments séparées pour chaque projet. Cela évite les conflits entre les différentes versions de bibliothèques (<em>libraries</em>)et garde votre système propre. Par exemple, si vous souhaitez vérifier une nouvelle version de Python, utilisez un environnement : <code>conda create --name test python=3.11</code></p></li>
+<li><p><strong>Vérifiez l’installation</strong>. Après l’installation, ouvrez un terminal et tapez <code>python --version</code> pour vous assurer que tout fonctionne correctement.</p></li>
 </ol>
 <section id="sec-00-01" class="level3" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="sec-00-01"><span class="header-section-number">1.3.1</span> Création d’un environnement virtuel</h3>
 <p>Il y a deux façons d’installer un environnement virtuel selon votre distribution de Python:</p>
 <ol type="1">
-<li><strong>Option 1</strong> : vous utilisez <a href="https://www.anaconda.com/download">Anaconda</a> ou <a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a>, dans ce cas la commande <code>conda</code> est utilisée pour créer un environnement test avec Python 3.10:</li>
+<li><strong>Option 1</strong>. Vous utilisez <a href="https://www.anaconda.com/download">Anaconda</a> ou <a href="https://docs.anaconda.com/miniconda/miniconda-install/">Miniconda</a>. La commande <code>conda</code> est utilisée pour créer un environnement test avec Python 3.10:</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env <span class="at">-n</span> test python=3.10</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate test</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
-<li><strong>Option 2</strong> : vous utilisez <a href="https://www.python.org/downloads/">CPython</a></li>
+<li><strong>Option 2</strong>. Vous utilisez <a href="https://www.python.org/downloads/">CPython</a></li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env <span class="at">-n</span> test python=3.10</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate test</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -366,14 +361,23 @@ div.csl-indent {
 <section id="création-dun-environnement-de-travail-local-avancé" class="level3" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="création-dun-environnement-de-travail-local-avancé"><span class="header-section-number">1.3.2</span> Création d’un environnement de travail local (avancé)</h3>
 <p><strong>Note</strong>: les notebooks peuvent fonctionner localement uniquement sous Linux ou avec WSL2.</p>
-<p>Les notebooks Python fonctionnent par défaut dans l’environnement <a href="https://colab.google/">Google Colab</a>. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html">Jupyter</a>. Il suffit de suivre les étapes suivantes: 1. Installer <code>WSL2</code> sous <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows</a> 2. Installer <a href="https://code.visualstudio.com/docs/setup/windows">vscode</a> 3. Installer <a href="https://docs.anaconda.com/miniconda/install/#quick-command-line-install">Miniconda</a> 4. Faire une installation du contenu du livre soit en utilisant une commande <code>git clone</code> ou en récupérant le <code>.zip</code> du livre 5. Ouvrir WSL2 et placer vous dans le répertoire du livre <code>TraitementImagesPythonVol1</code>. Assurez vous que vous avez accès à conda en tapant <code>conda --version</code> 6. Lancer la commande <code>conda env create -f jupyter_env.yaml</code> 7. Activer le nouvel environnement: <code>conda activate jupyter_env</code> 8. Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code> Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu de gauche vous pouvez accéder aux notebooks dans le répertoire <code>notebooks</code>:</p>
-<div id="fig-jupyterlab" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-scap="Client Jupyter Lab">
+<p>Les notebooks Python fonctionnent par défaut dans l’environnement <a href="https://colab.google/">Google Colab</a>. Si vous souhaitez faire fonctionner ces notebook localement, vous pouvez installer un environnement local avec un serveur <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html">Jupyter</a>. Il suffit de suivre les étapes suivantes:</p>
+<p>1. Installer <code>WSL2</code> sous <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows</a></p>
+<p>2. Installer <a href="https://code.visualstudio.com/docs/setup/windows">vscode</a></p>
+<p>3. Installer <a href="https://docs.anaconda.com/miniconda/install/#quick-command-line-install">Miniconda</a></p>
+<p>4. Faire une installation du contenu du livre soit en utilisant une commande <code>git clone</code> ou en récupérant le <code>.zip</code> du livre</p>
+<p>5. Ouvrir WSL2 et placer vous dans le répertoire du livre <code>TraitementImagesPythonVol1</code>. Assurez vous que vous avez accès à conda en tapant <code>conda --version</code></p>
+<p>6. Lancer la commande <code>conda env create -f jupyter_env.yaml</code></p>
+<p>7. Activer le nouvel environnement: <code>conda activate jupyter_env</code></p>
+<p>8. Le serveur jupyter peut ensuite être lancé avec la commande suivante: <code>jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password=''</code></p>
+<p>Une fenêtre devrait alors apparaître dans votre fureteur. Dans le menu de gauche vous pouvez accéder aux notebooks dans le répertoire <code>notebooks</code>:</p>
+<div id="fig-jupyterlab" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-scap="Client Jupyter Lab" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-jupyterlab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/jupyter-accueil.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-fig-scap="Client Jupyter Lab">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-jupyterlab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.1: La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après <span class="citation" data-cites="NumpyNature">(<a href="references.html#ref-NumpyNature" role="doc-biblioref">Harris 2020</a>)</span>).
+Figure&nbsp;1.1: Fenêtre principale du serveur Jupyter Lab.
 </figcaption>
 </figure>
 </div>
@@ -384,27 +388,27 @@ Figure&nbsp;1.1: La librairie NumPy est le fondement de nombreuses librairies sc
 <p>Il y a essentiellement deux structures de données que Python manipule : les listes et les dictionnaires.</p>
 <section id="les-listes" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="les-listes"><span class="header-section-number">1.4.1</span> Les listes</h3>
-<p>Les listes sont comme des boites extensibles où vous pouvez ranger différents types d’objets :</p>
+<p>Les listes sont comme des boites extensibles où vous pouvez ranger différents types d’objets:</p>
 <ul>
 <li><p>Représentées par des crochets : <code>[1, 2, 3, "python"]</code>.</p></li>
-<li><p>Ordonnées et modifiables (mutables), vous pouvez récupérer une valeur par sa position avec <code>[]</code>.</p></li>
+<li><p>Ordonnées et modifiables (<em>mutable</em>), vous pouvez récupérer une valeur par sa position avec <code>[]</code>.</p></li>
 <li><p>Permettent les doublons (deux fois la même valeur).</p></li>
 <li><p>Idéales pour stocker des collections d’éléments que vous voulez modifier</p></li>
 </ul>
 </section>
 <section id="les-tuples" class="level3" data-number="1.4.2">
 <h3 data-number="1.4.2" class="anchored" data-anchor-id="les-tuples"><span class="header-section-number">1.4.2</span> Les tuples</h3>
-<p>Les tuples sont similaires aux listes, mais les boîtes sont scellées :</p>
+<p>Les tuples sont similaires aux listes, mais les boîtes sont scellées:</p>
 <ul>
 <li><p>Représentés par des parenthèses : <code>(1, 2, 3, "python")</code>.</p></li>
-<li><p>Ordonnés mais non modifiables (immutables).</p></li>
+<li><p>Ordonnés mais non modifiables (<em>immutable</em>).</p></li>
 <li><p>Permettent les doublons.</p></li>
-<li><p>Souvent utilisé pour stocker des données qui ne doivent pas changer (comme des paramètres).</p></li>
+<li><p>Souvent utilisés pour stocker des données qui ne doivent pas changer (comme des paramètres).</p></li>
 </ul>
 </section>
 <section id="les-ensembles-sets" class="level3" data-number="1.4.3">
 <h3 data-number="1.4.3" class="anchored" data-anchor-id="les-ensembles-sets"><span class="header-section-number">1.4.3</span> Les ensembles (Sets)</h3>
-<p>Les ensembles sont comme des boites magiques qui ne gardent qu’un exemplaire de chaque objet :</p>
+<p>Les ensembles sont comme des boites magiques qui ne gardent qu’un exemplaire de chaque objet:</p>
 <ul>
 <li><p>Représentés par des accolades : <code>{1, 2, 3}</code>.</p></li>
 <li><p>Non ordonnés et modifiables.</p></li>
@@ -426,11 +430,11 @@ Figure&nbsp;1.1: La librairie NumPy est le fondement de nombreuses librairies sc
 <section id="programmation-objet" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="programmation-objet"><span class="header-section-number">1.6</span> Programmation objet</h2>
 <p>La programmation orientée objet (POO) en Python est comme construire avec des blocs LEGO. Chaque objet est un bloc LEGO avec ses propres caractéristiques (attributs) et capacités (méthodes). Les classes sont les plans pour créer ces blocs. Par exemple, une classe “Voiture” pourrait avoir des attributs comme “couleur” et “vitesse”, et des méthodes comme “démarrer” et “accélérer”.</p>
-<p>Python rend la POO accessible avec des fonctionnalités conviviales :</p>
+<p>Python rend la POO accessible avec des fonctionnalités conviviales:</p>
 <ol type="1">
-<li><p><strong>Encapsulation</strong> : Comme emballer un cadeau, elle cache les détails internes d’un objet.</p></li>
-<li><p><strong>Héritage</strong> : Permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents.</p></li>
-<li><p><strong>Polymorphisme</strong> : Permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à “fais du bruit”.</p></li>
+<li><p><strong>Encapsulation</strong>: comme emballer un cadeau, elle cache les détails internes d’un objet.</p></li>
+<li><p><strong>Héritage</strong>: permet de créer de nouvelles classes basées sur des classes existantes, comme un enfant héritant des traits de ses parents.</p></li>
+<li><p><strong>Polymorphisme</strong>: permet à différents objets de répondre au même message de manière unique, comme si différents animaux répondaient différemment à “fais du bruit”.</p></li>
 </ol>
 <p>Ces caractéristiques font de Python un excellent choix pour apprendre et appliquer les concepts de la POO, rendant le code plus organisé et réutilisable</p>
 <div class="bloc_package">
@@ -449,22 +453,14 @@ Figure&nbsp;1.1: La librairie NumPy est le fondement de nombreuses librairies sc
 </ul></li>
 <li>Pour construire des cartes et des graphiques&nbsp;:
 <ul>
-<li><code>tmap</code> est certainement le meilleur <em>package</em> pour la cartographie.</li>
-<li><code>ggplot2</code> pour construire des graphiques.</li>
+<li><code>matplotlib</code> est certainement le <em>package</em> le plus complet pour l’affichage général.</li>
+<li><code>seaborn</code> pour construire des graphiques plus détaillés en particulier pour les statistiques.</li>
 </ul></li>
 </ul>
 </div>
 </div>
-</section>
-<section id="sec-016" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="sec-016"><span class="header-section-number">1.7</span> Cahier de révision (notebook)</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-NumpyNature" class="csl-entry" role="listitem">
-Harris, Millman, C. R. 2020. <span>«&nbsp;Array programming with NumPy.&nbsp;»</span> <em><span>Nature</span></em>: 357‑362. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>.
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->
