@@ -260,8 +260,9 @@ div.csl-indent {
   <ul>
   <li><a href="#préambule" id="toc-préambule" class="nav-link active" data-scroll-target="#préambule"><span class="header-section-number">2.1</span> Préambule</a>
   <ul class="collapse">
-  <li><a href="#librairies" id="toc-librairies" class="nav-link" data-scroll-target="#librairies"><span class="header-section-number">2.1.1</span> Librairies</a></li>
-  <li><a href="#données" id="toc-données" class="nav-link" data-scroll-target="#données"><span class="header-section-number">2.1.2</span> Données</a></li>
+  <li><a href="#objectifs" id="toc-objectifs" class="nav-link" data-scroll-target="#objectifs"><span class="header-section-number">2.1.1</span> Objectifs</a></li>
+  <li><a href="#bibliothèques" id="toc-bibliothèques" class="nav-link" data-scroll-target="#bibliothèques"><span class="header-section-number">2.1.2</span> Bibliothèques</a></li>
+  <li><a href="#données" id="toc-données" class="nav-link" data-scroll-target="#données"><span class="header-section-number">2.1.3</span> Données</a></li>
   </ul></li>
   <li><a href="#importation-dimages" id="toc-importation-dimages" class="nav-link" data-scroll-target="#importation-dimages"><span class="header-section-number">2.2</span> Importation d’images</a>
   <ul class="collapse">
@@ -273,7 +274,7 @@ div.csl-indent {
   <li><a href="#manipulation-de-la-matrice-de-pixels" id="toc-manipulation-de-la-matrice-de-pixels" class="nav-link" data-scroll-target="#manipulation-de-la-matrice-de-pixels"><span class="header-section-number">2.3.1</span> Manipulation de la matrice de pixels</a></li>
   <li><a href="#information-de-base" id="toc-information-de-base" class="nav-link" data-scroll-target="#information-de-base"><span class="header-section-number">2.3.2</span> Information de base</a></li>
   <li><a href="#découpage-et-indexation-de-la-matrice" id="toc-découpage-et-indexation-de-la-matrice" class="nav-link" data-scroll-target="#découpage-et-indexation-de-la-matrice"><span class="header-section-number">2.3.3</span> Découpage et indexation de la matrice</a></li>
-  <li><a href="#changement-de-projection-cartographique" id="toc-changement-de-projection-cartographique" class="nav-link" data-scroll-target="#changement-de-projection-cartographique"><span class="header-section-number">2.3.4</span> Changement de projection cartographique</a></li>
+  <li><a href="#changement-de-projection-cartographique-à-venir" id="toc-changement-de-projection-cartographique-à-venir" class="nav-link" data-scroll-target="#changement-de-projection-cartographique-à-venir"><span class="header-section-number">2.3.4</span> Changement de projection cartographique (à venir)</a></li>
   </ul></li>
   <li><a href="#données-en-géoscience" id="toc-données-en-géoscience" class="nav-link" data-scroll-target="#données-en-géoscience"><span class="header-section-number">2.4</span> Données en géoscience</a>
   <ul class="collapse">
@@ -306,11 +307,30 @@ div.csl-indent {
 
 <section id="préambule" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="préambule"><span class="header-section-number">2.1</span> Préambule</h2>
-<p>Assurez-vous de lire ce préambule avant d’exécutez le reste du notebook. ### Objectifs Dans ce chapitre, nous abordons quelques formats d’images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d’un notebook Python:</p>
+<p>Assurez-vous de lire ce préambule avant d’exécutez le reste du notebook.</p>
+<section id="objectifs" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="objectifs"><span class="header-section-number">2.1.1</span> Objectifs</h3>
+<p>Dans ce chapitre, nous abordons quelques formats d’images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d’un notebook Python:</p>
 <p><a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb"><img src="images/colab.png" class="img-fluid"></a></p>
-<section id="librairies" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="librairies"><span class="header-section-number">2.1.1</span> Librairies</h3>
-<p>Les librairies qui vont être explorées dans ce chapitre sont les suivantes:</p>
+<div class="bloc_objectif">
+<div class="bloc_objectif-header">
+<div class="bloc_objectif-icon">
+
+</div>
+<p><strong>Objectifs d’apprentissage visés dans ce chapitre</strong></p>
+</div>
+<p>À la fin de ce chapitre, vous devriez être en mesure de&nbsp;:</p>
+<ul>
+<li>connaître les principales bibliothèques Python pour lire une image;</li>
+<li>accéder à l’information d’une image avant de la lire;</li>
+<li>comprendre les principaux formats pour une image</li>
+<li>manipuler la matrice de la donnée d’une image avec numpy</li>
+</ul>
+</div>
+</section>
+<section id="bibliothèques" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="bibliothèques"><span class="header-section-number">2.1.2</span> Bibliothèques</h3>
+<p>Les bibliothèques qui vont être explorées dans ce chapitre sont les suivantes:</p>
 <ul>
 <li><p><a href="https://scipy.org/">SciPy</a></p></li>
 <li><p><a href="https://numpy.org/">NumPy</a></p></li>
@@ -320,14 +340,14 @@ div.csl-indent {
 <li><p><a href="https://docs.xarray.dev/en/stable/">Xarray</a></p></li>
 <li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
 </ul>
-<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et gdal doivent être installé:</p>
-<div id="7e7dc626" class="cell" data-execution_count="2">
+<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et <code>gdal</code> doivent être installés:</p>
+<div id="60d4fccc" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get update</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get install gdal<span class="op">-</span><span class="bu">bin</span> libgdal<span class="op">-</span>dev</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>q rioxarray</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifier les importations:</p>
-<div id="5683ceab" class="cell" data-execution_count="3">
+<div id="72ad6586" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
@@ -336,10 +356,10 @@ div.csl-indent {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="données" class="level3" data-number="2.1.2">
-<h3 data-number="2.1.2" class="anchored" data-anchor-id="données"><span class="header-section-number">2.1.2</span> Données</h3>
-<p>Nous allons utilisés ces images dans ce chapitre:</p>
-<div id="a0e83a09" class="cell" data-execution_count="4">
+<section id="données" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="données"><span class="header-section-number">2.1.3</span> Données</h3>
+<p>Nous utilisons ces images dans ce chapitre:</p>
+<div id="ac477355" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gdown</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg_'</span>, output<span class="op">=</span> <span class="st">'RGBNIR_of_S2A.tif'</span>)</span>
@@ -347,8 +367,8 @@ div.csl-indent {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1'</span>, output<span class="op">=</span> <span class="st">'berkeley.jpg'</span>)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>sfoucher<span class="op">/</span>TraitementImagesPythonVol1<span class="op">/</span>refs<span class="op">/</span>heads<span class="op">/</span>main<span class="op">/</span>images<span class="op">/</span>modis<span class="op">-</span>aqua.PNG <span class="op">-</span>O modis<span class="op">-</span>aqua.PNG</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Vérifiez que vous êtes capable de les lire :</p>
-<div id="6ff6fd43" class="cell" data-execution_count="5">
+<p>Vérifiez que vous êtes capable de les lire:</p>
+<div id="ff699de5" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'RGBNIR_of_S2A.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgbnir:</span>
@@ -358,14 +378,20 @@ div.csl-indent {
 </section>
 <section id="importation-dimages" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="importation-dimages"><span class="header-section-number">2.2</span> Importation d’images</h2>
-<p>La première étape avant tout traitement est d’accéder à la donnée image pour qu’elle soit manipulée par le langage Python. L’imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines librairies, comme <a href="https://docs.xarray.dev/en/stable/">Xarray</a>, qui on cherchées à optimiser la lecture et l’écriture de grandes images. Il est donc conseiller de toujours garder un oeil sur l’espace mémoire occupé par les variables Python représentant les images. La librairie principale en géomatique qui va nous permettre d’importer (et d’exporter) de l’imagerie est la librairie <a href="https://gdal.org">GDAL</a> qui rassemble la plupart des formats sous forme de <em>driver</em> (ou pilote en français).</p>
-<p>Dans le domaine de la géomatique, il faut prêter attention à trois caractéristiques principales des images: 1. <strong>La matrice des données</strong> elle-même qui contient les valeurs brutes des pixels. Cette matrice sera souvent un cube à trois dimensions. En Python, ce cube sera le plus souvent un objet de la librairie <a href="https://numpy.org/">NumPy</a> (voir section). 2. <strong>La dynamique des images</strong> c.à.d le format de stockage des valeurs individuelles (octet, entier, double, etc.). Ce format décide principalement de la résolution radiométrique et des valeurs minimales et maximales supportées. 3. <strong>Le nombre de bandes</strong> spectrales de l’image qui est souvent supérieur à 3 et peut atteindre plusieurs centaines de bandes pour certains capteurs. 4. <strong>La métadonnée</strong> qui va transporter l’information auxiliaire de l’image comme les dimensions et la position de l’image, la date, etc. Cette donnée auxiliaire prendra souvent la forme d’un dictionnaire Python. Elle contiendra aussi l’information de géoréférence.</p>
+<p>La première étape avant tout traitement est d’accéder à la donnée image pour qu’elle soit manipulée par le langage Python. L’imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines bibliothèques, comme <a href="https://docs.xarray.dev/en/stable/">Xarray</a>, qui visent à optimiser la lecture et l’écriture de grandes images. Il est donc conseillé de toujours garder un oeil sur l’espace mémoire occupé par les variables Python représentant les images. La librairie principale en géomatique qui permettre d’importer (et d’exporter) de l’imagerie est la librairie <a href="https://gdal.org">GDAL</a> qui rassemble la plupart des formats sous forme de <em>driver</em> (ou pilote en français).</p>
+<p>Dans le domaine de la géomatique, il faut prêter attention à trois caractéristiques principales des images:</p>
+<p>1. <strong>La matrice des données</strong> elle-même qui contient les valeurs brutes des pixels. Cette matrice sera souvent un cube à trois dimensions. En Python, ce cube sera le plus souvent un objet de la librairie <a href="https://numpy.org/">NumPy</a> (voir section).</p>
+<p>2. <strong>La dynamique des images</strong> c.-à.-d le format de stockage des valeurs individuelles (octet, entier, double, etc.). Ce format décide principalement de la résolution radiométrique et des valeurs minimales et maximales supportées.</p>
+<p>3. <strong>Le nombre de bandes</strong> spectrales de l’image qui est souvent supérieur à trois et peut atteindre plusieurs centaines de bandes pour certains capteurs (notamment hyperspectraux).</p>
+<p>4. <strong>La métadonnée</strong> qui va transporter l’information auxiliaire de l’image comme les dimensions et la position de l’image, la date, etc. Cette donnée auxiliaire prendra souvent la forme d’un dictionnaire Python. Elle contiendra aussi l’information de géoréférence.</p>
 <p>Les différents formats se distinguent principalement sur la manière dont ces trois caractéristiques sont gérées.</p>
 <section id="formats-des-images" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="formats-des-images"><span class="header-section-number">2.2.1</span> Formats des images</h3>
-<p>Il existe maintenant de nombreux formats numériques pour la donnée de type image parfois appelé donnée matricielle ou donnée <em>raster</em>. La librairie GDAL rassemble la plupart des formats matriciels rencontrés en géomatique (voir <a href="https://gdal.org/en/latest/drivers/raster/index.html">Raster drivers — GDAL documentation</a> pour une liste complète).</p>
-<p>On peut distinguer deux grandes familles de format: 1. Les formats de type <strong>RVB</strong> issus de l’imagerie numérique grand publique comme <a href="https://gdal.org/en/latest/drivers/raster/jpeg.html#raster-jpeg">JPEG</a>, <a href="https://gdal.org/en/latest/drivers/raster/png.html#raster-png">png</a>, etc. Ces formats ne supportent généralement que trois bandes au maximum (rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255 (format dit 8 bit ou <code>uint8</code>). 2. <strong>Les géo-formats</strong> issus des domaines scientifiques ou techniques comme GeoTIFF, HDF5, NetCDF, etc. qui peuvent inclure plus que trois bandes et des dynamiques plus élevées (16 bit ou même float).</p>
-<p>Les formats RVB restent très utilisés en Python notamment par les librairies dites de vision par ordinateur (<em>Computer Vision</em>) comme OpenCV et sickit-image ainsi que les grandes librairies en apprentissage profond (PyTorch, Tensorflow).</p>
+<p>Il existe de nombreux formats numériques pour la donnée de type image parfois appelé donnée matricielle ou donnée <em>raster</em>. La librairie GDAL rassemble la plupart des formats matriciels rencontrés en géomatique (voir <a href="https://gdal.org/en/latest/drivers/raster/index.html">Raster drivers — GDAL documentation</a> pour une liste complète).</p>
+<p>On peut distinguer deux grandes familles de format:</p>
+<p>1. Les formats de type <strong>RVB</strong> issus de l’imagerie numérique grand public comme <a href="https://gdal.org/en/latest/drivers/raster/jpeg.html#raster-jpeg">JPEG</a>, <a href="https://gdal.org/en/latest/drivers/raster/png.html#raster-png">png</a>, etc. Ces formats ne supportent généralement que trois bandes au maximum (rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255 (format dit 8 bits ou <code>uint8</code>).</p>
+<p>2. <strong>Les géo-formats</strong> issus des domaines scientifiques ou techniques comme GeoTIFF, HDF5, NetCDF, etc. qui peuvent inclure plus que trois bandes et des dynamiques plus élevées (16 bits ou même float).</p>
+<p>Les formats RVB restent très utilisés en Python notamment par les bibliothèques dites de vision par ordinateur (<em>Computer Vision</em>) comme OpenCV et sickit-image ainsi que les grandes bibliothèques en apprentissage profond (PyTorch, Tensorflow).</p>
 <div class="bloc_package">
 <div class="bloc_package-header">
 <div class="bloc_package-icon">
@@ -383,23 +409,14 @@ div.csl-indent {
 </div>
 <section id="formats-de-type-rvb" class="level4" data-number="2.2.1.1">
 <h4 data-number="2.2.1.1" class="anchored" data-anchor-id="formats-de-type-rvb"><span class="header-section-number">2.2.1.1</span> Formats de type RVB</h4>
-<p>Les premiers formats pour de l’imagerie à une bande (monochrome) et à trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des sciences de l’ordinateur. On trouvera, entre autres, les formats pbm, png et jpeg. Ces formats supportent peu de métadonnées et sont placées dans un entête (<em>header</em>) très limité. Cependant, ces formats restent très populaires dans le domaine de la vision par ordinateur et sont très utilisés en apprentissage profond en particulier. Pour la lecture des images RVB, on peut utiliser les librairies Rasterio, <a href="https://he-arc.github.io/livre-python/pillow/index.html">PIL</a> ou <a href="https://docs.opencv.org/4.10.0/index.html">OpenCV</a>.</p>
+<p>Les premiers formats pour de l’imagerie à une bande (monochrome) et à trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des sciences de l’ordinateur. On trouvera, entre autres, les formats pbm, png et jpeg. Ces formats supportent peu de métadonnées et sont placées dans un entête (<em>header</em>) très limité. Cependant, ils restent très populaires dans le domaine de la vision par ordinateur et sont très utilisés en apprentissage profond en particulier. Pour la lecture des images RVB, on peut utiliser les bibliothèques Rasterio, <a href="https://he-arc.github.io/livre-python/pillow/index.html">PIL</a> ou <a href="https://docs.opencv.org/4.10.0/index.html">OpenCV</a>.</p>
 <section id="lecture-avec-la-librairie-pil" class="level5" data-number="2.2.1.1.1">
 <h5 data-number="2.2.1.1.1" class="anchored" data-anchor-id="lecture-avec-la-librairie-pil"><span class="header-section-number">2.2.1.1.1</span> Lecture avec la librairie PIL</h5>
 <p>La librairie PIL retourne un objet de type <code>PngImageFile</code>, l’affichage de l’image se fait directement dans la cellule de sortie.</p>
-<div id="4b67521d" class="cell" data-execution_count="6">
-<div id="lst-lecture-PIL-PNG" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
-<figure class="quarto-float quarto-float-lst figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-lecture-PIL-PNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Bloc de code&nbsp;2.1: Lecture d’une image en format PNG avec PIL
-</figcaption>
-<div aria-describedby="lst-lecture-PIL-PNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="lst-lecture-PIL-PNG"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="lst-lecture-PIL-PNG-1"><a href="#lst-lecture-PIL-PNG-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
-<span id="lst-lecture-PIL-PNG-2"><a href="#lst-lecture-PIL-PNG-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> Image.<span class="bu">open</span>(<span class="st">'modis-aqua.PNG'</span>)</span>
-<span id="lst-lecture-PIL-PNG-3"><a href="#lst-lecture-PIL-PNG-3" aria-hidden="true" tabindex="-1"></a>img</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</figure>
-</div>
+<div id="fa95ea7e" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> Image.<span class="bu">open</span>(<span class="st">'modis-aqua.PNG'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>img</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 <figure class="figure">
@@ -412,19 +429,10 @@ Bloc de code&nbsp;2.1: Lecture d’une image en format PNG avec PIL
 <section id="lecture-avec-la-librairie-opencv" class="level5" data-number="2.2.1.1.2">
 <h5 data-number="2.2.1.1.2" class="anchored" data-anchor-id="lecture-avec-la-librairie-opencv"><span class="header-section-number">2.2.1.1.2</span> Lecture avec la librairie OpenCV</h5>
 <p>La librairie <a href="https://docs.opencv.org/4.10.0/index.html">OpenCV</a> est aussi très populaire en vision par ordinateur. La fonction <code>imread</code> donne directement un objet de type NumPy en sortie.</p>
-<div id="74707292" class="cell" data-execution_count="7">
-<div id="lst-lecture-opencv-PNG" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
-<figure class="quarto-float quarto-float-lst figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-lecture-opencv-PNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Bloc de code&nbsp;2.2: Lecture d’une image en format PNG avec OpenCV
-</figcaption>
-<div aria-describedby="lst-lecture-opencv-PNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="lst-lecture-opencv-PNG"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="lst-lecture-opencv-PNG-1"><a href="#lst-lecture-opencv-PNG-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
-<span id="lst-lecture-opencv-PNG-2"><a href="#lst-lecture-opencv-PNG-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> cv2.imread(<span class="st">'modis-aqua.PNG'</span>)</span>
-<span id="lst-lecture-opencv-PNG-3"><a href="#lst-lecture-opencv-PNG-3" aria-hidden="true" tabindex="-1"></a>img</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</figure>
-</div>
+<div id="d46e909f" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> cv2.imread(<span class="st">'modis-aqua.PNG'</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>img</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>array([[[17, 50, 33],
         [15, 49, 31],
@@ -480,20 +488,11 @@ Bloc de code&nbsp;2.2: Lecture d’une image en format PNG avec OpenCV
 </section>
 <section id="lecture-avec-la-librairie-rasterio" class="level5" data-number="2.2.1.1.3">
 <h5 data-number="2.2.1.1.3" class="anchored" data-anchor-id="lecture-avec-la-librairie-rasterio"><span class="header-section-number">2.2.1.1.3</span> Lecture avec la librairie RasterIO</h5>
-<p>Rien ne nous empêche de lire une image de format RVB avec <a href="https://rasterio.readthedocs.io/en/stable/">RasterIO</a> comme décrit dans (<a href="#lst-lecturerasterioPNG" class="quarto-xref">bloc&nbsp;<span>2.3</span></a>). Vous noterez cependant les avertissements concernant l’absence de géoréférence pour ce type d’image.</p>
-<div id="26176f8f" class="cell" data-execution_count="8">
-<div id="lst-lecturerasterioPNG" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
-<figure class="quarto-float quarto-float-lst figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-lecturerasterioPNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Bloc de code&nbsp;2.3: Lecture d’une image en format PNG avec OpenCV
-</figcaption>
-<div aria-describedby="lst-lecturerasterioPNG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="lst-lecturerasterioPNG"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="lst-lecturerasterioPNG-1"><a href="#lst-lecturerasterioPNG-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
-<span id="lst-lecturerasterioPNG-2"><a href="#lst-lecturerasterioPNG-2" aria-hidden="true" tabindex="-1"></a>img<span class="op">=</span> rasterio.<span class="bu">open</span>(<span class="st">'modis-aqua.PNG'</span>)</span>
-<span id="lst-lecturerasterioPNG-3"><a href="#lst-lecturerasterioPNG-3" aria-hidden="true" tabindex="-1"></a>img</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</figure>
-</div>
+<p>Rien ne nous empêche de lire une image de format RVB avec <a href="https://rasterio.readthedocs.io/en/stable/">RasterIO</a> comme décrit dans ci-dessous. Vous noterez cependant les avertissements concernant l’absence de géoréférence pour ce type d’image.</p>
+<div id="575f7d8d" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>img<span class="op">=</span> rasterio.<span class="bu">open</span>(<span class="st">'modis-aqua.PNG'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>img</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>&lt;open DatasetReader name='modis-aqua.PNG' mode='r'&gt;</code></pre>
 </div>
@@ -511,23 +510,14 @@ Bloc de code&nbsp;2.3: Lecture d’une image en format PNG avec OpenCV
 </section>
 <section id="le-format-cog" class="level4" data-number="2.2.1.3">
 <h4 data-number="2.2.1.3" class="anchored" data-anchor-id="le-format-cog"><span class="header-section-number">2.2.1.3</span> Le format COG</h4>
-<p>Une innovation récente dans l’écosystème GeoTIFF est le format <em>Cloud Optimized GeoTIFF</em> (<a href="http://cogeo.org/">COG</a>), conçu pour faciliter l’utilisation de fichiers GeoTIFF hébergés sur des serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels d’accéder à des parties spécifiques du fichier sans avoir à le télécharger entièrement, ce qui est particulièrement utile pour les applications basées sur le cloud.</p>
+<p>Une innovation récente dans l’écosystème GeoTIFF est le format <em>Cloud Optimized GeoTIFF</em> (<a href="http://cogeo.org/">COG</a>), conçu pour faciliter l’utilisation de fichiers GeoTIFF hébergés sur des serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels d’accéder à des parties spécifiques du fichier sans avoir à le télécharger entièrement, ce qui est particulièrement utile pour les applications basées sur l’infonuagique.</p>
 </section>
 </section>
 <section id="métadonnées-des-images" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="métadonnées-des-images"><span class="header-section-number">2.2.2</span> Métadonnées des images</h3>
 <p>La manière la plus directe d’accéder à la métadonnée d’une image est d’utiliser les commandes <a href="https://rasterio.readthedocs.io/en/stable/cli.html#info"><code>rio info</code></a> de la librairie Rasterio ou <code>gdalinfo</code> de la librairie <code>gdal</code>. Le résultat est imprimé dans la sortie standard ou sous forme d’un dictionnaire Python.</p>
-<div id="1b6d0b80" class="cell" data-execution_count="9">
-<div id="lst-gdalinfo" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
-<figure class="quarto-float quarto-float-lst figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-gdalinfo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Bloc de code&nbsp;2.4: Collecte d’information sur une image avec gdal
-</figcaption>
-<div aria-describedby="lst-gdalinfo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="lst-gdalinfo"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="lst-gdalinfo-1"><a href="#lst-gdalinfo-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>gdalinfo RGBNIR_of_S2A.tif</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</figure>
-</div>
+<div id="58c71b1d" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>gdalinfo RGBNIR_of_S2A.tif</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Warning 1: TIFFReadDirectory:Sum of Photometric type-related color channels and ExtraSamples doesn't match SamplesPerPixel. Defining non-color channels as ExtraSamples.
 Driver: GTiff/GeoTIFF
@@ -612,17 +602,8 @@ Band 4 Block=2074x1926 Type=UInt16, ColorInterp=Undefined
 </div>
 </div>
 <p>Le plus simple est d’utiliser la fonction <code>rio info</code>:</p>
-<div id="7c835ea3" class="cell" data-execution_count="10">
-<div id="lst-rioinfo" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
-<figure class="quarto-float quarto-float-lst figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-rioinfo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Bloc de code&nbsp;2.5: Collecte d’information sur une image avec rasterio
-</figcaption>
-<div aria-describedby="lst-rioinfo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="lst-rioinfo"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="lst-rioinfo-1"><a href="#lst-rioinfo-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>rio info RGBNIR_of_S2A.tif <span class="op">--</span>indent <span class="dv">2</span> <span class="op">--</span>verbose</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</figure>
-</div>
+<div id="7dc927fe" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>rio info RGBNIR_of_S2A.tif <span class="op">--</span>indent <span class="dv">2</span> <span class="op">--</span>verbose</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -630,51 +611,36 @@ Bloc de code&nbsp;2.5: Collecte d’information sur une image avec rasterio
 <h2 data-number="2.3" class="anchored" data-anchor-id="manipulation-des-images"><span class="header-section-number">2.3</span> Manipulation des images</h2>
 <section id="manipulation-de-la-matrice-de-pixels" class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="manipulation-de-la-matrice-de-pixels"><span class="header-section-number">2.3.1</span> Manipulation de la matrice de pixels</h3>
-<p>La donnée brute de l’image est généralement contenue dans un cube matricielle à trois dimensions (deux dimensions spatiales et une dimension spectrale). Comme exposé précédemment, la librairie dite <em>“fondationnelle”</em> pour la manipulation de matrices en Python est <a href="https://numpy.org/">NumPy</a>. Cette librairie contient un nombre très important de fonctionnalités couvrant l’algèbre linéaires, les statistiques, etc. et constitue la fondation de nombreuses librairies en traitement numérique (voir (<a href="#fig-naturenumpy1" class="quarto-xref">figure&nbsp;<span>2.1</span></a>))</p>
+<p>La donnée brute de l’image est généralement contenue dans un cube matricielle à trois dimensions (deux dimensions spatiales et une dimension spectrale). Comme exposé précédemment, la librairie dite <em>“fondationnelle”</em> pour la manipulation de matrices en Python est <a href="https://numpy.org/">NumPy</a>. Cette librairie contient un nombre très important de fonctionnalités couvrant l’algèbre linéaire, les statistiques, etc.; elle constitue la fondation de nombreuses bibliothèques en traitement numérique (voir (<a href="#fig-naturenumpy1" class="quarto-xref">figure&nbsp;<span>2.1</span></a>))</p>
 <div id="fig-naturenumpy1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-naturenumpy1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/41586_2020_2649_Fig2_HTML.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-naturenumpy1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: La librairie NumPy est le fondement de nombreuses librairies scientifiques (d’après <span class="citation" data-cites="NumpyNature">(<a href="references.html#ref-NumpyNature" role="doc-biblioref">Harris 2020</a>)</span>).
+Figure&nbsp;2.1: La librairie NumPy est le fondement de nombreuses bibliothèques scientifiques (d’après <span class="citation" data-cites="NumpyNature">(<a href="references.html#ref-NumpyNature" role="doc-biblioref">Harris 2020</a>)</span>).
 </figcaption>
 </figure>
 </div>
 </section>
 <section id="information-de-base" class="level3" data-number="2.3.2">
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="information-de-base"><span class="header-section-number">2.3.2</span> Information de base</h3>
-<p>Les deux informations de base à afficher sur une matrice sont 1) les dimensions de la matrice et 2) le format de stockage (le type). Pour cela, on peut utiliser le (<a href="#lst-numpyshape" class="quarto-xref">bloc&nbsp;<span>2.6</span></a>), le résultat nous informe que la matrice a 3 dimensions et une taille de <code>(442, 553, 3)</code> et un type <code>uint8</code> qui représente 1 octet (8 bit). Par conséquent, la matrice a <code>442</code> lignes, <code>553</code> colonnes et <code>3</code> canaux ou bandes. Il faut prêter une attention particulière aux valeurs minimales et maximales tolérées par le type de la donnée comme indiqué dans le (<a href="#tbl-numpytype" class="quarto-xref">tableau&nbsp;<span>2.1</span></a>) (voir aussi <a href="https://numpy.org/doc/stable/user/basics.types.html">Data types — NumPy v2.1 Manual</a>).</p>
-<div id="0b232cfc" class="cell" data-execution_count="11">
-<div id="lst-numpyshape" class="python cell-code listing quarto-float quarto-figure quarto-figure-left anchored">
-<figure class="quarto-float quarto-float-lst figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-numpyshape-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Bloc de code&nbsp;2.6: Lecture d’une image en format PNG avec OpenCV
-</figcaption>
-<div aria-describedby="lst-numpyshape-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="lst-numpyshape"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="lst-numpyshape-1"><a href="#lst-numpyshape-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
-<span id="lst-numpyshape-2"><a href="#lst-numpyshape-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> cv2.imread(<span class="st">'modis-aqua.PNG'</span>)</span>
-<span id="lst-numpyshape-3"><a href="#lst-numpyshape-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Nombre de dimensions: '</span>,img.ndim)</span>
-<span id="lst-numpyshape-4"><a href="#lst-numpyshape-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dimensions de la matrice: '</span>,img.shape)</span>
-<span id="lst-numpyshape-5"><a href="#lst-numpyshape-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Type de la donnée: '</span>,img.dtype)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</figure>
-</div>
+<p>Les deux informations de base à afficher sur une matrice sont 1) les dimensions de la matrice et 2) le format de stockage (le type). Pour cela, on peut utiliser le (<span class="quarto-unresolved-ref">?lst-numpyshape</span>), dont le résultat nous informe que la matrice a trois dimensions et une taille de <code>(442, 553, 3)</code> et un type <code>uint8</code> qui représente 1 octet (8 bit). Par conséquent, la matrice a <code>442</code> lignes, <code>553</code> colonnes et <code>3</code> canaux ou bandes. Il faut prêter une attention particulière aux valeurs minimales et maximales tolérées par le type de la donnée comme indiqué dans le (<span class="quarto-unresolved-ref">?tbl-numpytype</span>) (voir aussi <a href="https://numpy.org/doc/stable/user/basics.types.html">Data types — NumPy v2.1 Manual</a>).</p>
+<div id="59b948ac" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> cv2.imread(<span class="st">'modis-aqua.PNG'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Nombre de dimensions: '</span>,img.ndim)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dimensions de la matrice: '</span>,img.shape)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Type de la donnée: '</span>,img.dtype)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Nombre de dimensions:  3
 Dimensions de la matrice:  (442, 553, 3)
 Type de la donnée:  uint8</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="12">
-<div id="tbl-numpytype" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="12">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-numpytype-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tableau&nbsp;2.1: Type de données de NumPy
-</figcaption>
-<div aria-describedby="tbl-numpytype-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="93802260" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="8">
-<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">dtype</th>
@@ -717,9 +683,6 @@ Tableau&nbsp;2.1: Type de données de NumPy
 </table>
 </div>
 </div>
-</figure>
-</div>
-</div>
 </section>
 <section id="découpage-et-indexation-de-la-matrice" class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="découpage-et-indexation-de-la-matrice"><span class="header-section-number">2.3.3</span> Découpage et indexation de la matrice</h3>
@@ -737,12 +700,12 @@ Figure&nbsp;2.2: Vue d’ensemble des opérations de base des matrices avec NumP
 <p>Le découpage (ou <em>slicing</em> en anglais) consiste à produire une nouvelle matrice qui est un sous-ensemble de la matrice d’origine. Un découpage se fait avec le symbole ‘:’, la syntaxe générale pour définir un découpage est <code>[début:fin:pas]</code>. Si on ne spécifie pas <code>début</code> ou <code>fin</code> alors les valeurs 0 ou <code>dimension-1</code> sont considérées implicitement. Quelques exemples: * choisir un pixel en particulier avec toutes les bandes: <code>matrice[1,1,:]</code> * choisir la colonne 2: <code>matrice[:,2,:]</code></p>
 <p>La syntaxe de base pour le découpage (<em>slicing</em>) des tableaux NumPy repose sur l’utilisation des deux-points (<code>:</code>) à l’intérieur des crochets d’indexation. Cette notation permet de sélectionner des plages d’éléments de manière concise et intuitive. La structure générale du découpage est <code>matrice[start:stop:step]</code>, où : 1. <code>start</code> représente l’index de départ (inclus) 2. <code>stop</code> indique l’index de fin (exclu) 3. <code>step</code> définit l’intervalle entre chaque élément sélectionné</p>
 <p>Si l’un de ces paramètres est omis, NumPy utilise des valeurs par défaut : 0 pour <code>start</code>, la taille du tableau pour <code>stop</code>, et 1 pour <code>step</code>. Par exemple, pour un tableau unidimensionnel <code>array</code>, on peut extraire les éléments du deuxième au quatrième avec <code>array[1:4]</code>. Pour sélectionner tous les éléments à partir du troisième, on utiliserait <code>array[2:]</code>. Cette syntaxe s’applique également aux tableaux multidimensionnels, où chaque dimension est séparée par une virgule. Ainsi, pour une matrice 2D m, <code>m[0:2, 1:3]</code> sélectionnerait une sous-matrice 2x2 composée des deux premières lignes et des deuxième et troisième colonnes. L’indexation négative est également supportée, permettant de compter à partir de la fin du tableau. Par exemple, <code>a[-3:]</code> sélectionnerait les trois derniers éléments d’un tableau.</p>
-<div id="b3549f48" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> cv2.imread(<span class="st">'modis-aqua.PNG'</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>img_col <span class="op">=</span> img[:,<span class="dv">1</span>,:]</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Nombre de dimensions: '</span>,img_col.ndim)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dimensions de la matrice: '</span>,img_col.shape)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6bac6a55" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> cv2.imread(<span class="st">'modis-aqua.PNG'</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>img_col <span class="op">=</span> img[:,<span class="dv">1</span>,:]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Nombre de dimensions: '</span>,img_col.ndim)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dimensions de la matrice: '</span>,img_col.shape)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Nombre de dimensions:  2
 Dimensions de la matrice:  (442, 3)</code></pre>
@@ -775,14 +738,14 @@ Dimensions de la matrice:  (442, 3)</code></pre>
 <ol type="1">
 <li><p>L’image est projetée dans une grille cartographique et certaines zones, généralement situées en dehors de l’empreinte au sol du capteur, sont à exclure.</p></li>
 <li><p>La présence de nuages que l’on veut exclure.</p></li>
-<li><p>La présence de pixels erronés dûs à des problèmes de capteurs.</p></li>
+<li><p>La présence de pixels erronés dus à des problèmes de capteurs.</p></li>
 <li><p>La présence de valeurs non numériques (<em>not a number</em> ou <code>nan</code>)</p></li>
 </ol>
 <p>La librairie NumPy fournit des mécanismes pour exclure automatiquement certaines valeurs.</p>
 </section>
 </section>
-<section id="changement-de-projection-cartographique" class="level3" data-number="2.3.4">
-<h3 data-number="2.3.4" class="anchored" data-anchor-id="changement-de-projection-cartographique"><span class="header-section-number">2.3.4</span> Changement de projection cartographique</h3>
+<section id="changement-de-projection-cartographique-à-venir" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="changement-de-projection-cartographique-à-venir"><span class="header-section-number">2.3.4</span> Changement de projection cartographique (à venir)</h3>
 <!--
 ### Recalage d'images et co-registration 
 -->
@@ -794,14 +757,14 @@ Dimensions de la matrice:  (442, 3)</code></pre>
 <p>Calibration, unités, données manquantes, données éparses.</p>
 <section id="xarray" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="xarray"><span class="header-section-number">2.4.1</span> xarray</h3>
-<p><a href="https://docs.xarray.dev/en/latest/getting-started-guide/why-xarray.html">Xarray</a> est une puissante bibliothèque Python qui améliore les matrices multidimensionnelles de type numpy en y ajoutant des étiquettes, des dimensions, des coordonnées et des attributs. Elle fournit deux structures de données principales : <code>DataArray</code> (un tableau étiqueté à N dimensions) et <code>Dataset</code> (une base de données de tableaux multidimensionnels en mémoire).</p>
+<p><a href="https://docs.xarray.dev/en/latest/getting-started-guide/why-xarray.html">Xarray</a> est une puissante bibliothèque Python qui améliore les matrices multidimensionnelles de type numpy en y ajoutant des étiquettes, des dimensions, des coordonnées et des attributs. Elle fournit deux structures de données principales : <code>DataArray</code> (un tableau étiqueté à n dimensions) et <code>Dataset</code> (une base de données de tableaux multidimensionnels en mémoire).</p>
 <p>Les caractéristiques principales sont les suivantes:</p>
 <ul>
 <li><p>Opérations sur les dimensions nommées au lieu des numéros d’axe</p></li>
 <li><p>Sélection et opérations basées sur les étiquettes</p></li>
 <li><p>Diffusion automatique de tableaux basée sur les noms de dimensions</p></li>
 <li><p>Alignement de type base de données avec des étiquettes de coordonnées</p></li>
-<li><p>Suivi des métadonnées grâce aux dictionnaires Python</p></li>
+<li><p>Suivi des métadonnées grâce à des dictionnaires Python</p></li>
 </ul>
 <section id="avantages" class="level4" data-number="2.4.1.1">
 <h4 data-number="2.4.1.1" class="anchored" data-anchor-id="avantages"><span class="header-section-number">2.4.1.1</span> Avantages</h4>

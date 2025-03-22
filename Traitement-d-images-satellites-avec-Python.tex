@@ -1199,15 +1199,38 @@ spatiales}\label{sec-chap01}
 \section{Préambule}\label{pruxe9ambule}
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
-\#\#\# Objectifs Dans ce chapitre, nous abordons quelques formats
-d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous
-la forme d'un notebook Python:
+
+\subsection{Objectifs}\label{objectifs}
+
+Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur
+lecture. Ce chapitre est aussi disponible sous la forme d'un notebook
+Python:
 
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
-\subsection{Librairies}\label{librairies}
+\begin{tcolorbox}[colback=background_color, colframe=objectif_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocObjectif.png} \textbf{Objectif}}]
 
-Les librairies qui vont être explorées dans ce chapitre sont les
+\textbf{Objectifs d'apprentissage visés dans ce chapitre}
+
+À la fin de ce chapitre, vous devriez être en mesure de~:
+
+\begin{itemize}
+\tightlist
+\item
+  connaître les principales bibliothèques Python pour lire une image;
+\item
+  accéder à l'information d'une image avant de la lire;
+\item
+  comprendre les principaux formats pour une image
+\item
+  manipuler la matrice de la donnée d'une image avec numpy
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{Bibliothèques}\label{bibliothuxe8ques}
+
+Les bibliothèques qui vont être explorées dans ce chapitre sont les
 suivantes:
 
 \begin{itemize}
@@ -1227,8 +1250,8 @@ suivantes:
   \href{https://corteva.github.io/rioxarray/stable/index.html}{rioxarray}
 \end{itemize}
 
-Dans l'environnement Google Colab, seul \texttt{rioxarray} et gdal
-doivent être installé:
+Dans l'environnement Google Colab, seul \texttt{rioxarray} et
+\texttt{gdal} doivent être installés:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1253,7 +1276,7 @@ Vérifier les importations:
 
 \subsection{Données}\label{donnuxe9es}
 
-Nous allons utilisés ces images dans ce chapitre:
+Nous utilisons ces images dans ce chapitre:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1266,7 +1289,7 @@ Nous allons utilisés ces images dans ce chapitre:
 \end{Highlighting}
 \end{Shaded}
 
-Vérifiez que vous êtes capable de les lire :
+Vérifiez que vous êtes capable de les lire:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1282,60 +1305,67 @@ Vérifiez que vous êtes capable de les lire :
 La première étape avant tout traitement est d'accéder à la donnée image
 pour qu'elle soit manipulée par le langage Python. L'imagerie satellite
 présente certains défis notamment en raison de la taille parfois très
-importante des images. Il existe maintenant certaines librairies, comme
-\href{https://docs.xarray.dev/en/stable/}{Xarray}, qui on cherchées à
+importante des images. Il existe maintenant certaines bibliothèques,
+comme \href{https://docs.xarray.dev/en/stable/}{Xarray}, qui visent à
 optimiser la lecture et l'écriture de grandes images. Il est donc
-conseiller de toujours garder un oeil sur l'espace mémoire occupé par
-les variables Python représentant les images. La librairie principale en
-géomatique qui va nous permettre d'importer (et d'exporter) de
-l'imagerie est la librairie \href{https://gdal.org}{GDAL} qui rassemble
-la plupart des formats sous forme de \emph{driver} (ou pilote en
-français).
+conseillé de toujours garder un oeil sur l'espace mémoire occupé par les
+variables Python représentant les images. La librairie principale en
+géomatique qui permettre d'importer (et d'exporter) de l'imagerie est la
+librairie \href{https://gdal.org}{GDAL} qui rassemble la plupart des
+formats sous forme de \emph{driver} (ou pilote en français).
 
 Dans le domaine de la géomatique, il faut prêter attention à trois
-caractéristiques principales des images: 1. \textbf{La matrice des
-données} elle-même qui contient les valeurs brutes des pixels. Cette
-matrice sera souvent un cube à trois dimensions. En Python, ce cube sera
-le plus souvent un objet de la librairie
-\href{https://numpy.org/}{NumPy} (voir section). 2. \textbf{La dynamique
-des images} c.à.d le format de stockage des valeurs individuelles
-(octet, entier, double, etc.). Ce format décide principalement de la
-résolution radiométrique et des valeurs minimales et maximales
-supportées. 3. \textbf{Le nombre de bandes} spectrales de l'image qui
-est souvent supérieur à 3 et peut atteindre plusieurs centaines de
-bandes pour certains capteurs. 4. \textbf{La métadonnée} qui va
-transporter l'information auxiliaire de l'image comme les dimensions et
-la position de l'image, la date, etc. Cette donnée auxiliaire prendra
-souvent la forme d'un dictionnaire Python. Elle contiendra aussi
-l'information de géoréférence.
+caractéristiques principales des images:
+
+1. \textbf{La matrice des données} elle-même qui contient les valeurs
+brutes des pixels. Cette matrice sera souvent un cube à trois
+dimensions. En Python, ce cube sera le plus souvent un objet de la
+librairie \href{https://numpy.org/}{NumPy} (voir section).
+
+2. \textbf{La dynamique des images} c.-à.-d le format de stockage des
+valeurs individuelles (octet, entier, double, etc.). Ce format décide
+principalement de la résolution radiométrique et des valeurs minimales
+et maximales supportées.
+
+3. \textbf{Le nombre de bandes} spectrales de l'image qui est souvent
+supérieur à trois et peut atteindre plusieurs centaines de bandes pour
+certains capteurs (notamment hyperspectraux).
+
+4. \textbf{La métadonnée} qui va transporter l'information auxiliaire de
+l'image comme les dimensions et la position de l'image, la date, etc.
+Cette donnée auxiliaire prendra souvent la forme d'un dictionnaire
+Python. Elle contiendra aussi l'information de géoréférence.
 
 Les différents formats se distinguent principalement sur la manière dont
 ces trois caractéristiques sont gérées.
 
 \subsection{Formats des images}\label{formats-des-images}
 
-Il existe maintenant de nombreux formats numériques pour la donnée de
-type image parfois appelé donnée matricielle ou donnée \emph{raster}. La
-librairie GDAL rassemble la plupart des formats matriciels rencontrés en
+Il existe de nombreux formats numériques pour la donnée de type image
+parfois appelé donnée matricielle ou donnée \emph{raster}. La librairie
+GDAL rassemble la plupart des formats matriciels rencontrés en
 géomatique (voir
 \href{https://gdal.org/en/latest/drivers/raster/index.html}{Raster
 drivers --- GDAL documentation} pour une liste complète).
 
-On peut distinguer deux grandes familles de format: 1. Les formats de
-type \textbf{RVB} issus de l'imagerie numérique grand publique comme
+On peut distinguer deux grandes familles de format:
+
+1. Les formats de type \textbf{RVB} issus de l'imagerie numérique grand
+public comme
 \href{https://gdal.org/en/latest/drivers/raster/jpeg.html\#raster-jpeg}{JPEG},
 \href{https://gdal.org/en/latest/drivers/raster/png.html\#raster-png}{png},
 etc. Ces formats ne supportent généralement que trois bandes au maximum
 (rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255
-(format dit 8 bit ou \texttt{uint8}). 2. \textbf{Les géo-formats} issus
-des domaines scientifiques ou techniques comme GeoTIFF, HDF5, NetCDF,
-etc. qui peuvent inclure plus que trois bandes et des dynamiques plus
-élevées (16 bit ou même float).
+(format dit 8 bits ou \texttt{uint8}).
+
+2. \textbf{Les géo-formats} issus des domaines scientifiques ou
+techniques comme GeoTIFF, HDF5, NetCDF, etc. qui peuvent inclure plus
+que trois bandes et des dynamiques plus élevées (16 bits ou même float).
 
 Les formats RVB restent très utilisés en Python notamment par les
-librairies dites de vision par ordinateur (\emph{Computer Vision}) comme
-OpenCV et sickit-image ainsi que les grandes librairies en apprentissage
-profond (PyTorch, Tensorflow).
+bibliothèques dites de vision par ordinateur (\emph{Computer Vision})
+comme OpenCV et sickit-image ainsi que les grandes bibliothèques en
+apprentissage profond (PyTorch, Tensorflow).
 
 \begin{tcolorbox}[colback=background_color, colframe=package_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocPackage.png} \textbf{Package}}]
 
@@ -1360,10 +1390,10 @@ Les premiers formats pour de l'imagerie à une bande (monochrome) et à
 trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des
 sciences de l'ordinateur. On trouvera, entre autres, les formats pbm,
 png et jpeg. Ces formats supportent peu de métadonnées et sont placées
-dans un entête (\emph{header}) très limité. Cependant, ces formats
-restent très populaires dans le domaine de la vision par ordinateur et
-sont très utilisés en apprentissage profond en particulier. Pour la
-lecture des images RVB, on peut utiliser les librairies Rasterio,
+dans un entête (\emph{header}) très limité. Cependant, ils restent très
+populaires dans le domaine de la vision par ordinateur et sont très
+utilisés en apprentissage profond en particulier. Pour la lecture des
+images RVB, on peut utiliser les bibliothèques Rasterio,
 \href{https://he-arc.github.io/livre-python/pillow/index.html}{PIL} ou
 \href{https://docs.opencv.org/4.10.0/index.html}{OpenCV}.
 
@@ -1373,13 +1403,6 @@ PIL}\label{lecture-avec-la-librairie-pil}
 La librairie PIL retourne un objet de type \texttt{PngImageFile},
 l'affichage de l'image se fait directement dans la cellule de sortie.
 
-\begin{codelisting}
-
-\caption{\label{lst-lecture-PIL-PNG}Lecture d'une image en format PNG
-avec PIL}
-
-\centering{
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ PIL }\ImportTok{import}\NormalTok{ Image}
@@ -1387,10 +1410,6 @@ avec PIL}
 \NormalTok{img}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\end{codelisting}%
 
 \pandocbounded{\includegraphics[keepaspectratio]{01-ImportationManipulationImages_files/figure-pdf/cell-6-output-1.png}}
 
@@ -1401,13 +1420,6 @@ La librairie \href{https://docs.opencv.org/4.10.0/index.html}{OpenCV}
 est aussi très populaire en vision par ordinateur. La fonction
 \texttt{imread} donne directement un objet de type NumPy en sortie.
 
-\begin{codelisting}
-
-\caption{\label{lst-lecture-opencv-PNG}Lecture d'une image en format PNG
-avec OpenCV}
-
-\centering{
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ cv2}
@@ -1415,10 +1427,6 @@ avec OpenCV}
 \NormalTok{img}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\end{codelisting}%
 
 \begin{verbatim}
 array([[[17, 50, 33],
@@ -1477,16 +1485,8 @@ RasterIO}\label{lecture-avec-la-librairie-rasterio}
 
 Rien ne nous empêche de lire une image de format RVB avec
 \href{https://rasterio.readthedocs.io/en/stable/}{RasterIO} comme décrit
-dans (bloc~\ref{lst-lecturerasterioPNG}). Vous noterez cependant les
-avertissements concernant l'absence de géoréférence pour ce type
-d'image.
-
-\begin{codelisting}
-
-\caption{\label{lst-lecturerasterioPNG}Lecture d'une image en format PNG
-avec OpenCV}
-
-\centering{
+dans ci-dessous. Vous noterez cependant les avertissements concernant
+l'absence de géoréférence pour ce type d'image.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1495,10 +1495,6 @@ avec OpenCV}
 \NormalTok{img}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\end{codelisting}%
 
 \begin{verbatim}
 <open DatasetReader name='modis-aqua.PNG' mode='r'>
@@ -1540,7 +1536,7 @@ pour faciliter l'utilisation de fichiers GeoTIFF hébergés sur des
 serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels
 d'accéder à des parties spécifiques du fichier sans avoir à le
 télécharger entièrement, ce qui est particulièrement utile pour les
-applications basées sur le cloud.
+applications basées sur l'infonuagique.
 
 \subsection{Métadonnées des images}\label{muxe9tadonnuxe9es-des-images}
 
@@ -1551,22 +1547,11 @@ de la librairie Rasterio ou \texttt{gdalinfo} de la librairie
 \texttt{gdal}. Le résultat est imprimé dans la sortie standard ou sous
 forme d'un dictionnaire Python.
 
-\begin{codelisting}
-
-\caption{\label{lst-gdalinfo}Collecte d'information sur une image avec
-gdal}
-
-\centering{
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \OperatorTok{!}\NormalTok{gdalinfo RGBNIR\_of\_S2A.tif}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\end{codelisting}%
 
 \begin{verbatim}
 Warning 1: TIFFReadDirectory:Sum of Photometric type-related color channels and ExtraSamples doesn't match SamplesPerPixel. Defining non-color channels as ExtraSamples.
@@ -1653,22 +1638,11 @@ Band 4 Block=2074x1926 Type=UInt16, ColorInterp=Undefined
 
 Le plus simple est d'utiliser la fonction \texttt{rio\ info}:
 
-\begin{codelisting}
-
-\caption{\label{lst-rioinfo}Collecte d'information sur une image avec
-rasterio}
-
-\centering{
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \OperatorTok{!}\NormalTok{rio info RGBNIR\_of\_S2A.tif }\OperatorTok{{-}{-}}\NormalTok{indent }\DecValTok{2} \OperatorTok{{-}{-}}\NormalTok{verbose}
 \end{Highlighting}
 \end{Shaded}
-
-}
-
-\end{codelisting}%
 
 \section{Manipulation des images}\label{manipulation-des-images}
 
@@ -1680,9 +1654,10 @@ matricielle à trois dimensions (deux dimensions spatiales et une
 dimension spectrale). Comme exposé précédemment, la librairie dite
 \emph{``fondationnelle''} pour la manipulation de matrices en Python est
 \href{https://numpy.org/}{NumPy}. Cette librairie contient un nombre
-très important de fonctionnalités couvrant l'algèbre linéaires, les
-statistiques, etc. et constitue la fondation de nombreuses librairies en
-traitement numérique (voir (figure~\ref{fig-naturenumpy1}))
+très important de fonctionnalités couvrant l'algèbre linéaire, les
+statistiques, etc.; elle constitue la fondation de nombreuses
+bibliothèques en traitement numérique (voir
+(figure~\ref{fig-naturenumpy1}))
 
 \begin{figure}
 
@@ -1693,7 +1668,7 @@ traitement numérique (voir (figure~\ref{fig-naturenumpy1}))
 }
 
 \caption{\label{fig-naturenumpy1}La librairie NumPy est le fondement de
-nombreuses librairies scientifiques (d'après (Harris 2020)).}
+nombreuses bibliothèques scientifiques (d'après (Harris 2020)).}
 
 \end{figure}%
 
@@ -1701,23 +1676,16 @@ nombreuses librairies scientifiques (d'après (Harris 2020)).}
 
 Les deux informations de base à afficher sur une matrice sont 1) les
 dimensions de la matrice et 2) le format de stockage (le type). Pour
-cela, on peut utiliser le (bloc~\ref{lst-numpyshape}), le résultat nous
-informe que la matrice a 3 dimensions et une taille de
+cela, on peut utiliser le (\textbf{?@lst-numpyshape}), dont le résultat
+nous informe que la matrice a trois dimensions et une taille de
 \texttt{(442,\ 553,\ 3)} et un type \texttt{uint8} qui représente 1
 octet (8 bit). Par conséquent, la matrice a \texttt{442} lignes,
 \texttt{553} colonnes et \texttt{3} canaux ou bandes. Il faut prêter une
 attention particulière aux valeurs minimales et maximales tolérées par
-le type de la donnée comme indiqué dans le (tableau~\ref{tbl-numpytype})
+le type de la donnée comme indiqué dans le (\textbf{?@tbl-numpytype})
 (voir aussi
 \href{https://numpy.org/doc/stable/user/basics.types.html}{Data types
 --- NumPy v2.1 Manual}).
-
-\begin{codelisting}
-
-\caption{\label{lst-numpyshape}Lecture d'une image en format PNG avec
-OpenCV}
-
-\centering{
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1729,10 +1697,6 @@ OpenCV}
 \end{Highlighting}
 \end{Shaded}
 
-}
-
-\end{codelisting}%
-
 \begin{verbatim}
 Nombre de dimensions:  3
 Dimensions de la matrice:  (442, 553, 3)
@@ -1740,11 +1704,6 @@ Type de la donnée:  uint8
 \end{verbatim}
 
 \begin{longtable}[]{@{}llrrr@{}}
-
-\caption{\label{tbl-numpytype}Type de données de NumPy}
-
-\tabularnewline
-
 \toprule\noalign{}
 dtype & Nom & Taille (bits) & Min & Max \\
 \midrule\noalign{}
@@ -1755,7 +1714,6 @@ uint8 & char & 8 & 0 & 255 \\
 int8 & signed char & 8 & -127 & 128 \\
 uint16 & unsigned short & 16 & 0 & -32768 \\
 int16 & short & 16 & 0 & 655355 \\
-
 \end{longtable}
 
 \subsection{Découpage et indexation de la
@@ -1869,7 +1827,7 @@ présence de pixels non valides:
 \item
   La présence de nuages que l'on veut exclure.
 \item
-  La présence de pixels erronés dûs à des problèmes de capteurs.
+  La présence de pixels erronés dus à des problèmes de capteurs.
 \item
   La présence de valeurs non numériques (\emph{not a number} ou
   \texttt{nan})
@@ -1878,8 +1836,8 @@ présence de pixels non valides:
 La librairie NumPy fournit des mécanismes pour exclure automatiquement
 certaines valeurs.
 
-\subsection{Changement de projection
-cartographique}\label{changement-de-projection-cartographique}
+\subsection{Changement de projection cartographique (à
+venir)}\label{changement-de-projection-cartographique-uxe0-venir}
 
 \section{Données en géoscience}\label{donnuxe9es-en-guxe9oscience}
 
@@ -1899,7 +1857,7 @@ est une puissante bibliothèque Python qui améliore les matrices
 multidimensionnelles de type numpy en y ajoutant des étiquettes, des
 dimensions, des coordonnées et des attributs. Elle fournit deux
 structures de données principales : \texttt{DataArray} (un tableau
-étiqueté à N dimensions) et \texttt{Dataset} (une base de données de
+étiqueté à n dimensions) et \texttt{Dataset} (une base de données de
 tableaux multidimensionnels en mémoire).
 
 Les caractéristiques principales sont les suivantes:
@@ -1914,7 +1872,7 @@ Les caractéristiques principales sont les suivantes:
 \item
   Alignement de type base de données avec des étiquettes de coordonnées
 \item
-  Suivi des métadonnées grâce aux dictionnaires Python
+  Suivi des métadonnées grâce à des dictionnaires Python
 \end{itemize}
 
 \subsubsection{Avantages}\label{avantages}
@@ -1994,7 +1952,7 @@ Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
 \section{Préambule}\label{pruxe9ambule-1}
 
-\subsection{Objectifs}\label{objectifs}
+\subsection{Objectifs}\label{objectifs-1}
 
 Dans ce chapitre, nous abordons quelques techniques de réhaussement et
 de visualisation d'images. Ce chapitre est aussi disponible sous la
@@ -2002,9 +1960,33 @@ forme d'un notebook Python:
 
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
-\subsection{Librairies}\label{librairies-1}
+\begin{tcolorbox}[colback=background_color, colframe=objectif_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocObjectif.png} \textbf{Objectif}}]
 
-Les librairies qui vont être explorées dans ce chapitre sont les
+\textbf{Objectifs d'apprentissage visés dans ce chapitre}
+
+À la fin de ce chapitre, vous devriez être en mesure de~:
+
+\begin{itemize}
+\tightlist
+\item
+  exploiter les statistiques d'une image pour améliorer la
+  visualisation;
+\item
+  calculer les histogrammes de valeurs;
+\item
+  appliquer une transformation linéaire ou non linéaire pour améliorer
+  une visualisation;
+\item
+  comprendre le principe des composés colorés;
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{}\label{section}
+
+\subsection{Bibliothèques}\label{bibliothuxe8ques-1}
+
+Les bibliothèques qui vont être explorées dans ce chapitre sont les
 suivantes:
 
 \begin{itemize}
@@ -2035,8 +2017,8 @@ doivent être installés:
 \end{Highlighting}
 \end{Shaded}
 
-Dans l'environnement Google Colab, on peut s'assurer que les librairies
-sont installées:
+Dans l'environnement \href{https://colab.research.google.com/}{Google
+Colab}, il convient de s'assurer que les librairies sont installées:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2060,7 +2042,7 @@ Vérifier les importations:
 
 \subsection{Données}\label{donnuxe9es-1}
 
-Nous allons utilisez les images suivantes dans ce chapitre:
+Nous utiliserons les images suivantes dans ce chapitre:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2091,7 +2073,7 @@ Vérifiez que vous êtes capable de les lire :
 
 \section{Visualisation en Python}\label{visualisation-en-python}
 
-Il faut d'entrée mentionner que Python n'est pas vraiment fait pour
+ID'emblée, il faut mentionner que Python n'est pas vraiment fait pour
 visualiser de la donnée de grande taille, le niveau d'interactivité est
 aussi assez limité. Pour une visualisation interactives, il est plutôt
 conseillé d'utiliser un outil comme \href{https://qgis.org/}{QGIS}.
@@ -2104,8 +2086,8 @@ consulter les nombreux tutoriels disponibles comme
 \href{https://matplotlib.org/stable/tutorials/index.html}{celui-ci}.
 
 La fonction de base pour créer une figure est \texttt{subplots}, la
-largeur et hauteur en pouces de la figure peuvent être contrôlées via le
-paramètre \texttt{figsize}:
+largeur et la hauteur en pouces de la figure peuvent être contrôlées via
+le paramètre \texttt{figsize}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2118,9 +2100,9 @@ paramètre \texttt{figsize}:
 \pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-8-output-1.pdf}}
 
 Pour l'affichage des images, la fonction \texttt{imshow} permet
-d'afficher une matrice 2D à une dimension en format float ou une matrice
-RVB avec 3 bandes. Il est important que les dimensions de la matrice
-soient dans l'ordre hauteur, largeur et bande.
+d'afficher une matrice 2D à une dimension en format \emph{float} ou une
+matrice RVB avec 3 bandes. Il est important que les dimensions de la
+matrice soient dans l'ordre hauteur, largeur et bande.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2133,8 +2115,9 @@ soient dans l'ordre hauteur, largeur et bande.
 
 \pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-9-output-1.pdf}}
 
-Pour un affichage à 3 bandes, les valeurs seront clippées entre 0 et 1,
-il est donc nécessaire de normaliser les valeurs avant l'affichage:
+Pour un affichage à trois bandes, les valeurs seront ramenées sur une
+échelle de 0 à 1, il est donc nécessaire de normaliser les valeurs avant
+l'affichage:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2148,12 +2131,12 @@ il est donc nécessaire de normaliser les valeurs avant l'affichage:
 \pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-10-output-1.pdf}}
 
 On remarquera les valeurs des axes \texttt{x} et \texttt{y} avec une
-origine en haut à gauche. Ceci est un référentiel purement matricielle
-(lignes et colonnes), il n'y a pas de géoréférence ici. Pour pallier à
-cette limitation, les librairies \texttt{rasterio} et \texttt{xarray}
-proposent une extension de la fonction \texttt{imshow} permettant
-d'afficher les coordonnées cartographiques ainsi qu'un contrôle la
-dynamique de l'image:
+origine en haut à gauche. Ceci est un référentiel purement matriciel
+(lignes et colonnes); autrement dit, il n'y a pas ici de géoréférence.
+Pour pallier à cette limitation, les librairies \texttt{rasterio} et
+\texttt{xarray} proposent une extension de la fonction \texttt{imshow}
+permettant d'afficher les coordonnées cartographiques ainsi qu'un
+contrôle la dynamique de l'image:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2169,35 +2152,38 @@ dynamique de l'image:
 
 \section{Réhaussements visuels}\label{ruxe9haussements-visuels}
 
-Le but du réhaussement visuel d'une image vise principalement à
-améliorer la qualité visuelle d'une image en améliorant le contraste, la
-dynamique ou la texture d'une image. De manière générale, ce
-réhaussement ne modifie pas la donnée d'origine mais est plutôt
-appliquée dynamiquement à l'affichage pour des fins d'inspection
-visuelle. Le réhaussement nécessite généralement une connaissance des
-caractéristiques statistiques d'une image. Ces statistiques sont ensuite
-exploitées pour appliquer diverses transformations linéaires ou non
-linéaires.
+Le réhaussement visuel d'une image vise principalement à améliorer la
+qualité visuelle d'une image en améliorant le contraste, la dynamique ou
+la texture d'une image. De manière générale, ce réhaussement ne modifie
+pas la donnée d'origine mais il est appliquée dynamiquement à
+l'affichage pour des fins d'inspection visuelle. Le réhaussement
+nécessite généralement une connaissance des caractéristiques
+statistiques d'une image. Ces statistiques sont ensuite exploitées pour
+appliquer diverses transformations linéaires ou non linéaires.
 
 \subsection{Statistiques d'une image}\label{statistiques-dune-image}
 
-On peut considérer un ensemble de statistique globales pour chacune des
-bandes d'une image:
+On peut considérer un ensemble de statistique pour chacune des bandes
+d'une image:
 
 \begin{itemize}
 \item
   valeurs minimales et maximales
 \item
-  valeurs moyennes, médianes et quantiles
+  valeurs moyennes,
 \item
-  écart-types, skewness et kurtosis
+  Quartiles (1er quartile, médiane et 3ième quartile), quantiles et
+  percentiles.
+\item
+  écart-type, et coefficients d'asymétrie (\emph{skewness}) et
+  d'applatissement (\emph{kurtosis})
 \end{itemize}
 
 Ces statistiques doivent être calculées pour chaque bande d'une image
 multispectrale.
 
 En ligne de commande, \texttt{gdalinfo} permet d'interroger rapidement
-un fichier image pour connaitre les statistiques de base:
+un fichier image pour connaitre ces statistiques univariées de base:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2283,7 +2269,8 @@ Band 3 Block=512x512 Type=Byte, ColorInterp=Blue
 \end{verbatim}
 
 Les librairies de base comme \texttt{rasterio} et \texttt{xarray}
-peuvent facilement produire des statistiques comme avec la fonction
+produisent facilement un sommaire des statistiques de base avec la
+fonction
 \href{https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html\#rasterio.io.BufferedDatasetWriter.stats}{stats}:
 
 \begin{Shaded}
@@ -2347,8 +2334,8 @@ Coordinates:
 
 Le calcul d'un histogramme pour une image (une bande) permet d'avoir une
 vue plus détaillée de la répartition des valeurs radiométriques. Le
-calcul d'un histogramme nécessite minimalement de faire le choix d'une
-valeur du nombre de \emph{bins} (ou de la largeur). Un \emph{bin} est un
+calcul d'un histogramme nécessite minimalement de faire le choix du
+nombre de barre ( \emph{bins} ou de la largeur ). Un \emph{bin} est un
 intervalle de valeurs pour lequel on peut calculer le nombre de valeurs
 observées dans l'image. La fonction de base pour ce type de calcul est
 la fonction \texttt{numpy.histogram()}:
@@ -2364,8 +2351,8 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.08888889 0.12222222 0.12222222 0.08888889 0.07777778 0.11111111
- 0.12222222 0.13333333 0.08888889 0.15555556]
+valeurs : [0.13333333 0.07777778 0.14444444 0.06666667 0.14444444 0.12222222
+ 0.14444444 0.11111111 0.1        0.06666667]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
@@ -2407,33 +2394,44 @@ multi-spectrale:
 linéaires}\label{ruxe9haussements-linuxe9aires}
 
 Le réhaussement linéaire (\emph{linear stretch}) d'une image est la
-forme la plus simple de réhaussement, elle consiste 1) à optimiser les
+forme la plus simple de réhaussement, elle consiste à 1) optimiser les
 valeurs des pixels d'une image afin de maximiser la dynamique
-disponibles à l'affichage, ou 2) changer le format de stockage des
-valeurs (e.g.~de 8 bit à 16 bit):
+disponibles à l'affichage, ou 2) à changer le format de stockage des
+valeurs (de 8 bits à 16 bits):
 
 \begin{equation}\phantomsection\label{eq-rehauss-lin}{ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1}\end{equation}
 
 Par cette opération, on passe de la dynamique de départ
 (\(max_0 - min_0\)) vers la dynamique cible (\(max_1 - min_1\)). Bien
 que cette opération semble triviale, il est important d'être conscient
-des trois contraintes suivantes: 1. \textbf{Faire attention à la
-dynamique cible}, ainsi, pour sauvegarder une image en format 8 bit, on
-utilisera alors \(max_1=255\) et \(min_1=0\). 2. \textbf{Préservation de
-la valeur de no data} : il faut faire attention à la valeur \(min_1\)
-dans le cas d'une valeur présente pour \emph{no\_data}. Par exemple, si
-\emph{no\_data=0} alors il faut s'assurer que \(min_1>0\). 3.
-\textbf{Précision du calcul} : si possible réaliser la division
+des trois contraintes suivantes:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Faire attention à la dynamique cible}, ainsi, pour sauvegarder
+  une image en format 8 bit, on utilisera alors \(max_1=255\) et
+  \(min_1=0\).
+\end{enumerate}
+
+2. \textbf{Préservation de la valeur de no data} : il faut faire
+attention à la valeur \(min_1\) dans le cas d'une valeur présente pour
+\emph{no\_data}. Par exemple, si \emph{no\_data=0} alors il faut
+s'assurer que \(min_1>0\).
+
+3. \textbf{Précision du calcul} : si possible réaliser la division
 ci-dessus en format \emph{float}
 
 \subsubsection{Cas des histogrammes
 asymétriques}\label{cas-des-histogrammes-asymuxe9triques}
 
 Dans certains cas, la distribution de valeurs est très asymétrique et
-présente une longue queue avec des valeurs extrêmes élevées. Le cas des
-images SAR est particulièrement représentatif de ce type de données. En
-effet, celles-ci peuvent présenter une distribution de valeurs de type
-exponentiel. Il est alors préférable d'utiliser des
+présente une longue queue avec des valeurs extrêmes élevées (à droite ou
+à gauche de l'histogramme). Le cas des images SAR est particulièrement
+représentatif de ce type de données. En effet, celles-ci peuvent
+présenter une distribution de valeurs de type exponentiel. Il est alors
+préférable d'utiliser des
 \href{https://fr.wikipedia.org/wiki/Centile}{percentiles} au préalable
 afin d'explorer la forme de l'histogramme et la distribution des
 valeurs:
@@ -2458,11 +2456,10 @@ valeurs:
 {0: np.float64(8.172580237442162e-06), 0.1: np.float64(1.588739885482937e-05), 1: np.float64(8.657756850880105e-05), 2: np.float64(0.00018846066552214325), 50: np.float64(0.012372820172458887), 98: np.float64(0.1719470709562302), 99: np.float64(0.27963151514529694), 99.9: np.float64(1.5235805057287233), 100: np.float64(483.223876953125)}
 \end{verbatim}
 
-La première observation que l'on peut faire est que la valeur médiane
-(\texttt{0.012}) est très faible, 50\% des valeurs sont inférieures
-cette valeur alors que valeur maximale (\texttt{483}) est 10,000 fois
-plus élevée! Une façon de visualiser cette distribution de valeurs est
-d'utiliser
+On constate que la valeur médiane (\texttt{0.012}) est très faible, ce
+qui signifie que 50\% des valeurs sont inférieures à cette valeur alors
+que la valeur maximale (\texttt{483}) est 10 000 fois plus élevée! Une
+manière de visualiser cette distribution de valeurs est d'utiliser
 \href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html}{\texttt{boxplot}}
 et
 \href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html}{\texttt{violinplot}}
@@ -2488,9 +2485,9 @@ de la librairie \texttt{matplotlib}:
 \pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-19-output-1.pdf}}
 
 Afin de visualiser correctement l'histogramme, il faut se limiter à un
-interval de valeurs plus petit. Dans le code ci-dessous, on impose à la
-fonction histogramme de compter les valeurs de pixels dans des
-intervalles de valeurs fixés par la fonction
+intervalle de valeurs plus réduit. Dans le code ci-dessous, on impose à
+la fonction \texttt{np.histogramme} de compter les valeurs de pixels
+dans des intervalles de valeurs fixés par la fonction
 \texttt{np.linspace(percentiles{[}0.1{]},percentiles{[}99.9{]},\ 50)} où
 \texttt{percentiles{[}0.1{]}} et \texttt{percentiles{[}99.9{]}} sont les
 \(0.1\%\) et \(99.9\%\) percentiles respectivement:
@@ -2525,7 +2522,7 @@ intervalles de valeurs fixés par la fonction
 \pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-20-output-1.pdf}}
 
 Au niveau de l'affichage avec \texttt{matplotlib}, la dynamique peut
-être contrôlée directement via les paramètres \texttt{vmin} et
+être contrôlée directement avec les paramètres \texttt{vmin} et
 \texttt{vmax} comme ceci:
 
 \begin{Shaded}
@@ -2554,29 +2551,30 @@ fonctions}\label{ruxe9haussement-par-fonctions}
 
 Le réhaussenent par fonction consiste à appliquer une fonction non
 linéaire afin de modifier la dynamique de l'image. Par exemple, pour une
-image radar, une transformation populaire est dd'afficher les valeurs de
-rétrodiffusion en décibel (\texttt{dB}) via la fonction
+image radar, une transformation populaire est d'afficher les valeurs de
+rétrodiffusion en décibel (\texttt{dB}) avec la fonction
 \texttt{log10()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{percentiles\_position}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{98}\NormalTok{,}\DecValTok{99}\NormalTok{,}\FloatTok{99.9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
-\NormalTok{values}\OperatorTok{=}\NormalTok{ np.log10(img\_SAR[}\DecValTok{0}\NormalTok{]).data}
+\NormalTok{values}\OperatorTok{=} \DecValTok{10}\OperatorTok{*}\NormalTok{np.log10(img\_SAR[}\DecValTok{0}\NormalTok{]).data}
 \NormalTok{percentiles\_db}\OperatorTok{=} \BuiltInTok{dict}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(percentiles\_position, np.percentile(values, percentiles\_position)))}
 \BuiltInTok{print}\NormalTok{(percentiles\_db)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-{0: np.float64(-5.08764123916626), 0.1: np.float64(-4.7989475197792055), 1: np.float64(-4.062595067024231), 2: np.float64(-3.7247793674468994), 50: np.float64(-1.9075313806533813), 98: np.float64(-0.7646052074432372), 99: np.float64(-0.5534139317274169), 99.9: np.float64(0.182865420415998), 100: np.float64(2.6841483116149902)}
+{0: np.float64(-50.87641143798828), 0.1: np.float64(-47.98947440338135), 1: np.float64(-40.625951309204105), 2: np.float64(-37.24779266357422), 50: np.float64(-19.075313568115234), 98: np.float64(-7.6460519409179675), 99: np.float64(-5.534139237403945), 99.9: np.float64(1.8286541925668764), 100: np.float64(26.84148406982422)}
 \end{verbatim}
 
-Les boxplots on une bien meilleure distribution proche d'une
-distribution Gaussienne:
+Les boites à moustache (\emph{boxplots}) ont une bien meilleure
+distribution qui est en effet très proche d'une distribution normale
+gaussienne:
 
 \pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-23-output-1.pdf}}
 
-Ainsi que les images:
+On obtient ainsi les images suivantes:
 
 \pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-24-output-1.pdf}}
 
@@ -2584,10 +2582,10 @@ Ainsi que les images:
 d'histogramme}\label{uxe9galisation-dhistogramme}
 
 L'égalisation d'histogramme consiste à modifier les valeurs des pixels
-d'une image source de façon à ce que la distribution cumulée des valeurs
-(CDF) deviennent similaire à celle d'une image cible. La CDF
-(\emph{Cumulative Distribution Function}) est simplement la somme
-cumulée des valeurs de l'histogramme:
+d'une image source afin que la distribution cumulée des valeurs (CDF)
+devienne similaire à celle d'une image cible. La CDF (\emph{Cumulative
+Distribution Function}) est simplement la somme cumulée des valeurs de
+l'histogramme:
 
 \[
 CDF_{source}(i)= \frac{1}{K}\sum_{j=0}^{j \leq i} hist_{source}(j)
@@ -2624,7 +2622,7 @@ suivante:
 
 Les palettes de couleurs sont appliquées dynamiquement à l'affichage sur
 une image à une seule bande. La librairie \texttt{matplotlib} contient
-un nombre important de
+un nombre considérable de
 \href{https://matplotlib.org/stable/users/explain/colors/colormaps.html}{palettes}.
 
 \begin{Shaded}
@@ -2675,7 +2673,7 @@ correspondance entre les couleurs et les valeurs numériques:
 
 \pandocbounded{\includegraphics[keepaspectratio]{02-RehaussementVisualisationImages_files/figure-pdf/cell-28-output-1.pdf}}
 
-\subsection{Composés couleurs}\label{composuxe9s-couleurs}
+\subsection{Composés colorés}\label{composuxe9s-coloruxe9s}
 
 Le système visuel humain est sensible seulement à la partie visible du
 spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du
@@ -2719,7 +2717,7 @@ propriétés différentes de la surface.
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\subsection{Objectifs}\label{objectifs-1}
+\subsection{Objectifs}\label{objectifs-2}
 
 Dans ce chapitre, nous abordons l'exploitation de la dimension spectrale
 des images satellites. Ce chapitre est aussi disponible sous la forme
@@ -2727,7 +2725,7 @@ d'un notebook Python:
 
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
-\subsection{Librairies}\label{librairies-2}
+\subsection{Librairies}\label{librairies}
 
 Les librairies qui vont être explorées dans ce chapitre sont les
 suivantes:
@@ -3037,7 +3035,7 @@ classes}
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\subsection{Objectifs}\label{objectifs-2}
+\subsection{Objectifs}\label{objectifs-3}
 
 Dans ce chapitre, nous abordons quelques techniques de traitement
 d'images dans le domaine spatial uniquement. Ce chapitre est aussi
@@ -3045,7 +3043,7 @@ disponible sous la forme d'un notebook Python sur Google Colab:
 
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
-\subsection{Librairies}\label{librairies-3}
+\subsection{Librairies}\label{librairies-1}
 
 Les librairies utilisées dans ce chapitre sont les suivantes:
 
@@ -3998,7 +3996,7 @@ suite (on parle alors de classification objet).
 
 Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
 
-\subsection{Objectifs}\label{objectifs-3}
+\subsection{Objectifs}\label{objectifs-4}
 
 Dans ce chapitre, nous ferons une introduction générale à
 l'apprentissage automatique et abordons quelques techniques
@@ -4008,7 +4006,7 @@ aussi disponible sous la forme d'un notebook Python sur Google Colab:
 
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/05-ClassificationsSupervisees.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
-\subsection{Librairies}\label{librairies-4}
+\subsection{Librairies}\label{librairies-2}
 
 Les librairies utilisées dans ce chapitre sont les suivantes:
 

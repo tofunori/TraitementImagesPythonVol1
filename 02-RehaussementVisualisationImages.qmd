@@ -36,9 +36,27 @@ Dans ce chapitre, nous abordons quelques techniques de réhaussement et de visua
 
 [![](images/colab.png)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/02-RehaussementVisualisationImages.ipynb)
 
-### Librairies
+::::: bloc_objectif
+:::: bloc_objectif-header
+::: bloc_objectif-icon
+:::
 
-Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
+**Objectifs d'apprentissage visés dans ce chapitre**
+::::
+
+À la fin de ce chapitre, vous devriez être en mesure de :
+
+-   exploiter les statistiques d'une image pour améliorer la visualisation;
+-   calculer les histogrammes de valeurs;
+-   appliquer une transformation linéaire ou non linéaire pour améliorer une visualisation;
+-   comprendre le principe des composés colorés;
+:::::
+
+### 
+
+### Bibliothèques
+
+Les bibliothèques qui vont être explorées dans ce chapitre sont les suivantes:
 
 -   [SciPy](https://scipy.org/)
 
@@ -63,7 +81,7 @@ Dans l'environnement Google Colab, seul `rioxarray` et GDAL doivent être instal
 !apt-get install gdal-bin libgdal-dev
 ```
 
-Dans l'environnement Google Colab, on peut s'assurer que les librairies sont installées:
+Dans l'environnement [Google Colab](https://colab.research.google.com/), il convient de s'assurer que les librairies sont installées:
 
 ```{python}
 %%capture
@@ -83,7 +101,7 @@ import matplotlib.pyplot as plt
 
 ### Données
 
-Nous allons utilisez les images suivantes dans ce chapitre:
+Nous utiliserons les images suivantes dans ce chapitre:
 
 ```{python}
 #| eval: false
@@ -113,9 +131,9 @@ with rxr.open_rasterio('SAR.tif', mask_and_scale= True) as img_SAR:
 
 ## Visualisation en Python
 
-Il faut d'entrée mentionner que Python n'est pas vraiment fait pour visualiser de la donnée de grande taille, le niveau d'interactivité est aussi assez limité. Pour une visualisation interactives, il est plutôt conseillé d'utiliser un outil comme [QGIS](https://qgis.org/). Néanmoins, il est possible de visualiser de petites images avec la librairie [`matplotlib`](https://matplotlib.org/stable/) qui est la librairie principale de visualisation en Python. Cette librairie est extrêmement riche et versatile, nous ne présenterons que les bases nécessaires pour démarrer. Le lecteur désirant aller plus loin pourra consulter les nombreux tutoriels disponibles comme [celui-ci](https://matplotlib.org/stable/tutorials/index.html).
+ID'emblée, il faut mentionner que Python n'est pas vraiment fait pour visualiser de la donnée de grande taille, le niveau d'interactivité est aussi assez limité. Pour une visualisation interactives, il est plutôt conseillé d'utiliser un outil comme [QGIS](https://qgis.org/). Néanmoins, il est possible de visualiser de petites images avec la librairie [`matplotlib`](https://matplotlib.org/stable/) qui est la librairie principale de visualisation en Python. Cette librairie est extrêmement riche et versatile, nous ne présenterons que les bases nécessaires pour démarrer. Le lecteur désirant aller plus loin pourra consulter les nombreux tutoriels disponibles comme [celui-ci](https://matplotlib.org/stable/tutorials/index.html).
 
-La fonction de base pour créer une figure est `subplots`, la largeur et hauteur en pouces de la figure peuvent être contrôlées via le paramètre `figsize`:
+La fonction de base pour créer une figure est `subplots`, la largeur et la hauteur en pouces de la figure peuvent être contrôlées via le paramètre `figsize`:
 
 ```{python}
 import matplotlib.pyplot as plt
@@ -123,7 +141,7 @@ fig, ax= plt.subplots(figsize=(5, 4))
 plt.show()
 ```
 
-Pour l'affichage des images, la fonction `imshow` permet d'afficher une matrice 2D à une dimension en format float ou une matrice RVB avec 3 bandes. Il est important que les dimensions de la matrice soient dans l'ordre hauteur, largeur et bande.
+Pour l'affichage des images, la fonction `imshow` permet d'afficher une matrice 2D à une dimension en format *float* ou une matrice RVB avec 3 bandes. Il est important que les dimensions de la matrice soient dans l'ordre hauteur, largeur et bande.
 
 ```{python}
 import matplotlib.pyplot as plt
@@ -132,7 +150,7 @@ plt.imshow(img_rgbnir[0].data)
 plt.show()
 ```
 
-Pour un affichage à 3 bandes, les valeurs seront clippées entre 0 et 1, il est donc nécessaire de normaliser les valeurs avant l'affichage:
+Pour un affichage à trois bandes, les valeurs seront ramenées sur une échelle de 0 à 1, il est donc nécessaire de normaliser les valeurs avant l'affichage:
 
 ```{python}
 import matplotlib.pyplot as plt
@@ -141,7 +159,7 @@ plt.imshow(img_rgbnir.data.transpose(1,2,0)/2500.0)
 plt.show()
 ```
 
-On remarquera les valeurs des axes `x` et `y` avec une origine en haut à gauche. Ceci est un référentiel purement matricielle (lignes et colonnes), il n'y a pas de géoréférence ici. Pour pallier à cette limitation, les librairies `rasterio` et `xarray` proposent une extension de la fonction `imshow` permettant d'afficher les coordonnées cartographiques ainsi qu'un contrôle la dynamique de l'image:
+On remarquera les valeurs des axes `x` et `y` avec une origine en haut à gauche. Ceci est un référentiel purement matriciel (lignes et colonnes); autrement dit, il n'y a pas ici de géoréférence. Pour pallier à cette limitation, les librairies `rasterio` et `xarray` proposent une extension de la fonction `imshow` permettant d'afficher les coordonnées cartographiques ainsi qu'un contrôle la dynamique de l'image:
 
 ```{python}
 import rioxarray as rxr
@@ -175,27 +193,29 @@ drapper une image satellite sur un DEM
 
 ## Réhaussements visuels
 
-Le but du réhaussement visuel d'une image vise principalement à améliorer la qualité visuelle d'une image en améliorant le contraste, la dynamique ou la texture d'une image. De manière générale, ce réhaussement ne modifie pas la donnée d'origine mais est plutôt appliquée dynamiquement à l'affichage pour des fins d'inspection visuelle. Le réhaussement nécessite généralement une connaissance des caractéristiques statistiques d'une image. Ces statistiques sont ensuite exploitées pour appliquer diverses transformations linéaires ou non linéaires.
+Le réhaussement visuel d'une image vise principalement à améliorer la qualité visuelle d'une image en améliorant le contraste, la dynamique ou la texture d'une image. De manière générale, ce réhaussement ne modifie pas la donnée d'origine mais il est appliquée dynamiquement à l'affichage pour des fins d'inspection visuelle. Le réhaussement nécessite généralement une connaissance des caractéristiques statistiques d'une image. Ces statistiques sont ensuite exploitées pour appliquer diverses transformations linéaires ou non linéaires.
 
 ### Statistiques d'une image
 
-On peut considérer un ensemble de statistique globales pour chacune des bandes d'une image:
+On peut considérer un ensemble de statistique pour chacune des bandes d'une image:
 
 -   valeurs minimales et maximales
 
--   valeurs moyennes, médianes et quantiles
+-   valeurs moyennes,
 
--   écart-types, skewness et kurtosis
+-   Quartiles (1er quartile, médiane et 3ième quartile), quantiles et percentiles.
+
+-   écart-type, et coefficients d'asymétrie (*skewness*) et d'applatissement (*kurtosis*)
 
 Ces statistiques doivent être calculées pour chaque bande d'une image multispectrale.
 
-En ligne de commande, `gdalinfo` permet d'interroger rapidement un fichier image pour connaitre les statistiques de base:
+En ligne de commande, `gdalinfo` permet d'interroger rapidement un fichier image pour connaitre ces statistiques univariées de base:
 
 ```{python}
 !gdalinfo -stats landsat7.tif
 ```
 
-Les librairies de base comme `rasterio` et `xarray` peuvent facilement produire des statistiques comme avec la fonction [stats](https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.stats):
+Les librairies de base comme `rasterio` et `xarray` produisent facilement un sommaire des statistiques de base avec la fonction [stats](https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.stats):
 
 ```{python}
 #| eval: false
@@ -220,7 +240,7 @@ quantiles
 
 #### Calcul de l'histogramme
 
-Le calcul d'un histogramme pour une image (une bande) permet d'avoir une vue plus détaillée de la répartition des valeurs radiométriques. Le calcul d'un histogramme nécessite minimalement de faire le choix d'une valeur du nombre de *bins* (ou de la largeur). Un *bin* est un intervalle de valeurs pour lequel on peut calculer le nombre de valeurs observées dans l'image. La fonction de base pour ce type de calcul est la fonction `numpy.histogram()`:
+Le calcul d'un histogramme pour une image (une bande) permet d'avoir une vue plus détaillée de la répartition des valeurs radiométriques. Le calcul d'un histogramme nécessite minimalement de faire le choix du nombre de barre ( *bins* ou de la largeur ). Un *bin* est un intervalle de valeurs pour lequel on peut calculer le nombre de valeurs observées dans l'image. La fonction de base pour ce type de calcul est la fonction `numpy.histogram()`:
 
 ```{python}
 
@@ -255,15 +275,21 @@ with rio.open('RGBNIR_of_S2A.tif') as src:
 
 ### Réhaussements linéaires
 
-Le réhaussement linéaire (*linear stretch*) d'une image est la forme la plus simple de réhaussement, elle consiste 1) à optimiser les valeurs des pixels d'une image afin de maximiser la dynamique disponibles à l'affichage, ou 2) changer le format de stockage des valeurs (e.g. de 8 bit à 16 bit):
+Le réhaussement linéaire (*linear stretch*) d'une image est la forme la plus simple de réhaussement, elle consiste à  1) optimiser les valeurs des pixels d'une image afin de maximiser la dynamique disponibles à l'affichage, ou 2) à changer le format de stockage des valeurs (de 8 bits à 16 bits):
 
 $$ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1$$ {#eq-rehauss-lin}
 
-Par cette opération, on passe de la dynamique de départ ($max_0 - min_0$) vers la dynamique cible ($max_1 - min_1$). Bien que cette opération semble triviale, il est important d'être conscient des trois contraintes suivantes: 1. **Faire attention à la dynamique cible**, ainsi, pour sauvegarder une image en format 8 bit, on utilisera alors $max_1=255$ et $min_1=0$. 2. **Préservation de la valeur de no data** : il faut faire attention à la valeur $min_1$ dans le cas d'une valeur présente pour *no_data*. Par exemple, si *no_data=0* alors il faut s'assurer que $min_1>0$. 3. **Précision du calcul** : si possible réaliser la division ci-dessus en format *float*
+Par cette opération, on passe de la dynamique de départ ($max_0 - min_0$) vers la dynamique cible ($max_1 - min_1$). Bien que cette opération semble triviale, il est important d'être conscient des trois contraintes suivantes:
+
+ 1. **Faire attention à la dynamique cible**, ainsi, pour sauvegarder une image en format 8 bit, on utilisera alors $max_1=255$ et $min_1=0$.
+
+2\. **Préservation de la valeur de no data** : il faut faire attention à la valeur $min_1$ dans le cas d'une valeur présente pour *no_data*. Par exemple, si *no_data=0* alors il faut s'assurer que $min_1>0$.
+
+3\. **Précision du calcul** : si possible réaliser la division ci-dessus en format *float*
 
 #### Cas des histogrammes asymétriques
 
-Dans certains cas, la distribution de valeurs est très asymétrique et présente une longue queue avec des valeurs extrêmes élevées. Le cas des images SAR est particulièrement représentatif de ce type de données. En effet, celles-ci peuvent présenter une distribution de valeurs de type exponentiel. Il est alors préférable d'utiliser des [percentiles](https://fr.wikipedia.org/wiki/Centile) au préalable afin d'explorer la forme de l'histogramme et la distribution des valeurs:
+Dans certains cas, la distribution de valeurs est très asymétrique et présente une longue queue avec des valeurs extrêmes élevées (à droite ou à gauche de l'histogramme). Le cas des images SAR est particulièrement représentatif de ce type de données. En effet, celles-ci peuvent présenter une distribution de valeurs de type exponentiel. Il est alors préférable d'utiliser des [percentiles](https://fr.wikipedia.org/wiki/Centile) au préalable afin d'explorer la forme de l'histogramme et la distribution des valeurs:
 
 ```{python}
 NO_DATA_FLOAT= -999.0
@@ -279,7 +305,7 @@ percentiles= dict(zip(percentiles_position, np.percentile(values, percentiles_po
 print(percentiles)
 ```
 
-La première observation que l'on peut faire est que la valeur médiane (`0.012`) est très faible, 50% des valeurs sont inférieures cette valeur alors que valeur maximale (`483`) est 10,000 fois plus élevée! Une façon de visualiser cette distribution de valeurs est d'utiliser [`boxplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html) et [`violinplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html) de la librairie `matplotlib`:
+On constate que la valeur médiane (`0.012`) est très faible, ce qui signifie que 50% des valeurs sont inférieures à cette valeur alors que la valeur maximale (`483`) est 10 000 fois plus élevée! Une manière de visualiser cette distribution de valeurs est d'utiliser [`boxplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html) et [`violinplot`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html) de la librairie `matplotlib`:
 
 ```{python}
 fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(6, 4), sharex=True)
@@ -296,7 +322,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-Afin de visualiser correctement l'histogramme, il faut se limiter à un interval de valeurs plus petit. Dans le code ci-dessous, on impose à la fonction histogramme de compter les valeurs de pixels dans des intervalles de valeurs fixés par la fonction `np.linspace(percentiles[0.1],percentiles[99.9], 50)` où `percentiles[0.1]` et `percentiles[99.9]` sont les $0.1\%$ et $99.9\%$ percentiles respectivement:
+Afin de visualiser correctement l'histogramme, il faut se limiter à un intervalle de valeurs plus réduit. Dans le code ci-dessous, on impose à la fonction `np.histogramme` de compter les valeurs de pixels dans des intervalles de valeurs fixés par la fonction `np.linspace(percentiles[0.1],percentiles[99.9], 50)` où `percentiles[0.1]` et `percentiles[99.9]` sont les $0.1\%$ et $99.9\%$ percentiles respectivement:
 
 ```{python}
 hist, bin_edges = np.histogram(values, 
@@ -323,7 +349,7 @@ plt.tight_layout()
 plt.show()                              
 ```
 
-Au niveau de l'affichage avec `matplotlib`, la dynamique peut être contrôlée directement via les paramètres `vmin` et `vmax` comme ceci:
+Au niveau de l'affichage avec `matplotlib`, la dynamique peut être contrôlée directement avec les paramètres `vmin` et `vmax` comme ceci:
 
 ```{python}
 fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(6, 5), sharex=True, sharey=True)
@@ -349,16 +375,16 @@ Calcul d'histogrammes, étirement, égalisation, styling
 -->
 ```
 
-Le réhaussenent par fonction consiste à appliquer une fonction non linéaire afin de modifier la dynamique de l'image. Par exemple, pour une image radar, une transformation populaire est dd'afficher les valeurs de rétrodiffusion en décibel (`dB`) via la fonction `log10()`.
+Le réhaussenent par fonction consiste à appliquer une fonction non linéaire afin de modifier la dynamique de l'image. Par exemple, pour une image radar, une transformation populaire est d'afficher les valeurs de rétrodiffusion en décibel (`dB`) avec la fonction `log10()`.
 
 ```{python}
 percentiles_position= (0,0.1,1,2,50,98,99,99.9,100)
-values= np.log10(img_SAR[0]).data
+values= 10*np.log10(img_SAR[0]).data
 percentiles_db= dict(zip(percentiles_position, np.percentile(values, percentiles_position)))
 print(percentiles_db)
 ```
 
-Les boxplots on une bien meilleure distribution proche d'une distribution Gaussienne:
+Les boites à moustache (*boxplots*) ont une bien meilleure distribution qui est en effet très proche d'une distribution normale gaussienne:
 
 ```{python}
 #| echo: false
@@ -377,7 +403,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-Ainsi que les images:
+On obtient ainsi les images suivantes:
 
 ```{python}
 #| echo: false
@@ -402,7 +428,7 @@ Exercise: trouver une autre transformation possible pour l'image SAR.
 
 #### Égalisation d'histogramme
 
-L'égalisation d'histogramme consiste à modifier les valeurs des pixels d'une image source de façon à ce que la distribution cumulée des valeurs (CDF) deviennent similaire à celle d'une image cible. La CDF (*Cumulative Distribution Function*) est simplement la somme cumulée des valeurs de l'histogramme:
+L'égalisation d'histogramme consiste à modifier les valeurs des pixels d'une image source afin que la distribution cumulée des valeurs (CDF) devienne similaire à celle d'une image cible. La CDF (*Cumulative Distribution Function*) est simplement la somme cumulée des valeurs de l'histogramme:
 
 $$
 CDF_{source}(i)= \frac{1}{K}\sum_{j=0}^{j \leq i} hist_{source}(j)
@@ -431,7 +457,7 @@ Exercise: changer la CDF cible pour une Gaussienne
 
 #### Palettes de couleur
 
-Les palettes de couleurs sont appliquées dynamiquement à l'affichage sur une image à une seule bande. La librairie `matplotlib` contient un nombre important de [palettes](https://matplotlib.org/stable/users/explain/colors/colormaps.html).
+Les palettes de couleurs sont appliquées dynamiquement à l'affichage sur une image à une seule bande. La librairie `matplotlib` contient un nombre considérable de [palettes](https://matplotlib.org/stable/users/explain/colors/colormaps.html).
 
 ```{python}
 # | output: false
@@ -467,7 +493,7 @@ fig.colorbar(h, ax=ax,  orientation='horizontal', label="Intensité", extend='bo
 ax.axis('off') 
 ```
 
-### Composés couleurs
+### Composés colorés
 
 Le système visuel humain est sensible seulement à la partie visible du spectre électromagnétique qui compose les couleurs de l'arc-en-ciel du bleu au rouge. L'ensemble des couleurs du spectre visible peut être obtenu à partir du mélange de trois couleurs primaires (rouge, vert et bleu). Ce système de décomposition à trois couleurs est à la base de la plupart des systèmes de visualisation ou de représentation de l'information de couleur. Si on prend le cas des images Sentinel-2, 12 bandes sont disponibles, plusieurs composés couleurs sont donc possibles (voir le site de [Copernicus](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/)). Voici quelques exemples possibles, chaque composé mettant en valeur des propriétés différentes de la surface.
 

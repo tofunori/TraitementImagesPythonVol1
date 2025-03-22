@@ -22,13 +22,33 @@ def _(mo):
 
         ## Préambule
 
-        Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook. \### Objectifs Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
+        Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+
+        ### Objectifs 
+
+        Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture. Ce chapitre est aussi disponible sous la forme d'un notebook Python:
 
         [![](images/colab.png)](https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/01-ImportationManipulationImages.ipynb)
 
-        ### Librairies
+        ::::: bloc_objectif
+        :::: bloc_objectif-header
+        ::: bloc_objectif-icon
+        :::
 
-        Les librairies qui vont être explorées dans ce chapitre sont les suivantes:
+        **Objectifs d'apprentissage visés dans ce chapitre**
+        ::::
+
+        À la fin de ce chapitre, vous devriez être en mesure de :
+
+        -   connaître les principales bibliothèques Python pour lire une image;
+        -   accéder à l'information d'une image avant de la lire;
+        -   comprendre les principaux formats pour une image
+        -   manipuler la matrice de la donnée d'une image avec numpy
+        :::::
+
+        ### Bibliothèques
+
+        Les bibliothèques qui vont être explorées dans ce chapitre sont les suivantes:
 
         -   [SciPy](https://scipy.org/)
 
@@ -44,7 +64,7 @@ def _(mo):
 
         -   [rioxarray](https://corteva.github.io/rioxarray/stable/index.html)
 
-        Dans l'environnement Google Colab, seul `rioxarray` et gdal doivent être installé:
+        Dans l'environnement Google Colab, seul `rioxarray` et `gdal` doivent être installés:
         """
     )
     return
@@ -88,7 +108,7 @@ def _(mo):
         r"""
         ### Données
 
-        Nous allons utilisés ces images dans ce chapitre:
+        Nous utilisons ces images dans ce chapitre:
         """
     )
     return
@@ -112,7 +132,7 @@ app._unparsable_cell(
 def _(mo):
     mo.md(
         r"""
-        Vérifiez que vous êtes capable de les lire :
+        Vérifiez que vous êtes capable de les lire:
         """
     )
     return
@@ -135,19 +155,31 @@ def _(mo):
         r"""
         ## Importation d'images
 
-        La première étape avant tout traitement est d'accéder à la donnée image pour qu'elle soit manipulée par le langage Python. L'imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines librairies, comme [Xarray](https://docs.xarray.dev/en/stable/), qui on cherchées à optimiser la lecture et l'écriture de grandes images. Il est donc conseiller de toujours garder un oeil sur l'espace mémoire occupé par les variables Python représentant les images. La librairie principale en géomatique qui va nous permettre d'importer (et d'exporter) de l'imagerie est la librairie [GDAL](https://gdal.org) qui rassemble la plupart des formats sous forme de *driver* (ou pilote en français).
+        La première étape avant tout traitement est d'accéder à la donnée image pour qu'elle soit manipulée par le langage Python. L'imagerie satellite présente certains défis notamment en raison de la taille parfois très importante des images. Il existe maintenant certaines bibliothèques, comme [Xarray](https://docs.xarray.dev/en/stable/), qui visent à optimiser la lecture et l'écriture de grandes images. Il est donc conseillé de toujours garder un oeil sur l'espace mémoire occupé par les variables Python représentant les images. La librairie principale en géomatique qui permettre d'importer (et d'exporter) de l'imagerie est la librairie [GDAL](https://gdal.org) qui rassemble la plupart des formats sous forme de *driver* (ou pilote en français).
 
-        Dans le domaine de la géomatique, il faut prêter attention à trois caractéristiques principales des images: 1. **La matrice des données** elle-même qui contient les valeurs brutes des pixels. Cette matrice sera souvent un cube à trois dimensions. En Python, ce cube sera le plus souvent un objet de la librairie [NumPy](https://numpy.org/) (voir section). 2. **La dynamique des images** c.à.d le format de stockage des valeurs individuelles (octet, entier, double, etc.). Ce format décide principalement de la résolution radiométrique et des valeurs minimales et maximales supportées. 3. **Le nombre de bandes** spectrales de l'image qui est souvent supérieur à 3 et peut atteindre plusieurs centaines de bandes pour certains capteurs. 4. **La métadonnée** qui va transporter l'information auxiliaire de l'image comme les dimensions et la position de l'image, la date, etc. Cette donnée auxiliaire prendra souvent la forme d'un dictionnaire Python. Elle contiendra aussi l'information de géoréférence.
+        Dans le domaine de la géomatique, il faut prêter attention à trois caractéristiques principales des images:
+
+        1\. **La matrice des données** elle-même qui contient les valeurs brutes des pixels. Cette matrice sera souvent un cube à trois dimensions. En Python, ce cube sera le plus souvent un objet de la librairie [NumPy](https://numpy.org/) (voir section).
+
+        2\. **La dynamique des images** c.-à.-d le format de stockage des valeurs individuelles (octet, entier, double, etc.). Ce format décide principalement de la résolution radiométrique et des valeurs minimales et maximales supportées.
+
+        3\. **Le nombre de bandes** spectrales de l'image qui est souvent supérieur à trois et peut atteindre plusieurs centaines de bandes pour certains capteurs (notamment hyperspectraux).
+
+        4\. **La métadonnée** qui va transporter l'information auxiliaire de l'image comme les dimensions et la position de l'image, la date, etc. Cette donnée auxiliaire prendra souvent la forme d'un dictionnaire Python. Elle contiendra aussi l'information de géoréférence.
 
         Les différents formats se distinguent principalement sur la manière dont ces trois caractéristiques sont gérées.
 
         ### Formats des images
 
-        Il existe maintenant de nombreux formats numériques pour la donnée de type image parfois appelé donnée matricielle ou donnée *raster*. La librairie GDAL rassemble la plupart des formats matriciels rencontrés en géomatique (voir [Raster drivers — GDAL documentation](https://gdal.org/en/latest/drivers/raster/index.html) pour une liste complète).
+        Il existe de nombreux formats numériques pour la donnée de type image parfois appelé donnée matricielle ou donnée *raster*. La librairie GDAL rassemble la plupart des formats matriciels rencontrés en géomatique (voir [Raster drivers — GDAL documentation](https://gdal.org/en/latest/drivers/raster/index.html) pour une liste complète).
 
-        On peut distinguer deux grandes familles de format: 1. Les formats de type **RVB** issus de l'imagerie numérique grand publique comme [JPEG](https://gdal.org/en/latest/drivers/raster/jpeg.html#raster-jpeg), [png](https://gdal.org/en/latest/drivers/raster/png.html#raster-png), etc. Ces formats ne supportent généralement que trois bandes au maximum (rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255 (format dit 8 bit ou `uint8`). 2. **Les géo-formats** issus des domaines scientifiques ou techniques comme GeoTIFF, HDF5, NetCDF, etc. qui peuvent inclure plus que trois bandes et des dynamiques plus élevées (16 bit ou même float).
+        On peut distinguer deux grandes familles de format:
 
-        Les formats RVB restent très utilisés en Python notamment par les librairies dites de vision par ordinateur (*Computer Vision*) comme OpenCV et sickit-image ainsi que les grandes librairies en apprentissage profond (PyTorch, Tensorflow).
+        1\. Les formats de type **RVB** issus de l'imagerie numérique grand public comme [JPEG](https://gdal.org/en/latest/drivers/raster/jpeg.html#raster-jpeg), [png](https://gdal.org/en/latest/drivers/raster/png.html#raster-png), etc. Ces formats ne supportent généralement que trois bandes au maximum (rouge, vert et bleu) et des valeurs de niveaux de gris entre 0 et 255 (format dit 8 bits ou `uint8`).
+
+        2\. **Les géo-formats** issus des domaines scientifiques ou techniques comme GeoTIFF, HDF5, NetCDF, etc. qui peuvent inclure plus que trois bandes et des dynamiques plus élevées (16 bits ou même float).
+
+        Les formats RVB restent très utilisés en Python notamment par les bibliothèques dites de vision par ordinateur (*Computer Vision*) comme OpenCV et sickit-image ainsi que les grandes bibliothèques en apprentissage profond (PyTorch, Tensorflow).
 
         :::::: bloc_package
         :::: bloc_package-header
@@ -169,7 +201,7 @@ def _(mo):
 
         #### Formats de type RVB
 
-        Les premiers formats pour de l'imagerie à une bande (monochrome) et à trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des sciences de l'ordinateur. On trouvera, entre autres, les formats pbm, png et jpeg. Ces formats supportent peu de métadonnées et sont placées dans un entête (*header*) très limité. Cependant, ces formats restent très populaires dans le domaine de la vision par ordinateur et sont très utilisés en apprentissage profond en particulier. Pour la lecture des images RVB, on peut utiliser les librairies Rasterio, [PIL](https://he-arc.github.io/livre-python/pillow/index.html) ou [OpenCV](https://docs.opencv.org/4.10.0/index.html).
+        Les premiers formats pour de l'imagerie à une bande (monochrome) et à trois bandes (image couleur rouge-vert-bleu) sont issus du domaine des sciences de l'ordinateur. On trouvera, entre autres, les formats pbm, png et jpeg. Ces formats supportent peu de métadonnées et sont placées dans un entête (*header*) très limité. Cependant, ils restent très populaires dans le domaine de la vision par ordinateur et sont très utilisés en apprentissage profond en particulier. Pour la lecture des images RVB, on peut utiliser les bibliothèques Rasterio, [PIL](https://he-arc.github.io/livre-python/pillow/index.html) ou [OpenCV](https://docs.opencv.org/4.10.0/index.html).
 
         ##### Lecture avec la librairie PIL
 
@@ -181,9 +213,6 @@ def _(mo):
 
 @app.cell
 def _():
-    #| lst-label: lst-lecture-PIL-PNG
-    #| lst-cap: Lecture d'une image en format PNG avec PIL
-
     from PIL import Image
     img = Image.open('modis-aqua.PNG')
     img
@@ -216,7 +245,7 @@ def _(mo):
         r"""
         ##### Lecture avec la librairie RasterIO
 
-        Rien ne nous empêche de lire une image de format RVB avec [RasterIO](https://rasterio.readthedocs.io/en/stable/) comme décrit dans (@lst-lecturerasterioPNG). Vous noterez cependant les avertissements concernant l'absence de géoréférence pour ce type d'image.
+        Rien ne nous empêche de lire une image de format RVB avec [RasterIO](https://rasterio.readthedocs.io/en/stable/) comme décrit dans ci-dessous. Vous noterez cependant les avertissements concernant l'absence de géoréférence pour ce type d'image.
         """
     )
     return
@@ -246,7 +275,7 @@ def _(mo):
 
         #### Le format COG
 
-        Une innovation récente dans l'écosystème GeoTIFF est le format *Cloud Optimized GeoTIFF* ([COG](http://cogeo.org/)), conçu pour faciliter l'utilisation de fichiers GeoTIFF hébergés sur des serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels d'accéder à des parties spécifiques du fichier sans avoir à le télécharger entièrement, ce qui est particulièrement utile pour les applications basées sur le cloud.
+        Une innovation récente dans l'écosystème GeoTIFF est le format *Cloud Optimized GeoTIFF* ([COG](http://cogeo.org/)), conçu pour faciliter l'utilisation de fichiers GeoTIFF hébergés sur des serveurs web HTTP. Le COG permet aux utilisateurs et aux logiciels d'accéder à des parties spécifiques du fichier sans avoir à le télécharger entièrement, ce qui est particulièrement utile pour les applications basées sur l'infonuagique.
 
         ### Métadonnées des images
 
@@ -258,9 +287,6 @@ def _(mo):
 
 app._unparsable_cell(
     r"""
-    #| lst-label: lst-gdalinfo
-    #| lst-cap: Collecte d'information sur une image avec gdal
-
     !gdalinfo RGBNIR_of_S2A.tif
     """,
     name="_"
@@ -279,8 +305,6 @@ def _(mo):
 
 app._unparsable_cell(
     r"""
-    #| lst-label: lst-rioinfo
-    #| lst-cap: Collecte d'information sur une image avec rasterio
     #| eval: false
     !rio info RGBNIR_of_S2A.tif --indent 2 --verbose
     """,
@@ -296,13 +320,13 @@ def _(mo):
 
         ### Manipulation de la matrice de pixels
 
-        La donnée brute de l'image est généralement contenue dans un cube matricielle à trois dimensions (deux dimensions spatiales et une dimension spectrale). Comme exposé précédemment, la librairie dite *"fondationnelle"* pour la manipulation de matrices en Python est [NumPy](https://numpy.org/). Cette librairie contient un nombre très important de fonctionnalités couvrant l'algèbre linéaires, les statistiques, etc. et constitue la fondation de nombreuses librairies en traitement numérique (voir (@fig-naturenumpy1))
+        La donnée brute de l'image est généralement contenue dans un cube matricielle à trois dimensions (deux dimensions spatiales et une dimension spectrale). Comme exposé précédemment, la librairie dite *"fondationnelle"* pour la manipulation de matrices en Python est [NumPy](https://numpy.org/). Cette librairie contient un nombre très important de fonctionnalités couvrant l'algèbre linéaire, les statistiques, etc.; elle constitue la fondation de nombreuses bibliothèques en traitement numérique (voir (@fig-naturenumpy1))
 
-        ![La librairie NumPy est le fondement de nombreuses librairies scientifiques (d'après [@NumpyNature]).](images/41586_2020_2649_Fig2_HTML.png){#fig-naturenumpy1 width="100%" fig-align="center"}
+        ![La librairie NumPy est le fondement de nombreuses bibliothèques scientifiques (d'après [@NumpyNature]).](images/41586_2020_2649_Fig2_HTML.png){#fig-naturenumpy1 width="100%" fig-align="center"}
 
         ### Information de base
 
-        Les deux informations de base à afficher sur une matrice sont 1) les dimensions de la matrice et 2) le format de stockage (le type). Pour cela, on peut utiliser le (@lst-numpyshape), le résultat nous informe que la matrice a 3 dimensions et une taille de `(442, 553, 3)` et un type `uint8` qui représente 1 octet (8 bit). Par conséquent, la matrice a `442` lignes, `553` colonnes et `3` canaux ou bandes. Il faut prêter une attention particulière aux valeurs minimales et maximales tolérées par le type de la donnée comme indiqué dans le (@tbl-numpytype) (voir aussi [Data types — NumPy v2.1 Manual](https://numpy.org/doc/stable/user/basics.types.html)).
+        Les deux informations de base à afficher sur une matrice sont 1) les dimensions de la matrice et 2) le format de stockage (le type). Pour cela, on peut utiliser le (@lst-numpyshape), dont le résultat nous informe que la matrice a trois dimensions et une taille de `(442, 553, 3)` et un type `uint8` qui représente 1 octet (8 bit). Par conséquent, la matrice a `442` lignes, `553` colonnes et `3` canaux ou bandes. Il faut prêter une attention particulière aux valeurs minimales et maximales tolérées par le type de la donnée comme indiqué dans le (@tbl-numpytype) (voir aussi [Data types — NumPy v2.1 Manual](https://numpy.org/doc/stable/user/basics.types.html)).
         """
     )
     return
@@ -319,8 +343,6 @@ def _(cv2):
 
 @app.cell
 def _():
-    #| label: tbl-numpytype
-    #| tbl-cap: "Type de données de NumPy"
     #| echo: false
 
     from IPython.display import Markdown
@@ -403,13 +425,13 @@ def _(mo):
 
         2.  La présence de nuages que l'on veut exclure.
 
-        3.  La présence de pixels erronés dûs à des problèmes de capteurs.
+        3.  La présence de pixels erronés dus à des problèmes de capteurs.
 
         4.  La présence de valeurs non numériques (*not a number* ou `nan`)
 
         La librairie NumPy fournit des mécanismes pour exclure automatiquement certaines valeurs.
 
-        ### Changement de projection cartographique
+        ### Changement de projection cartographique (à venir)
 
         ```{=html}
         <!--
@@ -425,7 +447,7 @@ def _(mo):
 
         ### xarray
 
-        [Xarray](https://docs.xarray.dev/en/latest/getting-started-guide/why-xarray.html) est une puissante bibliothèque Python qui améliore les matrices multidimensionnelles de type numpy en y ajoutant des étiquettes, des dimensions, des coordonnées et des attributs. Elle fournit deux structures de données principales : `DataArray` (un tableau étiqueté à N dimensions) et `Dataset` (une base de données de tableaux multidimensionnels en mémoire).
+        [Xarray](https://docs.xarray.dev/en/latest/getting-started-guide/why-xarray.html) est une puissante bibliothèque Python qui améliore les matrices multidimensionnelles de type numpy en y ajoutant des étiquettes, des dimensions, des coordonnées et des attributs. Elle fournit deux structures de données principales : `DataArray` (un tableau étiqueté à n dimensions) et `Dataset` (une base de données de tableaux multidimensionnels en mémoire).
 
         Les caractéristiques principales sont les suivantes:
 
@@ -437,7 +459,7 @@ def _(mo):
 
         -   Alignement de type base de données avec des étiquettes de coordonnées
 
-        -   Suivi des métadonnées grâce aux dictionnaires Python
+        -   Suivi des métadonnées grâce à des dictionnaires Python
 
         #### Avantages
 
