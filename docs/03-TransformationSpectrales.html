@@ -293,11 +293,25 @@ div.csl-indent {
 
 <section id="préambule" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="préambule"><span class="header-section-number">4.1</span> Préambule</h2>
-<p>Assurez-vous de lire ce préambule avant d’exécutez le reste du notebook.</p>
+<p>Assurez-vous de lire ce préambule avant d’exécuter le reste du notebook.</p>
 <section id="objectifs" class="level3" data-number="4.1.1">
 <h3 data-number="4.1.1" class="anchored" data-anchor-id="objectifs"><span class="header-section-number">4.1.1</span> Objectifs</h3>
 <p>Dans ce chapitre, nous abordons l’exploitation de la dimension spectrale des images satellites. Ce chapitre est aussi disponible sous la forme d’un notebook Python:</p>
 <p><a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb"><img src="images/colab.png" class="img-fluid"></a></p>
+<div class="bloc_objectif">
+<div class="bloc_objectif-header">
+<div class="bloc_objectif-icon">
+
+</div>
+<p><strong>Objectifs d’apprentissage visés dans ce chapitre</strong></p>
+</div>
+<p>À la fin de ce chapitre, vous devriez être en mesure de&nbsp;:</p>
+<ul>
+<li>comprendre le principe des indices spectraux;</li>
+<li>calculer différents indices avec spyndex;</li>
+<li>analyser le gain en information des indices;</li>
+</ul>
+</div>
 </section>
 <section id="librairies" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="librairies"><span class="header-section-number">4.1.2</span> Librairies</h3>
@@ -310,12 +324,12 @@ div.csl-indent {
 <li><p><a href="https://docs.xarray.dev/en/stable/">Xarray</a></p></li>
 <li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
 </ul>
-<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installés:</p>
+<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installés</p>
 <div id="b84c8a6d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU matplotlib rioxarray xrscipy scikit<span class="op">-</span>image pyarrow spyndex</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Vérifier les importations:</p>
+<p>Vérifiez les importations:</p>
 <div id="c6e2d015" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
@@ -329,7 +343,7 @@ div.csl-indent {
 </section>
 <section id="images-utilisées" class="level3" data-number="4.1.3">
 <h3 data-number="4.1.3" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">4.1.3</span> Images utilisées</h3>
-<p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
+<p>Nous utilisons les images suivantes dans ce chapitre:</p>
 <div id="15d7fb35" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gdown</span>

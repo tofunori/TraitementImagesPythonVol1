@@ -1676,13 +1676,13 @@ nombreuses bibliothèques scientifiques (d'après (Harris 2020)).}
 
 Les deux informations de base à afficher sur une matrice sont 1) les
 dimensions de la matrice et 2) le format de stockage (le type). Pour
-cela, on peut utiliser le (\textbf{?@lst-numpyshape}), dont le résultat
-nous informe que la matrice a trois dimensions et une taille de
+cela, on peut utiliser le code ci-dessous, dont le résultat nous informe
+que la matrice a trois dimensions et une taille de
 \texttt{(442,\ 553,\ 3)} et un type \texttt{uint8} qui représente 1
 octet (8 bit). Par conséquent, la matrice a \texttt{442} lignes,
 \texttt{553} colonnes et \texttt{3} canaux ou bandes. Il faut prêter une
 attention particulière aux valeurs minimales et maximales tolérées par
-le type de la donnée comme indiqué dans le (\textbf{?@tbl-numpytype})
+le type de la donnée comme indiqué dans le (tableau~\ref{tbl-numpytype})
 (voir aussi
 \href{https://numpy.org/doc/stable/user/basics.types.html}{Data types
 --- NumPy v2.1 Manual}).
@@ -1704,6 +1704,11 @@ Type de la donnée:  uint8
 \end{verbatim}
 
 \begin{longtable}[]{@{}llrrr@{}}
+
+\caption{\label{tbl-numpytype}Type de données de NumPy}
+
+\tabularnewline
+
 \toprule\noalign{}
 dtype & Nom & Taille (bits) & Min & Max \\
 \midrule\noalign{}
@@ -1714,6 +1719,7 @@ uint8 & char & 8 & 0 & 255 \\
 int8 & signed char & 8 & -127 & 128 \\
 uint16 & unsigned short & 16 & 0 & -32768 \\
 int16 & short & 16 & 0 & 655355 \\
+
 \end{longtable}
 
 \subsection{Découpage et indexation de la
@@ -2715,7 +2721,7 @@ propriétés différentes de la surface.
 
 \section{Préambule}\label{pruxe9ambule-2}
 
-Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+Assurez-vous de lire ce préambule avant d'exécuter le reste du notebook.
 
 \subsection{Objectifs}\label{objectifs-2}
 
@@ -2724,6 +2730,24 @@ des images satellites. Ce chapitre est aussi disponible sous la forme
 d'un notebook Python:
 
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/03-TransformationSpectrales.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
+
+\begin{tcolorbox}[colback=background_color, colframe=objectif_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocObjectif.png} \textbf{Objectif}}]
+
+\textbf{Objectifs d'apprentissage visés dans ce chapitre}
+
+À la fin de ce chapitre, vous devriez être en mesure de~:
+
+\begin{itemize}
+\tightlist
+\item
+  comprendre le principe des indices spectraux;
+\item
+  calculer différents indices avec spyndex;
+\item
+  analyser le gain en information des indices;
+\end{itemize}
+
+\end{tcolorbox}
 
 \subsection{Librairies}\label{librairies}
 
@@ -2746,7 +2770,7 @@ suivantes:
 \end{itemize}
 
 Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
-installés:
+installés
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2755,7 +2779,7 @@ installés:
 \end{Highlighting}
 \end{Shaded}
 
-Vérifier les importations:
+Vérifiez les importations:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2772,7 +2796,7 @@ Vérifier les importations:
 
 \subsection{Images utilisées}\label{images-utilisuxe9es}
 
-Nous allons utilisez les images suivantes dans ce chapitre:
+Nous utilisons les images suivantes dans ce chapitre:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3033,7 +3057,7 @@ classes}
 
 \section{Préambule}\label{pruxe9ambule-3}
 
-Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+Assurez-vous de lire ce préambule avant d'exécuter le reste du notebook.
 
 \subsection{Objectifs}\label{objectifs-3}
 
@@ -3042,6 +3066,26 @@ d'images dans le domaine spatial uniquement. Ce chapitre est aussi
 disponible sous la forme d'un notebook Python sur Google Colab:
 
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
+
+\begin{tcolorbox}[colback=background_color, colframe=objectif_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocObjectif.png} \textbf{Objectif}}]
+
+\textbf{Objectifs d'apprentissage visés dans ce chapitre}
+
+À la fin de ce chapitre, vous devriez être en mesure de~:
+
+\begin{itemize}
+\tightlist
+\item
+  comprendre le principe de la décomposition de Fourier;
+\item
+  comprendre le principe de la convolution;
+\item
+  appliquer un filtrage local à l'aide d'une fenêtre;
+\item
+  segmenter une image en super-pixels et calculer leurs propriétés
+\end{itemize}
+
+\end{tcolorbox}
 
 \subsection{Librairies}\label{librairies-1}
 
@@ -3065,7 +3109,7 @@ Les librairies utilisées dans ce chapitre sont les suivantes:
 \end{itemize}
 
 Dans l'environnement Google Colab, seul \texttt{rioxarray} doit être
-installés:
+installé:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3074,7 +3118,7 @@ installés:
 \end{Highlighting}
 \end{Shaded}
 
-Vérifier les importations:
+Vérifiez les importations:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3094,7 +3138,7 @@ Vérifier les importations:
 
 \subsection{Images utilisées}\label{images-utilisuxe9es-1}
 
-Nous allons utilisez les images suivantes dans ce chapitre:
+Nous utilisons les images suivantes dans ce chapitre:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3125,7 +3169,7 @@ Vérifiez que vous êtes capable de les lire :
 
 L'analyse fréquentielle, issue du traitement du signal, permet d'avoir
 un autre point de vue sur les données à partir de ses composantes
-harmoniques. La modifications de ces composantes de Fourier modifie
+harmoniques. La modification de ces composantes de Fourier modifie
 l'ensemble de l'image et permet de corriger des problèmes systématiques
 comme des artefacts ou du bruit de capteur. Bien que ce domaine soit un
 peu éloigné de la télédétection, les images issues des capteurs sont
@@ -3137,7 +3181,7 @@ enjeux lors des traitements.
 Fourier}\label{la-transformuxe9e-de-fourier}
 
 La transformée de Fourier permet de transformer une image dans un espace
-fréquentielle. Cette transformée est complètement reversible. Dans le
+fréquentielle. Cette transformée est complètement réversible. Dans le
 cas des images numériques, on parle de \texttt{2D-DFT}
 (\emph{2D-Discrete Fourier Transform}) qui est un algorithme optimisé
 pour le calcul fréquentiel (Cooley et Tukey 1965). La \emph{1D-DFT} peu
@@ -3159,7 +3203,7 @@ mettre ces composantes dans une espace négatif \([-N/2,\ldots,-1]\).
 Dans le cas d'un simple signal périodique à une dimension avec une
 fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de
 fréquence à la position de 4 cycles observés sur \(N=16\) observations.
-Les puissances de Fourier sont affichés dans un espace fréquentiel en
+Les puissances de Fourier sont affichées dans un espace fréquentiel en
 cycles par unité d'espacement de l'échantillon (avec zéro au début)
 variant entre -1 et +1. Par exemple, si l'espacement des échantillons
 est en secondes, l'unité de fréquence est cycles/seconde (ou Hz). Dans
@@ -3195,11 +3239,11 @@ sinon un phénomène de repliement appelé aliasing sera observé.
 
 \pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-7-output-1.pdf}}
 
-\subsection{Filtrage fréquentielle}\label{filtrage-fruxe9quentielle}
+\subsection{Filtrage fréquentiel}\label{filtrage-fruxe9quentiel}
 
 Un filtrage fréquentiel consiste à modifier le spectre de Fourier afin
-d'éliminer ou de réduire certaines composantes fréquentielles. On peut
-distinguer trois grandes catégories de filtres fréquentiels:
+d'éliminer ou de réduire certaines composantes fréquentielles. On
+distingue habituellement trois catégories de filtres fréquentiels:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -3214,7 +3258,7 @@ distinguer trois grandes catégories de filtres fréquentiels:
   bande de fréquence particulière.
 \end{enumerate}
 
-La librairie \texttt{Scipy} contient différents filtres fréquentielles.
+La librairie \texttt{Scipy} contient différents filtres fréquentiels.
 Notez, qu'un filtrage fréquentielle est une simple multiplication de la
 réponse du filtre \(F[k]\) par les composantes fréquentielles du signal
 à filtrer \(X[k]\):
@@ -3251,13 +3295,13 @@ x_f = IDFT^{-1}[F]*x
 
 L'aliasing est un problème fréquent en traitement du signal. Il résulte
 d'une fréquence d'échantillonnage trop faible par rapport au contenu
-fréquentielle du signal. Ceci peut se produire lorsque vous
+fréquentielle du signal. Cela peut se produire lorsque vous
 sous-échantillonner fortement une image avec un facteur de décimation
-(par exemple 1 pixel sur 2). En prenant un pixel sur 2, on réduit la
-fréquence d'échantillonnage d'un facteur 2 ce qui nous impose de réduire
-le contenu fréquentielle de l'image et donc les fréquences maximales de
-l'image. L'image présente alors un aspect faussement texturée avec
-beaucoup de haute fréquences:
+(par exemple un pixel sur deux). En prenant un pixel sur deux, on réduit
+la fréquence d'échantillonnage d'un facteur 2 ce qui réduit le contenu
+fréquentiel de l'image et donc les fréquences maximales de l'image.
+L'image présente alors un aspect faussement texturée avec beaucoup de
+hautes fréquences:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3336,26 +3380,26 @@ Le filtrage d'image a plusieurs objectifs en télédétection:
   Le réhaussement de l'image afin d'améliorer le contraste ou faire
   ressortir les contours.
 \item
-  La production de nouvelles caractéristiques: c.à.d dériver de
+  La production de nouvelles caractéristiques, c.-à.-d dérivées de
   nouvelles images mettant en valeur certaines informations dans l'image
   comme la texture, les contours, etc.
 \end{enumerate}
 
-Il existe de nombreuses méthodes de filtrage dans la littérature, on
-peut rassembler ces filtres en quatre grandes catégories:
+Il existe de nombreuses méthodes de filtrage dans la littérature qui
+sont habituellement regroupées en quatre catégories:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Le filtrage peut-être global ou local, c.à.d prendre en compte toute
-  l'image pour filtrer (ex: filtrage par Fourier) ou seulement
-  localement avec une fenêtre ou un voisinage local.
+  Le filtrage peut-être global ou local, c.-à.-d qu'il prend en compte
+  soit toute l'image pour filtrer (ex: filtrage par Fourier), soit
+  uniquement avec une fenêtre ou un voisinage local.
 \item
   La fonction de filtrage peut-être linéaire ou non linéaire.
 \item
-  La fonction de filtrage peut être stationnaire ou adaptative
+  La fonction de filtrage peut être stationnaire ou adaptative.
 \item
-  Le filtrage peut-être mono-échelle ou multi-échelles
+  Le filtrage peut-être mono-échelle ou multi-échelle.
 \end{enumerate}
 
 La librairie \texttt{Scipy}
@@ -3368,7 +3412,7 @@ stationnaire}\label{filtrage-linuxe9aire-stationnaire}
 
 Un filtrage linéaire stationnaire consiste à appliquer une même
 pondération locale des valeurs des pixels dans une fenêtre glissante. La
-taille de cette fenêtre est généralement un chiffre impaire (3,5, etc.)
+taille de cette fenêtre est généralement un chiffre impair (3,5, etc.)
 afin de définir une position centrale et une fenêtre symétrique. La
 valeur calculée à partir de tous les pixels dans la fenêtre est alors
 attribuée au pixel central.
@@ -3395,8 +3439,8 @@ F= \frac{1}{25}\left[
 
 En python, on dispose des fonctions \texttt{rolling} et
 \texttt{sliding\_window} définis dans la librairie \texttt{numpy}. Par
-exemple pour le cas du filtre moyen on peut construire une nouvelle vue
-de l'image avec deux nouvelles dimensions \texttt{x\_win} et
+exemple pour le cas du filtre moyen, on construit une nouvelle vue de
+l'image avec deux nouvelles dimensions \texttt{x\_win} et
 \texttt{y\_win}:
 
 \begin{Shaded}
@@ -3426,7 +3470,7 @@ Dimensions without coordinates: x_win, y_win
 L'avantage de cette approche est qu'il n'y a pas d'utilisation inutile
 de la mémoire. Noter les \texttt{nan} sur les bords de l'image car la
 fenêtre déborde sur les bordures de l'image. Par la suite un opérateur
-moyenne peut être appliqué sur les axes \texttt{x\_win} et
+de moyenne peut être appliqué sur les axes \texttt{x\_win} et
 \texttt{y\_win} correspondant aux fenêtres glissantes.
 
 \begin{Shaded}
@@ -3447,7 +3491,7 @@ Text(0.5, 1.0, 'Filtre moyen 5x5')
 Lorsque la taille \(W\) de la fenêtre devient trop grande, il est
 préférable d'utiliser une convolution dans le domaine fréquentielle. La
 fonction \texttt{fftconvolve} de la librairie \texttt{scipy.signal}
-permet de faire cela:
+offre cette possibilité:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3461,9 +3505,9 @@ permet de faire cela:
 
 La façon la plus efficace d'appliquer un filtre linéaire est d'appliquer
 une convolution. La convolution est généralement très efficace car elle
-est peut être calculée dans le domaine fréquentielle. Prenons l'exemple
-du filtre de Scharr (Jahne et S. 1999), ce filtre permet de détecter les
-contours horizontaux et verticaux:
+est peut être calculée dans le domaine fréquentiel. Prenons l'exemple du
+filtre de Scharr (Jahne et S. 1999), qui permet de détecter les contours
+horizontaux et verticaux:
 
 \begin{equation}\phantomsection\label{eq-scharr-filter}{
 F= \left[
@@ -3525,12 +3569,12 @@ Text(0.5, 1.0, 'Amplitude du filtre de Scharr')
 \section{Gestion des bordures}\label{gestion-des-bordures}
 
 L'application de filtres à l'intérieur de fenêtres glissantes implique
-de gérer les bords de l'image car la fenêtre de traitement va
+de gérer les bords de l'image, car la fenêtre de traitement va
 nécessairement déborder de quelques pixels en dehors de l'image
 (généralement la moitié de la fenêtre déborde). On peut soit décider
 d'ignorer les valeurs en dehors de l'image en imposant une valeur
-\texttt{nan}, prolonger l'image de quelques lignes et colonnes avec des
-valeurs mirroirs ou constantes.
+\texttt{nan}, soit prolonger l'image de quelques lignes et colonnes avec
+des valeurs miroirs ou constantes.
 
 \subsubsection{Filtrage par une couche
 convolutionnelle}\label{filtrage-par-une-couche-convolutionnelle}
@@ -3545,7 +3589,7 @@ Une couche convolutionnelle est simplement un ensemble de filtres
 appliqués sur la donnée d'entrée. Ce type de filtrage est à la base des
 réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut
 ici imposer les mêmes filtres de gradient dans la couche
-convolutionnelle:
+convolutionnelle :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3624,7 +3668,7 @@ stationnaire et sa réponse peut varier en fonction du contenu local. Ce
 type de filtre est très utilisé pour filtrer les images SAR (Synthetic
 Aperture Radar) qui sont dégradées par un bruit multiplicatif que l'on
 appelle \emph{speckle}. On peut voir un exemple d'une image Sentinel-1
-(bande HH) sur la région de Montréal, remarquée que l'image est affichée
+(bande HH) sur la région de Montréal, remarquez que l'image est affichée
 en dB en appliquant la fonction \texttt{log10}.
 
 \begin{Shaded}
@@ -3649,7 +3693,7 @@ Text(0.5, 1.0, 'Image SAR Sentinel-1 (dB)')
 \pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-18-output-3.pdf}}
 
 Un des filtres les plus simples pour réduire le bruit est d'appliquer un
-filtre moyenne, par exemple un \(5 \times 5\) ci dessous:
+filtre moyen, par exemple un \(5 \times 5\) ci-dessous:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3669,7 +3713,7 @@ Text(0.5, 1.0, 'Filtrage moyen 5x5 (dB)')
 
 Au lieu d'appliquer un filtre moyen de manière indiscriminée, le filtre
 de Lee (Lee 1986) applique une pondération en fonction du contenu local
-de l'image \(I\) dans sa forme la plus simple:
+de l'image \(I\) dans sa forme la plus simple :
 
 \begin{equation}\phantomsection\label{eq-lee-filter}{ 
 \begin{aligned}
@@ -3678,7 +3722,7 @@ K & = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
 \end{aligned}
 }\end{equation}
 
-Ainsi si la variance locale est élevée \(K\) s'approche de \(1\)
+De la sorte, si la variance locale est élevée \(K\) s'approche de \(1\)
 préservant ainsi les détails de l'image \(I\) sinon l'image moyenne
 \(I_M\) est appliquée.
 
@@ -3703,8 +3747,8 @@ préservant ainsi les détails de l'image \(I\) sinon l'image moyenne
 
 \pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-20-output-1.pdf}}
 
-On zoomant sur l'image on peut clairement voir que les détails de
-l'image sont mieux préservés:
+On zoomant sur l'image, on voit clairement que les détails de l'image
+sont mieux préservés :
 
 \pandocbounded{\includegraphics[keepaspectratio]{04-TransformationSpatiales_files/figure-pdf/cell-21-output-1.pdf}}
 
@@ -3714,7 +3758,7 @@ La segmentation d'image consiste à séparer une image en régions
 homogènes spatialement connexes (segments) où les valeurs sont uniformes
 selon un certain critère (couleurs, texture, etc.). Une image présente
 généralement beaucoup de pixels redondants, l'intérêt de ce type de
-méthode est essentiellement de réduire la quantité de pxiels nécessaire.
+méthode est essentiellement de réduire la quantité de pixels nécessaire.
 En télédétection, on parle souvent d'approche objet. En vision par
 ordinateur, on parle parfois de super-pixel. Il existe de nombreuses
 méthodes de segmentation, la librairie \texttt{sickit-image} rend
@@ -3728,9 +3772,9 @@ documentation}).
 Ce type de méthode cherche à former des régions homogènes et compactes
 dans l'image (Achanta et Süsstrunk 2012). Une des méthodes les plus
 simples est la méthode SLIC (\emph{Simple Linear Iterative Clustering}),
-elle combine un regroupement de type K-moyenne avec une distance hybride
-qui prend en compte les différences de couleur entre pixels mais aussi
-leur distance par rapport centre du super-pixel:
+elle combine un regroupement de type k-moyennes avec une distance
+hybride qui prend en compte les différences de couleur entre pixels mais
+aussi leur distance par rapport centre du super-pixel:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -3739,8 +3783,8 @@ leur distance par rapport centre du super-pixel:
 \item
   Initialiser les centres \(C_k\) de chaque segment \(k\)
 \item
-  Rechercher les pixels qui ont la distance la plus petite dans une
-  région \(2S \times 2S\):
+  Rechercher les pixels ayant la distance la plus petite dans une région
+  \(2S \times 2S\):
 \end{enumerate}
 
 \[
@@ -3749,11 +3793,11 @@ D_{SLIC}= d_{couleur} + \frac{m}{S}d_{xy}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
+\setcounter{enumi}{3}
 \tightlist
 \item
-  Mettre à jour les centre \(C_k\) de chaque segment \(k\), retourner à
-  l'étape 3
+  Mettre à jour les centre \(C_k\) de chaque segment \(k\) et réitérer à
+  l'étape 3.
 \end{enumerate}
 
 Les régions évoluent rapidement avec les itérations, plus le poids \(m\)
@@ -3798,10 +3842,10 @@ SLIC nombre de segments: 240
 
 Le nombre de segments initial est probablement le paramètre le plus
 important. Une manière de l'estimer est d'évaluer l'échelle moyenne des
-segments homogènes dans l'image à analyser. On peut observer ci-dessous
+segments homogènes dans l'image à analyser. On observe ci-dessous
 l'impact de passer d'une échelle 40 x 40 à 20 x 20. En prenant la
-moyenne de chaque segment, on peut voir tout de suite que 40 x 40
-résulte en des segments trop grands mélangeant différentes classes.
+moyenne de chaque segment, on constate que l'échelle 40 x 40 génère des
+segments trop grands mélangeant plusieurs classes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3850,11 +3894,10 @@ de sur-segmentation. Ceci est recherché dans certains cas pour permettre
 de bien capturer les détails fins de l'image. Cependant, afin de réduire
 le nombre de segments, un post-traitement possible est de fusionner les
 segments similaires selon certaines règles ou distances. Un graphe
-d'adjacence de régions (voir figure~\ref{fig-rag}) est formé à partir
-des segments connectés où chaque noeud représente un segment et un lien
-une proximité (Jaworek-Korjakowska (2018)). À partir de ce graphe, on
-peut fusionner les noeuds similaires à partir de leur distance
-radiométrique.
+d'adjacence de régions (figure~\ref{fig-rag}) est formé à partir des
+segments connectés où chaque nœud représente un segment et un lien de
+proximité (Jaworek-Korjakowska (2018)). À partir de ce graphe, on peut
+fusionner les nœuds similaires à partir de leur distance radiométrique.
 
 \begin{figure}
 
@@ -3865,11 +3908,11 @@ radiométrique.
 }
 
 \caption{\label{fig-rag}Graphe d'adjacence de régions, d'après
-(Jaworek-Korjakowska (2018)). Chaque noeud est un segment, un lien est
+(Jaworek-Korjakowska (2018)). Chaque nœud est un segment, un lien est
 formé uniquement si les segments se touchent (par exemple le segment 6
 ne touche que la région 5). La fonction \texttt{graph.rag\_mean\_color}
 produit un graphe à partir d'une segmentation et de l'image originale.
-Chaque noeud tient la couleur de chaque segment dans un attribut appelé
+Chaque nœud tient la couleur de chaque segment dans un attribut appelé
 \texttt{\textquotesingle{}mean\ color\textquotesingle{}.}}
 
 \end{figure}%

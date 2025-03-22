@@ -299,7 +299,7 @@ window.Quarto = {
   <li><a href="#analyse-fréquentielle" id="toc-analyse-fréquentielle" class="nav-link" data-scroll-target="#analyse-fréquentielle"><span class="header-section-number">5.2</span> Analyse fréquentielle</a>
   <ul class="collapse">
   <li><a href="#la-transformée-de-fourier" id="toc-la-transformée-de-fourier" class="nav-link" data-scroll-target="#la-transformée-de-fourier"><span class="header-section-number">5.2.1</span> La transformée de Fourier</a></li>
-  <li><a href="#filtrage-fréquentielle" id="toc-filtrage-fréquentielle" class="nav-link" data-scroll-target="#filtrage-fréquentielle"><span class="header-section-number">5.2.2</span> Filtrage fréquentielle</a></li>
+  <li><a href="#filtrage-fréquentiel" id="toc-filtrage-fréquentiel" class="nav-link" data-scroll-target="#filtrage-fréquentiel"><span class="header-section-number">5.2.2</span> Filtrage fréquentiel</a></li>
   <li><a href="#laliasing" id="toc-laliasing" class="nav-link" data-scroll-target="#laliasing"><span class="header-section-number">5.2.3</span> L’aliasing</a></li>
   </ul></li>
   <li><a href="#filtrage-dimage" id="toc-filtrage-dimage" class="nav-link" data-scroll-target="#filtrage-dimage"><span class="header-section-number">5.3</span> Filtrage d’image</a>
@@ -343,11 +343,26 @@ window.Quarto = {
 
 <section id="préambule" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="préambule"><span class="header-section-number">5.1</span> Préambule</h2>
-<p>Assurez-vous de lire ce préambule avant d’exécutez le reste du notebook.</p>
+<p>Assurez-vous de lire ce préambule avant d’exécuter le reste du notebook.</p>
 <section id="objectifs" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="objectifs"><span class="header-section-number">5.1.1</span> Objectifs</h3>
 <p>Dans ce chapitre, nous abordons quelques techniques de traitement d’images dans le domaine spatial uniquement. Ce chapitre est aussi disponible sous la forme d’un notebook Python sur Google Colab:</p>
 <p><a href="https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/04-TransformationSpatiales.ipynb"><img src="images/colab.png" class="img-fluid"></a></p>
+<div class="bloc_objectif">
+<div class="bloc_objectif-header">
+<div class="bloc_objectif-icon">
+
+</div>
+<p><strong>Objectifs d’apprentissage visés dans ce chapitre</strong></p>
+</div>
+<p>À la fin de ce chapitre, vous devriez être en mesure de&nbsp;:</p>
+<ul>
+<li>comprendre le principe de la décomposition de Fourier;</li>
+<li>comprendre le principe de la convolution;</li>
+<li>appliquer un filtrage local à l’aide d’une fenêtre;</li>
+<li>segmenter une image en super-pixels et calculer leurs propriétés</li>
+</ul>
+</div>
 </section>
 <section id="librairies" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="librairies"><span class="header-section-number">5.1.2</span> Librairies</h3>
@@ -361,12 +376,12 @@ window.Quarto = {
 <li><p><a href="https://docs.xarray.dev/en/stable/">Xarray</a></p></li>
 <li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
 </ul>
-<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installés:</p>
+<p>Dans l’environnement Google Colab, seul <code>rioxarray</code> doit être installé:</p>
 <div id="67e4316c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU matplotlib rioxarray xrscipy scikit<span class="op">-</span>image</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Vérifier les importations:</p>
+<p>Vérifiez les importations:</p>
 <div id="e19d140c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy.fft</span>
@@ -383,7 +398,7 @@ window.Quarto = {
 </section>
 <section id="images-utilisées" class="level3" data-number="5.1.3">
 <h3 data-number="5.1.3" class="anchored" data-anchor-id="images-utilisées"><span class="header-section-number">5.1.3</span> Images utilisées</h3>
-<p>Nous allons utilisez les images suivantes dans ce chapitre:</p>
+<p>Nous utilisons les images suivantes dans ce chapitre:</p>
 <div id="b2dbf610" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gdown</span>
@@ -406,15 +421,15 @@ window.Quarto = {
 </section>
 <section id="analyse-fréquentielle" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="analyse-fréquentielle"><span class="header-section-number">5.2</span> Analyse fréquentielle</h2>
-<p>L’analyse fréquentielle, issue du traitement du signal, permet d’avoir un autre point de vue sur les données à partir de ses composantes harmoniques. La modifications de ces composantes de Fourier modifie l’ensemble de l’image et permet de corriger des problèmes systématiques comme des artefacts ou du bruit de capteur. Bien que ce domaine soit un peu éloigné de la télédétection, les images issues des capteurs sont toutes sujettes à des étapes de traitement du signal et il faut donc en connaître les grands principes afin de pouvoir comprendre certains enjeux lors des traitements.</p>
+<p>L’analyse fréquentielle, issue du traitement du signal, permet d’avoir un autre point de vue sur les données à partir de ses composantes harmoniques. La modification de ces composantes de Fourier modifie l’ensemble de l’image et permet de corriger des problèmes systématiques comme des artefacts ou du bruit de capteur. Bien que ce domaine soit un peu éloigné de la télédétection, les images issues des capteurs sont toutes sujettes à des étapes de traitement du signal et il faut donc en connaître les grands principes afin de pouvoir comprendre certains enjeux lors des traitements.</p>
 <section id="la-transformée-de-fourier" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="la-transformée-de-fourier"><span class="header-section-number">5.2.1</span> La transformée de Fourier</h3>
-<p>La transformée de Fourier permet de transformer une image dans un espace fréquentielle. Cette transformée est complètement reversible. Dans le cas des images numériques, on parle de <code>2D-DFT</code> (<em>2D-Discrete Fourier Transform</em>) qui est un algorithme optimisé pour le calcul fréquentiel <span class="citation" data-cites="Cooley-1965">(<a href="references.html#ref-Cooley-1965" role="doc-biblioref">Cooley et Tukey 1965</a>)</span>. La <em>1D-DFT</em> peu s’écrire simplement comme une projection sur une série d’exponentielles complexes:</p>
+<p>La transformée de Fourier permet de transformer une image dans un espace fréquentielle. Cette transformée est complètement réversible. Dans le cas des images numériques, on parle de <code>2D-DFT</code> (<em>2D-Discrete Fourier Transform</em>) qui est un algorithme optimisé pour le calcul fréquentiel <span class="citation" data-cites="Cooley-1965">(<a href="references.html#ref-Cooley-1965" role="doc-biblioref">Cooley et Tukey 1965</a>)</span>. La <em>1D-DFT</em> peu s’écrire simplement comme une projection sur une série d’exponentielles complexes:</p>
 <p><span id="eq-dft"><span class="math display">\[X[k] = \sum_{n=0 \ldots N-1} x[n] \times \exp(-j \times 2\pi \times k \times n/N)) \tag{5.1}\]</span></span></p>
 <p>La transformée inverse prend une forme similaire:</p>
 <p><span id="eq-idft"><span class="math display">\[x[k] = \frac{1}{N}\sum_{n=0 \ldots N-1} X[n] \times \exp(j \times 2\pi \times k \times n/N)) \tag{5.2}\]</span></span></p>
 <p>Le signal d’origine est donc reconstruit à partir d’une somme de sinusoïdes complexes <span class="math inline">\(\exp(j2\pi \frac{k}{N}n))\)</span> de fréquence <span class="math inline">\(k/N\)</span>. Noter qu’à partir de <span class="math inline">\(k=N/2\)</span>, les sinusoïdes se répètent à un signe près et forme un miroir des composantes, la convention est alors de mettre ces composantes dans une espace négatif <span class="math inline">\([-N/2,\ldots,-1]\)</span>.</p>
-<p>Dans le cas d’un simple signal périodique à une dimension avec une fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de fréquence à la position de 4 cycles observés sur <span class="math inline">\(N=16\)</span> observations. Les puissances de Fourier sont affichés dans un espace fréquentiel en cycles par unité d’espacement de l’échantillon (avec zéro au début) variant entre -1 et +1. Par exemple, si l’espacement des échantillons est en secondes, l’unité de fréquence est cycles/seconde (ou Hz). Dans le cas de N échantillons, le pic sera observé à la fréquence <span class="math inline">\(+/- 4/16=0.25\)</span> cycles/secondes. La fréquence d’échantillonnage <span class="math inline">\(F_s\)</span> du signal a aussi beaucoup d’importance aussi et doit être au moins a deux fois la plus haute fréquence observée (ici <span class="math inline">\(F_s &gt; 0.5\)</span>) sinon un phénomène de repliement appelé aliasing sera observé.</p>
+<p>Dans le cas d’un simple signal périodique à une dimension avec une fréquence de 4/16 (donc 4 périodes sur 16) on obtient deux pics de fréquence à la position de 4 cycles observés sur <span class="math inline">\(N=16\)</span> observations. Les puissances de Fourier sont affichées dans un espace fréquentiel en cycles par unité d’espacement de l’échantillon (avec zéro au début) variant entre -1 et +1. Par exemple, si l’espacement des échantillons est en secondes, l’unité de fréquence est cycles/seconde (ou Hz). Dans le cas de N échantillons, le pic sera observé à la fréquence <span class="math inline">\(+/- 4/16=0.25\)</span> cycles/secondes. La fréquence d’échantillonnage <span class="math inline">\(F_s\)</span> du signal a aussi beaucoup d’importance aussi et doit être au moins a deux fois la plus haute fréquence observée (ici <span class="math inline">\(F_s &gt; 0.5\)</span>) sinon un phénomène de repliement appelé aliasing sera observé.</p>
 <div id="98b21fca" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Fs<span class="op">=</span> <span class="fl">2.0</span></span>
@@ -444,15 +459,15 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="filtrage-fréquentielle" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="filtrage-fréquentielle"><span class="header-section-number">5.2.2</span> Filtrage fréquentielle</h3>
-<p>Un filtrage fréquentiel consiste à modifier le spectre de Fourier afin d’éliminer ou de réduire certaines composantes fréquentielles. On peut distinguer trois grandes catégories de filtres fréquentiels:</p>
+<section id="filtrage-fréquentiel" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="filtrage-fréquentiel"><span class="header-section-number">5.2.2</span> Filtrage fréquentiel</h3>
+<p>Un filtrage fréquentiel consiste à modifier le spectre de Fourier afin d’éliminer ou de réduire certaines composantes fréquentielles. On distingue habituellement trois catégories de filtres fréquentiels:</p>
 <ol type="1">
 <li><p>Les filtres passe-bas qui ne préservent que les basses fréquences pour, par exemple, lisser une image.</p></li>
 <li><p>Les filtres passe-hauts qui ne préservent que les hautes fréquences pour ne préserver que les détails.</p></li>
 <li><p>Les filtres passe-bandes qui vont préserver les fréquences dans une bande de fréquence particulière.</p></li>
 </ol>
-<p>La librairie <code>Scipy</code> contient différents filtres fréquentielles. Notez, qu’un filtrage fréquentielle est une simple multiplication de la réponse du filtre <span class="math inline">\(F[k]\)</span> par les composantes fréquentielles du signal à filtrer <span class="math inline">\(X[k]\)</span>:</p>
+<p>La librairie <code>Scipy</code> contient différents filtres fréquentiels. Notez, qu’un filtrage fréquentielle est une simple multiplication de la réponse du filtre <span class="math inline">\(F[k]\)</span> par les composantes fréquentielles du signal à filtrer <span class="math inline">\(X[k]\)</span>:</p>
 <p><span id="eq-fourier-filter"><span class="math display">\[
 X_f[k] = F[k] \times X[k]
 \tag{5.3}\]</span></span></p>
@@ -481,7 +496,7 @@ x_f = IDFT^{-1}[F]*x
 </section>
 <section id="laliasing" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="laliasing"><span class="header-section-number">5.2.3</span> L’aliasing</h3>
-<p>L’aliasing est un problème fréquent en traitement du signal. Il résulte d’une fréquence d’échantillonnage trop faible par rapport au contenu fréquentielle du signal. Ceci peut se produire lorsque vous sous-échantillonner fortement une image avec un facteur de décimation (par exemple 1 pixel sur 2). En prenant un pixel sur 2, on réduit la fréquence d’échantillonnage d’un facteur 2 ce qui nous impose de réduire le contenu fréquentielle de l’image et donc les fréquences maximales de l’image. L’image présente alors un aspect faussement texturée avec beaucoup de haute fréquences:</p>
+<p>L’aliasing est un problème fréquent en traitement du signal. Il résulte d’une fréquence d’échantillonnage trop faible par rapport au contenu fréquentielle du signal. Cela peut se produire lorsque vous sous-échantillonner fortement une image avec un facteur de décimation (par exemple un pixel sur deux). En prenant un pixel sur deux, on réduit la fréquence d’échantillonnage d’un facteur 2 ce qui réduit le contenu fréquentiel de l’image et donc les fréquences maximales de l’image. L’image présente alors un aspect faussement texturée avec beaucoup de hautes fréquences:</p>
 <div id="f32b17fd" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
@@ -552,19 +567,19 @@ x_f = IDFT^{-1}[F]*x
 <ol type="1">
 <li><p>La réduction du bruit afin d’améliorer la résolution radiométrique et améliorer la lisibilité de l’image.</p></li>
 <li><p>Le réhaussement de l’image afin d’améliorer le contraste ou faire ressortir les contours.</p></li>
-<li><p>La production de nouvelles caractéristiques: c.à.d dériver de nouvelles images mettant en valeur certaines informations dans l’image comme la texture, les contours, etc.</p></li>
+<li><p>La production de nouvelles caractéristiques, c.-à.-d dérivées de nouvelles images mettant en valeur certaines informations dans l’image comme la texture, les contours, etc.</p></li>
 </ol>
-<p>Il existe de nombreuses méthodes de filtrage dans la littérature, on peut rassembler ces filtres en quatre grandes catégories:</p>
+<p>Il existe de nombreuses méthodes de filtrage dans la littérature qui sont habituellement regroupées en quatre catégories:</p>
 <ol type="1">
-<li><p>Le filtrage peut-être global ou local, c.à.d prendre en compte toute l’image pour filtrer (ex: filtrage par Fourier) ou seulement localement avec une fenêtre ou un voisinage local.</p></li>
+<li><p>Le filtrage peut-être global ou local, c.-à.-d qu’il prend en compte soit toute l’image pour filtrer (ex: filtrage par Fourier), soit uniquement avec une fenêtre ou un voisinage local.</p></li>
 <li><p>La fonction de filtrage peut-être linéaire ou non linéaire.</p></li>
-<li><p>La fonction de filtrage peut être stationnaire ou adaptative</p></li>
-<li><p>Le filtrage peut-être mono-échelle ou multi-échelles</p></li>
+<li><p>La fonction de filtrage peut être stationnaire ou adaptative.</p></li>
+<li><p>Le filtrage peut-être mono-échelle ou multi-échelle.</p></li>
 </ol>
 <p>La librairie <code>Scipy</code> (<a href="https://docs.scipy.org/doc/scipy/reference/ndimage.html">Multidimensional image processing (scipy.ndimage)</a>) contient une panoplie complète de filtres.</p>
 <section id="filtrage-linéaire-stationnaire" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="filtrage-linéaire-stationnaire"><span class="header-section-number">5.3.1</span> Filtrage linéaire stationnaire</h3>
-<p>Un filtrage linéaire stationnaire consiste à appliquer une même pondération locale des valeurs des pixels dans une fenêtre glissante. La taille de cette fenêtre est généralement un chiffre impaire (3,5, etc.) afin de définir une position centrale et une fenêtre symétrique. La valeur calculée à partir de tous les pixels dans la fenêtre est alors attribuée au pixel central.</p>
+<p>Un filtrage linéaire stationnaire consiste à appliquer une même pondération locale des valeurs des pixels dans une fenêtre glissante. La taille de cette fenêtre est généralement un chiffre impair (3,5, etc.) afin de définir une position centrale et une fenêtre symétrique. La valeur calculée à partir de tous les pixels dans la fenêtre est alors attribuée au pixel central.</p>
 <!--
 Mettre une figure ici
 -->
@@ -584,7 +599,7 @@ F= \frac{1}{25}\left[
 \end{array}
 \right]
 \tag{5.5}\]</span></span></p>
-<p>En python, on dispose des fonctions <code>rolling</code> et <code>sliding_window</code> définis dans la librairie <code>numpy</code>. Par exemple pour le cas du filtre moyen on peut construire une nouvelle vue de l’image avec deux nouvelles dimensions <code>x_win</code> et <code>y_win</code>:</p>
+<p>En python, on dispose des fonctions <code>rolling</code> et <code>sliding_window</code> définis dans la librairie <code>numpy</code>. Par exemple pour le cas du filtre moyen, on construit une nouvelle vue de l’image avec deux nouvelles dimensions <code>x_win</code> et <code>y_win</code>:</p>
 <div id="b2e95d3e" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rolling_win <span class="op">=</span> img_rgb.rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rolling_win[<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,...])</span>
@@ -605,7 +620,7 @@ Dimensions without coordinates: x_win, y_win
 (3, 771, 1311, 5, 5)</code></pre>
 </div>
 </div>
-<p>L’avantage de cette approche est qu’il n’y a pas d’utilisation inutile de la mémoire. Noter les <code>nan</code> sur les bords de l’image car la fenêtre déborde sur les bordures de l’image. Par la suite un opérateur moyenne peut être appliqué sur les axes <code>x_win</code> et <code>y_win</code> correspondant aux fenêtres glissantes.</p>
+<p>L’avantage de cette approche est qu’il n’y a pas d’utilisation inutile de la mémoire. Noter les <code>nan</code> sur les bords de l’image car la fenêtre déborde sur les bordures de l’image. Par la suite un opérateur de moyenne peut être appliqué sur les axes <code>x_win</code> et <code>y_win</code> correspondant aux fenêtres glissantes.</p>
 <div id="edb2fcb0" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
@@ -622,7 +637,7 @@ Dimensions without coordinates: x_win, y_win
 </div>
 </div>
 </div>
-<p>Lorsque la taille <span class="math inline">\(W\)</span> de la fenêtre devient trop grande, il est préférable d’utiliser une convolution dans le domaine fréquentielle. La fonction <code>fftconvolve</code> de la librairie <code>scipy.signal</code> permet de faire cela:</p>
+<p>Lorsque la taille <span class="math inline">\(W\)</span> de la fenêtre devient trop grande, il est préférable d’utiliser une convolution dans le domaine fréquentielle. La fonction <code>fftconvolve</code> de la librairie <code>scipy.signal</code> offre cette possibilité:</p>
 <div id="1ea51530" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kernel <span class="op">=</span> np.outer(signal.windows.gaussian(<span class="dv">70</span>, <span class="dv">8</span>),</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                  signal.windows.gaussian(<span class="dv">70</span>, <span class="dv">8</span>))</span>
@@ -635,7 +650,7 @@ Filtre de Sobel, filtre Prewitt
 -->
 <section id="filtrage-par-convolution" class="level4" data-number="5.3.1.1">
 <h4 data-number="5.3.1.1" class="anchored" data-anchor-id="filtrage-par-convolution"><span class="header-section-number">5.3.1.1</span> Filtrage par convolution</h4>
-<p>La façon la plus efficace d’appliquer un filtre linéaire est d’appliquer une convolution. La convolution est généralement très efficace car elle est peut être calculée dans le domaine fréquentielle. Prenons l’exemple du filtre de Scharr <span class="citation" data-cites="Scharr1999">(<a href="references.html#ref-Scharr1999" role="doc-biblioref">Jahne et S. 1999</a>)</span>, ce filtre permet de détecter les contours horizontaux et verticaux:</p>
+<p>La façon la plus efficace d’appliquer un filtre linéaire est d’appliquer une convolution. La convolution est généralement très efficace car elle est peut être calculée dans le domaine fréquentiel. Prenons l’exemple du filtre de Scharr <span class="citation" data-cites="Scharr1999">(<a href="references.html#ref-Scharr1999" role="doc-biblioref">Jahne et S. 1999</a>)</span>, qui permet de détecter les contours horizontaux et verticaux:</p>
 <p><span id="eq-scharr-filter"><span class="math display">\[
 F= \left[
 \begin{array}{ccc}
@@ -695,12 +710,12 @@ Coordinates:
 </section>
 <section id="gestion-des-bordures" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="gestion-des-bordures"><span class="header-section-number">5.4</span> Gestion des bordures</h2>
-<p>L’application de filtres à l’intérieur de fenêtres glissantes implique de gérer les bords de l’image car la fenêtre de traitement va nécessairement déborder de quelques pixels en dehors de l’image (généralement la moitié de la fenêtre déborde). On peut soit décider d’ignorer les valeurs en dehors de l’image en imposant une valeur <code>nan</code>, prolonger l’image de quelques lignes et colonnes avec des valeurs mirroirs ou constantes.</p>
+<p>L’application de filtres à l’intérieur de fenêtres glissantes implique de gérer les bords de l’image, car la fenêtre de traitement va nécessairement déborder de quelques pixels en dehors de l’image (généralement la moitié de la fenêtre déborde). On peut soit décider d’ignorer les valeurs en dehors de l’image en imposant une valeur <code>nan</code>, soit prolonger l’image de quelques lignes et colonnes avec des valeurs miroirs ou constantes.</p>
 <section id="filtrage-par-une-couche-convolutionnelle" class="level4" data-number="5.4.0.1">
 <h4 data-number="5.4.0.1" class="anchored" data-anchor-id="filtrage-par-une-couche-convolutionnelle"><span class="header-section-number">5.4.0.1</span> Filtrage par une couche convolutionnelle</h4>
 <p><strong>Installation de Pytorch</strong></p>
 <p>Cette section nécessite la librairie Pytorch avec un GPU et ne fonctionnera que sur Colab. On peut quand même installer une version locale CPU de pytorch: <code>pip install -qU torch==2.4.0+cpu</code></p>
-<p>Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d’entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut ici imposer les mêmes filtres de gradient dans la couche convolutionnelle:</p>
+<p>Une couche convolutionnelle est simplement un ensemble de filtres appliqués sur la donnée d’entrée. Ce type de filtrage est à la base des réseaux dits convolutionnels qui seront abordés dans le tome 2. On peut ici imposer les mêmes filtres de gradient dans la couche convolutionnelle :</p>
 <div id="e6ce1400" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
@@ -774,7 +789,7 @@ Sortie (BxFxHxW): torch.Size([1, 2, 771, 1311])</code></pre>
 </section>
 <section id="filtrage-adaptatif" class="level3" data-number="5.4.1">
 <h3 data-number="5.4.1" class="anchored" data-anchor-id="filtrage-adaptatif"><span class="header-section-number">5.4.1</span> Filtrage adaptatif</h3>
-<p>Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d’une image. Le filtre n’est alors plus stationnaire et sa réponse peut varier en fonction du contenu local. Ce type de filtre est très utilisé pour filtrer les images SAR (Synthetic Aperture Radar) qui sont dégradées par un bruit multiplicatif que l’on appelle <em>speckle</em>. On peut voir un exemple d’une image Sentinel-1 (bande HH) sur la région de Montréal, remarquée que l’image est affichée en dB en appliquant la fonction <code>log10</code>.</p>
+<p>Les filtrages adaptatifs consistent à appliquer un traitement en fonction du contenu local d’une image. Le filtre n’est alors plus stationnaire et sa réponse peut varier en fonction du contenu local. Ce type de filtre est très utilisé pour filtrer les images SAR (Synthetic Aperture Radar) qui sont dégradées par un bruit multiplicatif que l’on appelle <em>speckle</em>. On peut voir un exemple d’une image Sentinel-1 (bande HH) sur la région de Montréal, remarquez que l’image est affichée en dB en appliquant la fonction <code>log10</code>.</p>
 <div id="353be0cc" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(img_SAR.rio.resolution())</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(img_SAR.rio.crs)</span>
@@ -796,7 +811,7 @@ EPSG:4326</code></pre>
 </div>
 </div>
 </div>
-<p>Un des filtres les plus simples pour réduire le bruit est d’appliquer un filtre moyenne, par exemple un <span class="math inline">\(5 \times 5\)</span> ci dessous:</p>
+<p>Un des filtres les plus simples pour réduire le bruit est d’appliquer un filtre moyen, par exemple un <span class="math inline">\(5 \times 5\)</span> ci-dessous:</p>
 <div id="60e3a726" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>rolling_win <span class="op">=</span> img_SAR.sel(band<span class="op">=</span><span class="dv">2</span>).rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
@@ -814,14 +829,14 @@ EPSG:4326</code></pre>
 </div>
 </div>
 </div>
-<p>Au lieu d’appliquer un filtre moyen de manière indiscriminée, le filtre de Lee <span class="citation" data-cites="Lee-1986">(<a href="references.html#ref-Lee-1986" role="doc-biblioref">Lee 1986</a>)</span> applique une pondération en fonction du contenu local de l’image <span class="math inline">\(I\)</span> dans sa forme la plus simple:</p>
+<p>Au lieu d’appliquer un filtre moyen de manière indiscriminée, le filtre de Lee <span class="citation" data-cites="Lee-1986">(<a href="references.html#ref-Lee-1986" role="doc-biblioref">Lee 1986</a>)</span> applique une pondération en fonction du contenu local de l’image <span class="math inline">\(I\)</span> dans sa forme la plus simple :</p>
 <p><span id="eq-lee-filter"><span class="math display">\[
 \begin{aligned}
 I_F &amp; = I_M + K \times (I - I_M) \\
 K &amp; = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
 \end{aligned}
 \tag{5.7}\]</span></span></p>
-<p>Ainsi si la variance locale est élevée <span class="math inline">\(K\)</span> s’approche de <span class="math inline">\(1\)</span> préservant ainsi les détails de l’image <span class="math inline">\(I\)</span> sinon l’image moyenne <span class="math inline">\(I_M\)</span> est appliquée.</p>
+<p>De la sorte, si la variance locale est élevée <span class="math inline">\(K\)</span> s’approche de <span class="math inline">\(1\)</span> préservant ainsi les détails de l’image <span class="math inline">\(I\)</span> sinon l’image moyenne <span class="math inline">\(I_M\)</span> est appliquée.</p>
 <div id="e9df9b62" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>rolling_win <span class="op">=</span> img_SAR.sel(band<span class="op">=</span><span class="dv">2</span>).rolling(x<span class="op">=</span><span class="dv">5</span>, y<span class="op">=</span><span class="dv">5</span>,  min_periods<span class="op">=</span> <span class="dv">3</span>, center<span class="op">=</span> <span class="va">True</span>).construct(x<span class="op">=</span><span class="st">"x_win"</span>, y<span class="op">=</span><span class="st">"y_win"</span>, keep_attrs<span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>filtre_moyen<span class="op">=</span> rolling_win.mean(dim<span class="op">=</span> [<span class="st">'x_win'</span>, <span class="st">'y_win'</span>], skipna<span class="op">=</span> <span class="va">True</span>)</span>
@@ -845,7 +860,7 @@ K &amp; = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
 </div>
 </div>
 </div>
-<p>On zoomant sur l’image on peut clairement voir que les détails de l’image sont mieux préservés:</p>
+<p>On zoomant sur l’image, on voit clairement que les détails de l’image sont mieux préservés :</p>
 <div id="0dd51a52" class="cell" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
@@ -859,20 +874,20 @@ K &amp; = \frac{\sigma^2_I}{\sigma^2_I + \sigma^2_{bruit}}
 </section>
 <section id="segmentation" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="segmentation"><span class="header-section-number">5.5</span> Segmentation</h2>
-<p>La segmentation d’image consiste à séparer une image en régions homogènes spatialement connexes (segments) où les valeurs sont uniformes selon un certain critère (couleurs, texture, etc.). Une image présente généralement beaucoup de pixels redondants, l’intérêt de ce type de méthode est essentiellement de réduire la quantité de pxiels nécessaire. En télédétection, on parle souvent d’approche objet. En vision par ordinateur, on parle parfois de super-pixel. Il existe de nombreuses méthodes de segmentation, la librairie <code>sickit-image</code> rend disponible plusieurs implémentations sur des images RVB (<a href="https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_segmentations.html#sphx-glr-auto-examples-segmentation-plot-segmentations-py">Comparison of segmentation and superpixel algorithms — skimage 0.25.0 documentation</a>).</p>
+<p>La segmentation d’image consiste à séparer une image en régions homogènes spatialement connexes (segments) où les valeurs sont uniformes selon un certain critère (couleurs, texture, etc.). Une image présente généralement beaucoup de pixels redondants, l’intérêt de ce type de méthode est essentiellement de réduire la quantité de pixels nécessaire. En télédétection, on parle souvent d’approche objet. En vision par ordinateur, on parle parfois de super-pixel. Il existe de nombreuses méthodes de segmentation, la librairie <code>sickit-image</code> rend disponible plusieurs implémentations sur des images RVB (<a href="https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_segmentations.html#sphx-glr-auto-examples-segmentation-plot-segmentations-py">Comparison of segmentation and superpixel algorithms — skimage 0.25.0 documentation</a>).</p>
 <section id="super-pixel" class="level3" data-number="5.5.1">
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="super-pixel"><span class="header-section-number">5.5.1</span> Super-pixel</h3>
-<p>Ce type de méthode cherche à former des régions homogènes et compactes dans l’image <span class="citation" data-cites="Achanta-2012">(<a href="references.html#ref-Achanta-2012" role="doc-biblioref">Achanta et Süsstrunk 2012</a>)</span>. Une des méthodes les plus simples est la méthode SLIC (<em>Simple Linear Iterative Clustering</em>), elle combine un regroupement de type K-moyenne avec une distance hybride qui prend en compte les différences de couleur entre pixels mais aussi leur distance par rapport centre du super-pixel:</p>
+<p>Ce type de méthode cherche à former des régions homogènes et compactes dans l’image <span class="citation" data-cites="Achanta-2012">(<a href="references.html#ref-Achanta-2012" role="doc-biblioref">Achanta et Süsstrunk 2012</a>)</span>. Une des méthodes les plus simples est la méthode SLIC (<em>Simple Linear Iterative Clustering</em>), elle combine un regroupement de type k-moyennes avec une distance hybride qui prend en compte les différences de couleur entre pixels mais aussi leur distance par rapport centre du super-pixel:</p>
 <ol type="1">
 <li><p>Décomposer l’image en N régions régulières de taille <span class="math inline">\(S \times S\)</span></p></li>
 <li><p>Initialiser les centres <span class="math inline">\(C_k\)</span> de chaque segment <span class="math inline">\(k\)</span></p></li>
-<li><p>Rechercher les pixels qui ont la distance la plus petite dans une région <span class="math inline">\(2S \times 2S\)</span>:</p></li>
+<li><p>Rechercher les pixels ayant la distance la plus petite dans une région <span class="math inline">\(2S \times 2S\)</span>:</p></li>
 </ol>
 <p><span class="math display">\[
 D_{SLIC}= d_{couleur} + \frac{m}{S}d_{xy}
 \]</span></p>
-<ol start="3" type="1">
-<li>Mettre à jour les centre <span class="math inline">\(C_k\)</span> de chaque segment <span class="math inline">\(k\)</span>, retourner à l’étape 3</li>
+<ol start="4" type="1">
+<li>Mettre à jour les centre <span class="math inline">\(C_k\)</span> de chaque segment <span class="math inline">\(k\)</span> et réitérer à l’étape 3.</li>
 </ol>
 <p>Les régions évoluent rapidement avec les itérations, plus le poids <span class="math inline">\(m\)</span> est élevé, plus la forme du super-pixel est contrainte et ne suivra pas vraiment le contenu de l’image:</p>
 <div id="ba40dce5" class="cell" data-execution_count="22">
@@ -912,7 +927,7 @@ D_{SLIC}= d_{couleur} + \frac{m}{S}d_{xy}
 </div>
 </div>
 </div>
-<p>Le nombre de segments initial est probablement le paramètre le plus important. Une manière de l’estimer est d’évaluer l’échelle moyenne des segments homogènes dans l’image à analyser. On peut observer ci-dessous l’impact de passer d’une échelle 40 x 40 à 20 x 20. En prenant la moyenne de chaque segment, on peut voir tout de suite que 40 x 40 résulte en des segments trop grands mélangeant différentes classes.</p>
+<p>Le nombre de segments initial est probablement le paramètre le plus important. Une manière de l’estimer est d’évaluer l’échelle moyenne des segments homogènes dans l’image à analyser. On observe ci-dessous l’impact de passer d’une échelle 40 x 40 à 20 x 20. En prenant la moyenne de chaque segment, on constate que l’échelle 40 x 40 génère des segments trop grands mélangeant plusieurs classes.</p>
 <div id="b416dd44" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimage <span class="im">import</span> color, segmentation</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>n_regions <span class="op">=</span> <span class="bu">int</span>((img.shape[<span class="dv">0</span>] <span class="op">*</span> img.shape[<span class="dv">1</span>])<span class="op">/</span>(<span class="dv">40</span><span class="op">*</span><span class="dv">40</span>))</span>
@@ -956,14 +971,14 @@ SLIC nombre de segments: 2201</code></pre>
 </section>
 <section id="fusion-des-segments-par-graphe-de-proximité" class="level3" data-number="5.5.2">
 <h3 data-number="5.5.2" class="anchored" data-anchor-id="fusion-des-segments-par-graphe-de-proximité"><span class="header-section-number">5.5.2</span> Fusion des segments par graphe de proximité</h3>
-<p>Une segmentation peut produire beaucoup trop de segments. On parle alors de sur-segmentation. Ceci est recherché dans certains cas pour permettre de bien capturer les détails fins de l’image. Cependant, afin de réduire le nombre de segments, un post-traitement possible est de fusionner les segments similaires selon certaines règles ou distances. Un graphe d’adjacence de régions (voir <a href="#fig-rag" class="quarto-xref">figure&nbsp;<span>5.1</span></a>) est formé à partir des segments connectés où chaque noeud représente un segment et un lien une proximité (<span class="citation" data-cites="Jaworek-2018">Jaworek-Korjakowska (<a href="references.html#ref-Jaworek-2018" role="doc-biblioref">2018</a>)</span>). À partir de ce graphe, on peut fusionner les noeuds similaires à partir de leur distance radiométrique.</p>
+<p>Une segmentation peut produire beaucoup trop de segments. On parle alors de sur-segmentation. Ceci est recherché dans certains cas pour permettre de bien capturer les détails fins de l’image. Cependant, afin de réduire le nombre de segments, un post-traitement possible est de fusionner les segments similaires selon certaines règles ou distances. Un graphe d’adjacence de régions (<a href="#fig-rag" class="quarto-xref">figure&nbsp;<span>5.1</span></a>) est formé à partir des segments connectés où chaque nœud représente un segment et un lien de proximité (<span class="citation" data-cites="Jaworek-2018">Jaworek-Korjakowska (<a href="references.html#ref-Jaworek-2018" role="doc-biblioref">2018</a>)</span>). À partir de ce graphe, on peut fusionner les nœuds similaires à partir de leur distance radiométrique.</p>
 <div id="fig-rag" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/Region-adjacency-graph.png" title="Graphe d'adjacence de régions" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.1: Graphe d’adjacence de régions, d’après (<span class="citation" data-cites="Jaworek-2018">Jaworek-Korjakowska (<a href="references.html#ref-Jaworek-2018" role="doc-biblioref">2018</a>)</span>). Chaque noeud est un segment, un lien est formé uniquement si les segments se touchent (par exemple le segment 6 ne touche que la région 5). La fonction <code>graph.rag_mean_color</code> produit un graphe à partir d’une segmentation et de l’image originale. Chaque noeud tient la couleur de chaque segment dans un attribut appelé <code>'mean color'.</code>
+Figure&nbsp;5.1: Graphe d’adjacence de régions, d’après (<span class="citation" data-cites="Jaworek-2018">Jaworek-Korjakowska (<a href="references.html#ref-Jaworek-2018" role="doc-biblioref">2018</a>)</span>). Chaque nœud est un segment, un lien est formé uniquement si les segments se touchent (par exemple le segment 6 ne touche que la région 5). La fonction <code>graph.rag_mean_color</code> produit un graphe à partir d’une segmentation et de l’image originale. Chaque nœud tient la couleur de chaque segment dans un attribut appelé <code>'mean color'.</code>
 </figcaption>
 </figure>
 </div>
