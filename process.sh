@@ -31,16 +31,19 @@ marimo convert 02-RehaussementVisualisationImages.ipynb  -o ./marimo/02-Rehausse
 mv 02-RehaussementVisualisationImages.ipynb ./notebooks/
 
 quarto convert 03-TransformationSpectrales.qmd
+marimo convert 03-TransformationSpectrales.ipynb  -o ./marimo/03-TransformationSpectrales.py
 #jupyter nbconvert 03-TransformationSpectrales.ipynb  --execute --to pdf --output-dir pdfs
 #jupyter nbconvert 03-TransformationSpectrales.ipynb --execute --to latex --output-dir latex
 mv 03-TransformationSpectrales.ipynb ./notebooks/
 
 quarto convert 04-TransformationSpatiales.qmd
+marimo convert 04-TransformationSpatiales.ipynb  -o ./marimo/04-TransformationSpatiales.py
 #jupyter nbconvert 04-TransformationSpatiales.ipynb  --execute --to pdf --output-dir pdfs
 #jupyter nbconvert 04-TransformationSpatiales.ipynb --execute --to latex --output-dir latex
 mv 04-TransformationSpatiales.ipynb ./notebooks/
 
 quarto convert 05-ClassificationsSupervisees.qmd
+marimo convert 05-ClassificationsSupervisees.ipynb  -o ./marimo/05-ClassificationsSupervisees.py
 #jupyter nbconvert 05-ClassificationsSupervisees.ipynb  --execute --to pdf --output-dir pdfs
 #jupyter nbconvert 05-ClassificationsSupervisees.ipynb --execute --to latex --output-dir latex
 mv 05-ClassificationsSupervisees.ipynb ./notebooks/

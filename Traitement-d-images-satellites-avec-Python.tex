@@ -4037,7 +4037,7 @@ suite (on parle alors de classification objet).
 
 \section{Préambule}\label{pruxe9ambule-4}
 
-Assurez-vous de lire ce préambule avant d'exécutez le reste du notebook.
+Assurez-vous de lire ce préambule avant d'exécuter le reste du notebook.
 
 \subsection{Objectifs}\label{objectifs-4}
 
@@ -4049,9 +4049,32 @@ aussi disponible sous la forme d'un notebook Python sur Google Colab:
 
 \href{https://colab.research.google.com/github/sfoucher/TraitementImagesPythonVol1/blob/main/notebooks/05-ClassificationsSupervisees.ipynb}{\pandocbounded{\includegraphics[keepaspectratio]{images/colab.png}}}
 
+\begin{tcolorbox}[colback=background_color, colframe=objectif_color, boxrule=0.2mm, leftrule=1mm, coltitle=black, fonttitle=\bfseries, title={\includegraphics[width=0.3cm]{images/BlocObjectif.png} \textbf{Objectif}}]
+
+\textbf{Objectifs d'apprentissage visés dans ce chapitre}
+
+À la fin de ce chapitre, vous devriez être en mesure de~:
+
+\begin{itemize}
+\tightlist
+\item
+  comprendre les principes de l'apprentissage automatique supervisé;
+\item
+  mettre en place un pipeline d'entraînement;
+\item
+  savoir comment évaluer les résultats d'un classificateur;
+\item
+  visualiser les frontières de décision;
+\item
+  mettre en place des techniques de classifications comme K-NN et les
+  arbres de décision;
+\end{itemize}
+
+\end{tcolorbox}
+
 \subsection{Librairies}\label{librairies-2}
 
-Les librairies utilisées dans ce chapitre sont les suivantes:
+Les librairies utilisées dans ce chapitre sont les suivantes :
 
 \begin{itemize}
 \item
@@ -4075,7 +4098,7 @@ Les librairies utilisées dans ce chapitre sont les suivantes:
 \end{itemize}
 
 Dans l'environnement Google Colab, seul \texttt{rioxarray} et
-\texttt{xrscipy} doit être installés:
+\texttt{xrscipy} sont installés:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4084,7 +4107,7 @@ Dans l'environnement Google Colab, seul \texttt{rioxarray} et
 \end{Highlighting}
 \end{Shaded}
 
-Vérifier les importations nécessaires en premier:
+Vérifiez les importations nécessaires en premier:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4113,7 +4136,7 @@ Vérifier les importations nécessaires en premier:
 
 \subsection{Images utilisées}\label{images-utilisuxe9es-2}
 
-Nous allons utilisez les images suivantes dans ce chapitre:
+Nous utilisons les images suivantes dans ce chapitre:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4157,7 +4180,7 @@ automatiquement du jeu de données via une phase dite d'entraînement. On
 parle souvent de solutions générées par les données (\emph{Data Driven
 Solutions}). Cet ensemble de règles est souvent appelé \textbf{modèle}.
 On visualise souvent ces règles sous la forme de \emph{frontières de
-décisions} dans l'espace des données. Cependant, un des défis majeur de
+décisions} dans l'espace des données. Cependant, un des défis majeurs de
 ce type de technique est d'être capable de produire des règles qui
 soient généralisables au-delà du jeu d'entraînement.
 
@@ -4168,9 +4191,6 @@ soit représentatif et robuste, il nous faut assez de données
 d'entraînement. Les algorithmes d'apprentissage automatique sont très
 nombreux et plus ou moins complexes pouvant produire des frontières de
 décision très complexes et non linéaires.
-
-\textbf{curse of dimensionnality, capacité d'un modèle,
-sur-aprrentissage, sous-apprentissage}
 
 \subsection{Comportement d'un modèle}\label{comportement-dun-moduxe8le}
 
@@ -4189,11 +4209,11 @@ caractéristiques polynomiales de différents degrés. Nous pouvons
 constater qu'une fonction linéaire (polynôme de degré 1) n'est pas
 suffisante pour s'adapter aux échantillons d'apprentissage. C'est ce
 qu'on appelle un sous-ajustement (\emph{underfitting}) qui produit un
-biais systématique quelque soit les points d'entraînement. Un polynôme
-de degré 4 se rapproche presque parfaitement de la fonction réelle.
-Cependant, pour des degrés plus élevés, le modèle s'adaptera trop aux
-données d'apprentissage, c'est-à-dire qu'il apprendra le bruit des
-données d'apprentissage. Nous évaluons quantitativement le
+biais systématique quels que soient les points d'entraînement. Un
+polynôme de degré 4 se rapproche presque parfaitement de la fonction
+réelle. Cependant, pour des degrés plus élevés, le modèle s'adaptera
+trop aux données d'apprentissage, c'est-à-dire qu'il apprendra le bruit
+des données d'apprentissage. Nous évaluons quantitativement le
 sur-apprentissage et le sous-apprentissage à l'aide de la validation
 croisée. Nous calculons l'erreur quadratique moyenne (EQM) sur
 l'ensemble de validation. Plus elle est élevée, moins le modèle est
@@ -4213,13 +4233,13 @@ d'apprentissage.
 \end{figure}%
 
 On constate aussi que sans les échantillons de validation, nous serions
-incapable de déterminer la situation de sur-apprentissage, l'erreur sur
-les points d'entraînement seul étant excellente pour un degré 15.
+incapables de déterminer la situation de sur-apprentissage, l'erreur sur
+les points d'entraînement seuls étant excellente pour un degré 15.
 
 \subsection{Pipeline}\label{pipeline}
 
 La construction d'un modèle implique généralement toujours les mêmes
-étapes illustrées sur la figure figure~\ref{fig-pipeline}:
+étapes illustrées sur la figure~\ref{fig-pipeline}:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -4227,16 +4247,17 @@ La construction d'un modèle implique généralement toujours les mêmes
   La préparation des données implique parfois un pré-traitement afin de
   normaliser les données.
 \item
-  Partage des données en trois groupes: entraînement, validation et test
+  Partage des données en trois groupes: entraînement, validation et
+  test.
 \item
   L'apprentissage du modèle sur l'ensemble d'entraînement. Cet
   apprentissage nécessite de déterminer les valeurs des hyper-paramètres
   du modèle par l'usager.
 \item
   La validation du modèle sur l'ensemble de validation. Cette étape vise
-  à vérifier que les hyper-paramètres du modèle sont adéquate.
+  à vérifier que les hyper-paramètres du modèle sont adéquats.
 \item
-  Enfin le test du modèle sur un ensemble de donnée indépendant
+  Enfin le test du modèle sur un ensemble de données indépendant.
 \end{enumerate}
 
 \begin{figure}
@@ -4254,25 +4275,25 @@ La construction d'un modèle implique généralement toujours les mêmes
 \subsection{Construction d'un ensemble
 d'entraînement}\label{sec-05.02.02}
 
-Les données d'entraînement vont permettre de construire un modèle. Ces
-données peuvent prendre des formes très variées mais on peut voir cela
-sous la forme d'un tableau \(N \times D\):
+Les données d'entraînement permettent de construire un modèle. Elles
+peuvent prendre des formes très variées mais on peut voir cela sous la
+forme d'un tableau \(N \times D\):
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  La taille \(N\) du jeu de donnée
+  La taille \(N\) du jeu de données.
 \item
   Chaque entrée définit un échantillon ou un point dans un espace à
-  plusieurs dimension.
+  plusieurs dimensions.
 \item
   Chaque échantillon est décrit par \(D\) dimensions ou caractéristiques
   (\emph{features}).
 \end{enumerate}
 
 Une façon simple de construire un ensemble d'entraînement est
-d'échantillonner un produit existant. Nous allons utiliser la carte
-d'occupation des sols suivante qui contient 12 classes différentes.
+d'échantillonner un produit existant. Nous utilisons une carte
+d'occupation des sols qui contient 12 classes différentes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4284,7 +4305,7 @@ d'occupation des sols suivante qui contient 12 classes différentes.
 \end{Highlighting}
 \end{Shaded}
 
-On peut visualiser la carte de la façon suivante:
+On peut visualiser la carte de la façon suivante :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4304,7 +4325,7 @@ Text(0.5, 1.0, "Carte d'occupation des sols")
 
 \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-9-output-2.pdf}}
 
-On peut facilement calculer la fréquence d'occurrence des 12 classes
+On peut facilement calculer la fréquence d'occurrences des 12 classes
 dans l'image à l'aide de \texttt{numpy}:
 
 \begin{Shaded}
@@ -4323,8 +4344,11 @@ dans l'image à l'aide de \texttt{numpy}:
 
 La fréquence d'apparition de chaque classe varie grandement, on parle
 alors d'un \textbf{ensemble déséquilibré}. Ceci est très commun dans la
-plupart des ensembles d'entraînement, les classes n'apparaissent pas
-avec la même fréquence.
+plupart des ensembles d'entraînement, puisque les classes ont très
+rarement la même fréquence. Par exemple, à la lecture du graphique en
+barres verticales, on constate que la classe forêt est très présentes
+contrairement à plusieurs autres classes (notamment, tourbe, végétation
+éparse, roche, sol nu et nuages).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4343,7 +4367,7 @@ avec la même fréquence.
 
 \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-11-output-1.pdf}}
 
-On peut échantillonner 100 points aléatoires pour chaque classe:
+On peut échantillonner aléatoirement 100 points pour chaque classe:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4388,16 +4412,16 @@ On peut échantillonner 100 points aléatoires pour chaque classe:
 
 \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-12-output-1.pdf}}
 
-Une fois les points sélectionnés, il faut ajouter les valeurs des bandes
-provenant d'une image satellite. Pour cela, on peut utiliser la méthodes
+Une fois les points sélectionnés, on ajoute les valeurs des bandes
+provenant d'une image satellite. Pour cela, on utilise la méthode
 \texttt{sample()} de \texttt{rasterio}. Éventuellement, la librairie
 \href{https://geopandas.org}{\texttt{geopandas}} permet de gérer les
 données d'entraînement sous la forme d'un tableau transportant aussi
-l'information de géoréférence. Afin de pouvoir classifier ces points,
-nous allons ajouter les valeurs radiométriques provenant de l'image
-Sentinel-2 à 4 bandes \texttt{RGBNIR\_of\_S2A.tif}. Ces valeurs seront
-stockées dans la colonne \texttt{value} sous la forme d'un vecteur en
-format \texttt{string}:
+l'information de géoréférence. Afin de pouvoir classifier ces points, on
+ajoute les valeurs radiométriques provenant de l'image Sentinel-2 à 4
+bandes \texttt{RGBNIR\_of\_S2A.tif}. Ces valeurs seront stockées dans la
+colonne \texttt{value} sous la forme d'un vecteur en format
+\texttt{string} :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4440,20 +4464,20 @@ automatique est de regarder les caractéristiques de vos données:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Le nombre de dimensions (\emph{features})
+  Le nombre de dimensions (\emph{features}).
 \item
   Certaines dimensions sont informatives (discriminantes) et d'autres ne
-  le sont pas
+  le sont pas.
 \item
-  Le nombre classes
+  Le nombre classes.
 \item
-  Le nombre de modes (\emph{clusters}) par classes
+  Le nombre de modes (\emph{clusters}) par classes.
 \item
-  Le nombre d'échantillons par classe
+  Le nombre d'échantillons par classe.
 \item
-  La forme des groupes
+  La forme des groupes.
 \item
-  La séparabilité des classes ou des groupes
+  La séparabilité des classes ou des groupes.
 \end{enumerate}
 
 Une manière d'évaluer la séparabilité de vos classes est d'appliquer des
@@ -4509,7 +4533,7 @@ facilement une fonction Python à l'aide de \texttt{numpy}:
 \end{Shaded}
 
 La figure ci-dessous illustre différentes situations avec des données
-artificielles:
+simulées ainsi que les distances JM correspondantes :
 
 \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-15-output-1.pdf}}
 
@@ -4546,7 +4570,7 @@ de la section section~\ref{sec-05.02.02}.
 
 On peut faire une analyse de séparabilité sur notre ensemble
 d'entrainement de 10 classes. On obtient un tableau symmétrique de 10x10
-valeurs. On peut observer des valeurs inférieures à 1 ce qui indique des
+valeurs. On observe des valeurs inférieures à 1, indiquant des
 séparabilités faibles entre ces classes sous l'hypothèse du modèle
 Gaussien:
 
@@ -4596,21 +4620,21 @@ Gaussien:
 \end{longtable}
 
 Afin d'évaluer chaque classe, on peut calculer la séparabilité minimale,
-on peut observer que la classe eau a le maximum de séparabilité avec les
-autres classes.
+ce qui nous permet de constater que la classe eau a le maximum de
+séparabilité avec les autres classes.
 
 \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-18-output-1.pdf}}
 
 \section{Mesures de performance d'une méthode de
 classification}\label{mesures-de-performance-dune-muxe9thode-de-classification}
 
-Lorsque que l'on cherche à établir la performance d'un modèle, il faut
-être capable de mesurer la performance de ce classificateur. Il existe
+Lorsque que l'on cherche à établir la performance d'un modèle, il
+convient de mesurer la performance du classificateur utilisé. Il existe
 de nombreuses mesures de performance qui sont toutes dérivées de la
 matrice de confusion. Cette matrice compare les étiquettes provenant de
 l'annotation (la vérité terrain) et les étiquettes prédites par un
-modèle. On peut définir \(C(i,j)\) est le nombre de prédictions dont la
-vérité terrain indique la classe \(i\) et qui sont prédites dans la
+modèle. On peut définir \(C(i,j)\) comme étant le nombre de prédictions
+dont la vérité terrain indique la classe \(i\) qui sont prédites dans la
 classe \(j\). La fonction
 \href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html}{confusion\_matrix}
 permet de faire ce calcul, voici un exemple très simple:
@@ -4656,7 +4680,7 @@ weighted avg       0.76      0.71      0.70         7
 Le rappel (\emph{recall}) pour une classe donnée est la proportion de la
 vérité terrain qui a été correctement identifiée et est sensible aux
 confusions entre classes (erreurs d'omission). Les valeurs de rappels
-correspondent à une normalization de la matrice de confusion par rapport
+correspondent à une normalisation de la matrice de confusion par rapport
 aux lignes.
 
 \[
@@ -4666,7 +4690,7 @@ facilement la classe concernée avec d'autres classes.
 
 La précision est la portion des prédictions qui ont été bien classifiées
 et est sensible aux fausses alarmes (erreurs de commission). Les valeurs
-de précision correspondent à une normalization de la matrice de
+de précision correspondent à une normalisation de la matrice de
 confusion par rapport aux colonnes. \[
 Precision_i= C_{ii} / \sum_i C_{ij}
 \] Une faible valeur de précision signifie que le classificateur trouve
@@ -4682,7 +4706,7 @@ paramétriques}\label{muxe9thodes-non-paramuxe9triques}
 
 Les méthodes non paramétriques ne font pas d'hypothèses particulières
 sur les données. Un des inconvénients de ces modèles est que le nombre
-de paramètres du modèles augmente avec la taille des données.
+de paramètres du modèle augmente avec la taille des données.
 
 \subsection{Méthode des parallélépipèdes}\label{sec-0511}
 
@@ -4690,16 +4714,16 @@ La méthode du parallélépipède est probablement la plus simple et
 consiste à délimiter directement le domaine des points d'une classe par
 une boite (un parallélépipède) à \(D\) dimensions. Les limites de ces
 parallélépipèdes forment alors des frontières de décision manuelles qui
-vont permettre décider de la classe d'appartenance d'un nouveau point.
-Un des avantages de cette technique est que si un point n'est dans aucun
-parallélépipède alors on peut le laisser comme non classifié. Par
-contre, la construction de ces parallélépipèdes se complexifient
-grandement avec le nombre de bandes. À une dimension, deux paramètres,
-équivalents à un seuillage d'histogramme, sont suffisants. À deux
-dimensions, vous devez définir 4 segments par classe. Avec 3 bandes,
-vous devez définir 6 plans par classes et à D dimensions, D hyperplans à
-D-1 dimensions par classe. Le modèle ici est donc une suite de valeurs
-\texttt{min} et \texttt{max} pour chacune des bandes et des classes:
+permettent d'attribuer une classe d'appartenance à un nouveau point. Un
+des avantages de cette technique est que si un point n'est dans aucun
+parallélépipède alors il est non classifié. Par contre, la construction
+de ces parallélépipèdes se complexifient grandement avec le nombre de
+bandes. À une dimension, deux paramètres, équivalents à un seuillage
+d'histogramme, sont suffisants. À deux dimensions, vous devez définir 4
+segments par classe. Avec trois bandes, vous devez définir six plans par
+classes et à D dimensions, D hyperplans à D-1 dimensions par classe. Le
+modèle ici est donc une suite de valeurs \texttt{min} et \texttt{max}
+pour chacune des bandes et des classes:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4719,7 +4743,7 @@ D-1 dimensions par classe. Le modèle ici est donc une suite de valeurs
 \end{Shaded}
 
 La prédiction consiste à trouver pour chaque point la première limite
-qui est satisfaite. Notez qu'il n'y a pas de moyen de décider quelle est
+qui est satisfaite. Notez qu'il n'y a aucun moyen de décider quelle est
 la meilleure classe si le point appartient à plusieurs classes.
 
 \begin{Shaded}
@@ -4742,8 +4766,8 @@ la meilleure classe si le point appartient à plusieurs classes.
 \end{Shaded}
 
 On peut appliquer ensuite le modèle sur l'image au complet. Les
-résultats sont assez mauvais, seule la classe eau en bleu semble être
-bien classifiée.
+résultats sont assez mauvais, puisque seule la classe eau en bleu semble
+être bien classifiée.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4761,7 +4785,7 @@ bien classifiée.
 \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-23-output-1.pdf}}
 
 On peut calculer quelques mesures de performance sur l'ensemble
-d'entrainement:
+d'entrainement :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4807,23 +4831,24 @@ curse}). En résumé, l'espace vide augmente plus rapidement que le nombre
 de données d'entraînement et l'espace des données devient de plus en
 plus parcimonieux (\emph{sparse}). Pour contrecarrer ce problème, on
 peut sélectionner les meilleures caractéristiques ou appliquer une
-réduction de dimension.
+réduction de dimension comme une ACP (Analyse en composantes
+principales).
 
 \subsection{Plus proches voisins}\label{plus-proches-voisins}
 
-La méthode des plus proches voisins (\emph{K-Nearest-Neighbors} en
-Anglais) est certainement la plus simple des méthodes pour classifier
-des données. Elle consiste à comparer une nouvelle données avec ces
-voisins les plus proches en fonction d'une simple distance Euclidienne.
-Si une majorité de ces \(K\) voisins appartiennent à une classe
-majoritaire alors cette classe est sélectionnée. Afin de permettre un
-vote majoritaire, on choisira un nombre impair pour la valeur de \(K\).
-Mallgré sa simplicité, cette technique peut devenir assez demandante en
-terme de calcul pour un nombre important de points avec un nombre élevé
-de dimensions.
+La méthode des plus proches voisins (\emph{K-Nearest-Neighbors}) est
+certainement la plus simple des méthodes pour classifier des données.
+Elle consiste à comparer une nouvelle donnée avec ses voisins les plus
+proches en fonction d'une simple distance Euclidienne. Si une majorité
+de ces \(K\) voisins appartiennent à une classe majoritaire alors cette
+classe est sélectionnée. Afin de permettre un vote majoritaire, on
+choisira un nombre impair pour la valeur de \(K\). Mallgré sa
+simplicité, cette technique peut devenir assez demandante en temps de
+calcul pour un nombre important de points et un nombre élevé de
+dimensions.
 
-Reprensons l'ensemble d'entraînement formé à partir de notre image
-RGBNIR précédente:
+Reprenons l'ensemble d'entraînement formé à partir de notre image RGBNIR
+précédente :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4850,14 +4875,15 @@ RGBNIR précédente:
 \end{Highlighting}
 \end{Shaded}
 
-Il est important de faire précéder la méthode K-NN par une normalisation
-des données de façon à ce que chaque caractéristique soit de moyenne 0
-et d'écart-type égale à 1 (on dit parfois que l'on blanchit les
-données). Cette normalisation permet à ce que chaque dimension ait le
-même poids dans le calcul des distances entre points. Cette opération
-porte le nom de \texttt{StandardScaler} dans \texttt{scikit-learn}. On
-peut alors former un pipeline de traitement combinant les deux
-opérations:
+Il importe de préalablement centrer (moyenne = 0) et de réduire
+(variance = 1) les données avant d'appliquer la méthode K-NN; avec cette
+méthode de normalisation, on dit parfois que l'on blanchit les données.
+Puisque la variance de chaque dimension est égale à 1 (et donc l'inertie
+totale est égale au nombre de bandes), on s'assure qu'elle ait le même
+poids ait le même poids dans le calcul des distances entre points. Cette
+opération porte le nom de \texttt{StandardScaler} dans
+\texttt{scikit-learn}. On peut alors former un pipeline de traitement
+combinant les deux opérations :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4868,7 +4894,7 @@ opérations:
 \end{Shaded}
 
 Avant d'effectuer un entraînement, on met généralement une portion des
-données pour valider les performances:
+données pour valider les performances :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4878,7 +4904,7 @@ données pour valider les performances:
 
 On peut visualiser les frontières de décision du K-NN pour différentes
 valeurs de \(K\) lorsque seulement deux bandes sont utilisées (Rouge et
-proche infra-rouge ici):
+proche infra-rouge ici) :
 
 \begin{verbatim}
 Number of mislabeled points out of a total 200 points : 143
@@ -4887,7 +4913,15 @@ Number of mislabeled points out of a total 200 points : 136
 Number of mislabeled points out of a total 200 points : 130
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-28-output-2.pdf}}
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-28-output-2.pdf}}
+
+}
+
+\caption{Frontières de décision pour le classificateur K-NN}
+
+\end{figure}%
 
 On peut voir comment les différentes frontières de décision se forment
 dans l'espace des bandes Rouge-NIR. L'augmentation de K rend ces
@@ -4906,7 +4940,7 @@ frontières plus complexes et le calcul plus long.
 Nombre de points misclassifiés sur 200 points : 117
 \end{verbatim}
 
-Le rapport de performance est le suivant:
+Le rapport de performance est le suivant :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4934,7 +4968,7 @@ Roche avec végétation       0.40      0.40      0.40        25
          weighted avg       0.42      0.41      0.40       200
 \end{verbatim}
 
-La matrice de confusion peut-être affichée de manière graphique:
+La matrice de confusion peut-être affichée de manière graphique :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4946,7 +4980,7 @@ La matrice de confusion peut-être affichée de manière graphique:
 
 L'application du modèle (la prédiction) peut se faire sur toute l'image
 en transposant l'image sous forme d'une matrice avec Largeur x Hauteur
-lignes et 4 colonnes:
+lignes et 4 colonnes :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4975,8 +5009,8 @@ règles de décision sur chaque caractéristique du jeu de donnée (Breiman
 et C. Stone 1984). On pourra trouver plus de détails dans la
 documentation de \texttt{scikit-learn}
 (\href{https://scikit-learn.org/stable/modules/tree.html}{Decision
-Trees}). Les arbres de décision on tendance à sur-apprendre surtout si
-le nombre de dimensions est élevé. Il est donc conseillé d'avoir un bon
+Trees}). Les arbres de décision on tendance à surapprendre surtout si le
+nombre de dimensions est élevé. Il est donc conseillé d'avoir un bon
 ratio entre le nombre d'échantillons et le nombre de dimensions.
 
 \begin{Shaded}
@@ -4992,7 +5026,16 @@ Number of mislabeled points out of a total 200 points : 143
 Number of mislabeled points out of a total 200 points : 128
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-35-output-2.pdf}}
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-35-output-2.pdf}}
+
+}
+
+\caption{Frontières de décision pour des arbres de décision de
+différente profondeur}
+
+\end{figure}%
 
 On peut observer que les frontières de décision sont formées d'un
 ensemble de plans simple. Chaque plan étant issu d'une règle de décison
@@ -5069,19 +5112,19 @@ d'information
 \section{Méthodes paramétriques}\label{muxe9thodes-paramuxe9triques}
 
 Les méthodes paramétriques se basent sur des modélisations statistiques
-des données pour permettre une classification. Contraitement au méthodes
+des données pour permettre une classification. Contrairement au méthodes
 non paramétriques, elles ont un nombre fixe de paramètres qui ne dépend
 pas de la taille du jeu de données. Par contre, des hypothèses sont
-faites sur le comportement statistique des données. La classification
-consiste alors à trouver la classe la plus vraisemblable dont le modèle
-statistique décrit le mieux les valeurs observées. L'ensemble
-d'entraînement permettra alors de calculer les paramètres de chaque
-Gaussienne pour chacune des classes d'intérêt.
+faites a priori sur le comportement statistique des données. La
+classification consiste alors à trouver la classe la plus vraisemblable
+dont le modèle statistique décrit le mieux les valeurs observées.
+L'ensemble d'entraînement permettra alors de calculer les paramètres de
+chaque Gaussienne pour chacune des classes d'intérêt.
 
 \subsection{Méthode Bayésienne
 naïve}\label{muxe9thode-bayuxe9sienne-nauxefve}
 
-La méthode Bayésienne naïve Gaussienne consiste faire des hypothèses
+La méthode Bayésienne naïve Gaussienne consiste à poser des hypothèses
 simplificatrices sur les données, en particulier l'indépendance des
 données et des dimensions. Ceci permet un calcul plus simple.
 
@@ -5099,10 +5142,18 @@ données et des dimensions. Ceci permet un calcul plus simple.
 Nombre de points erronés sur 200 points : 131
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-43-output-1.pdf}}
+\begin{figure}[H]
 
-On peut observer que les frontières de décision sont beaucoup plus
-régulières que pour K-NN.
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-43-output-1.pdf}}
+
+}
+
+\caption{Frontières de décision pour un classificateur Bayésien naif}
+
+\end{figure}%
+
+On observe que les frontières de décision sont beaucoup plus régulières
+que pour K-NN.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5121,7 +5172,7 @@ De la même manière, la prédiction peut s'appliquer sur toute l'image:
 
 \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-45-output-1.pdf}}
 
-\subsection{Analyse Discriminante Quadratique
+\subsection{Analyse discriminante quadratique
 (ADQ)}\label{analyse-discriminante-quadratique-adq}
 
 L'analyse discriminante quadratique peut-être vue comme une
