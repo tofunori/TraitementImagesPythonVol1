@@ -580,9 +580,9 @@ x_f = IDFT^{-1}[F]*x
 <section id="filtrage-linéaire-stationnaire" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="filtrage-linéaire-stationnaire"><span class="header-section-number">5.3.1</span> Filtrage linéaire stationnaire</h3>
 <p>Un filtrage linéaire stationnaire consiste à appliquer une même pondération locale des valeurs des pixels dans une fenêtre glissante. La taille de cette fenêtre est généralement un chiffre impair (3,5, etc.) afin de définir une position centrale et une fenêtre symétrique. La valeur calculée à partir de tous les pixels dans la fenêtre est alors attribuée au pixel central.</p>
-<!--
+<!---
 Mettre une figure ici
--->
+--->
 <p>Le filtre le plus simple est certainement le filtre moyen qui consiste à appliquer le même poids uniforme dans la fenêtre glissante. Par exemple pour un filtre 5x5:</p>
 <p><span id="eq-boxfilter"><span class="math display">\[
 F= \frac{1}{25}\left[
@@ -643,11 +643,6 @@ Dimensions without coordinates: x_win, y_win
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                  signal.windows.gaussian(<span class="dv">70</span>, <span class="dv">8</span>))</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>blurred <span class="op">=</span> signal.fftconvolve(img_rgb, kernel, mode<span class="op">=</span><span class="st">'same'</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<!--
-::: callout-note
-Filtre de Sobel, filtre Prewitt
-:::
--->
 <section id="filtrage-par-convolution" class="level4" data-number="5.3.1.1">
 <h4 data-number="5.3.1.1" class="anchored" data-anchor-id="filtrage-par-convolution"><span class="header-section-number">5.3.1.1</span> Filtrage par convolution</h4>
 <p>La façon la plus efficace d’appliquer un filtre linéaire est d’appliquer une convolution. La convolution est généralement très efficace car elle est peut être calculée dans le domaine fréquentiel. Prenons l’exemple du filtre de Scharr <span class="citation" data-cites="Scharr1999">(<a href="references.html#ref-Scharr1999" role="doc-biblioref">Jahne et S. 1999</a>)</span>, qui permet de détecter les contours horizontaux et verticaux:</p>

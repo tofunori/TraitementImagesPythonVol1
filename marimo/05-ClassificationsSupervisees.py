@@ -105,7 +105,7 @@ app._unparsable_cell(
     #| eval: false
     # magic command not supported in marimo; please file an issue to add support
     # %capture 
-    !pip install -qU matplotlib rioxarray xrscipy
+    !pip install -qU matplotlib rioxarray xrscipy supertree
     """,
     name="_"
 )
@@ -983,7 +983,7 @@ def _(nom_classes, np, pd):
 def _(mo):
     mo.md(
         r"""
-        Il importe de préalablement centrer (moyenne = 0) et de réduire (variance = 1) les données avant d’appliquer la méthode K-NN; avec cette méthode de normalisation, on dit parfois que  l’on blanchit les données. Puisque la variance de chaque dimension est égale à 1 (et donc l’inertie totale est égale au nombre de bandes), on s’assure qu’elle ait le même poids ait le même poids dans le calcul des distances entre points. Cette opération porte le nom de `StandardScaler` dans `scikit-learn`. On peut alors former un pipeline de traitement combinant les deux opérations :
+        Il importe de préalablement centrer (moyenne = 0) et de réduire (variance = 1) les données avant d’appliquer la méthode K-NN; avec cette méthode de normalisation, on dit parfois que l’on blanchit les données. Puisque la variance de chaque dimension est égale à 1 (et donc l’inertie totale est égale au nombre de bandes), on s’assure qu’elle ait le même poids ait le même poids dans le calcul des distances entre points. Cette opération porte le nom de `StandardScaler` dans `scikit-learn`. On peut alors former un pipeline de traitement combinant les deux opérations :
         """
     )
     return
@@ -1152,8 +1152,8 @@ def _(mo):
 
 
 @app.cell
-def _(X_2, train_test_split, y_2):
-    (X_train_1, X_test_2, y_train_1, y_test_2) = train_test_split(X_2, y_2, test_size=0.2, random_state=0)
+def _(X_2, train_test_split, y_new_1):
+    (X_train_1, X_test_2, y_train_1, y_test_2) = train_test_split(X_2, y_new_1, test_size=0.2, random_state=0)
     return X_test_2, X_train_1, y_test_2, y_train_1
 
 
@@ -1272,23 +1272,26 @@ def _(cmap_classes2_2, plt, y_classe_1):
 def _(mo):
     mo.md(
         r"""
-        Il est possible de visualiser l'arbre mais cela contient beaucoup d'information
+        Il est possible de visualiser l'arbre avec l'outil [SuperTree](https://github.com/mljar/supertree?tab=readme-ov-file) mais cela contient beaucoup d'information
         """
     )
     return
 
 
 @app.cell
-def _(clf_3, plt, tree):
-    (fig_5, ax_8) = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
-    tree.plot_tree(clf_3, max_depth=1)
-    return ax_8, fig_5
+def _(X_train_1, clf_3, nom_classes2_3, y_train_1):
+    from supertree import SuperTree
+    super_tree = SuperTree(clf_3, X_train_1, y_train_1, ['Bleu', 'Vert', 'Rouge', 'NIR'], nom_classes2_3)
+    super_tree.show_tree()
+    return SuperTree, super_tree
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
+        On peut voir que le nœud le plus haut utilise la bande proche-infrarouge pour séparer l'eau de la forêt comme première décision.
+
         ## Méthodes paramétriques
 
         Les méthodes paramétriques se basent sur des modélisations statistiques des données pour permettre une classification. Contrairement au méthodes non paramétriques, elles ont un nombre fixe de paramètres qui ne dépend pas de la taille du jeu de données. Par contre, des hypothèses sont faites a priori sur le comportement statistique des données. La classification consiste alors à trouver la classe la plus vraisemblable dont le modèle statistique décrit le mieux les valeurs observées. L'ensemble d’entraînement permettra alors de calculer les paramètres de chaque Gaussienne pour chacune des classes d'intérêt.
@@ -1378,11 +1381,11 @@ def _(cmap_classes2_3, gnb_1, img_rgbnir, plt):
     data_image_3 = img_rgbnir.to_numpy().transpose(1, 2, 0).reshape(img_rgbnir.shape[1] * img_rgbnir.shape[2], 4)
     y_classe_2 = gnb_1.predict(data_image_3)
     y_classe_2 = y_classe_2.reshape(img_rgbnir.shape[1], img_rgbnir.shape[2])
-    (fig_6, ax_9) = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
+    (fig_5, ax_8) = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
     plt.imshow(y_classe_2, cmap=cmap_classes2_3)
-    ax_9.set_title("Carte d'occupation des sols avec la méthode Bayésienne naive", fontsize='small')
+    ax_8.set_title("Carte d'occupation des sols avec la méthode Bayésienne naive", fontsize='small')
     plt.show()
-    return ax_9, data_image_3, fig_6, y_classe_2
+    return ax_8, data_image_3, fig_5, y_classe_2
 
 
 @app.cell(hide_code=True)
@@ -1434,24 +1437,24 @@ def _(X_2, couleurs_classes, np, plt, qda_2, y_2, y_new_1):
             ell.set_alpha(0.5)
             ax.add_artist(ell)
             ax.set_aspect('equal', 'datalim')
-    (fig_7, ax_10) = plt.subplots(nrows=1, ncols=3, figsize=(9, 3), sharey=True)
+    (fig_6, ax_9) = plt.subplots(nrows=1, ncols=3, figsize=(9, 3), sharey=True)
     noms_bandes = ['Bleu', 'Vert', 'Rouge', 'NIR']
     for (index, b) in enumerate([0, 1, 3]):
         bands = [2, b]
-        make_ellipses(qda_2, bands, ax_10[index])
+        make_ellipses(qda_2, bands, ax_9[index])
         for (n, color) in enumerate(colors):
             data = X_2[y_new_1 == n, ...]
             plt.scatter(data[:, bands[0]], data[:, bands[1]], s=0.8, color=color)
-        ax_10[index].set_xlabel(noms_bandes[2], fontsize='small')
-        ax_10[index].set_ylabel(noms_bandes[b], fontsize='small')
+        ax_9[index].set_xlabel(noms_bandes[2], fontsize='small')
+        ax_9[index].set_ylabel(noms_bandes[b], fontsize='small')
     return (
-        ax_10,
+        ax_9,
         b,
         bands,
         color,
         colors,
         data,
-        fig_7,
+        fig_6,
         index,
         make_ellipses,
         mpl,
@@ -1475,19 +1478,18 @@ def _(cmap_classes2_3, img_rgbnir, plt, qda_2):
     data_image_4 = img_rgbnir.to_numpy().transpose(1, 2, 0).reshape(img_rgbnir.shape[1] * img_rgbnir.shape[2], 4)
     y_classe_3 = qda_2.predict(data_image_4)
     y_classe_3 = y_classe_3.reshape(img_rgbnir.shape[1], img_rgbnir.shape[2])
-    (fig_8, ax_11) = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
+    (fig_7, ax_10) = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
     plt.imshow(y_classe_3, cmap=cmap_classes2_3)
-    ax_11.set_title("Carte d'occupation des sols avec la méthode ADQ", fontsize='small')
+    ax_10.set_title("Carte d'occupation des sols avec la méthode ADQ", fontsize='small')
     plt.show()
-    return ax_11, data_image_4, fig_8, y_classe_3
+    return ax_10, data_image_4, fig_7, y_classe_3
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
-        ```{=html}
-        <!-- 
+        <!--- 
         ### Réseaux de neurones
 
         Les réseaux de neurones artificiels (RNA) ont connu un essor très important depuis les années 2010 avec des approches dites profondes. Ces aspects seront surtout abordés dans le tome 2 consacré à l'intelligence artificielle. On abordera ici seulement le perceptron simple et le perceptron multi-couches (MLP).
@@ -1497,8 +1499,7 @@ def _(mo):
         Le perceptron multi-couches est un réseau dense (*fully connected*) avec des couches cachées entre la couche d'entrée et la couche de sortie. qui permet de construire des frontières de décision beaucoup plus complexes via une hiérarchie de frontières de décision.
 
         Ces réseaux sont entraînés via des techniques itératives d'optimisation de type descente en gradient avec une correction des paramètres (les poids) à l'aide de la rétro-propagation de l'erreur. L'erreur est mesurée via une fonction de coût que l'on cherche à réduire.
-        -->
-        ```
+        --->
         """
     )
     return

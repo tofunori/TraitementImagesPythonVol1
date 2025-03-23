@@ -2,7 +2,9 @@
 jupyter: python3
 ---
 
-\renewcommand{\partname}{} % Réinitialiser partie
+\renewcommand{\partname}{}
+
+
 
 **Résumé :** Ce livre vise à décrire une panoplie de méthodes de traitement d’images satellites avec le langage Python. Celles et ceux souhaitant migrer progressivement d’un autre logiciel d’imagerie et de télédétection vers Python trouveront dans cet ouvrage les éléments pour une transition en douceur. La philosophie de ce livre est de donner toutes les clefs de compréhension et de mise en œuvre des méthodes abordées dans Python. La présentation des méthodes est basée sur une approche compréhensive et intuitive plutôt que mathématique, sans pour autant négliger la rigueur mathématique ou statistique. Des rappels sur les fondements en télédétection pourront apparaître au besoin afin d'éclairer les approches techniques. Plusieurs éditions régulières sont prévues sachant que ce domaine évolue constamment.
 
@@ -210,6 +212,7 @@ Ce projet a bénéficié du soutien pédagogique et financier de la [***fabrique
 
 Nous remercions chaleureusement les personnes étudiantes du [Baccalauréat en géomatique appliquée à l’environnement](https://www.usherbrooke.ca/admission/programme/271/baccalaureat-en-geomatiqueappliquee-a-lenvironnement/ "https://www.usherbrooke.ca/admission/programme/271/baccalaureat-en-geomatiqueappliquee-a-lenvironnement/") et du [Microprogramme de 1er cycle en géomatique appliquée](https://www.usherbrooke.ca/admission/programme/429/microprogramme-de-1er-cycleen-geomatique-appliquee/ "https://www.usherbrooke.ca/admission/programme/429/microprogramme-de-1er-cycleen-geomatique-appliquee/") du [Département de géomatique appliquée](https://www.usherbrooke.ca/geomatique/ "https://www.usherbrooke.ca/geomatique/") de l’[Université de Sherbrooke](https://www.usherbrooke.ca/ "https://www.usherbrooke.ca/") qui utilisent le manuel dans le cadre de cours.
 
+```{=html}
 <!--
 Nous remercions aussi les membres du comité de révision pour leurs commentaires et suggestions très constructifs. Ce comité est composé de quatre personnes étudiantes du [Département de géomatique appliquée](https://www.usherbrooke.ca/geomatique/) de l'[Université de Sherbrooke](https://www.usherbrooke.ca/) :
 
@@ -219,6 +222,7 @@ Nous remercions aussi les membres du comité de révision pour leurs commentaire
 
 Finalement, nous remercions Denise Latreille, réviseure linguistique et chargée de cours à l'Université Sherbrooke, pour la révision du manuel.
 -->
+```
 
 ## Introduction aux images de télédétection {#sect006 .unnumbered}
 

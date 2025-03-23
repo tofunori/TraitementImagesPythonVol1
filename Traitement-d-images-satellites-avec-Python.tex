@@ -283,7 +283,7 @@ code}
 \subtitle{Première édition}
 \author{Samuel Foucher \and Philippe Apparicio \and Yacine
 Bouroubi \and Mickaël Germain \and Étienne Clabaut}
-\date{2025-03-22}
+\date{2025-03-23}
 
 \begin{document}
 \frontmatter
@@ -307,8 +307,6 @@ Bouroubi \and Mickaël Germain \and Étienne Clabaut}
 \markboth{Préface}{Préface}
 
 \renewcommand{\partname}{}
-
-\% Réinitialiser partie
 
 \textbf{Résumé~:} Ce livre vise à décrire une panoplie de méthodes de
 traitement d'images satellites avec le langage Python. Celles et ceux
@@ -758,19 +756,42 @@ la géomatique et l'analyse spatiale.
 Germain}} est professeur agrégé au
 \href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
 appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
-Sherbrooke}.
+Sherbrooke}. Ses expertises comprennent les systèmes d'information
+géographique (SIG) et leur utilisation sur Internet (SIG web), les
+systèmes décisionnels, les bases de données à référence spatiale et le
+forage de données massives. Il s'intéresse également à la cartographie
+web, à la mobilité, à l'Internet des objets (IoT), à l'apprentissage
+machine et à la fusion des données multisources pour l'aide à la
+décision. Ses systèmes sont utilisés dans divers domaines de la
+géomatique tels que les ressources naturelles, la géologie, les
+transports et les écosystèmes. De plus, il se passionne pour le
+traitement, la gestion et l'analyse des données de télédétection pour
+extraire des paramètres descriptifs facilitant l'identification, la
+segmentation ou la classification de l'information.
 
 \href{https://www.usherbrooke.ca/geomatique/departement/personnel/personnel-enseignant/yacine-bouroubi}{\textbf{Yacine
 Bouroubi}} est professeur agrégé au
 \href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
 appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
-Sherbrooke}.
+Sherbrooke}. Il possède plus de vingt ans d'expérience dans le domaine
+du traitement des images numériques appliqué à diverses thématiques des
+sciences6. Ses travaux de recherche se concentrent principalement sur
+l'utilisation de techniques de traitement d'images pour résoudre des
+problèmes géographiques. En tant que professeur, il partage son
+expertise avec les étudiants et contribue à l'avancement des
+connaissances dans son domaine. Bien que les détails spécifiques de sa
+carrière ne soient pas fournis, son expérience étendue et son poste
+actuel témoignent de sa contribution significative à la géographie et au
+traitement d'images numériques.
 
 \href{https://www.linkedin.com/in/\%C3\%A9tienne-clabaut-793a4176/?originalSubdomain=ca}{\textbf{Étienne
 Clabaut}} est professeur associé au
 \href{https://www.usherbrooke.ca/geomatique/}{Département de géomatique
 appliquée} de l'\href{https://www.usherbrooke.ca/}{Université de
-Sherbrooke}.
+Sherbrooke}. Étienne détient un doctorat en télédétection de
+l'Université de Sherbrooke. Il se spécialise dans l'utilisation de
+l'apprentissage automatique pour l'exploitation de l'imagerie
+satellite.s
 
 \part{Partie 1. Importation, manipulation et visualisation de données
 spatiales}
@@ -2059,6 +2080,7 @@ Nous utiliserons les images suivantes dans ce chapitre:
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a6O3L\_abOfU7h94K22At8qtBuLMGErwo\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}sentinel2.tif\textquotesingle{}}\NormalTok{)}
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1\_zwCLN{-}x7XJcNHJCH6Z8upEdUXtVtvs1\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}berkeley.jpg\textquotesingle{}}\NormalTok{)}
 \NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}SAR.tif\textquotesingle{}}\NormalTok{)}
+\NormalTok{gdown.download(}\StringTok{\textquotesingle{}https://drive.google.com/uc?export=download\&confirm=pbef\&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw{-}Wo6\textquotesingle{}}\NormalTok{, output}\OperatorTok{=} \StringTok{\textquotesingle{}landsat7.tif\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2357,8 +2379,8 @@ la fonction \texttt{numpy.histogram()}:
 \end{Shaded}
 
 \begin{verbatim}
-valeurs : [0.13333333 0.07777778 0.14444444 0.06666667 0.14444444 0.12222222
- 0.14444444 0.11111111 0.1        0.06666667]
+valeurs : [0.1        0.13333333 0.07777778 0.11111111 0.07777778 0.07777778
+ 0.16666667 0.11111111 0.13333333 0.12222222]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]
 \end{verbatim}
 
@@ -2564,7 +2586,7 @@ rétrodiffusion en décibel (\texttt{dB}) avec la fonction
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{percentiles\_position}\OperatorTok{=}\NormalTok{ (}\DecValTok{0}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{98}\NormalTok{,}\DecValTok{99}\NormalTok{,}\FloatTok{99.9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
-\NormalTok{values}\OperatorTok{=} \DecValTok{10}\OperatorTok{*}\NormalTok{np.log10(img\_SAR[}\DecValTok{0}\NormalTok{]).data}
+\NormalTok{values}\OperatorTok{=}\NormalTok{ xr.apply\_ufunc(}\KeywordTok{lambda}\NormalTok{ x: }\DecValTok{10} \OperatorTok{*}\NormalTok{ np.log10(x), img\_SAR[}\DecValTok{0}\NormalTok{]).data}
 \NormalTok{percentiles\_db}\OperatorTok{=} \BuiltInTok{dict}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(percentiles\_position, np.percentile(values, percentiles\_position)))}
 \BuiltInTok{print}\NormalTok{(percentiles\_db)}
 \end{Highlighting}
@@ -2613,7 +2635,7 @@ suivante:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{values}\OperatorTok{=}\NormalTok{ np.sort(np.log10(img\_SAR[}\DecValTok{0}\NormalTok{].data.flatten()))}
+\NormalTok{values}\OperatorTok{=}\NormalTok{ np.sort(}\DecValTok{10}\OperatorTok{*}\NormalTok{np.log10(img\_SAR[}\DecValTok{0}\NormalTok{].data.flatten()))}
 \NormalTok{cdf\_x}\OperatorTok{=}\NormalTok{ np.linspace(values[}\DecValTok{0}\NormalTok{], values[}\OperatorTok{{-}}\DecValTok{1}\NormalTok{], }\DecValTok{1000}\NormalTok{)}
 \NormalTok{cdf\_source}\OperatorTok{=}\NormalTok{ np.interp(cdf\_x, values, np.arange(}\BuiltInTok{len}\NormalTok{(values))}\OperatorTok{/}\BuiltInTok{len}\NormalTok{(values)}\OperatorTok{*}\DecValTok{255}\NormalTok{)}
 \NormalTok{values\_eq}\OperatorTok{=}\NormalTok{np.interp(np.log10(img\_SAR[}\DecValTok{0}\NormalTok{].data), cdf\_x, cdf\_source).astype(}\StringTok{\textquotesingle{}uint8\textquotesingle{}}\NormalTok{)}
@@ -4103,7 +4125,7 @@ Dans l'environnement Google Colab, seul \texttt{rioxarray} et
 \begin{Shaded}
 \begin{Highlighting}[]
 \OperatorTok{\%\%}\NormalTok{capture}
-\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{qU matplotlib rioxarray xrscipy supertree}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5015,7 +5037,7 @@ ratio entre le nombre d'échantillons et le nombre de dimensions.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{X\_train, X\_test, y\_train, y\_test }\OperatorTok{=}\NormalTok{ train\_test\_split(X, y, test\_size}\OperatorTok{=}\FloatTok{0.2}\NormalTok{, random\_state}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+\NormalTok{X\_train, X\_test, y\_train, y\_test }\OperatorTok{=}\NormalTok{ train\_test\_split(X, y\_new, test\_size}\OperatorTok{=}\FloatTok{0.2}\NormalTok{, random\_state}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5085,29 +5107,25 @@ lignes et 4 colonnes:
 
 \pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-40-output-1.pdf}}
 
-Il est possible de visualiser l'arbre mais cela contient beaucoup
-d'information
+Il est possible de visualiser l'arbre avec l'outil
+\href{https://github.com/mljar/supertree?tab=readme-ov-file}{SuperTree}
+mais cela contient beaucoup d'information
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{fig, ax }\OperatorTok{=}\NormalTok{ plt.subplots(nrows}\OperatorTok{=}\DecValTok{1}\NormalTok{, ncols}\OperatorTok{=}\DecValTok{1}\NormalTok{, figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{6}\NormalTok{))}
-\NormalTok{tree.plot\_tree(clf, max\_depth}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+\ImportTok{from}\NormalTok{ supertree }\ImportTok{import}\NormalTok{ SuperTree }\CommentTok{\# \textless{}{-} import supertree :)}
+\NormalTok{super\_tree }\OperatorTok{=}\NormalTok{ SuperTree(clf, X\_train, y\_train, [}\StringTok{\textquotesingle{}Bleu\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Vert\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Rouge\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}NIR\textquotesingle{}}\NormalTok{], nom\_classes2)}
+
+\NormalTok{super\_tree.show\_tree()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-[Text(0.5, 0.8333333333333334, 'x[3] <= 2139.0\ngini = 0.9\nsamples = 800\nvalue = [85, 89, 73, 78, 77, 82, 80, 76, 85, 75]'),
- Text(0.25, 0.5, 'x[2] <= 1714.0\ngini = 0.055\nsamples = 71\nvalue = [0, 0, 0, 0, 1, 0, 0, 69, 0, 1]'),
- Text(0.375, 0.6666666666666667, 'True  '),
- Text(0.125, 0.16666666666666666, '\n  (...)  \n'),
- Text(0.375, 0.16666666666666666, '\n  (...)  \n'),
- Text(0.75, 0.5, 'x[2] <= 1277.0\ngini = 0.89\nsamples = 729\nvalue = [85.0, 89.0, 73.0, 78.0, 76.0, 82.0, 80.0, 7.0, 85.0\n74.0]'),
- Text(0.625, 0.6666666666666667, '  False'),
- Text(0.625, 0.16666666666666666, '\n  (...)  \n'),
- Text(0.875, 0.16666666666666666, '\n  (...)  \n')]
+<IPython.core.display.HTML object>
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{05-ClassificationsSupervisees_files/figure-pdf/cell-41-output-2.pdf}}
+On peut voir que le nœud le plus haut utilise la bande proche-infrarouge
+pour séparer l'eau de la forêt comme première décision.
 
 \section{Méthodes paramétriques}\label{muxe9thodes-paramuxe9triques}
 

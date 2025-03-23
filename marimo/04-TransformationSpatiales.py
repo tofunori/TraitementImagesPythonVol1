@@ -391,11 +391,11 @@ def _(mo):
 
         Un filtrage linéaire stationnaire consiste à appliquer une même pondération locale des valeurs des pixels dans une fenêtre glissante. La taille de cette fenêtre est généralement un chiffre impair (3,5, etc.) afin de définir une position centrale et une fenêtre symétrique. La valeur calculée à partir de tous les pixels dans la fenêtre est alors attribuée au pixel central.
 
-        ```{=html}
-        <!--
+
+        <!---
         Mettre une figure ici
-        -->
-        ```
+        --->
+
 
         Le filtre le plus simple est certainement le filtre moyen qui consiste à appliquer le même poids uniforme dans la fenêtre glissante. Par exemple pour un filtre 5x5:
 
@@ -469,14 +469,6 @@ def _(img_rgb, np, signal):
 def _(mo):
     mo.md(
         r"""
-        ```{=html}
-        <!--
-        ::: callout-note
-        Filtre de Sobel, filtre Prewitt
-        :::
-        -->
-        ```
-
         #### Filtrage par convolution
 
         La façon la plus efficace d'appliquer un filtre linéaire est d'appliquer une convolution. La convolution est généralement très efficace car elle est peut être calculée dans le domaine fréquentiel. Prenons l'exemple du filtre de Scharr [@Scharr1999], qui permet de détecter les contours horizontaux et verticaux:

@@ -349,18 +349,18 @@ window.Quarto = {
 <li><p><a href="https://corteva.github.io/rioxarray/stable/index.html">rioxarray</a></p></li>
 </ul>
 <p>Dans l’environnement Google Colab, seul <code>rioxarray</code> et GDAL doivent être installés:</p>
-<div id="3ee0fa32" class="cell" data-execution_count="3">
+<div id="962e5e56" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get update</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>apt<span class="op">-</span>get install gdal<span class="op">-</span><span class="bu">bin</span> libgdal<span class="op">-</span>dev</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Dans l’environnement <a href="https://colab.research.google.com/">Google Colab</a>, il convient de s’assurer que les librairies sont installées:</p>
-<div id="0b89a34b" class="cell" data-execution_count="4">
+<div id="cf07c71e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qU matplotlib rioxarray xrscipy scikit<span class="op">-</span>image</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifier les importations:</p>
-<div id="289a344b" class="cell" data-execution_count="5">
+<div id="c521941a" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
@@ -372,17 +372,18 @@ window.Quarto = {
 <section id="données" class="level3" data-number="3.1.4">
 <h3 data-number="3.1.4" class="anchored" data-anchor-id="données"><span class="header-section-number">3.1.4</span> Données</h3>
 <p>Nous utiliserons les images suivantes dans ce chapitre:</p>
-<div id="9aeb0353" class="cell" data-execution_count="6">
+<div id="06de1060" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gdown</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1a6Ypg0g1Oy4AJt9XWKWfnR12NW1XhNg_'</span>, output<span class="op">=</span> <span class="st">'RGBNIR_of_S2A.tif'</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1a6O3L_abOfU7h94K22At8qtBuLMGErwo'</span>, output<span class="op">=</span> <span class="st">'sentinel2.tif'</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1'</span>, output<span class="op">=</span> <span class="st">'berkeley.jpg'</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6'</span>, output<span class="op">=</span> <span class="st">'SAR.tif'</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6'</span>, output<span class="op">=</span> <span class="st">'SAR.tif'</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>gdown.download(<span class="st">'https://drive.google.com/uc?export=download&amp;confirm=pbef&amp;id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw-Wo6'</span>, output<span class="op">=</span> <span class="st">'landsat7.tif'</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Vérifiez que vous êtes capable de les lire :</p>
-<div id="5fee052e" class="cell" data-execution_count="7">
+<div id="5d004753" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'berkeley.jpg'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_rgb:</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(img_rgb)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rxr.open_rasterio(<span class="st">'sentinel2.tif'</span>, mask_and_scale<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> img_s2:</span>
@@ -398,7 +399,7 @@ window.Quarto = {
 <h2 data-number="3.2" class="anchored" data-anchor-id="visualisation-en-python"><span class="header-section-number">3.2</span> Visualisation en Python</h2>
 <p>ID’emblée, il faut mentionner que Python n’est pas vraiment fait pour visualiser de la donnée de grande taille, le niveau d’interactivité est aussi assez limité. Pour une visualisation interactives, il est plutôt conseillé d’utiliser un outil comme <a href="https://qgis.org/">QGIS</a>. Néanmoins, il est possible de visualiser de petites images avec la librairie <a href="https://matplotlib.org/stable/"><code>matplotlib</code></a> qui est la librairie principale de visualisation en Python. Cette librairie est extrêmement riche et versatile, nous ne présenterons que les bases nécessaires pour démarrer. Le lecteur désirant aller plus loin pourra consulter les nombreux tutoriels disponibles comme <a href="https://matplotlib.org/stable/tutorials/index.html">celui-ci</a>.</p>
 <p>La fonction de base pour créer une figure est <code>subplots</code>, la largeur et la hauteur en pouces de la figure peuvent être contrôlées via le paramètre <code>figsize</code>:</p>
-<div id="5a522de5" class="cell" data-execution_count="8">
+<div id="a446b75a" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig, ax<span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -411,7 +412,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Pour l’affichage des images, la fonction <code>imshow</code> permet d’afficher une matrice 2D à une dimension en format <em>float</em> ou une matrice RVB avec 3 bandes. Il est important que les dimensions de la matrice soient dans l’ordre hauteur, largeur et bande.</p>
-<div id="0ec85a04" class="cell" data-execution_count="9">
+<div id="09292464" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fig, ax<span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.imshow(img_rgbnir[<span class="dv">0</span>].data)</span>
@@ -425,7 +426,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Pour un affichage à trois bandes, les valeurs seront ramenées sur une échelle de 0 à 1, il est donc nécessaire de normaliser les valeurs avant l’affichage:</p>
-<div id="266d55e3" class="cell" data-execution_count="10">
+<div id="5b6ded59" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fig, ax<span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.imshow(img_rgbnir.data.transpose(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)<span class="op">/</span><span class="fl">2500.0</span>)</span>
@@ -439,7 +440,7 @@ window.Quarto = {
 </div>
 </div>
 <p>On remarquera les valeurs des axes <code>x</code> et <code>y</code> avec une origine en haut à gauche. Ceci est un référentiel purement matriciel (lignes et colonnes); autrement dit, il n’y a pas ici de géoréférence. Pour pallier à cette limitation, les librairies <code>rasterio</code> et <code>xarray</code> proposent une extension de la fonction <code>imshow</code> permettant d’afficher les coordonnées cartographiques ainsi qu’un contrôle la dynamique de l’image:</p>
-<div id="e05d1c8d" class="cell" data-execution_count="11">
+<div id="142b26da" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fig, ax<span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>img_rgbnir.sel(band<span class="op">=</span>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]).plot.imshow(vmin<span class="op">=</span><span class="dv">86</span>, vmax<span class="op">=</span><span class="dv">5000</span>)</span>
@@ -453,7 +454,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<!--
+<!---
 ### Visualisation sur le Web
 
 Une des meilleures pratiques pour visualiser une image de grande taille est d'utiliser un service de type Web Mapping Service (WMS). Cependant, type de service nécessite une architecture client-serveur qui est plus complexe à mettre en place.
@@ -471,7 +472,7 @@ drapper une image satellite sur un DEM
 
 
 ## Exercices de révision 
--->
+--->
 </section>
 <section id="réhaussements-visuels" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="réhaussements-visuels"><span class="header-section-number">3.3</span> Réhaussements visuels</h2>
@@ -487,7 +488,7 @@ drapper une image satellite sur un DEM
 </ul>
 <p>Ces statistiques doivent être calculées pour chaque bande d’une image multispectrale.</p>
 <p>En ligne de commande, <code>gdalinfo</code> permet d’interroger rapidement un fichier image pour connaitre ces statistiques univariées de base:</p>
-<div id="a6e3aee4" class="cell" data-execution_count="12">
+<div id="a83a3e05" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>gdalinfo <span class="op">-</span>stats landsat7.tif</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Driver: GTiff/GeoTIFF
@@ -567,7 +568,7 @@ Band 3 Block=512x512 Type=Byte, ColorInterp=Blue
 </div>
 </div>
 <p>Les librairies de base comme <code>rasterio</code> et <code>xarray</code> produisent facilement un sommaire des statistiques de base avec la fonction <a href="https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.stats">stats</a>:</p>
-<div id="26da682f" class="cell" data-execution_count="13">
+<div id="dc07a507" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio <span class="im">as</span> rio</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rio.<span class="bu">open</span>(<span class="st">'landsat7.tif'</span>) <span class="im">as</span> src:</span>
@@ -575,7 +576,7 @@ Band 3 Block=512x512 Type=Byte, ColorInterp=Blue
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(stats)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La librairie <code>xarray</code> donne accès à des fonctionnalités plus sophistiquées comme le calcul des quantiles:</p>
-<div id="d76ab79a" class="cell" data-execution_count="14">
+<div id="687401dc" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> riox</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> riox.open_rasterio(<span class="st">'landsat7.tif'</span>, masked<span class="op">=</span> <span class="va">True</span>) <span class="im">as</span> src:</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(src)</span>
@@ -981,30 +982,30 @@ array([[ 54.,  19.,  19.],
        [140., 102.,  89.]])
 Coordinates:
   * band      (band) int64 24B 1 2 3
-  * quantile  (quantile) float64 40B 0.025 0.25 0.5 0.75 0.975</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name"></div><ul class="xr-dim-list"><li><span class="xr-has-index">quantile</span>: 5</li><li><span class="xr-has-index">band</span>: 3</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-3a8ae97b-783c-488a-b709-b7eabc95c08f" class="xr-array-in" type="checkbox" checked=""><label for="section-3a8ae97b-783c-488a-b709-b7eabc95c08f" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>54.0 19.0 19.0 85.0 38.0 27.0 ... 111.0 69.0 57.0 140.0 102.0 89.0</span></div><div class="xr-array-data"><pre>array([[ 54.,  19.,  19.],
+  * quantile  (quantile) float64 40B 0.025 0.25 0.5 0.75 0.975</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name"></div><ul class="xr-dim-list"><li><span class="xr-has-index">quantile</span>: 5</li><li><span class="xr-has-index">band</span>: 3</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-981ecfef-8f66-4a89-b5b7-27682d4ae9d3" class="xr-array-in" type="checkbox" checked=""><label for="section-981ecfef-8f66-4a89-b5b7-27682d4ae9d3" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>54.0 19.0 19.0 85.0 38.0 27.0 ... 111.0 69.0 57.0 140.0 102.0 89.0</span></div><div class="xr-array-data"><pre>array([[ 54.,  19.,  19.],
        [ 85.,  38.,  27.],
        [ 99.,  54.,  38.],
        [111.,  69.,  57.],
-       [140., 102.,  89.]])</pre></div></div></li><li class="xr-section-item"><input id="section-ded96127-06bb-433b-b671-8798ea904f20" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-ded96127-06bb-433b-b671-8798ea904f20" class="xr-section-summary">Coordinates: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">band</span></div><div class="xr-var-dims">(band)</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">1 2 3</div><input id="attrs-76f9a12b-767d-4f82-9868-53e58bba6800" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-76f9a12b-767d-4f82-9868-53e58bba6800" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-cd705ec6-0381-42d5-9521-aec7e6b4d264" class="xr-var-data-in" type="checkbox"><label for="data-cd705ec6-0381-42d5-9521-aec7e6b4d264" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([1, 2, 3])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">quantile</span></div><div class="xr-var-dims">(quantile)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.025 0.25 0.5 0.75 0.975</div><input id="attrs-8d3927d5-dafb-49c1-81b7-5145bb6ab8c7" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-8d3927d5-dafb-49c1-81b7-5145bb6ab8c7" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-585e70b6-6eba-4850-a03d-0ca7afc25568" class="xr-var-data-in" type="checkbox"><label for="data-585e70b6-6eba-4850-a03d-0ca7afc25568" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.025, 0.25 , 0.5  , 0.75 , 0.975])</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-ad1da26d-b4cb-4212-a28c-63bd61e2c2e1" class="xr-section-summary-in" type="checkbox"><label for="section-ad1da26d-b4cb-4212-a28c-63bd61e2c2e1" class="xr-section-summary">Indexes: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>band</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-0f83d882-e5f1-4bef-b5ce-b665ecb21d1e" class="xr-index-data-in" type="checkbox"><label for="index-0f83d882-e5f1-4bef-b5ce-b665ecb21d1e" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([1, 2, 3], dtype='int64', name='band'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>quantile</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-6cf4f76d-671e-498a-bcc2-8cf05342f6ec" class="xr-index-data-in" type="checkbox"><label for="index-6cf4f76d-671e-498a-bcc2-8cf05342f6ec" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([0.025, 0.25, 0.5, 0.75, 0.975], dtype='float64', name='quantile'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-4aa35100-7da3-431d-8da3-aed5680238a8" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-4aa35100-7da3-431d-8da3-aed5680238a8" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
+       [140., 102.,  89.]])</pre></div></div></li><li class="xr-section-item"><input id="section-16c0d28e-3614-418a-a34c-8ad0d8a4ccfe" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-16c0d28e-3614-418a-a34c-8ad0d8a4ccfe" class="xr-section-summary">Coordinates: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">band</span></div><div class="xr-var-dims">(band)</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">1 2 3</div><input id="attrs-13ad9262-a467-4031-842f-1867825563d8" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-13ad9262-a467-4031-842f-1867825563d8" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-80db9150-3208-4c53-9851-f05a8d43adef" class="xr-var-data-in" type="checkbox"><label for="data-80db9150-3208-4c53-9851-f05a8d43adef" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([1, 2, 3])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">quantile</span></div><div class="xr-var-dims">(quantile)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.025 0.25 0.5 0.75 0.975</div><input id="attrs-3576ce9f-3388-49fc-801a-14e3c9c01c06" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-3576ce9f-3388-49fc-801a-14e3c9c01c06" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-54d0b65b-7c64-4f85-a1ff-90322b2e6c35" class="xr-var-data-in" type="checkbox"><label for="data-54d0b65b-7c64-4f85-a1ff-90322b2e6c35" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.025, 0.25 , 0.5  , 0.75 , 0.975])</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-9ec16e9c-5292-4a6c-9271-211ecbcb27d0" class="xr-section-summary-in" type="checkbox"><label for="section-9ec16e9c-5292-4a6c-9271-211ecbcb27d0" class="xr-section-summary">Indexes: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>band</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-4cb2c084-9633-4ffa-a6b0-1242b9a6dc2a" class="xr-index-data-in" type="checkbox"><label for="index-4cb2c084-9633-4ffa-a6b0-1242b9a6dc2a" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([1, 2, 3], dtype='int64', name='band'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>quantile</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-71c0fa05-5075-4ef0-a919-d387dc51da07" class="xr-index-data-in" type="checkbox"><label for="index-71c0fa05-5075-4ef0-a919-d387dc51da07" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([0.025, 0.25, 0.5, 0.75, 0.975], dtype='float64', name='quantile'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-fa391930-9102-44f4-8584-f533348389e3" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-fa391930-9102-44f4-8584-f533348389e3" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
 </div>
 </div>
 <section id="calcul-de-lhistogramme" class="level4" data-number="3.3.1.1">
 <h4 data-number="3.3.1.1" class="anchored" data-anchor-id="calcul-de-lhistogramme"><span class="header-section-number">3.3.1.1</span> Calcul de l’histogramme</h4>
 <p>Le calcul d’un histogramme pour une image (une bande) permet d’avoir une vue plus détaillée de la répartition des valeurs radiométriques. Le calcul d’un histogramme nécessite minimalement de faire le choix du nombre de barre ( <em>bins</em> ou de la largeur ). Un <em>bin</em> est un intervalle de valeurs pour lequel on peut calculer le nombre de valeurs observées dans l’image. La fonction de base pour ce type de calcul est la fonction <code>numpy.histogram()</code>:</p>
-<div id="57822e1a" class="cell" data-execution_count="15">
+<div id="20e0df45" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>array <span class="op">=</span> np.random.randint(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">100</span>) <span class="co"># 100 valeurs aléatoires entre 0 et 10</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>hist, bin_limites <span class="op">=</span> np.histogram(array, density<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'valeurs :'</span>,hist)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">';imites :'</span>,bin_limites)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>valeurs : [0.16666667 0.05555556 0.16666667 0.12222222 0.05555556 0.14444444
- 0.07777778 0.1        0.1        0.12222222]
+<pre><code>valeurs : [0.1        0.07777778 0.07777778 0.08888889 0.16666667 0.12222222
+ 0.05555556 0.13333333 0.14444444 0.14444444]
 ;imites : [0.  0.9 1.8 2.7 3.6 4.5 5.4 6.3 7.2 8.1 9. ]</code></pre>
 </div>
 </div>
 <p>Le calcul se fait avec 10 intervalles par défaut.</p>
-<div id="e840e97b" class="cell" data-execution_count="16">
+<div id="38484b05" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fig, ax<span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.bar(bin_limites[:<span class="op">-</span><span class="dv">1</span>],hist)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1020,7 +1021,7 @@ Coordinates:
 <section id="visualisation-des-histogrammes" class="level5" data-number="3.3.1.1.1">
 <h5 data-number="3.3.1.1.1" class="anchored" data-anchor-id="visualisation-des-histogrammes"><span class="header-section-number">3.3.1.1.1</span> Visualisation des histogrammes</h5>
 <p>La librarie <code>rasterio</code> est probablement l’outil le plus simples pour visualiser rapidement des histogrammes sur une image multi-spectrale:</p>
-<div id="f7ab9820" class="cell" data-execution_count="17">
+<div id="4008bf57" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio <span class="im">as</span> rio</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.plot <span class="im">import</span> show_hist</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rio.<span class="bu">open</span>(<span class="st">'RGBNIR_of_S2A.tif'</span>) <span class="im">as</span> src:</span>
@@ -1049,7 +1050,7 @@ Coordinates:
 <section id="cas-des-histogrammes-asymétriques" class="level4" data-number="3.3.2.1">
 <h4 data-number="3.3.2.1" class="anchored" data-anchor-id="cas-des-histogrammes-asymétriques"><span class="header-section-number">3.3.2.1</span> Cas des histogrammes asymétriques</h4>
 <p>Dans certains cas, la distribution de valeurs est très asymétrique et présente une longue queue avec des valeurs extrêmes élevées (à droite ou à gauche de l’histogramme). Le cas des images SAR est particulièrement représentatif de ce type de données. En effet, celles-ci peuvent présenter une distribution de valeurs de type exponentiel. Il est alors préférable d’utiliser des <a href="https://fr.wikipedia.org/wiki/Centile">percentiles</a> au préalable afin d’explorer la forme de l’histogramme et la distribution des valeurs:</p>
-<div id="d8f5ae4f" class="cell" data-execution_count="18">
+<div id="6654422f" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>NO_DATA_FLOAT<span class="op">=</span> <span class="op">-</span><span class="fl">999.0</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># on prend tous les pixels de la première bande</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> img_SAR[<span class="dv">0</span>].values.flatten().astype(<span class="bu">float</span>)</span>
@@ -1066,7 +1067,7 @@ Coordinates:
 </div>
 </div>
 <p>On constate que la valeur médiane (<code>0.012</code>) est très faible, ce qui signifie que 50% des valeurs sont inférieures à cette valeur alors que la valeur maximale (<code>483</code>) est 10 000 fois plus élevée! Une manière de visualiser cette distribution de valeurs est d’utiliser <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html"><code>boxplot</code></a> et <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.violinplot.html"><code>violinplot</code></a> de la librairie <code>matplotlib</code>:</p>
-<div id="9cad1d05" class="cell" data-execution_count="19">
+<div id="fab5d1d6" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">'Distribution de la bande 0 de img_SAR'</span>, fontsize<span class="op">=</span><span class="st">'small'</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].grid(<span class="va">True</span>)</span>
@@ -1088,7 +1089,7 @@ Coordinates:
 </div>
 </div>
 <p>Afin de visualiser correctement l’histogramme, il faut se limiter à un intervalle de valeurs plus réduit. Dans le code ci-dessous, on impose à la fonction <code>np.histogramme</code> de compter les valeurs de pixels dans des intervalles de valeurs fixés par la fonction <code>np.linspace(percentiles[0.1],percentiles[99.9], 50)</code> où <code>percentiles[0.1]</code> et <code>percentiles[99.9]</code> sont les <span class="math inline">\(0.1\%\)</span> et <span class="math inline">\(99.9\%\)</span> percentiles respectivement:</p>
-<div id="cb2cfd29" class="cell" data-execution_count="20">
+<div id="845c279d" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>hist, bin_edges <span class="op">=</span> np.histogram(values, </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                                bins<span class="op">=</span>np.linspace(percentiles[<span class="fl">0.1</span>], </span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                                percentiles[<span class="fl">99.9</span>], <span class="dv">50</span>), </span>
@@ -1120,7 +1121,7 @@ Coordinates:
 </div>
 </div>
 <p>Au niveau de l’affichage avec <code>matplotlib</code>, la dynamique peut être contrôlée directement avec les paramètres <code>vmin</code> et <code>vmax</code> comme ceci:</p>
-<div id="017a4460" class="cell" data-execution_count="21">
+<div id="957f4a4b" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>[a.axis(<span class="st">'off'</span>) <span class="cf">for</span> a <span class="kw">in</span> ax.flatten()]</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>,<span class="dv">0</span>].imshow(img_SAR[<span class="dv">0</span>].values, vmin<span class="op">=</span>percentiles[<span class="dv">0</span>], vmax<span class="op">=</span>percentiles[<span class="dv">100</span>])</span>
@@ -1146,13 +1147,10 @@ Coordinates:
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="réhaussements-non-linéaires"><span class="header-section-number">3.3.3</span> Réhaussements non linéaires</h3>
 <section id="réhaussement-par-fonctions" class="level4" data-number="3.3.3.1">
 <h4 data-number="3.3.3.1" class="anchored" data-anchor-id="réhaussement-par-fonctions"><span class="header-section-number">3.3.3.1</span> Réhaussement par fonctions</h4>
-<!--
-Calcul d'histogrammes, étirement, égalisation, styling
--->
 <p>Le réhaussenent par fonction consiste à appliquer une fonction non linéaire afin de modifier la dynamique de l’image. Par exemple, pour une image radar, une transformation populaire est d’afficher les valeurs de rétrodiffusion en décibel (<code>dB</code>) avec la fonction <code>log10()</code>.</p>
-<div id="2eec5e47" class="cell" data-execution_count="22">
+<div id="98e08e7c" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>percentiles_position<span class="op">=</span> (<span class="dv">0</span>,<span class="fl">0.1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">50</span>,<span class="dv">98</span>,<span class="dv">99</span>,<span class="fl">99.9</span>,<span class="dv">100</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>values<span class="op">=</span> <span class="dv">10</span><span class="op">*</span>np.log10(img_SAR[<span class="dv">0</span>]).data</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>values<span class="op">=</span> xr.apply_ufunc(<span class="kw">lambda</span> x: <span class="dv">10</span> <span class="op">*</span> np.log10(x), img_SAR[<span class="dv">0</span>]).data</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>percentiles_db<span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(percentiles_position, np.percentile(values, percentiles_position)))</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(percentiles_db)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1160,7 +1158,7 @@ Calcul d'histogrammes, étirement, égalisation, styling
 </div>
 </div>
 <p>Les boites à moustache (<em>boxplots</em>) ont une bien meilleure distribution qui est en effet très proche d’une distribution normale gaussienne:</p>
-<div id="8c77af95" class="cell" data-execution_count="23">
+<div id="57bd0325" class="cell" data-execution_count="23">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1170,7 +1168,7 @@ Calcul d'histogrammes, étirement, égalisation, styling
 </div>
 </div>
 <p>On obtient ainsi les images suivantes:</p>
-<div id="d4e111f3" class="cell" data-execution_count="24">
+<div id="036a41ee" class="cell" data-execution_count="24">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1179,9 +1177,9 @@ Calcul d'histogrammes, étirement, égalisation, styling
 </div>
 </div>
 </div>
-<!--
+<!---
 Exercise: trouver une autre transformation possible pour l'image SAR.
--->
+--->
 </section>
 <section id="égalisation-dhistogramme" class="level4" data-number="3.3.3.2">
 <h4 data-number="3.3.3.2" class="anchored" data-anchor-id="égalisation-dhistogramme"><span class="header-section-number">3.3.3.2</span> Égalisation d’histogramme</h4>
@@ -1194,8 +1192,8 @@ j = CDF_{cible}^{-1}(CDF_{source}(i))
 <p>On peut choisir <span class="math inline">\(CDF_{cible}\)</span> comme correspondant à une image où chaque valeur de pixel est équiprobable (d’où le terme <em>égalisation</em>), ce qui veut dire <span class="math inline">\(hist_{cible}(j)=1/L\)</span> avec <span class="math inline">\(L\)</span> égale au nombre de valeurs possibles dans l’image (par exemple <span class="math inline">\(L=256\)</span>). <span class="math display">\[
 j = L \times CDF_{source}(i)
 \]</span> On peut appliquer cette procédure sur l’image SAR en dB de la façon suivante:</p>
-<div id="e3a46134" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>values<span class="op">=</span> np.sort(np.log10(img_SAR[<span class="dv">0</span>].data.flatten()))</span>
+<div id="280e7717" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>values<span class="op">=</span> np.sort(<span class="dv">10</span><span class="op">*</span>np.log10(img_SAR[<span class="dv">0</span>].data.flatten()))</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>cdf_x<span class="op">=</span> np.linspace(values[<span class="dv">0</span>], values[<span class="op">-</span><span class="dv">1</span>], <span class="dv">1000</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>cdf_source<span class="op">=</span> np.interp(cdf_x, values, np.arange(<span class="bu">len</span>(values))<span class="op">/</span><span class="bu">len</span>(values)<span class="op">*</span><span class="dv">255</span>)</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>values_eq<span class="op">=</span>np.interp(np.log10(img_SAR[<span class="dv">0</span>].data), cdf_x, cdf_source).astype(<span class="st">'uint8'</span>)</span>
@@ -1209,19 +1207,19 @@ j = L \times CDF_{source}(i)
 </div>
 </div>
 </div>
-<!--
+<!---
 Exercise: changer la CDF cible pour une Gaussienne
--->
+--->
 </section>
 <section id="palettes-de-couleur" class="level4" data-number="3.3.3.3">
 <h4 data-number="3.3.3.3" class="anchored" data-anchor-id="palettes-de-couleur"><span class="header-section-number">3.3.3.3</span> Palettes de couleur</h4>
 <p>Les palettes de couleurs sont appliquées dynamiquement à l’affichage sur une image à une seule bande. La librairie <code>matplotlib</code> contient un nombre considérable de <a href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">palettes</a>.</p>
-<div id="09940c10" class="cell" data-execution_count="26">
+<div id="52671275" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> colormaps</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(colormaps)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Voici quelques exemples ci-dessous, les valeurs de l’image doivent être normalisées entre 0 et 1 ou entre 0 et 255 sinon les paramètres <code>vmin</code> et <code>vmax</code> doivent être spécifiés. On peut observer comment ces palettes révèlent les détails de l’image malgré une image originalement très sombre.</p>
-<div id="157a15dc" class="cell" data-execution_count="27">
+<div id="60fced16" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>[a.axis(<span class="st">'off'</span>) <span class="cf">for</span> a <span class="kw">in</span> ax.flatten()]</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>,<span class="dv">0</span>].imshow(img_SAR[<span class="dv">0</span>].data, vmin<span class="op">=</span>percentiles[<span class="dv">2</span>], vmax<span class="op">=</span>percentiles[<span class="dv">98</span>], cmap<span class="op">=</span><span class="st">'jet'</span>)</span>
@@ -1242,7 +1240,7 @@ Exercise: changer la CDF cible pour une Gaussienne
 </div>
 </div>
 <p>Il peut être utile d’ajouter une barre de couleurs afin d’indiquer la correspondance entre les couleurs et les valeurs numériques:</p>
-<div id="fa33be9b" class="cell" data-execution_count="28">
+<div id="17009e5f" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>cmap<span class="op">=</span> mpl.colormaps.get_cmap(<span class="st">'jet'</span>).with_extremes(under<span class="op">=</span><span class="st">'white'</span>, over<span class="op">=</span><span class="st">'magenta'</span>)</span>
@@ -1263,7 +1261,7 @@ Exercise: changer la CDF cible pour une Gaussienne
 <section id="composés-colorés" class="level3" data-number="3.3.4">
 <h3 data-number="3.3.4" class="anchored" data-anchor-id="composés-colorés"><span class="header-section-number">3.3.4</span> Composés colorés</h3>
 <p>Le système visuel humain est sensible seulement à la partie visible du spectre électromagnétique qui compose les couleurs de l’arc-en-ciel du bleu au rouge. L’ensemble des couleurs du spectre visible peut être obtenu à partir du mélange de trois couleurs primaires (rouge, vert et bleu). Ce système de décomposition à trois couleurs est à la base de la plupart des systèmes de visualisation ou de représentation de l’information de couleur. Si on prend le cas des images Sentinel-2, 12 bandes sont disponibles, plusieurs composés couleurs sont donc possibles (voir le site de <a href="https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/">Copernicus</a>). Voici quelques exemples possibles, chaque composé mettant en valeur des propriétés différentes de la surface.</p>
-<div id="0741fb0a" class="cell" data-execution_count="29">
+<div id="f3c7506f" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>fig, ax<span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span> <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>img_s2.sel(band<span class="op">=</span>[<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>]).plot.imshow(vmin<span class="op">=</span><span class="dv">86</span>, vmax<span class="op">=</span><span class="dv">4000</span>, ax<span class="op">=</span>ax[<span class="dv">0</span>,<span class="dv">0</span>])</span>

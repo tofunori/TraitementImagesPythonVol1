@@ -171,6 +171,7 @@ def _():
     gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a6O3L_abOfU7h94K22At8qtBuLMGErwo', output= 'sentinel2.tif')
     gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1_zwCLN-x7XJcNHJCH6Z8upEdUXtVtvs1', output= 'berkeley.jpg')
     gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1dM6IVqjba6GHwTLmI7CpX8GP2z5txUq6', output= 'SAR.tif')
+    gdown.download('https://drive.google.com/uc?export=download&confirm=pbef&id=1a4PQ68Ru8zBphbQ22j0sgJ4D2quw-Wo6', output= 'landsat7.tif')
     return (gdown,)
 
 
@@ -279,8 +280,7 @@ def _(img_rgbnir, plt):
 def _(mo):
     mo.md(
         r"""
-        ```{=html}
-        <!--
+        <!---
         ### Visualisation sur le Web
 
         Une des meilleures pratiques pour visualiser une image de grande taille est d'utiliser un service de type Web Mapping Service (WMS). Cependant, type de service nécessite une architecture client-serveur qui est plus complexe à mettre en place.
@@ -298,8 +298,8 @@ def _(mo):
 
 
         ## Exercices de révision 
-        -->
-        ```
+        --->
+
 
         ## Réhaussements visuels
 
@@ -441,13 +441,13 @@ def _(mo):
         r"""
         ### Réhaussements linéaires
 
-        Le réhaussement linéaire (*linear stretch*) d'une image est la forme la plus simple de réhaussement, elle consiste à  1) optimiser les valeurs des pixels d'une image afin de maximiser la dynamique disponibles à l'affichage, ou 2) à changer le format de stockage des valeurs (de 8 bits à 16 bits):
+        Le réhaussement linéaire (*linear stretch*) d'une image est la forme la plus simple de réhaussement, elle consiste à 1) optimiser les valeurs des pixels d'une image afin de maximiser la dynamique disponibles à l'affichage, ou 2) à changer le format de stockage des valeurs (de 8 bits à 16 bits):
 
         $$ \text{nouvelle valeur d'un pixel} = \frac{\text{valeur d'un pixel} - min_0}{max_0 - min_0}\times (max_1 - min_1)+min_1$$ {#eq-rehauss-lin}
 
         Par cette opération, on passe de la dynamique de départ ($max_0 - min_0$) vers la dynamique cible ($max_1 - min_1$). Bien que cette opération semble triviale, il est important d'être conscient des trois contraintes suivantes:
 
-         1. **Faire attention à la dynamique cible**, ainsi, pour sauvegarder une image en format 8 bit, on utilisera alors $max_1=255$ et $min_1=0$.
+        1.  **Faire attention à la dynamique cible**, ainsi, pour sauvegarder une image en format 8 bit, on utilisera alors $max_1=255$ et $min_1=0$.
 
         2\. **Préservation de la valeur de no data** : il faut faire attention à la valeur $min_1$ dans le cas d'une valeur présente pour *no_data*. Par exemple, si *no_data=0* alors il faut s'assurer que $min_1>0$.
 
@@ -563,11 +563,7 @@ def _(mo):
 
         #### Réhaussement par fonctions
 
-        ```{=html}
-        <!--
-        Calcul d'histogrammes, étirement, égalisation, styling
-        -->
-        ```
+
 
         Le réhaussenent par fonction consiste à appliquer une fonction non linéaire afin de modifier la dynamique de l'image. Par exemple, pour une image radar, une transformation populaire est d'afficher les valeurs de rétrodiffusion en décibel (`dB`) avec la fonction `log10()`.
         """
@@ -576,9 +572,9 @@ def _(mo):
 
 
 @app.cell
-def _(img_SAR, np):
+def _(img_SAR, np, xr):
     percentiles_position_1 = (0, 0.1, 1, 2, 50, 98, 99, 99.9, 100)
-    values_1 = 10 * np.log10(img_SAR[0]).data
+    values_1 = xr.apply_ufunc(lambda x: 10 * np.log10(x), img_SAR[0]).data
     percentiles_db = dict(zip(percentiles_position_1, np.percentile(values_1, percentiles_position_1)))
     print(percentiles_db)
     return percentiles_db, percentiles_position_1, values_1
@@ -638,11 +634,10 @@ def _(percentiles_db, plt, values_1):
 def _(mo):
     mo.md(
         r"""
-        ```{=html}
-        <!--
+        <!---
         Exercise: trouver une autre transformation possible pour l'image SAR.
-        -->
-        ```
+        --->
+
 
         #### Égalisation d'histogramme
 
@@ -664,7 +659,7 @@ def _(mo):
 
 @app.cell
 def _(img_SAR, np, plt):
-    values_2 = np.sort(np.log10(img_SAR[0].data.flatten()))
+    values_2 = np.sort(10 * np.log10(img_SAR[0].data.flatten()))
     cdf_x = np.linspace(values_2[0], values_2[-1], 1000)
     cdf_source = np.interp(cdf_x, values_2, np.arange(len(values_2)) / len(values_2) * 255)
     values_eq = np.interp(np.log10(img_SAR[0].data), cdf_x, cdf_source).astype('uint8')
@@ -677,11 +672,9 @@ def _(img_SAR, np, plt):
 def _(mo):
     mo.md(
         r"""
-        ```{=html}
-        <!--
+        <!---
         Exercise: changer la CDF cible pour une Gaussienne
-        -->
-        ```
+        --->
 
         #### Palettes de couleur
 

@@ -79,7 +79,7 @@ Dans l'environnement Google Colab, seul `rioxarray` et `xrscipy` sont installés
 ```{python}
 #| eval: false
 %%capture
-!pip install -qU matplotlib rioxarray xrscipy
+!pip install -qU matplotlib rioxarray xrscipy supertree
 ```
 
 Vérifiez les importations nécessaires en premier:
@@ -677,7 +677,7 @@ if max(class_labels) > n_classes: # il se peut que certaines classes soit absent
 nom_classes2= [nom_classes[c] for c in np.unique(y).tolist()]
 ```
 
-Il importe de préalablement centrer (moyenne = 0) et de réduire (variance = 1) les données avant d’appliquer la méthode K-NN; avec cette méthode de normalisation, on dit parfois que  l’on blanchit les données. Puisque la variance de chaque dimension est égale à 1 (et donc l’inertie totale est égale au nombre de bandes), on s’assure qu’elle ait le même poids ait le même poids dans le calcul des distances entre points. Cette opération porte le nom de `StandardScaler` dans `scikit-learn`. On peut alors former un pipeline de traitement combinant les deux opérations :
+Il importe de préalablement centrer (moyenne = 0) et de réduire (variance = 1) les données avant d’appliquer la méthode K-NN; avec cette méthode de normalisation, on dit parfois que l’on blanchit les données. Puisque la variance de chaque dimension est égale à 1 (et donc l’inertie totale est égale au nombre de bandes), on s’assure qu’elle ait le même poids ait le même poids dans le calcul des distances entre points. Cette opération porte le nom de `StandardScaler` dans `scikit-learn`. On peut alors former un pipeline de traitement combinant les deux opérations :
 
 ```{python}
 clf = Pipeline(
@@ -768,7 +768,7 @@ plt.show()
 La méthode par arbre de décision consiste à construire une cascade de règles de décision sur chaque caractéristique du jeu de donnée [@Breiman1984]. On pourra trouver plus de détails dans la documentation de `scikit-learn` ([Decision Trees](https://scikit-learn.org/stable/modules/tree.html)). Les arbres de décision on tendance à surapprendre surtout si le nombre de dimensions est élevé. Il est donc conseillé d'avoir un bon ratio entre le nombre d'échantillons et le nombre de dimensions.
 
 ```{python}
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y_new, test_size=0.2, random_state=0)
 ```
 
 ```{python}
@@ -852,13 +852,16 @@ ax.set_title("Carte d'occupation des sols avec un arbre de décision", fontsize=
 plt.show()
 ```
 
-Il est possible de visualiser l'arbre mais cela contient beaucoup d'information
+Il est possible de visualiser l'arbre avec l'outil [SuperTree](https://github.com/mljar/supertree?tab=readme-ov-file) mais cela contient beaucoup d'information
 
 ```{python}
-fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
-tree.plot_tree(clf, max_depth=1)
+from supertree import SuperTree # <- import supertree :)
+super_tree = SuperTree(clf, X_train, y_train, ['Bleu', 'Vert', 'Rouge', 'NIR'], nom_classes2)
+
+super_tree.show_tree()
 ```
 
+On peut voir que le nœud le plus haut utilise la bande proche-infrarouge pour séparer l'eau de la forêt comme première décision.
 
 ## Méthodes paramétriques
 
@@ -999,8 +1002,8 @@ ax.set_title("Carte d'occupation des sols avec la méthode ADQ", fontsize="small
 plt.show()
 ```
 
-```{=html}
-<!-- 
+
+<!--- 
 ### Réseaux de neurones
 
 Les réseaux de neurones artificiels (RNA) ont connu un essor très important depuis les années 2010 avec des approches dites profondes. Ces aspects seront surtout abordés dans le tome 2 consacré à l'intelligence artificielle. On abordera ici seulement le perceptron simple et le perceptron multi-couches (MLP).
@@ -1010,5 +1013,4 @@ Le perceptron est l'unité de base d'un RNA et consiste en N connections, une un
 Le perceptron multi-couches est un réseau dense (*fully connected*) avec des couches cachées entre la couche d'entrée et la couche de sortie. qui permet de construire des frontières de décision beaucoup plus complexes via une hiérarchie de frontières de décision.
 
 Ces réseaux sont entraînés via des techniques itératives d'optimisation de type descente en gradient avec une correction des paramètres (les poids) à l'aide de la rétro-propagation de l'erreur. L'erreur est mesurée via une fonction de coût que l'on cherche à réduire.
--->
-```
+--->
