@@ -51,10 +51,10 @@ mv 05-ClassificationsSupervisees.ipynb ./notebooks/
 
 # #quarto render 04-TransformationSpatiales.qmd --to docx  --no-execute --output-dir ./docx
 quarto render --cache --no-clean --to docx --output-dir ./docx
-mv ./docx/Traitement-d-images-satellites-avec-Python.docx .
+mv -f ./docx/Traitement-d-images-satellites-avec-Python.docx .
 
 quarto render --cache --no-clean --to pdf --output-dir ./pdf
-mv ./pdf/Traitement-d-images-satellites-avec-Python.pdf .
+mv -f ./pdf/Traitement-d-images-satellites-avec-Python.pdf .
 
 
 git add .
