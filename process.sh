@@ -54,7 +54,7 @@ quarto render --cache --no-clean --to docx --output-dir ./docx
 mv -f ./docx/Traitement-d-images-satellites-avec-Python.docx .
 
 quarto render --profile production --cache --no-clean --to pdf --output-dir ./pdf
-mv -f ./pdf/Traitement-d-images-satellites-avec-Python.pdf .
+mv -f ./pdf/Traitement-d-images-satellites-avec-Python.pdf ./docs
 
 
 git add .

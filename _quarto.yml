@@ -68,7 +68,7 @@ book:
   chapters:
   - index.qmd
   - 00-auteurs.qmd
-  - part: Partie 1. Importation, manipulation et visualisation de données spatiales
+  - part: Partie 1. Importation, manipulation et visualisation de données satellitaires
   - 00-PriseEnMainPython.qmd
   - 01-ImportationManipulationImages.qmd
   - 02-RehaussementVisualisationImages.qmd
