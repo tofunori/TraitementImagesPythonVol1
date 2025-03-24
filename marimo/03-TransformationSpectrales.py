@@ -453,6 +453,14 @@ def _(mo):
         L'analyse en composantes principales (ACP) est probablement la plus employée. En théorie, l'ACP n'est valide seulement que sur des données Gaussiennes c'est à dire que le nuage de points des données a la forme d'une ellipse à N dimensions. Cette ellipse est caractérisée par des directions principales (grand axe versus petit axe). La première composante est celle du grand axe de l'ellipse pour laquelle la donnée présente le maximum de variation. L'ACP est une décomposition linéaire, c'est à dire que les composantes principales sont des sommes pondérées des valeurs originales.
         --->
 
+        ## Quiz
+
+
+        ::: {.content-visible when-profile="production"}
+
+        Utilisez la version html.
+        :::
+
         """
     )
     return
@@ -465,6 +473,9 @@ def _():
     from code_complementaire.quizz_functions import Quiz, render_quizz
     Chap01Quiz = Quiz("quiz/Chap01.yml", "Chap01")
     render_quizz(Chap01Quiz)
+    #import os
+    #output_format = os.environ.get("QUARTO_PROFILE")
+    #print(output_format)
     return Chap01Quiz, Quiz, render_quizz
 
 

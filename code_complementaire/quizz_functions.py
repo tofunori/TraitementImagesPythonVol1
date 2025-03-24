@@ -4,7 +4,7 @@ import html
 import os
 from IPython.display import display, HTML, Markdown
 
-def is_latex_output(output_format):
+def is_latex_output(output_profile):
     """
     Checks if the output format is LaTeX (PDF).
 
@@ -14,10 +14,11 @@ def is_latex_output(output_format):
     Returns:
         True if the output format is LaTeX (PDF), False otherwise.
     """
-    return output_format == "pdf"
+    return output_profile == "production"
 
 # Get the output format from the environment variable
 output_format = os.environ.get("QUARTO_OUTPUT_FORMAT", "html")
+output_profile = os.environ.get("QUARTO_PROFILE", "default")
 
 class Question:
     """Represents a question in a quiz."""
@@ -278,7 +279,7 @@ def render_quizz(myquizz: Quiz) -> str:
     """Renders the quiz in either PDF or HTML format."""
     # In a real scenario, you would check the output format here
     # For this example, we'll always return HTML
-    if is_latex_output(output_format):
+    if is_latex_output(output_profile):
         return Markdown(render_quizz_pdf(myquizz))
     else:
         return HTML(render_quizz_html(myquizz))
