@@ -57,7 +57,7 @@ book:
   cover-image: images/couverture-full.png
   favicon: images/favicon.ico
   site-url: https://serie-python-tele.github.io/TraitementImagesPythonVol1/index.html
-  repo-url: https://github.com/serie-python-tele/TraitementImagesPythonVol1
+  repo-url: https://github.com/sfoucher/TraitementImagesPythonVol1/issues
   repo-branch: main
   issue-url: https://github.com/sfoucher/TraitementImagesPythonVol1/issues
   repo-actions:
