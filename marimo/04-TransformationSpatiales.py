@@ -461,6 +461,7 @@ def _(mo):
 @app.cell
 def _(img_rgb, np, signal):
     _kernel = np.outer(signal.windows.gaussian(70, 8), signal.windows.gaussian(70, 8))
+    _kernel = np.tile(_kernel, (3, 1, 1))
     blurred = signal.fftconvolve(img_rgb, _kernel, mode='same')
     return (blurred,)
 
