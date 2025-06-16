@@ -330,9 +330,10 @@ def _(mo):
 
 @app.cell
 def _(img_s2):
-    img_s2_1 = img_s2.sel(band=list(range(1, 13))).assign_coords({'band': ['A', 'B', 'G', 'R', 'RE1', 'RE2', 'RE3', 'N', 'N2', 'WV', 'S1', 'S2']})
+    sentinel2_bands = ['A', 'B', 'G', 'R', 'RE1', 'RE2', 'RE3', 'N', 'N2', 'WV', 'S1', 'S2']
+    img_s2_1 = img_s2.sel(band=list(range(1, 13))).assign_coords({'band': sentinel2_bands})
     img_s2_1 = img_s2_1 / 10000
-    return (img_s2_1,)
+    return img_s2_1, sentinel2_bands
 
 
 @app.cell
@@ -359,7 +360,7 @@ def _(mo):
 
 
 @app.cell
-def _(img_carte, np):
+def _(img_carte, np, sentinel2_bands):
     from matplotlib.colors import ListedColormap
     import rasterio
     import geopandas
@@ -389,11 +390,15 @@ def _(img_carte, np):
     gdf = geopandas.GeoDataFrame(range(1, len(points) + 1), geometry=points, crs=img_carte_1.rio.crs)
     coord_list = [(x, y) for (x, y) in zip(gdf['geometry'].x, gdf['geometry'].y)]
     with rasterio.open('sentinel2.tif') as src:
-        gdf['value'] = [x[0:12] / 10000.0 for x in src.sample(coord_list)]
+        values = [x[0:13] / 10000.0 for x in src.sample(coord_list)]
+    for (b, band) in enumerate(sentinel2_bands):
+        gdf[band] = [x[b] for x in values]
     gdf['class'] = class_labels
     return (
         ListedColormap,
         Point,
+        b,
+        band,
         class_counts,
         class_label,
         class_labels,
@@ -415,16 +420,17 @@ def _(img_carte, np):
         src,
         transform_sampled_points,
         transformer,
+        values,
     )
 
 
 @app.cell
-def _(couleurs_classes, gdf, idx, nom_classes, pd, plt, spyndex):
+def _(couleurs_classes, gdf, nom_classes, pd, plt, spyndex):
     import seaborn as sns
     class_selected = [1, 3, 9]
     df = pd.concat([gdf[gdf['class'] == c] for c in class_selected], ignore_index=True)
-    idx['Land Cover'] = [nom_classes[l] for l in df['class'].tolist()]
-    idx_1 = spyndex.computeIndex(index=['NDVI', 'NDWI', 'NDBI'], params={'N': df['SR_B8'], 'R': df['SR_B4'], 'G': df['SR_B3'], 'S1': df['SR_B11']})
+    idx_1 = spyndex.computeIndex(index=['NDVI', 'NDWI', 'NDBI'], params={'N': df['N'], 'R': df['R'], 'G': df['G'], 'S1': df['S1']})
+    idx_1['Land Cover'] = [nom_classes[l] for l in df['class'].tolist()]
     colors = [couleurs_classes[c] for c in class_selected]
     plt.figure(figsize=(15, 15))
     g = sns.PairGrid(idx_1, hue='Land Cover', palette=sns.color_palette(colors))

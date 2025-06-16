@@ -208,7 +208,8 @@ img_s2.dims
 On peut simplement changer les index (`coords`) de la dimension `band`:
 
 ```{python}
-img_s2 = img_s2.sel(band = list(range(1,13))).assign_coords({'band':["A", "B", "G", "R", "RE1", "RE2", "RE3", "N", "N2", "WV", "S1", "S2"]})
+sentinel2_bands= ["A", "B", "G", "R", "RE1", "RE2", "RE3", "N", "N2", "WV", "S1", "S2"]
+img_s2 = img_s2.sel(band = list(range(1,13))).assign_coords({'band':sentinel2_bands})
 img_s2=img_s2/10000 # normalisation en réflectance
 ```
 
@@ -288,9 +289,10 @@ points = [Point(xy) for xy in zip(transform_sampled_points[0], transform_sampled
 gdf = geopandas.GeoDataFrame(range(1,len(points)+1), geometry=points, crs=img_carte.rio.crs)
 coord_list = [(x, y) for x, y in zip(gdf["geometry"].x, gdf["geometry"].y)]
 with rasterio.open('sentinel2.tif') as src:
-  gdf["value"] = [x[0:12]/10000.0 for x in src.sample(coord_list)]
+  values = [x[0:13]/10000.0 for x in src.sample(coord_list)]
+for b, band in enumerate(sentinel2_bands):
+  gdf[band] = [x[b] for x in values]
 gdf['class']= class_labels
-#gdf.head()
 ```
 
 ```{python}
@@ -303,18 +305,18 @@ import seaborn as sns
 # On sélectionne trois classes
 class_selected= [1,3,9]
 df= pd.concat([gdf[gdf['class'] ==c] for c in class_selected], ignore_index=True)
-idx["Land Cover"] = [nom_classes[l] for l in df["class"].tolist()]
+
 # Compute the desired spectral indices
 idx = spyndex.computeIndex(
     index = ["NDVI","NDWI","NDBI"],
     params = {
-        "N": df["SR_B8"],
-        "R": df["SR_B4"],
-        "G": df["SR_B3"],
-        "S1": df["SR_B11"]
+        "N": df["N"],
+        "R": df["R"],
+        "G": df["G"],
+        "S1": df["S1"]
     }
 )
-
+idx["Land Cover"] = [nom_classes[l] for l in df["class"].tolist()] # Add Land Cover to DataFrame
 colors= [couleurs_classes[c] for c in class_selected]
 # Plot a pairplot to check the indices behaviour
 plt.figure(figsize = (15,15))
