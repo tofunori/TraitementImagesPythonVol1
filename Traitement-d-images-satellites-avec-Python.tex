@@ -283,7 +283,7 @@ code}
 \subtitle{Première édition}
 \author{Samuel Foucher \and Philippe Apparicio \and Yacine
 Bouroubi \and Mickaël Germain \and Étienne Clabaut}
-\date{2025-03-28}
+\date{2025-06-16}
 
 \begin{document}
 \frontmatter
@@ -1278,7 +1278,7 @@ Dans l'environnement Google Colab, seul \texttt{rioxarray} et
 \begin{Highlighting}[]
 \OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get update}
 \OperatorTok{!}\NormalTok{apt}\OperatorTok{{-}}\NormalTok{get install gdal}\OperatorTok{{-}}\BuiltInTok{bin}\NormalTok{ libgdal}\OperatorTok{{-}}\NormalTok{dev}
-\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{q rioxarray}
+\OperatorTok{!}\NormalTok{pip install }\OperatorTok{{-}}\NormalTok{q rioxarray xrscipy}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2995,7 +2995,8 @@ On peut simplement changer les index (\texttt{coords}) de la dimension
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{img\_s2 }\OperatorTok{=}\NormalTok{ img\_s2.sel(band }\OperatorTok{=} \BuiltInTok{list}\NormalTok{(}\BuiltInTok{range}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{13}\NormalTok{))).assign\_coords(\{}\StringTok{\textquotesingle{}band\textquotesingle{}}\NormalTok{:[}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"G"}\NormalTok{, }\StringTok{"R"}\NormalTok{, }\StringTok{"RE1"}\NormalTok{, }\StringTok{"RE2"}\NormalTok{, }\StringTok{"RE3"}\NormalTok{, }\StringTok{"N"}\NormalTok{, }\StringTok{"N2"}\NormalTok{, }\StringTok{"WV"}\NormalTok{, }\StringTok{"S1"}\NormalTok{, }\StringTok{"S2"}\NormalTok{]\})}
+\NormalTok{sentinel2\_bands}\OperatorTok{=}\NormalTok{ [}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"G"}\NormalTok{, }\StringTok{"R"}\NormalTok{, }\StringTok{"RE1"}\NormalTok{, }\StringTok{"RE2"}\NormalTok{, }\StringTok{"RE3"}\NormalTok{, }\StringTok{"N"}\NormalTok{, }\StringTok{"N2"}\NormalTok{, }\StringTok{"WV"}\NormalTok{, }\StringTok{"S1"}\NormalTok{, }\StringTok{"S2"}\NormalTok{]}
+\NormalTok{img\_s2 }\OperatorTok{=}\NormalTok{ img\_s2.sel(band }\OperatorTok{=} \BuiltInTok{list}\NormalTok{(}\BuiltInTok{range}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{13}\NormalTok{))).assign\_coords(\{}\StringTok{\textquotesingle{}band\textquotesingle{}}\NormalTok{:sentinel2\_bands\})}
 \NormalTok{img\_s2}\OperatorTok{=}\NormalTok{img\_s2}\OperatorTok{/}\DecValTok{10000} \CommentTok{\# normalisation en réflectance}
 \end{Highlighting}
 \end{Shaded}
@@ -3038,18 +3039,18 @@ section section~\ref{sec-05.02.02} pour vérifier l'utilité des indices
 \CommentTok{\# On sélectionne trois classes}
 \NormalTok{class\_selected}\OperatorTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{9}\NormalTok{]}
 \NormalTok{df}\OperatorTok{=}\NormalTok{ pd.concat([gdf[gdf[}\StringTok{\textquotesingle{}class\textquotesingle{}}\NormalTok{] }\OperatorTok{==}\NormalTok{c] }\ControlFlowTok{for}\NormalTok{ c }\KeywordTok{in}\NormalTok{ class\_selected], ignore\_index}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
-\NormalTok{idx[}\StringTok{"Land Cover"}\NormalTok{] }\OperatorTok{=}\NormalTok{ [nom\_classes[l] }\ControlFlowTok{for}\NormalTok{ l }\KeywordTok{in}\NormalTok{ df[}\StringTok{"class"}\NormalTok{].tolist()]}
+
 \CommentTok{\# Compute the desired spectral indices}
 \NormalTok{idx }\OperatorTok{=}\NormalTok{ spyndex.computeIndex(}
 \NormalTok{    index }\OperatorTok{=}\NormalTok{ [}\StringTok{"NDVI"}\NormalTok{,}\StringTok{"NDWI"}\NormalTok{,}\StringTok{"NDBI"}\NormalTok{],}
 \NormalTok{    params }\OperatorTok{=}\NormalTok{ \{}
-        \StringTok{"N"}\NormalTok{: df[}\StringTok{"SR\_B8"}\NormalTok{],}
-        \StringTok{"R"}\NormalTok{: df[}\StringTok{"SR\_B4"}\NormalTok{],}
-        \StringTok{"G"}\NormalTok{: df[}\StringTok{"SR\_B3"}\NormalTok{],}
-        \StringTok{"S1"}\NormalTok{: df[}\StringTok{"SR\_B11"}\NormalTok{]}
+        \StringTok{"N"}\NormalTok{: df[}\StringTok{"N"}\NormalTok{],}
+        \StringTok{"R"}\NormalTok{: df[}\StringTok{"R"}\NormalTok{],}
+        \StringTok{"G"}\NormalTok{: df[}\StringTok{"G"}\NormalTok{],}
+        \StringTok{"S1"}\NormalTok{: df[}\StringTok{"S1"}\NormalTok{]}
 \NormalTok{    \}}
 \NormalTok{)}
-
+\NormalTok{idx[}\StringTok{"Land Cover"}\NormalTok{] }\OperatorTok{=}\NormalTok{ [nom\_classes[l] }\ControlFlowTok{for}\NormalTok{ l }\KeywordTok{in}\NormalTok{ df[}\StringTok{"class"}\NormalTok{].tolist()] }\CommentTok{\# Add Land Cover to DataFrame}
 \NormalTok{colors}\OperatorTok{=}\NormalTok{ [couleurs\_classes[c] }\ControlFlowTok{for}\NormalTok{ c }\KeywordTok{in}\NormalTok{ class\_selected]}
 \CommentTok{\# Plot a pairplot to check the indices behaviour}
 \NormalTok{plt.figure(figsize }\OperatorTok{=}\NormalTok{ (}\DecValTok{15}\NormalTok{,}\DecValTok{15}\NormalTok{))}
@@ -3523,6 +3524,8 @@ offre cette possibilité:
 \begin{Highlighting}[]
 \NormalTok{kernel }\OperatorTok{=}\NormalTok{ np.outer(signal.windows.gaussian(}\DecValTok{70}\NormalTok{, }\DecValTok{8}\NormalTok{),}
 \NormalTok{                  signal.windows.gaussian(}\DecValTok{70}\NormalTok{, }\DecValTok{8}\NormalTok{))}
+\CommentTok{\# notez la répétition du kernel 3x pour traiter une image rgb :}
+\NormalTok{kernel }\OperatorTok{=}\NormalTok{ np.tile(kernel,(}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
 \NormalTok{blurred }\OperatorTok{=}\NormalTok{ signal.fftconvolve(img\_rgb, kernel, mode}\OperatorTok{=}\StringTok{\textquotesingle{}same\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
