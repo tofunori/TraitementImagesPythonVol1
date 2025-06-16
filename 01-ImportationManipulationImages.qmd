@@ -60,7 +60,7 @@ Dans l'environnement Google Colab, seul `rioxarray` et `gdal` doivent être inst
 #| eval: false
 !apt-get update
 !apt-get install gdal-bin libgdal-dev
-!pip install -q rioxarray
+!pip install -q rioxarray xrscipy
 ```
 
 Vérifier les importations:

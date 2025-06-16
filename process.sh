@@ -49,12 +49,11 @@ marimo convert 05-ClassificationsSupervisees.ipynb  -o ./marimo/05-Classificatio
 mv 05-ClassificationsSupervisees.ipynb ./notebooks/
 
 
-# #quarto render 04-TransformationSpatiales.qmd --to docx  --no-execute --output-dir ./docx
-quarto render --cache --no-clean --to docx --output-dir ./docx
-mv -f ./docx/Traitement-d-images-satellites-avec-Python.docx .
+#quarto render --cache --no-clean --to docx --output-dir ./docx
+#mv -f ./docx/Traitement-d-images-satellites-avec-Python.docx .
 
-quarto render --profile production --cache --no-clean --to pdf --output-dir ./pdf
-mv -f ./pdf/Traitement-d-images-satellites-avec-Python.pdf ./docs
+#quarto render --profile production --cache --no-clean --to pdf --output-dir ./pdf
+#mv -f ./pdf/Traitement-d-images-satellites-avec-Python.pdf ./docs
 
 
 git add .

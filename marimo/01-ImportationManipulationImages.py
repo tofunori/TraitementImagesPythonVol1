@@ -75,7 +75,7 @@ app._unparsable_cell(
     #| eval: false
     !apt-get update
     !apt-get install gdal-bin libgdal-dev
-    !pip install -q rioxarray
+    !pip install -q rioxarray xrscipy
     """,
     name="_"
 )
