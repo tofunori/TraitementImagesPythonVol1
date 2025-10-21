@@ -7,7 +7,6 @@ dependencies:
   - jupyter
   - ipywidget
   - scipy
-  - geemap
   - rasterio
   - rioxarray
   - scikit-image
