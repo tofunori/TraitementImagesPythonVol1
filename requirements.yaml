@@ -1,0 +1,14 @@
+name: atelier
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - ipywidget
+  - scipy
+  - geemap
+  - rasterio
+  - rioxarray
+  - scikit-image
+  - pip
+  - pip:
+    - requests

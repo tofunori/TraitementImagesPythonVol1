@@ -438,9 +438,9 @@ j = L \times CDF_{source}(i)
 $$ On peut appliquer cette procédure sur l'image SAR en dB de la façon suivante:
 
 ```{python}
-values= np.sort(10*np.log10(img_SAR[0].data.flatten()))
-cdf_x= np.linspace(values[0], values[-1], 1000)
-cdf_source= np.interp(cdf_x, values, np.arange(len(values))/len(values)*255)
+values= np.sort(10*np.log10(img_SAR[0].data.flatten())) # on range les valeurs par ordre croissant
+cdf_x= np.linspace(values[0], values[-1], 1000) # 1000 valeurs réparties également sur l'intervalle des valeurs
+cdf_source= np.interp(cdf_x, values, np.arange(len(values))/len(values)*255) # calcul de la CDF source
 values_eq=np.interp(np.log10(img_SAR[0].data), cdf_x, cdf_source).astype('uint8')
 plt.imshow(values_eq)
 plt.axis('off')

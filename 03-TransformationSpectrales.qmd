@@ -6,6 +6,8 @@ execute:
   eval: true
   message: false
   warning: false
+  keep-ipynb: true
+code-overflow: wrap
 ---
 
 ```{python}
@@ -350,9 +352,9 @@ Utilisez la version html.
 :::
 
 
-```{python}
+```{python .content-visible when-format="html"}
 #| echo: false
-#| eval: false 
+#| eval: true 
 #| results: asis
 from code_complementaire.quizz_functions import Quiz, render_quizz
 Chap01Quiz = Quiz("quiz/Chap01.yml", "Chap01")

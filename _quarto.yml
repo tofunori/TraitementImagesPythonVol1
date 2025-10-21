@@ -92,6 +92,8 @@ format:
     output: "Traitement-d-images-satellites-avec-Python.docx"
   ipynb:
     code-annotations: false
+    ipynb-filters:
+      - my-filter.py
   html:
     colorlinks: true
     css: css/quizlib.min.css

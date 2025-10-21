@@ -36,6 +36,7 @@ Dans ce chapitre, nous abordons quelques formats d'images ainsi que leur lecture
 -   manipuler la matrice de la donnée d'une image avec numpy
 :::::
 
+
 ### Bibliothèques
 
 Les bibliothèques qui vont être explorées dans ce chapitre sont les suivantes:
