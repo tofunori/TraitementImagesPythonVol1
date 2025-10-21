@@ -3,6 +3,7 @@ channels:
   - defaults
 dependencies:
   - python=3.12
+  - jupyter
   - ipywidget
   - scipy
   - geemap
